@@ -1,0 +1,573 @@
+﻿@charset "utf-8";
+body{margin:0;font-family:Arial,Helvetica,sans-serif!important}
+a,a:link,a:visited,a:active{border:0;cursor:pointer;text-decoration:none;color:navy}
+.dvRoundContainer{margin-bottom:5px;border:1px solid #638bd1;box-shadow:inset 0 0 15px #638bd1;border-radius:10px 10px 10px 10px;padding:20px}
+.dvRoundContainer h3{margin:0 0 5px;padding:5px 10px;border-radius:5px;background:#608ED5;color:#FFF;font-size:16px;text-align:left}
+.dvRoundContainer h3 span{display:inline-block;width:20px;height:20px;margin-left:10px;padding:2px 3px 0 2px;background:#FBA919;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;font-size:16px;text-align:center}
+.dvbLeftColW{float:left;width:25%;height:auto;padding:0 10px 0 0}
+.dvhBlueBG{width:100%; min-width:980px;background: #11164E linear-gradient(to top,#11164E 15%,#354894 100%) repeat scroll 0 0;height:auto;}
+.dvhContainer{width:100%;max-width:980px;min-width:980px;margin:0 auto}
+.dvhGreyBG{height:32px;top:100px;width:100%;margin-bottom:15px;background-color:#f2f2f2; }
+.pbookItButton{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#fffecd),color-stop(1,#ffd968));background:-moz-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:-webkit-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:-o-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:linear-gradient(to bottom,#fffecd 5%,#ffd968 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffecd',endColorstr='#ffd968',GradientType=0);background-color:#fffecd;-moz-border-radius:5px;-webkit-border-radius:4px;border-radius:4px;border:1px solid #fa2;display:inline-block;cursor:pointer;color:#333;padding:1px 15px 0;text-decoration:none;font:12px arial}
+.pbookItButtonFat{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#fffecd),color-stop(1,#ffd968));background:-moz-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:-webkit-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:-o-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:linear-gradient(to bottom,#fffecd 5%,#ffd968 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffecd',endColorstr='#ffd968',GradientType=0);background-color:#fffecd;-moz-border-radius:5px;-webkit-border-radius:4px;border-radius:4px;border:1px solid #fa2;display:inline-block;cursor:pointer;color:#333;padding:7px 20px;text-decoration:none;font:12px arial}
+.bookItButton{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#fffecd),color-stop(1,#ffd968));background:-moz-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:-webkit-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:-o-linear-gradient(top,#fffecd 5%,#ffd968 100%);background:linear-gradient(to bottom,#fffecd 5%,#ffd968 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffecd',endColorstr='#ffd968',GradientType=0);background-color:#fffecd;-moz-border-radius:5px;-webkit-border-radius:4px;border-radius:4px;border:1px solid #fa2;display:inline-block;cursor:pointer;color:#333;padding:4px 10px;text-decoration:none;font:12px arial; float:right}
+.pbookItButton:hover{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#ffd968),color-stop(1,#fffecd));background:-moz-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-webkit-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-o-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:linear-gradient(to bottom,#ffd968 5%,#fffecd 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd968',endColorstr='#fffecd',GradientType=0);background-color:#ffd968;text-decoration:underline;color:#F00 }
+.pbookItButtonFat:hover{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#ffd968),color-stop(1,#fffecd));background:-moz-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-webkit-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-o-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:linear-gradient(to bottom,#ffd968 5%,#fffecd 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd968',endColorstr='#fffecd',GradientType=0);background-color:#ffd968;text-decoration:underline;color:#F00 }
+.pbookItButton:hover a{ color:#F00}
+.pbookItButtonFat:hover a{ color:#F00}
+.pbookItButton:active{position:relative;top:1px}
+.pbookItButtonFat:active{position:relative;top:1px}
+.pbookItButtonBlue{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#9fbdfc),color-stop(1,#3269C6));background:-moz-linear-gradient(top,#9fbdfc 5%,#3269C6 100%);background:-webkit-linear-gradient(top,#9fbdfc 5%,#3269C6 100%);background:-o-linear-gradient(top,#9fbdfc 5%,#3269C6 100%);background:linear-gradient(to bottom,#9fbdfc 5%,#3269C6 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#9fbdfc',endColorstr='#3269C6',GradientType=0);background-color:#9fbdfc;-moz-border-radius:5px;-webkit-border-radius:4px;border-radius:4px;border:1px solid #3269C6;display:inline-block;cursor:pointer;color:navy;font-size:14px;padding:6px 25px;text-decoration:none;color:#FFF}
+.pbookItButtonBlue:hover{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#3269C6),color-stop(1,#9fbdfc));background:-moz-linear-gradient(top,#3269C6 5%,#9fbdfc 100%);background:-webkit-linear-gradient(top,#3269C6 5%,#9fbdfc 100%);background:-o-linear-gradient(top,#3269C6 5%,#9fbdfc 100%);background:linear-gradient(to bottom,#3269C6 5%,#9fbdfc 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3269C6',endColorstr='#9fbdfc',GradientType=0);background-color:#3269C6}
+.pbookItButtonBlue:active{position:relative;top:1px}
+.dvhLeft{float:left;width:32,7%}
+.dvhBBB{padding-left:52px}
+.dvhCenter{width:25%;float:left}
+.dvhCenter a{cursor:pointer;}
+.dvhCenter img{margin:5px}
+.dvhCallus{float:right;width:45%;text-align:right}
+.dvhPhone{color:#f9a719;font-size:24px}
+.dvhAvailable{color:#FFF;font-size:11px}
+.dvhSitesNav{font-size:14px!important;height:auto;margin:3px 0;padding:0;vertical-align:middle;width:auto;float:right;}
+.dvhSitesNav a{color:#FFF;display:inline-block;padding:3px;width:auto;line-height:16px;margin:0;float:left;text-decoration:none!important}
+.dvhSitesNav a:hover{text-decoration:underline!important; border:0px !important}/*background-color:#0065B8!important;*/
+.dvhSitesNav span{display:inline-block;border:2px;height:20px;border-right-style:dotted;border-color:#F6C979;float:left;margin:0 3px}
+.ahSelected{color:#FFF!important;background-color:#0065B8!important}
+.dvhMenu{width:100%;max-width:980px;min-width:980px;margin:0 auto}
+.sweepsBG{background:#fba919;border-radius:3px;display:inline;font-size:12px;font-weight:700;margin:1px 2px 1px 5px;padding:3px 6px;text-align:center;vertical-align:middle;width:auto}
+.dvhSearch{float:left;margin:3px 5px;text-align:left}
+.dvhSearch input[type="text"]{ font-size:12px; border:1px #ccc solid; border-radius:3px; padding:4px 5px; width:205px}
+.dvhSearch input[type="submit"]{ font-size:12px; border:1px #ccc solid; border-radius:5px; padding:1px; position:relative; top:1px;width: 40px;height: 24px;color: white;}
+.dvhLikeFace{float:left;}
+.dvhHeadDestLink{color:#FFF;float:right;padding:10px 20px 15px;background: #11164E linear-gradient(to bottom,#11164E 15%,#354894 100%) repeat scroll 0 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;-moz-border-radius:0 0 7px 7px;-webkit-border-radius:0 0 7px 7px;border-radius:0 0 7px 7px}
+.dvhHeadDestLink:hover{color:#FFF;text-decoration:underline;cursor:pointer}
+.dvhHeadDestLink span{border-left:6px solid transparent; border-right:6px solid transparent; border-top:8px solid #fff; display:inline-block; margin-left:3px}
+.dvhSearchBox{display:none;background-color:#FFF;border:2px solid #F60;width:50%;height:200px;padding:30px;margin:0 auto;top:200px}
+.dvhSearchBox p{font-size:11px;color:#999;padding:5px 20px;cursor:pointer;width:40px;float:right}
+.dvhSearchBox p:hover{color:red;text-decoration:underline;font-weight:700}
+#mask{position:absolute;z-index:9000;background-color:#369;display:none;top:0;left:0;opacity:.8}
+.dvbContainer{width:100%;max-width:980px;min-width:980px;margin:0 auto;height:auto}
+.dvbpageTitle{background-image:-moz-linear-gradient(bottom left,#3269c6 50%,#9FBDFC 90%);background-image:-o-linear-gradient(bottom left,#3269c6 50%,#9FBDFC 90%);background-image:-webkit-gradient(linear,left top,right bottom,color-stop(0.5,#3269c6),color-stop(0.9,#9FBDFC));background-image:-webkit-linear-gradient(bottom left,#3269c6 50%,#9FBDFC 90%);background-image:linear-gradient(to top right,#3269c6 50%,#9FBDFC 90%);border-radius:10px;color:#fff;margin-bottom:10px}
+.dvbpageTitle div:nth-child(1){width:50%;float:left;font-size:24px;font-weight:700;padding:8px 13px;text-align:left}
+.dvbpageTitle div:nth-child(2){width:45%;padding:0 10px;text-align:right;float:right}
+.dvbpageTitle div:nth-child(2) a{border-right:1px solid #9fbdfc;color:#fff;display:inline-block;font-size:12px;line-height:20px;padding:14px 10px;text-decoration:none;width:auto}
+.dvbpageTitle div:nth-child(2) a:hover{text-decoration:underline;color:#fff!important;background-image:-moz-linear-gradient(bottom left,#3269c6 50%,#9FBDFC 90%);background-image:-o-linear-gradient(bottom left,#3269c6 50%,#9FBDFC 90%);background-image:-webkit-gradient(linear,left top,right bottom,color-stop(0.5,#3269c6),color-stop(0.9,#9FBDFC));background-image:-webkit-linear-gradient(bottom left,#3269c6 50%,#9FBDFC 90%);background-image:linear-gradient(to top right,#3269c6 50%,#9FBDFC 90%); border:0px !important}
+.dvbLeftCol{float:left;width:20.5%;height:auto}
+.subTitle{padding:5px 0 3px 10px;font-size:14px;color:#009;font-weight:700;height:23px}
+.dvDestIcon{margin:10px 0 25px}
+.dvIDtxt{display:none}
+.dvbCenterBig{float:left;width:77.71%;margin:0 8px;height:auto; border-left:1px solid #999}
+.dvLinearTopBg{background:-webkit-linear-gradient(bottom,#fff 35%,#e7f1fe 100%);background:-moz-linear-gradient(bottom,#fff 35%,#e7f1fe 100%);background:-o-linear-gradient(bottom,#fff 35%,#e7f1fe 100%)}
+.dvLinearTopBgA{background:-webkit-linear-gradient(bottom,#fff 85%,#e7f1fe 100%);background:-moz-linear-gradient(bottom,#fff 85%,#e7f1fe 100%);background:-o-linear-gradient(bottom,#fff 85%,#e7f1fe 100%)}
+.aImage img{border:solid 1px gray;height:120px;width:120px;vertical-align:middle;margin: 0 auto 12px;}
+.dvLinearBg{background:-webkit-linear-gradient(top,#fff 35%,#e7f1fe 100%);background:-moz-linear-gradient(top,#fff 35%,#e7f1fe 100%);background:-o-linear-gradient(top,#fff 35%,#e7f1fe 100%)}
+.dvMoreDetails{display:none}
+.dvPkInfo{padding:10px 0 5px;display:none;text-align:left}
+.dvPkInfoA{padding:10px 5px;display:block;text-align:left}
+.dvMoreInfo{font-size:11px;margin-top:5px;float:left;padding:5px 0 0 5px;text-align:left;width:60%}
+.dvMoreInfoA{font-size:12px;margin-top:5px;float:left;padding:5px 0 0 5px;text-align:left;width:60%;color:#666}
+.dvMoreInclude{padding:5px 10px 10px;text-align:left}
+.dvMoreButton{background-color:#e7f1fe;border-radius:5px;float:right;height:110px;margin-top:5px;padding-top:20px;text-align:center;width:35%}
+.dvMoreButton font{font-size:11px;color:#999}
+.dvMoreButton b{font-size:11px;color:#F60}
+.DotedLine{border-bottom:1px #112b77 dotted;border-style:none none dotted;color:#fff;background-color:#fff;width:90%}
+.dvRelPack{font-size:11px;color:#666;display:block;padding:5px 2px 10px 10px}
+.dvRelPack span{font-weight:500}
+.dvRelPack a{color:#666!important;text-decoration:underline}
+.dvRelPack a:hover{color:red!important}
+.dvTitleOrangeCapital{padding:10px 5px 5px;font-size:16px;color:#F60;font-weight:700}
+.gradLine{top:-6px;position:relative;border:0;height:1px;background:#638AD6;background-image:-webkit-linear-gradient(left,#fff 0%,#638AD6 20%,#fff 100%);background-image:-moz-linear-gradient(left,#fff 0%,#638AD6 20%,#fff 100%);background-image:-o-linear-gradient(left,#fff 0%,#638AD6 20%,#fff 100%)}
+.dvTitleExplore {
+	background: url(https://pictures.tripmasters.com/siteassets/d/Arrow_TitleExplore.gif) no-repeat 5px 14px;
+	padding: 10px 25px;
+	color: #1A255F;
+	font-size: 18px;
+	cursor: pointer
+}
+.dvTitleExplore a{color:#1A255F;text-decoration:none}
+.dvTitleExplore a:hover{text-decoration:underline;color:red}
+.dvExploreMore{text-align:center;padding:5px}
+.dvSeeMore{text-align:center;padding:5px 5px 15px;border-bottom:1px solid #CCC;margin-bottom:10px}
+.aExpMor{display:inline-block;color:#009;font-size:12px;cursor:pointer}
+.aExpMor:hover{color:red;text-decoration:underline}
+.dvEachpackTitle{padding:2px 0;line-height:22px}
+.dvEachPkTMAS{padding:5px 0 0;text-align:left}
+.dvEachPkTMAS:nth-child(even){background-color:#ECF1FF;margin:4px 0 0}
+.dvEachPkTMAS:nth-child(odd){background-color:#FFF;margin:4px 0}
+.dvEachPkTMAS img{margin-left:5px}
+.dvEachPkTMED{padding:5px 0 0;text-align:left}
+.dvEachPkTMED:nth-child(odd){background-color:#ECF1FF;margin:4px 0 0}
+.dvEachPkTMED:nth-child(even){background-color:#FFF;margin:4px 0}
+.dvEachPkTMED img{margin-left:5px}
+.dvEachPkTMLD{padding:5px 0 0;text-align:left}
+.dvEachPkTMLD:nth-child(odd){background-color:#ECF1FF;margin:4px 0 0}
+.dvEachPkTMLD:nth-child(even){background-color:#FFF;margin:4px 0}
+.dvEachPkTMLD img{margin-left:5px}
+.dvDisclamer{margin:5px auto;color:#F60;font-size:11px;text-align:center}
+.dvDisclamer a{color:#00F}
+.dvGuide{cursor:pointer;width:100px;padding:0 15px;color:#666;text-align:left}
+.dvWait{padding:30px;display:none;text-align:center}
+.dvInfoPack{padding:10px 5px 5px 20px;display:none;text-align:left;font-size:12px;background:#FFF;margin-top:4px}
+.dvInfoPack img{width:100%; max-width:100px; border:1px solid #ccc; padding:1px; margin:0 5px 5px 0; float:left}
+.dvPriceButt{text-align:center;padding:5px}
+.dvMainConteiner{margin:0}
+.tabContainer{padding:0}
+.tabActive{float:left;margin:0 10px 0 0;width:auto;padding:6px 15px;text-align:center;font-size:12px;font-weight:700;color:#039;border-radius:6px 6px 0 0;position:relative;top:1px;overflow:visible;z-index:1;-webkit-box-shadow:inset 0 0 10px #FFD968;-moz-box-shadow:inset 0 0 10px #FFD968;box-shadow:inset 0 0 10px #FFD968;background:#FFFECD;cursor:pointer;border-color:#EDC969;border-style:solid solid none;border-width:1px 1px 0}
+.tabActive div{background:#FFFECD;position:absolute;top:20px;left:5px;overflow:visible;height:15px;width:95%}
+.tabInactive{float:left;margin:0 10px 0 0;width:auto;padding:6px 15px;text-align:center;font-size:12px;font-weight:700;color:#039;border-radius:6px 6px 0 0;position:relative;top:0;overflow:hidden;z-index:0;-webkit-box-shadow:inset 0 0 12px #A9C3E8;-moz-box-shadow:inset 0 0 12px #A9C3E8;box-shadow:inset 0 0 12px #AAC4E9;cursor:pointer;background-image:-moz-linear-gradient(top,#a9c3e8 10%,#efefef 80%)!important;background-image:-o-linear-gradient(top,#a9c3e8 10%,#efefef 80%)!important;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(.08,#efefef),color-stop(.01,#a9c3e8))!important;background-image:-webkit-linear-gradient(top,#a9c3e8 10%,#efefef 80%)!important;background-image:linear-gradient(to top,#a9c3e8 10%,#efefef 80%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#efefef',endColorstr='#a9c3e8',GradientType=0);border-color:#A9C3E8;border-style:solid;border-width:1px 1px 0}
+.tabInactive:hover{color:#039;background-image:-moz-linear-gradient(bottom,#fff 5%,#AAC4E9 100%)!important;background-image:-o-linear-gradient(bottom,#fff 5%,#AAC4E9 100%)!important;background-image:-webkit-gradient(linear,left bottom,left bottom,color-stop(.05,#fff),color-stop(1,#AAC4E9))!important;background-image:-webkit-linear-gradient(bottom,#fff 5%,#AAC4E9 100%)!important;background-image:linear-gradient(to top,#fff 5%,#AAC4E9 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#AAC4E7',GradientType=0);cursor:pointer}
+.dvbRegChoose{border-radius:1px;background-color:#666;margin:0 auto;padding:0;width:95%}
+.dvbRegChoose span:nth-child(1),.dvbRegChoose span:nth-child(2),.dvbRegChoose span:nth-child(3){color:#fff;display:inline-block;float:left;font-size:12px;line-height:25px;padding:7px 13px;cursor:pointer}
+.dvbRegChoose span:nth-child(1){width:40%}
+.dvbRegChoose span:nth-child(2){width:15%}
+.dvbRegChoose span:nth-child(3){width:25.3%}
+.abRehCho {
+	background: url(https://pictures.tripmasters.com/siteassets/d/BYO_Checkmark.png) no-repeat scroll 0 0;
+	color: #fff;
+	display: block;
+	font: 11px Tahoma,Arial,Helvetica,sans-serif;
+	height: 16px;
+	outline: medium none;
+	padding: 0 0 0 19px;
+	text-decoration: none
+}
+.abRehCho:hover{text-decoration:underline}
+.abRehChoChk{background-position:left -25px;text-decoration:underline;color:#FFF}
+.spRehChoActiv{background-color:#0065B8;border-radius:1px}
+.dvCalContainer{margin:0 auto;height:auto;padding:10px 5px 10px 13px;border:1px solid #FFD968;text-align:left;border-radius:0 6px 6px 6px;-webkit-box-shadow:inset 0 0 10px #FFD968;-moz-box-shadow:inset 0 0 10px #FFD968;box-shadow:inset 0 0 10px #FFD968;background-image:-moz-linear-gradient(top,#FFFECD 40px,#FFD968 70%)!important;background-image:-o-linear-gradient(top,#FFFECD 40px,#FFD968 70%)!important;background-image:-webkit-gradient(linear,left top,left bottom,color-stop(.4,#FFFECD),color-stop(.7,#FFD968))!important;background-image:-webkit-linear-gradient(top,#FFFECD 40px,#FFD968 70%)!important;background-image:linear-gradient(to bottom,#FFFECD 40px,#FFD968 70%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFECD',endColorstr='#FFD968',GradientType=0)}
+.dvbCalByoTool{height:auto;padding:5px 15px 5px 25px}
+.dvbCalFindTool{padding:0 30px;height:auto;width:95%;margin:5px auto;display:none}
+.dvbCalLineConteiner{padding:2px 0 2px 2px !important}
+.dvbCalLineConteiner span{display:inline-block;margin:0 10px;font-size:12px;width:25%}
+.spBoldTxt{font-weight:700}
+.dvbCalLineConteiner div{font-size:12px}
+.dvbCalLineConteiner label{font-size:12px;line-height:22px;margin-bottom:3px;padding:5px}
+#dvCity1{margin-top:5px}
+.dvbCalLineConteiner div:nth-child(1){width:50%;float:left}
+.dvbCalLineConteiner div:nth-child(2){width:25%;float:left}
+.dvbCalLineConteiner div:nth-child(3){width:19%;float:left}
+.dvbCalLineConteiner div:nth-child(1) input[type="text"]{background-color:#fff;border:1px solid #000;border-radius:1px;color:#333;font-size:12px;outline:0 none;padding:2px 0 1px 5px;width:94%}
+.dvbCalLineConteiner div:nth-child(1) input[type="text"]:focus{border:1px solid #333;color:#000}
+#goingTO {
+	background-color: #ffd968;
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/byo_ArrowBlue.gif);
+	background-position: right center;
+	background-repeat: no-repeat;
+	border: 1px solid #666;
+	border-radius: 9px;
+	color: #333;
+	font-size: 11px;
+	height: 12px;
+	padding: 2px 0 2px 5px;
+	margin: 0 30px 4px 0;
+	max-width: 90%;
+	width: 77%
+}
+#goingNO{background-color:#ffd968;border:0 solid #666;border-radius:6px;height:17px;padding:0 0 0 5px;margin:0 30px 5px 0;max-width:90%;width:65%;opacity:0}
+#goingFTO {
+	background-color: #ffd968;
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/byo_ArrowBlue.gif);
+	background-position: right center;
+	background-repeat: no-repeat;
+	border: 1px solid #666;
+	border-radius: 9px;
+	color: #333;
+	font-size: 11px;
+	height: 12px;
+	padding: 2px 0 2px 5px;
+	margin: 0 30px 4px 0;
+	max-width: 90%;
+	width: 65%
+}
+.dvbCalLineConteiner div:nth-child(2) input[type="text"] {
+	background-color: #fff;
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif);
+	background-position: right center;
+	background-repeat: no-repeat;
+	border: 1px solid #000;
+	border-radius: 1px;
+	color: #333;
+	font-size: 12px;
+	outline: 0 none;
+	padding: 2px 0 1px 5px;
+	width: 89%
+}
+.dvbCalLineConteiner div:nth-child(2) input[type="text"]:focus{border:1px solid #333;color:#000}
+.spRemove{color:navy;display:inline-block;padding:7px 0 1px 6px !important;text-align:center;text-decoration:underline;width:70%!important;cursor:pointer;font-size:11px!important}
+#spRemove:hover{color:red}
+.dvbCalLineConteiner div:nth-child(3) input[type="text"] {
+	background-color: #fff;
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif);
+	background-position: right center;
+	background-repeat: no-repeat;
+	border: 1px solid #000;
+	border-radius: 1px;
+	color: #333;
+	font-size: 12px;
+	outline: 0 none;
+	padding: 2px 0 1px 5px;
+	width: 85%
+}
+.dvbCalLineConteiner div:nth-child(3) input[type="text"]:focus{border:1px solid #000;color:#000}
+.dvCalButtons{padding-left:35px}
+.dvCalButtons span{display:inline-block;margin:10px 2px 5px 10px}
+.dvCalButtons span:nth-child(2){font-size:12px;padding-top:10px}
+.dvCalButtons input[type="button"]{color:#FFF;padding:1px 10px 4px;width:auto;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;border:1px solid #536DAD;background-image:-moz-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-o-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left top,left botton,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to bottom,#536DAD 5%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0)}
+.dvCalButtons input[type="button"]:hover{color:#FFF;background-image:-moz-linear-gradient(bottom,#536DAD 25%,#000085 100%)!important;background-image:-o-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to top,#536DAD 20%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0);cursor:pointer}
+.dvButtons{margin-top:10px}
+.dvButtons a{color:#FFF;padding:5px;display:block;text-align:center;font-size:16px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;border:1px solid #536DAD;background-image:-moz-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-o-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left top,left botton,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to bottom,#536DAD 5%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0)}
+.dvButtons a:hover{color:#FFF!important;background-image:-moz-linear-gradient(bottom,#536DAD 25%,#000085 100%)!important;background-image:-o-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to top,#536DAD 20%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0);cursor:pointer}
+.bubble a{border:1px solid #999;padding:3px 4px;cursor:pointer}
+.bubble{position:relative;width:auto;height:auto;padding:5px 5px 10px;background:#FFF;-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;border:red solid 2px;font-size:11px;word-wrap:break-word;text-align:center}
+.bubble:after{content:'';position:absolute;border-style:solid;border-width:11px 10px 0;border-color:#FFF transparent;display:block;width:0;z-index:1;bottom:-11px;left:11px}
+.bubble:before{content:'';position:absolute;border-style:solid;border-width:12px 11px 0;border-color:red transparent;display:block;width:0;z-index:0;bottom:-14px;left:10px}
+.dvbCalSmallTool{height:auto;padding:5px 0px 5px 3px}
+.dvbCalSmallConteiner{padding:2px 0 2px 2px !important}
+.dvbCalSmallConteiner span{display:inline-block;font-size:11px}
+.dvbCalSmallConteiner div{font-size:11px}
+.dvbCalSmallConteiner label{font-size:11px;line-height:22px;margin-bottom:0px;padding:0 5px; float:left}
+.dvbCalSmallConteiner div:nth-child(1){width:50%;float:left}
+.dvbCalSmallConteiner div:nth-child(2){width:27%;float:left}
+.dvbCalSmallConteiner div:nth-child(3){width:23%;float:left}
+.dvbCalSmallConteiner div:nth-child(1) input[type="text"]{background-color:#fff;border:1px solid #999;border-radius:5px;color:#333;font-size:11px;outline:0 none;padding:5px 0 4px 5px;width:94%}
+.dvbCalSmallConteiner div:nth-child(1) input[type="text"]:focus{border:1px solid #333;color:#000}
+	.dvbCalSmallConteiner div:nth-child(2) input[type="text"] {
+		background-color: #fff;
+		background-image: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif);
+		background-position: right center;
+		background-repeat: no-repeat;
+		border: 1px solid #999;
+		border-radius: 5px;
+		color: #333;
+		font-size: 11px;
+		outline: 0 none;
+		padding: 5px 0 3px 5px;
+		width: 89%
+	}
+.dvbCalSmallConteiner div:nth-child(2) input[type="text"]:focus{border:1px solid #333;color:#000}
+.spSmallRemove{color:navy;display:inline-block;padding:3px 0!important;text-align:center;text-decoration:underline;width:100%!important;cursor:pointer;font-size:11px!important}
+.dvbCalSmallConteiner div:nth-child(3) input[type="text"] {
+	background-color: #fff;
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif);
+	background-position: right center;
+	background-repeat: no-repeat;
+	border: 1px solid #999;
+	border-radius: 5px;
+	color: #333;
+	font-size: 11px;
+	outline: 0 none;
+	padding: 5px 0 3px 5px;
+	width: 85%
+}
+.dvbCalSmallConteiner div:nth-child(3) input[type="text"]:focus{border:1px solid #333;color:#000}
+.dvCalSmallButtons{font-size:11px;text-align:center}
+.dvCalSmallButtons span{display:inline-block;margin:5px}
+.dvCalSmallButtons span:nth-child(2){font-size:11px;padding-top:10px}
+	.dvCalSmallButtons input[type="button"] {
+		background: #ccc linear-gradient(to bottom, #fff 35%, #ccc 95%) repeat scroll 0 0;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		color: #000;
+		padding: 3px 8px 2px;
+		width: auto;
+		cursor:pointer;
+	}
+		.dvCalSmallButtons input[type="button"]:hover {
+			background: #ccc linear-gradient(to top, #fff 35%, #ccc 95%) repeat scroll 0 0;
+		}
+/*		
+.dvCalSmallButtons input[type="button"]{color:#FFF;padding:2px 8px 4px;width:auto;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;border:1px solid #536DAD;background-image:-moz-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-o-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left top,left botton,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to bottom,#536DAD 5%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0)}
+.dvCalSmallButtons input[type="button"]:hover{color:#FFF;background-image:-moz-linear-gradient(bottom,#536DAD 25%,#000085 100%)!important;background-image:-o-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to top,#536DAD 20%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0);cursor:pointer}
+*/
+#dvMask{display:none;position:absolute;top:0;left:0;filter:alpha(opacity=65);opacity:.65;background-color:#CCC;z-index:1010;width:100%}
+#dvTransOptResp{padding:1px;display:none;z-index:1011;margin:0 auto;min-width:400px;max-width:900px;position:absolute;top:150px}
+#frameTransOptResp{float:left;position:absolute;width:600px;height:200px;z-index:-1}
+#dvOptions{position:relative;z-index:3990}
+.dvbRightCol{float:right;width:33.09%;height:auto}
+.dvRightBoxes{margin-bottom:5px;border:1px solid #638bd1;box-shadow:inset 0 0 10px #638bd1;border-radius:10px 10px 10px 10px;padding:10px}
+.dvRightBoxes h2{margin:0 0 5px;padding:5px 7px;border-radius:5px 5px 5px 5px;color:#FFF;background-color:#608ED5;font-size:16px}
+.dvRightBoxes h1{margin:0 0 5px;padding:5px 7px;font-size:16px;color:#000569}
+.dvRightBoxes #title{border-radius:5px;color:#fff;font-size:15px;font-weight:700;margin:0 0 10px;padding:5px 10px;text-align:left;background-image:-moz-linear-gradient(top,#8CA6DE 15%,#638AD6 100%);background-image:-o-linear-gradient(top,#8CA6DE 15%,#638AD6 100%);background-image:-webkit-gradient(linear,left top,left botton,color-stop(0.15,#8CA6DE),color-stop(1,#638AD6));background-image:-webkit-linear-gradient(top,#8CA6DE 15%,#638AD6 100%);background-image:linear-gradient(to botton,#8CA6DE 15%,#638AD6 100%)}
+.dvRightBoxes h5{margin:15px 0 5px!important}
+.dvRightBoxes h5 a{margin:0 0 5px;padding:5px 4px;color:#F60;font-size:14px;text-decoration:none}
+.dvRightBoxes h5 a:hover{text-decoration:underline;color:red}
+.dvRightBoxes hr{width:90%;height:1px;border:none;background-image:-webkit-linear-gradient(left,#FFF,#1D327D 40%,#FFF);background-image:-moz-linear-gradient(left,#FFF,#1D327D 40%,#FFF);background-image:-o-linear-gradient(left,#FFF,#1D327D 40%,#FFF)}
+.dvCommentCont {
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/Cust_Comment_Small.gif);
+	background-repeat: no-repeat;
+	background-position: 6px 2px;
+	padding: 6px;
+	margin-bottom: 5px;
+	font-size: 12px
+}
+.dvCommentCont a img{margin:3px;border-style:none;vertical-align:middle;float:right}
+.dvCommentCont span{float:left;width:75%;margin:5px 0 0 2px}
+.dvCommentCont font{color: #000; float: left; font-size: 12px; margin: 0 5px 0 0;}
+.dvCommentCont div span font{color:#666}
+.dvCommentCont div span b{color:#F60}
+.dvCommReadMore{margin:3px;text-align:left;clear:both;line-height:140%}
+.dvCommReadMore a{color:#009;text-decoration:none !important}
+.dvCommReadMore a:hover{color:red;text-decoration:underline !important}
+.dvCommentSelect {
+	background: url(https://pictures.tripmasters.com/siteassets/d/TripsTakenByOthers_Small.jpg) no-repeat right top;
+	height: 58px;
+	padding: 5px 0
+}
+.dvCommentSelect select{width:200px;margin:2px 5px;border:solid 1px #799BD2}
+.dvCommentSelect span{padding:11px 0;background-color:#e7eef9; display:block; margin:10px 0 0; width:70%}
+.dvSuscribe {
+	background: url(https://pictures.tripmasters.com/siteassets/d/Email_BG.gif) no-repeat 10px 10px;
+	height: 115px
+}
+#SubscribeEmail{border:#ccc 1px solid;width:170px;padding:3px}
+.dvNeedAssis {
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/Need_Assistance.jpg);
+	background-repeat: no-repeat;
+	background-position: 25px 25px
+}
+.dvAssisTitle{font-size:16px;color:#000569;text-align:right;font-weight:700;padding:10px 15px 0 0}
+.dvAssisMess{font-size:12px;color:#000569;text-align:right;padding:3px 15px 5px 0}
+.dvPromoLinkA{font-size:12px;padding:3px 5px}
+.dvPromoLinkA:nth-child(1){background-color:#FFF}
+.dvPromoLinkA:nth-child(even){background-color:#ECF1FF}
+.dvPromoLinkE{font-size:12px;padding:3px 5px}
+.dvPromoLinkE:nth-child(1){background-color:#FFF}
+.dvPromoLinkE:nth-child(even){background-color:#ECF1FF}
+.dvPromoLinkL{font-size:12px;padding:3px 5px}
+.dvPromoLinkL:nth-child(1){background-color:#FFF}
+.dvPromoLinkL:nth-child(even){background-color:#ECF1FF}
+.dvfContainer{width:100%;max-width:980px;min-width:980px;margin:0 auto;height:auto}
+.dvFSamplePrices{line-height:14px;font-size:10px;color:#666;text-align:justify;text-justify:kashida;letter-spacing:.02em;display:block;margin-top:20px;margin-bottom:20px}
+.footertop{width:99%;height:200px;margin:0 auto}
+.footertitle{width:95%;height:43px;margin:0 auto}
+.ora_vert{border:2px;height:145px;width:2px;border-right-style:dotted;border-color:#F6C979;float:left;margin-top:25px}
+.title_underline{margin-top:2px;padding-left:50px;padding-bottom:13px;height:2px;width:136px}
+.titlebox{font:900 13px arial,sans-serif;color:#053179}
+.footersubmenu a{text-decoration:none;color:#053179;font:14px/28px arial,sans-serif}
+.footersubmenu a:hover{text-decoration:underline}
+.footercenter{width:26%;float:left;margin-top:5px;margin-left:50px;text-align:left}
+.footerleft{width:26%;float:left;margin-top:5px;margin-left:50px;text-align:left}
+.footerright{width:26%;float:right;margin-top:5px;margin-left:50px;text-align:left}
+.dvfootLinearBg{background:-webkit-linear-gradient(bottom,#fff 35%,#e7f1fe 100%);background:-moz-linear-gradient(bottom,#fff 35%,#e7f1fe 100%);background:-o-linear-gradient(bottom,#fff 35%,#e7f1fe 100%)}
+.stagcenter{line-height: 2;margin-top:15px;display:inline-block;vertical-align:top;text-align:center;}
+.stagleft{line-height: 2;margin-top:15px;display:inline-block;text-align:center;}
+.stagright{line-height: 2;margin-top:15px;display:inline-block;text-align:center;}
+.stagright img{padding-bottom:10px;}
+.stagaws{line-height: 2;margin-top:15px;display:inline-block;}
+.ora_vertBlue{border-color:#e6e6ff;border-style:none solid none none;border-width:2px;height:60px;display:inline-block;margin:0 19px;} 
+.stagbottom{padding:10px;margin-top:10px;display:none;}
+.sampleprices{line-height:14px;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666;text-align:justify;text-justify:kashida;letter-spacing:.02em;display:block;margin-top:20px;margin-bottom:20px}
+.copyright {
+	margin-top: 11px;
+	background: url(https://pictures.tripmasters.com/siteassets/d/darkblue_footer.png) repeat-x;
+	height: 41px !important;
+	width: 100%;
+	padding: 13px 0 10px 0
+}
+.dvCopy{line-height:14px;text-align:center;color:#fff;font:11px/14px arial,sans-serif}
+.text_blackbold{font:600 18px arial,sans-serif}
+.text_blacklight{font:14px arial,sans-serif}
+.text_link a{font:11px arial,sans-serif;color:#009}
+.citylist{line-height:14px;padding-top:10px;padding-bottom:10px;width:980px;min-width:980px;margin:auto;text-align:justify;text-justify:kashida;margin:0 auto;font-size:12px}
+.citylist a{color:navy;text-decoration:none}
+.citylist a:hover{color:navy;text-decoration:underline}
+.social_media{text-align:center;margin-top:40px;}
+.social_media a img{border:0}
+.dvOrangeTitle_20{font-family:Arial;font-size:20px;color:#F60;text-align:left;padding-bottom:5px;padding-top:10px}
+.dvRoundBoxes{margin:10px 0;border:1px solid #638bd1;box-shadow:inset 0 0 15px #638bd1;border-radius:10px 10px 10px 10px;padding:7px}
+.dvRoundBoxes p{font-family:Arial,Helvetica,sans-serif;font-size:12px}
+.P_Blk_Arial_11{color:#000;font-family:Arial,Helvetica,sans-serif;font-size:11px}
+.dvfeatPics{border-top:solid 1px #36F;cursor:pointer;padding:3px 0 3px 1px}
+.dvfeatPics img{background-color:#fff;border:1px solid #ccc;border-radius:4px;float:left;height:144px;margin-right:1.9px;padding:0;width:142px}
+.dvfeatPckTitle{font-size:16px;color:#333;font-weight:700;padding:10px 5px;text-align:left}
+.dvWait{display:none;padding:20px}
+.dvFalseChk{padding:2px; margin-top:4px}
+.dvFalseChk:hover{border-radius:5px;background:#dee7f5}
+.falsecheckdop {
+	font: 11px Tahoma,Arial,Helvetica,sans-serif;
+	text-decoration: none;
+	outline: none;
+	background: url(https://pictures.tripmasters.com/siteassets/d/checkbox.gif) no-repeat;
+	height: 16px;
+	display: block;
+	padding: 1px 0 0 20px;
+	color: #666;
+	line-height: 10px
+}
+.falsecheckdop:hover{color:#06F}
+.falsecheckeddop{background-position:left -25px}
+.dvInLeftBx{margin:3px 5px 10px;display:block}
+.imgLeftNoWrap{float:left;height:50px;width:50px;margin:0 10px 0 0}
+.imgLeftNoWrap70{float:left;height:70px;width:70px;margin:0 10px 0 0}
+.pLeftNoWrap{margin:0;padding:0;overflow:visible;font-size:11px;word-wrap:break-word}
+.pLeftWrap{margin:0;padding:0;overflow:hidden;font-size:12px;word-wrap:break-word}
+.pLeftWrapMid{margin:0;padding:1px;overflow:hidden;font-size:12px;word-wrap:break-word;height:50px;display:table-cell;vertical-align:middle}
+.spLeftWrap{font-size:12px;word-wrap:break-word;display:block}
+.imgCityInfo{cursor:pointer;width:9px;height:9px}
+.langTitle{font-size:14px;font-weight:700;color:navy}
+.langtext{font-size:11px;padding:10px;color:#9d9494}
+.dvBoxFullBlue{margin:0px 0;background-color:#638bd1;border:6px solid #638bd1;border-radius:10px 10px 10px 10px;behavior:url(/css/PIE.htc)}
+.dvBoxFullBlue p{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#FFF;padding:5px 5px 10px;margin:0;text-align:center}
+.dvBoxFullBlue h5{color:#fff;font-family:Arial,Helvetica,sans-serif;margin:0;padding:0 26px;position:relative;top:-10px}
+.dvBoxFullWhite{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;background-color:#FFF}
+.dvBoxFullLightBlue{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;background-color:#ecf1ff}
+.dvCityList{padding:10px;float:left;width:40%;text-align:left}
+.dvFindButtons{padding-bottom:8px;text-align:center}
+.dvFindButtons input[type="button"]{color:#FFF;padding:3px 10px 5px;width:auto;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;border:1px solid #536DAD;background-image:-moz-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-o-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left top,left botton,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(top,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to bottom,#536DAD 5%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0)}
+.dvFindButtons input[type="button"]:hover{color:#FFF;background-image:-moz-linear-gradient(bottom,#536DAD 25%,#000085 100%)!important;background-image:-o-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:-webkit-gradient(linear,left bottom,left top,color-stop(.35,#536DAD),color-stop(1,#000085))!important;background-image:-webkit-linear-gradient(bottom,#536DAD 35%,#000085 100%)!important;background-image:linear-gradient(to top,#536DAD 20%,#000085 100%)!important;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0);cursor:pointer}
+.dvShowMap{display:none;position:absolute;width:800px;height:600px;margin:0 auto;left:50%;margin-left:-400px;padding:20px;border-radius:10px;background:#fff;z-index:50;border:1px solid #638bd1;box-shadow:inset 0 0 15px #638bd1}
+.dvGoogleMap{border:1px solid #CCC}
+.dvmapTitle{float:left;width:60%;padding:5px 15px;line-height:16px;font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#036;font-weight:700;margin:3px 0}
+.dvmapClose{float:right;width:30%;margin:3px 0;padding:5px 25px;text-align:right;font-weight:700}
+.dvmapClose span{color:#F60}
+.dvmapClose span:hover{cursor:pointer;text-decoration:underline}
+.dvPopUp{position:absolute;max-width:425px;min-width:100px;height:auto;padding:1px;background:#FFF;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;border:#638bd1 solid 2px;padding:10px;display:none;min-height:50px; z-index:9000}
+.dvPopUp:after{content:'';position:absolute;border-style:solid;border-width:11px 15px 11px 0;border-color:transparent #FFF;width:0;z-index:1;left:-15px;top:22px}
+.dvPopUp:before{content:'';position:absolute;border-style:solid;border-width:12px 16px 12px 0;border-color:transparent #638bd1;width:0;z-index:0;left:-18px;top:21px}
+.dvPopUp p{background-color:ffff;color:#5d5d5f;font-size:10px;cursor:pointer;text-align:right;padding:1px 15px;margin:0}
+.dvPopUp p:hover{color:red;text-decoration:underline}
+.dvPopContent{color:#5d5d5f;font-family:Arial,helvetica,sans-serif,Verdana;font-size:11px;line-height:1.5}
+.dvPopContentDw{font-family:Arial,helvetica,sans-serif,Verdana;font-size:12px;line-height:1.5}
+.dvPopUpDw{position:absolute;width:290px;height:auto;padding:10px;background:#FFF;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;border:#638bd1 solid 2px;display:none}
+.dvPopUpDw:after{content:'';position:absolute;border-style:solid;border-width:15px 15px 0;border-color:#FFF transparent;display:block;width:0;z-index:1;bottom:-15px;left:130px}
+.dvPopUpDw:before{content:'';position:absolute;border-style:solid;border-width:16px 16px 0;border-color:#638bd1 transparent;display:block;width:0;z-index:0;bottom:-18px;left:129px}
+.dvbGuide{font-size:11px;font-weight:700;line-height:1px;padding:3px 18px;color:#999;cursor:pointer}
+.dvpkGuidedTxt{font-size:11px;font-weight:700;line-height:1px;padding:3px 5px;color:#999;cursor:pointer}
+.dvInfoContainer{background:#FFF;border-radius:7px;border:1px solid #666;box-shadow:0 0 10px #638bd1 inset;display:none;padding:10px 20px 20px}
+.dvBoxClose{background:none repeat scroll 0 0 #4679bd;border:3px solid #cfdcec;border-radius:50%;box-shadow:0 0 3px gray;color:#fff;font-size:20px;font-weight:700;height:33px;line-height:32px;overflow:hidden;position:relative;right:-30px;text-align:center;top:-20px;vertical-align:middle;width:33px;float:right}
+.pgStyle{font-family:Arial;font-size:12px;margin:0 2px;color:#1f1ee6;cursor:pointer;padding:0 3px;text-decoration:underline}
+.pgStyle:hover{color:#f17c0a}
+.pgStyleSelected{font-family:Arial;font-size:12px;font-weight:700;margin:0 2px;color:#f17c0a;padding:0 3px}
+.pgStyleDisabled{font-family:Arial;font-size:12px;margin:0 2px;color:#8d8e8e;padding:0 3px}
+.UncheckOption{font-size:11px;font-family:Arial,Tahoma,Helvetica,sans-serif;color:navy;margin:2px 0 1px 15px;cursor:pointer;line-height:19px;padding-left:2px;width:184px}
+.UncheckOption:hover{text-decoration:underline;background-color:#8698f1;color:#fff}
+.UncheckOptionDisabled{font-size:11px;font-family:Arial,Tahoma,Helvetica,sans-serif;color:#666;margin:7px 0 7px 16px;display:none}
+.falsecheck_1 {
+	font: 11px Arial,Tahoma,Helvetica,sans-serif;
+	text-decoration: none;
+	outline: none;
+	background: url(https://pictures.tripmasters.com/siteassets/d/checkbox.gif) no-repeat;
+	height: 17px;
+	display: block;
+	padding: 1px 0 0 20px;
+	color: #666
+}
+.falsecheck_1:hover{color:#fff;text-decoration:none}
+.falsechecked_1{background-position:left -25px;color:#fff}
+.highlights{margin:1px 5px 1px 14px;width:187px;height:auto;font-size:11px;color:navy}
+.highlights:hover{background-color:#8698f1;color:#fff}
+.highlights:hover a{color:#fff}
+.dvLikeTable {margin-bottom:5px;border:1px solid #638bd1;box-shadow:inset 0 0 10px #638bd1;border-radius:10px 10px 10px 10px;padding:10px;border-spacing: 3px;display: table;font-size: 12px;width: 97.8%}
+.dvTblRow{display: table-row-group;height: 25px}
+.dvTblLeft {width:20%; border-right:solid 1px #bdbcbc; display: table-cell;	vertical-align: top}
+.dvTblRight {width:80%; display: table-cell; vertical-align: top}
+.dvTblRow hr {background-image: -moz-linear-gradient(left center , #fff, #1d327d 40%, #fff);border: medium none;height: 1px;width: 90%}
+
+.dvbColumnLightTitles{height:40px;color:#F60;text-align:center;font-size:18px;line-height:40px}
+.dvbLighBlueBG{background:#E5EAF5}
+p.ptitle14{display:inline;font-size:14px;line-height:35px;padding:0 5px}
+.dvMapCanvas{border:1px solid #638bd1;border-radius:5px;height:200px;width:200px;margin:0 auto}
+.dvLegendMap{background:none repeat scroll 0 0 rgba(255,255,255,0.65);border-radius:0 0 5px 5px;line-height:29px;margin:0 auto;position:relative;top:-30px;width:190px;padding-left:10px;font-weight:700}
+.dvLegendMap:hover{text-decoration:underline;color:red;cursor:pointer}
+span.sptitle16{display:table;margin:0 auto;font-size:16px;line-height:35px;padding:0 5px;color:#1B2560;text-align:center}
+.selStyle {
+	background: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif) no-repeat scroll 98% center / 9% auto #fff;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	height: auto;
+	margin: 5px auto;
+	overflow: hidden;
+	padding: 2px 0;
+	width: 225px
+}
+.selStyle select{-webkit-appearance:none;-moz-appearance:none;background:none repeat scroll 0 0 transparent;border:0 solid #ccc;font-size:12px;height:22px;padding:0 5px;width:228px}
+.selStyle select option{font-size:12px;padding:2px 5px;text-align:left}
+.inpStyle{margin:5px auto;overflow:hidden;padding:2px 5px;width:auto}
+.inpStyle input[type="text"]{border:1px solid #ccc;border-radius:3px;font-size:12px;height:15px;padding:5px;width:166px}
+.dvChecks{line-height:24px;margin:2px;padding:0 3px;width:94.8%}
+.dvChecks:hover{border-radius:4px;background:#dee7f5;cursor:pointer}
+.dvChecks:hover .aOnly{display:block}
+.aOnly{float:right;display:none;padding-right:3px;font-size:12px}
+.aOnly:hover{color:red}
+input[type=checkbox].css-checkbox{display:none}
+input[type=checkbox].css-checkbox.rat + label.css-label.rat,input[type=checkbox].css-checkbox.rev + label.css-label.rev,input[type=checkbox].css-checkbox.fav + label.css-label.fav,input[type=checkbox].css-checkbox.poi + label.css-label.poi{padding-left:22px;display:inline-block;line-height:17px;background-repeat:no-repeat;background-position:0 0;font-size:12px;cursor:pointer}
+input[type=checkbox].css-checkbox.rat:checked + label.css-label.rat,input[type=checkbox].css-checkbox.rev:checked + label.css-label.rev,input[type=checkbox].css-checkbox.fav:checked + label.css-label.fav,input[type=checkbox].css-checkbox.poi:checked + label.css-label.poi{background-position:0 -26px}
+label.css-label.poi p{margin:0;width:180px}
+label.css-label span{font-size:11px;color:#999}
+.elegant {
+	background-image: url(https://pictures.tripmasters.com/siteassets/d/checkbox.gif)
+}
+.dvEachFeedLeftW{width:94%;padding:5px}
+.dvEachFeedLeftW:nth-child(odd){background-color:#ECF1FF}
+.dvEachFeedLeftW:nth-child(even){background-color:#FFF}
+span.spPlainText{display:table;margin:5px}
+.dvEachFeedLeftW a{color:#1a255f!important;display:table;font-size:12px;padding:5px 5px 0}
+.dvEachFeedLeftW a:hover{color:red!important;text-decoration:underline}
+span.spRTitle{color:#19255F;display:table;float:left;line-height:40px;font-size:18px}
+span.spRTxtGray{float:left;width:auto;font-size:14px;display:table;padding:2px;color:#666;line-height:40px}
+div.dvPagin{border-top:1px solid #999;border-bottom:1px solid #999;margin:10px auto;text-align:center;padding:8px}
+div.dvPagin:before{content:'Page(s)';left:-10px;position:relative;top:-5px}
+div.dvPagin span{display:inline-block;margin:0 auto}
+.dvPaginas{text-align:center}
+.dvLoading{display:none;position:absolute;width:600px;opacity:.7}
+.dvSpinLoader {
+	background: url(https://pictures.tripmasters.com/siteassets/d/image_857948.gif) no-repeat center center;
+	height: 200px;
+	margin: 0 auto 80px;
+	width: 400px;
+	opacity: .4
+}
+.dvMask{background:none repeat scroll 0 0 rgba(0,0,0,0.5);display:none;position:absolute;top:0;left:0}
+.dvEachPackLeftW{width:94%;margin:5px auto;padding:3px}
+.dvEachPackLeftW:nth-child(odd){background-color:#ECF1FF}
+.dvEachPackLeftW:nth-child(even){background-color:#FFF}
+.dvEachPackLeftW a{color:#1a255f!important;display:table;font-size:12px;padding:5px 2px 0}
+.dvEachPackLeftW a:hover{color:red!important;text-decoration:underline}
+.dvEachPackLeftW img{border:0 none;margin:5px!important;vertical-align:top;float:left}
+.dvEachPackLeftW div{float:right;width:91%}
+.dvbRightColW{float:left;width:72%;border-left:1px solid #4D68AD;height:auto;padding-left:15px}
+hr.grayLine{border:0;height:1px;background:#999}
+.resetFilters{background-color:#e9eef8;border-radius:3px;color:#333;cursor:pointer;margin:0 10px 13px;padding:7px;text-align:center;font:12px Arial,Helvetica,sans-serif}
+.resetFilters:hover{color:red;text-decoration:underline}
+span.spBgLinearBlue{display:table;height:20px;line-height:35px;margin:0 auto;text-align:center}
+div.spBgLinearBlue{display:table;text-align:center;margin:0 auto;line-height:35px;height:20px;text-align:center;width:100%;background:#fff;background:-moz-linear-gradient(left,#fff -40%,#e7ebf7 50%,#fff 140%);background:-webkit-gradient(linear,left top,right top,color-stop(-40%,#fff),color-stop(50%,#e7ebf7),color-stop(140%,#fff));background:-webkit-linear-gradient(left,#fff -40%,#e7ebf7 50%,#fff 140%);background:-o-linear-gradient(left,#fff -40%,#e7ebf7 50%,#fff 140%);background:linear-gradient(to right,#fff -40%,#e7ebf7 50%,#fff 140%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#ffffff',GradientType=1)}
+.spWRadioButton{color:#19255F;float:left;width:auto;margin:5px 10px}
+span.spSeeAll{display:table;width:98%;text-align:right;font-size:12px;font-style:italic;color:#19255F;padding:5px;cursor:pointer}
+span.spSeeAll:hover{color:red;text-decoration:underline}
+.spBgBlue{background:none repeat scroll 0 0 #4b66ab;display:inline-block;height:40px;line-height:38px;margin:0 auto 5px;text-align:center;width:98.7%}
+.txt_16_white{font-size:16px;color:#fff}
+span.spBrowseAll{display:table;width:98%;text-align:left;font-size:12px;color:#19255F;padding:5px}
+span.spBrowseAll:hover{color:red;text-decoration:underline;cursor:pointer}
+.dvEachPackContent{height:auto;margin-bottom:15px}
+span.spTopTitle{display:table;float:left;font-size:16px;line-height:28px;margin-bottom:10px}
+span.spTopTitle a{color:#19255f}
+span.spTopTitle a:hover{color:red;text-decoration:underline}
+.dvEachPkLeft{float:left;padding:0 0 0 10px;width:15px}
+.dvEachPkLeft img{width:133px;height:133px;border:none}
+.dvEachPkRight{color:#666;float:right;padding:0 0 0 10px;width:77.1%}
+.dvEachPkBottom{margin:18px 0;padding:5px 15px}
+.dvEachPkBottom input[type="button"]{float:right}
+span.spLinkWRBord{border-right:1px solid #009;float:left;line-height:4px;margin:7px 0 0;padding:5px 15px;width:auto}
+span.spLinkWRBord a{text-decoration:underline!important}
+span.spLinkWRBord a:hover{color:red;text-decoration:underline}
+.dvO{width:200px}
+.dvSpinLoader {
+	background: url(https://pictures.tripmasters.com/siteassets/d/image_857948.gif) no-repeat center center;
+	height: 200px;
+	margin: 0 auto 80px;
+	width: 400px;
+	opacity: .4
+}
+.dvPoiList{padding:0;height:220px;width:240px;overflow:auto;margin-bottom:20px;margin-right:auto;margin-left:auto}
+.bubleMap{background: #fff none repeat scroll 0 0; border: 1px solid #999; border-radius: 4px; font-size: 9px; max-width: 100px; padding: 2px 5px; position: relative; text-align: left;}
+/* Subscribe on Footer */
+div.dvFootSubscribe{background-image:-moz-linear-gradient(rgb(235,237,250) 0%,rgb(255,255,255) 100%);background-image:-webkit-gradient(linear,color-stop(0, rgb(235,237,250)),color-stop(1, rgb(255,255,255)));background-image:-webkit-linear-gradient(rgb(235,237,250) 0%,rgb(255,255,255) 100%);background-image:-o-linear-gradient(rgb(235,237,250) 0%,rgb(255,255,255) 100%);background-image:linear-gradient(rgb(235,237,250) 0%,rgb(255,255,255) 100%);-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffebedfa,endColorstr=#ffffffff)";filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffebedfa,endColorstr=#ffffffff);height:auto;padding:25px 0;}
+div.dvFootSubscribe p{margin:5px auto;font-family:Arial, Helvetica, sans-serif; text-align:center;}
+hr.hrFootDots{border: none;border-top-width: medium;border-top-style: none;border-top-color: currentcolor;border-top: 2px dotted #ccc;color: #fff;height: 1px;width: 100%;	background: none;clear: both;max-width: 980px;min-width: 980px;margin: 0 auto;padding-bottom:15px;}
+div.dvFootSubsBoxContent{text-align:center; width:535px; margin:0 auto; padding:15px 0}
+div.dvFootSubsBoxContent button{background-color: #FFDA6A;width:156px;height:42px;border-color: #FFDA6A;border-width:1px;/* Firefox v1.0+ */-moz-border-radius:1px;/* Safari v3.0+ and by Chrome v0.2+ */-webkit-border-radius:1px;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */border-radius:1px;border-style:solid;font-family:Arial, Helvetica, sans-serif;font-size:16px;color: #333333;text-align:center;float:left;margin-left:5px;}
+div.dvFootSubsBoxContent input[type="text"]{background-color:#FFFFFF;width:360px;height:40px;border-color: #CCCCCC;border-width:1px;/* Firefox v1.0+ */-moz-border-radius:1px;/* Safari v3.0+ and by Chrome v0.2+ */-webkit-border-radius:1px;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */border-radius:1px;border-style:solid;font-family:Arial, Helvetica, sans-serif;font-size:16px;color: #999999;text-align:left;float:left;padding:0 0 0 10px;}
+p.pFootSubsTitle{font-size:36px;color: #131850;}
+p.pFootSubsSubTitle{font-size: 28px;color: #666666;}
+.dvFindButtons {padding-bottom: 8px;text-align: center;}
+.dvFindButtons input[type="button"] {color: #FFF;padding: 3px 10px 5px;width: auto;-moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;border: 1px solid #536DAD;background-image: -moz-linear-gradient(top,#536DAD 35%,#000085 100%) !important;background-image: -o-linear-gradient(top,#536DAD 35%,#000085 100%) !important;background-image: -webkit-gradient(linear,left top,left, botton color-stop(.35,#536DAD), color-stop(1,#000085)) !important;background-image: -webkit-linear-gradient(top,#536DAD 35%,#000085 100%) !important;background-image: linear-gradient(to bottom,#536DAD 5%,#000085 100%) !important;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#536DAD',endColorstr='#000085',GradientType=0);}

@@ -1,0 +1,790 @@
+body{margin:0;font-family:Arial,Helvetica,sans-serif!important}
+.dvRoundContainer{margin-bottom:5px;border:1px solid #638bd1;box-shadow:inset 0 0 15px #638bd1;border-radius:10px 10px 10px 10px;padding:20px}
+.dvRoundContainer h3{margin:0 0 5px;padding:5px 10px;border-radius:5px;background:#608ED5;color:#FFF;font-size:16px;text-align:left}
+.dvRoundContainer h3 span{display:inline-block;width:20px;height:20px;margin-left:10px;padding:2px 3px 0 2px;background:#FBA919;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;font-size:16px;text-align:center}
+
+a:link,a:visited{color:navy;text-decoration:none}
+a:hover{text-decoration:underline}
+#samplePriS a:link{color:navy;text-decoration:none}
+#samplePriS a:hover{color:#F60;text-decoration:underline}
+#samplePriH a:link{color:navy;text-decoration:none}
+#samplePriH a:hover{color:#F60;text-decoration:underline}
+.a3:hover{color:#FFC;text-decoration:underline}
+.a1{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;color:#FFCB01;text-decoration:none}
+.a2{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;color:blue;text-decoration:none}
+.a3{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#fff;text-decoration:none}
+.a4{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#360;text-decoration:none}
+.a5{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#060;text-decoration:none}
+.a6{font-family:Arial,Helvetica,sans-serif;font-size:18px;text-decoration:none;color:#030}
+.foot{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666;text-decoration:none}
+.foot a:hover{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#00C;text-decoration:underline}
+.foot a:visited{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666;text-decoration:none}
+.foot a:link{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666;text-decoration:none}
+.foot a:active{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666;text-decoration:none}
+.Text_10_Lgreen{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#B1C88E;text-decoration:none;font-weight:400}
+.Text_Search{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#999;text-decoration:none;font-weight:400;font-style:italic}
+.Navigation_1st{font-family:Arial,Helvetica,sans-serif;font-size:14px;text-decoration:none;color:#360;background-color:#FFCD81;padding:2px}
+.Breadcrumbs{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#666}
+.Small-text{font-family:Arial,Helvetica,sans-serif;font-size:11px}
+.Page_Title{font-family:Arial,Helvetica,sans-serif;font-size:35px}
+.Sub-Title{font-family:Arial,Helvetica,sans-serif;color:#360;font-weight:700;font-size:18px}
+.Sub-Title-Small{font-family:Arial,Helvetica,sans-serif;color:#360;font-weight:700;font-size:12px;vertical-align:middle;text-transform:capitalize;font-variant:normal;letter-spacing:1px}
+#sectionLinks{position:relative;margin:0;padding:0;border-bottom:1px #FFCD81;background-color:#FFC;font-family:Arial,Helvetica,sans-serif;font-size:13px;width:175px;border-top-color:#FFCD81;border-right-color:#FFCD81;border-left-color:#FFCD81;border-top-width:1px;border-right-width:1px;border-left-width:1px;list-style-position:outside}
+#sectionLinks h3{padding:2px}
+#sectionLinks a{display:block;border-top:1px solid #FFCD81;padding:2px}
+#sectionLinks a:hover{background-color:#FF9}
+.Description{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#000}
+.Description_Bold{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:11px}
+.Description_Bold1{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:11px;color:#666}
+.Description_BG{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#000;background-color:#FFC}
+.BG_Yellow{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;background-color:#036;color:#FFF;cursor:hand}
+.BG_Yellow_Out{font-family:Arial,Helvetica,sans-serif;font-size:11px;cursor:hand}
+.Link_2nd_Nav_Title{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:15px}
+.Link_2nd_Navigation{font-family:Arial,Helvetica,sans-serif;font-size:13px;text-decoration:underline;color:#00F;line-height:18px}
+.Links_Features{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#00F;font-weight:700}
+.Feature_Box_Title{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:14px;color:#000;background-color:#FFCD81;background-position:left center;padding:6px}
+.Feature_Box_Title-Gray{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:12px;color:#000;background-color:#efefef;background-position:left center;padding:6px}
+.Feature_Box_Title-Yellow{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:14px;color:#000;background-color:#FFC;background-position:left center;padding:6px}
+.Button_Text{font-size:14px;font-weight:700;font-family:Arial,Helvetica,sans-serif;color:#360;background-color:#FF9}
+.Package_Title{font-family:Arial,Helvetica,sans-serif;font-size:14px;text-decoration:underline;color:#00F;line-height:18px}
+.Package_Title1{font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:normal;font-weight:400}
+.Package_Title2{font-family:Arial,Helvetica,sans-serif;font-size:13px;text-decoration:underline;color:#360;line-height:normal;background-color:#FFC;font-weight:400}
+.Package_Description{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666}
+.Package_Nights{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#000}
+.Price_From{font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#000}
+.Price_Number{font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#000;font-weight:700}
+.Price_Number1{font-family:Arial;font-size:15px;color:#000;font-weight:700}
+.Disclaimer_OnBottom{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666}
+.Links_No_Underline{font-size:11px;font-family:Arial,Helvetica,sans-serif;color:#00F}
+.Links_Bottom{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#00F;text-decoration:underline}
+.Navigation_Footer{font-family:Arial,Helvetica,sans-serif;font-size:12px;text-decoration:none;color:#FFF;background-color:#690;padding:8px}
+.Cities-Calendar{font-family:Arial,Helvetica,sans-serif;font-size:12px;text-decoration:none;color:#FFF;background-color:#690;padding:8px}
+.TB-Border_orange{border:1px solid #FFCD81}
+.TB-Finder_Title{font-family:Arial,Helvetica,sans-serif;font-size:x-small;font-weight:bolder;color:#FFF;background-color:#360;text-align:center}
+.TB-Finder_Title-NoBold{font-family:Arial,Helvetica,sans-serif;font-size:x-small;color:#FFF;background-color:#360;text-align:center;text-indent:9px}
+.TB-Border_red{border:1px solid #360}
+.TB-Border_gray{border:1px solid #ccc}
+.TB-Border_orange{border:1px solid #F90}
+.TB-Border_Orange1{border:1px solid #FFCD81;background-color:#FFC;vertical-align:middle}
+.Find-Bottom{font-family:Arial,Helvetica,sans-serif;font-size:x-small;margin-right:3px;margin-left:3px}
+.Buttom-Yellow{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;color:#360}
+.style2{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:x-small}
+.check-box{margin:0;padding:0;height:14px;width:14px;clear:none;float:none}
+.Editor_Package_Name{font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;color:#360}
+.Editor_Package_Name14{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;color:#360}
+.Editor_Package_Name12{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;color:#360}
+.Editor_Package_Type{font-weight:700;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#666}
+.Editor_Package_Type_Intro{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666}
+.Editor_Package_Includes{font-size:12px;color:#360;font-family:Arial,Helvetica,sans-serif;font-weight:700}
+.Editor_Package_DaysNts{font-size:11px;font-family:Arial,Helvetica,sans-serif;color:#666;font-weight:700}
+.Editor_Package_Price_City{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#006;font-weight:700}
+.Editor_Package_Price{font-size:12px;font-weight:400;color:#006;font-family:Arial,Helvetica,sans-serif}
+.Editor_Package_Items{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#000}
+.Editor_Package_Item_Note{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#666;font-weight:400}
+.Editor_Package_Disclaimer{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#666}
+.Editir_Sugg_table{background-color:#ffc;border:1px solid #360}
+.Package_Sub-Title{color:#360;font-size:11px;font-weight:700;font-family:Arial,Helvetica,sans-serif}
+.Package_Medium{font-size:11px;font-weight:700;font-family:Arial,Helvetica,sans-serif;color:#666}
+.Package_Discreet_Title{font-family:Arial,Helvetica,sans-serif;color:#360;font-size:11px;font-style:normal;font-weight:400}
+.PhotosBlock{display:block;float:left;width:100%;margin-bottom:5px}
+.PhotoDisplay{display:block;width:100%;text-align:center}
+.ThumbScroll{display:block;float:left;width:80px;height:201px;text-align:left;overflow:auto}
+.ThumbScroll1{display:block;float:left;width:230px;height:250px;text-align:left;overflow:auto;background-color:#FFF;border:solid 1px #000}
+.ThumbScroll2{display:block;float:left;width:230px;height:251px;text-align:left;overflow:auto}
+.combo-button{cursor:hand;cursor:pointer;height:19px;border:1px solid #036;padding:0;background:#EEE;width:14px;vertical-align:baseline;font-size:8pt;font-family:Webdings,Marlett}
+.font-small-arial{font-family:Arial,Helvetica,sans-serif;font-size:10px}
+.text-title{font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;color:#360}
+.Text-Med{font-family:Arial,Helvetica,sans-serif;font-size:12px}
+.div-InPackList{background-color:#FFC;margin:5px;padding:5px;border:1px solid #360;width:100%}
+.div-InPackList1{background-color:#FFC;border:1px solid #e4e4e4;width:100%}
+.Description_Box{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;border:none;width:90%;vertical-align:middle;background-color:#FFC}
+option{font-family:Arial,Helvetica,sans-serif;font-size:10px;text-indent:5px}
+option.1{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;text-decoration:underline;color:#360;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#666;background-color:#E4E4E4}
+option.2{font-family:Arial,Helvetica,sans-serif;font-size:11px;text-indent:3px;color:#666;text-decoration:underline}
+div.3{font-family:Arial,Helvetica,sans-serif;font-size:10px;text-indent:5px}
+div.1{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bolder;color:#360;border-bottom-color:#666;background-color:#E4E4E4;text-indent:3px;margin:2px;padding:2px;text-transform:uppercase}
+div.2{font-family:Arial,Helvetica,sans-serif;font-size:11px;text-indent:3px;color:#999}
+div.4{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bolder;text-indent:5px;color:red;background-color:#FFC}
+.div-Select1{background-color:#FFC;text-indent:2px;border-top-width:1px;border-bottom-width:1px;border-left-width:1px;border-top-style:solid;border-bottom-style:solid;border-left-style:solid;border-top-color:#FC0;border-bottom-color:#FC0;border-left-color:#FC0;position:relative;height:20px;width:100%;font-weight:700}
+.div-Select2{background-color:#FFC;text-indent:2px;border-top-width:1px;border-left-width:1px;border-top-style:solid;border-left-style:solid;border-top-color:#FC0;border-left-color:#FC0;position:relative;height:20px;width:100%;font-weight:700}
+.div-Select3{background-color:#FFC;text-indent:2px;border-bottom-width:1px;border-left-width:1px;border-bottom-style:solid;border-left-style:solid;border-bottom-color:#FC0;border-left-color:#FC0;position:relative;height:20px;width:100%;font-weight:700}
+.div-Select4{background-color:#FFC;text-indent:2px;border-left-width:1px;border-left-style:solid;border-left-color:#FC0;position:relative;height:20px;width:100%;font-weight:700}
+.td1{background-color:#E2E2E2;width:15%;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;text-align:center;text-decoration:underline;border-color:#e2e2e2 #e2e2e2 #CCC;border-style:solid;border-width:2px}
+.td2{background-color:#FFF;width:1%;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#CCC}
+.td3{background-color:#CCC}
+.td4{background-color:#FFF;border-top:solid 2px #ccc;border-left:solid 2px #ccc;border-right:solid 2px #ccc;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;text-align:center;width:15%}
+.td5{background-color:#FFC;width:15%;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;text-align:center;border-top-width:2px;border-right-width:2px;border-left-width:2px;border-top-style:solid;border-right-style:solid;border-left-style:solid;border-top-color:#CCC;border-right-color:#CCC;border-left-color:#CCC;color:#00F;text-decoration:underline;cursor:hand}
+.td6{background-color:#FFF;border-left:2px solid #ccc;border-right:2px solid #ccc;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#CCC}
+.Orang-BDR1{border-top-width:1px;border-bottom-width:1px;border-top-style:solid;border-bottom-style:solid;border-top-color:#F90;border-bottom-color:#F90}
+.Orang-BDR2{border-left-width:1px;border-left-style:solid;border-left-color:#F90;border-right-width:1px;border-right-style:solid;border-right-color:#F90}
+.Orang-BDR3{border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#F90}
+.Orang-BDR4{border-right-width:1px;border-right-style:solid;border-right-color:#F90}
+.TD-UP-Center{background-image:url(https://pictures.tripmasters.com/siteassets/d//Mid_Top.gif);background-repeat:repeat-x}
+.TD-MID-Right{background-image:url(https://pictures.tripmasters.com/siteassets/d//Mid_Right.gif);background-repeat:repeat-y;background-position:left}
+.TD-BOTT-Center{background-image:url(https://pictures.tripmasters.com/siteassets/d//Mid_Bottom.gif);background-repeat:repeat-x;background-position:top}
+.TD-MID-Left{background-image:url(https://pictures.tripmasters.com/siteassets/d//Mid_Left.gif);background-repeat:repeat-y;background-position:right}
+.div-sortby{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:400;vertical-align:middle;text-indent:4px;margin:1px;padding:1px 2px}
+.div-sortby1 {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-indent: 4px;
+    background-color: #FFC;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Pic_zetas.gif);
+    background-repeat: no-repeat;
+    background-position: 96% center;
+    width: 107%;
+    z-index: 99;
+    border-top: 1px solid #f60;
+    border-bottom: 1px solid #f60;
+    border-left: 1px solid #f60;
+    position: relative;
+    height: 20px;
+    text-decoration: none;
+    vertical-align: middle
+}
+.div-sortby2 {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-indent: 4px;
+    background-color: #FFC;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Pic_zetas.gif);
+    background-repeat: no-repeat;
+    background-position: 96% center;
+    width: 106%;
+    z-index: 99;
+    border-top: 1px solid #f60;
+    border-bottom: 1px solid #f60;
+    border-left: 1px solid #f60;
+    position: relative;
+    height: 20px;
+    text-decoration: none
+}
+.div-sortby3 {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-indent: 4px;
+    background-color: #FFC;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Pic_zetas.gif);
+    background-repeat: no-repeat;
+    background-position: 96% center;
+    width: 102%;
+    z-index: 99;
+    border-top: 1px solid #f60;
+    border-bottom: 1px solid #f60;
+    border-left: 1px solid #f60;
+    position: relative;
+    height: 20px;
+    text-decoration: none
+}
+.div-packList{vertical-align:middle;width:99%;float:left;margin-top:1px;margin-bottom:1px;padding-top:1px;padding-bottom:1px}
+.div-packListT{vertical-align:middle;width:100%;float:right;margin-top:1px;margin-bottom:1px;padding-top:1px;padding-bottom:1px}
+.div-sortpacks{font-family:Arial,Helvetica,sans-serif;font-size:10px;text-align:right;padding-top:2px;padding-bottom:2px}
+.div-featuredPack{vertical-align:middle;padding:4px;width:100%;margin:1px}
+.div-InPackList{background-color:#FFC;margin:5px;padding:5px;border:1px solid #f60;width:100%}
+.InPackList{background-color:#FFC;border:1px solid #f60}
+.InPackList1{background-color:#FFC;border:1px solid #f60}
+.TB-selected{background-color:#FFC;border:1px solid #F60}
+.TB-unselected{background-color:#FFF;border:1px solid #F60}
+.TB-selected-all{background-color:#FFC}
+.TB-M-Select{background-image:url(https://pictures.tripmasters.com/siteassets/d/TB-BG-Cal-Selec.gif);background-repeat:no-repeat}
+.TB-M-NoSelect{background-image:url(https://pictures.tripmasters.com/siteassets/d/TB-BG-Cal-NOSelec.gif);background-repeat:no-repeat}
+.TB-O-Select{background-image:url(https://pictures.tripmasters.com/siteassets/d/TB-BG-OneCal-Selec.gif);background-repeat:no-repeat}
+.TB-O-NoSelect{background-image:url(https://pictures.tripmasters.com/siteassets/d/TB-BG-OneCal-NoSelec.gif);background-repeat:no-repeat}
+.td11{background-color:#E2E2E2;width:17%;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-align:center;text-decoration:underline;color:#360;border-color:#CCC;border-style:solid;border-width:1px 1px 2px}
+.PageTitle_Red{font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:700;color:#360}
+.PageTitle_Red35px{font-family:Arial,Helvetica,sans-serif;font-size:35px;font-weight:700;color:#360}
+.td111{width:auto;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;text-align:center;text-decoration:underline;color:#00C;background-image:url(https://pictures.tripmasters.com/siteassets/d/TAB-BG.gif);background-repeat:repeat-x;background-position:center top;border-bottom:2px double #CCC;border-top-width:2px;border-right-width:2px;border-left-width:2px;border-top-style:solid;border-right-style:solid;border-left-style:solid;border-top-color:#CCC;border-right-color:#CCC;border-left-color:#CCC}
+.td41{background-color:#FFF;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;text-align:center;width:auto;color:#00C;border-top-width:2px;border-right-width:2px;border-left-width:2px;border-top-style:solid;border-right-style:solid;border-left-style:solid;border-top-color:#CCC;border-right-color:#CCC;border-left-color:#CCC}
+.td51{background-color:#FFC;width:auto;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;text-align:center;color:#00C;text-decoration:underline;cursor:hand;border-color:#CCC #CCC #E4E4E4;border-style:solid;border-width:2px}
+.td21{background-color:#FFF;width:3px;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#CCC}
+.td61{background-color:#FFF;border-left:2px solid #ccc;border-right:2px solid #ccc;border-bottom-width:2px;border-bottom-style:solid;border-bottom-color:#CCC}
+.div-sortby21{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;width:103%;z-index:99;position:relative;height:24px;text-decoration:none;float:left;right:19px;border-top:1px solid #CCC;border-right:1px solid #CCC;border-bottom:1px solid #CCC;padding:2px;border-left-color:#CCC;color:#C00}
+.div-sortby22{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;text-decoration:none;color:#C00;position:relative;background-image:url(https://pictures.tripmasters.com/siteassets/d/Forward.gif);background-repeat:no-repeat;background-position:right center;padding-right:10px}
+.div-sortby22a{ffont-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;text-decoration:none;color:#C00;position:relative;padding-right:10px;background-image:url(https://pictures.tripmasters.com/siteassets/d/Forward.gif);background-repeat:no-repeat;background-position:right center}
+.div-sortby23{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;width:104%;z-index:99;position:relative;height:24px;text-decoration:none;float:left;right:-4px;border-top:1px solid #CCC;border-right:#CCC;border-bottom:1px solid #CCC;padding:2px;border-left-color:#CCC;color:#C00;position:relative;border-left-width:1px;border-left-style:solid}
+.div-sortby24{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;width:104%;z-index:99;position:relative;height:24px;text-decoration:none;float:right;right:-9px;border-top:1px solid #CCC;border-right:#CCC;padding:2px;border-left-color:#CCC;color:#C00;position:relative;border-left-width:1px;border-left-style:solid}
+.div-sortby44{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;width:104%;z-index:99;position:relative;height:24px;text-decoration:none;float:right;right:-9px;border-right:#CCC;padding:2px;border-left-color:#CCC;color:#C00;position:relative;border-left-width:1px;border-left-style:solid}
+.div-sortby33{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-indent:4px;background-color:#FFC;width:104%;z-index:99;position:relative;height:24px;text-decoration:none;float:right;right:-9px;border-right:#CCC;border-bottom:1px solid #CCC;padding:2px;border-left-color:#CCC;color:#C00;position:relative;border-left-width:1px;border-left-style:solid}
+.div-sortby21Copy {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-indent: 4px;
+    background-color: #FFC;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Pic_zetas.gif);
+    background-repeat: no-repeat;
+    background-position: 96% center;
+    position: relative;
+    height: 20px;
+    text-decoration: none;
+    float: left;
+    border: 1px solid #CCC
+}
+.a-select{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bolder;background-color:#D5FFD5;margin:2px;padding:2px}
+.DivTitle{font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;color:#000}
+.TopDeal{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#00F}
+.CAL-2Borders-LU{border-color:#666 #999 #999 #666;border-style:solid;border-width:1px 3px 3px 1px}
+.div-packShow{width:102%;z-index:99;position:relative;float:left;right:-1px;background-color:#FFF}
+.TB-Border_gray2{border-top:1px solid #ccc;border-right:5px solid #ccc;border-bottom:5px solid #ccc;border-left:1px solid #ccc}
+.border-down {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Border-Down.gif);
+    background-repeat: repeat-x
+}
+.border-right {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Right-Border.gif);
+    background-repeat: repeat-y
+}
+.border-gray-LTR{border-top-width:1px;border-right-width:1px;border-left-width:1px;border-top-style:solid;border-right-style:solid;border-left-style:solid;border-top-color:#CCC;border-right-color:#CCC;border-left-color:#CCC}
+.border-gray-LBR{border-right-width:1px;border-bottom-width:1px;border-left-width:1px;border-right-style:solid;border-bottom-style:solid;border-left-style:solid;border-right-color:#CCC;border-bottom-color:#CCC;border-left-color:#CCC}
+.border-gray-LBU{border-top-width:1px;border-bottom-width:1px;border-left-width:1px;border-top-style:solid;border-bottom-style:solid;border-left-style:solid;border-top-color:#CCC;border-bottom-color:#CCC;border-left-color:#CCC}
+.border-gray-R{border-right-width:1px;border-right-style:solid;border-right-color:#CCC}
+.td-border-bgcolor{background-color:#FFC;border:1px solid #CCC}
+.Blue-Arial14{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#039}
+.rounded{background:url(https://pictures.tripmasters.com/siteassets/d/ro-tl-b.gif) no-repeat top left}
+.trdiv{background:transparent url(https://pictures.tripmasters.com/siteassets/d/ro-tr-b.gif) no-repeat top right}
+.bldiv{background:transparent url(https://pictures.tripmasters.com/siteassets/d/ro-bl-b.gif) no-repeat bottom left}
+.brdiv{background:transparent url(https://pictures.tripmasters.com/siteassets/d/QE_back.jpg) no-repeat top left;padding:15px}
+.ro-BG{width:520px}
+.boton{background-color:#FFE3BB;margin:3px;padding:3px 10px;border:1px solid #CCC}
+.ro-MB2 {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ro-bm-o.gif);
+    background-repeat: repeat-x;
+    background-position: bottom
+}
+.ro-MT2{background:#FFCD81 url(https://pictures.tripmasters.com/siteassets/d/ro-tm-grad.jpg) repeat-x top}
+.ro-middiv {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/dots.gif);
+    background-repeat: repeat-y;
+    background-position: right
+}
+.divDestTabOvr {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DestinoTabOver.gif);
+    background-repeat: no-repeat;
+    background-position: right top
+}
+.divDestBorder{border-color:#333 #999 #999 #000;border-style:solid outset outset solid;border-width:1px 2px 2px 1px}
+.divOver_Bold{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;background-color:#DFEFFF;border:1px solid #CCC;cursor:hand;color:#039}
+.divOut_Bold{font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;border:1px solid #FFF;cursor:hand;color:#039}
+.divOver{font-family:Arial,Helvetica,sans-serif;font-size:11px;background-color:#DFEFFF;border:1px solid #CCC;cursor:hand;color:#000}
+.divOut{font-family:Arial,Helvetica,sans-serif;font-size:11px;border:1px solid #FFF;cursor:hand;color:#000}
+.NEW_HeaderBG{background-image:url(https://pictures.tripmasters.com/siteassets/d/Logo.gif);background-repeat:no-repeat;background-position:left top}
+.LP-BG-Blue-TopR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/LP-BG-BlueTopRC.jpg);
+    background-repeat: no-repeat;
+    background-position: right top
+}
+.Page-TitleWhite{letter-spacing:1px;font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:700;color:#FFF}
+.LP-BG-White{background-image:url(https://pictures.tripmasters.com/siteassets/d/LP-BG-White.jpg);background-repeat:repeat-x;height:auto}
+.Blue-Arial31{font-family:Arial;font-size:31px;font-weight:700;color:#036}
+.sliderwrapper{position:relative;overflow:hidden;border-bottom-width:6px;width:100%;height:auto}
+.LP-BG-Blue-TopL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/LP-BG-BlueTopLC.jpg);
+    background-repeat: no-repeat;
+    background-position: left top
+}
+.LP-BG-Blue-TopR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/LP-BG-BlueTopRC.jpg);
+    background-repeat: no-repeat;
+    background-position: right top
+}
+.LP_BG-Cal-UP {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/LP-CalBg-UP.jpg);
+    background-repeat: no-repeat;
+    background-position: center top
+}
+.LP-BG-Cal-Mid {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/LP-CalBg-Mid.jpg);
+    background-repeat: repeat-y;
+    background-position: center top
+}
+.LP-BG-Cal-Down{background-image:url(https://pictures.tripmasters.com/siteassets/d/LP-CalBg-Down.jpg);background-repeat:no-repeat;background-position:center bottom}
+.LP-BG-BlueDown{background-image:url(https://pictures.tripmasters.com/siteassets/d/LP-BG-BlueBottL.jpg);background-repeat:no-repeat;background-position:left bottom}
+.LP-BG-BlueDownR{background-image:url(https://pictures.tripmasters.com/siteassets/d/LP-BG-BlueBottR.jpg);background-repeat:no-repeat;background-position:right bottom}
+.LP-NoWant {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/No-exac-want.jpg);
+    background-repeat: no-repeat;
+    background-position: left center
+}
+.LD_SuscribeEmailBG{background-image:url(https://pictures.tripmasters.com/siteassets/d/Subscribe.gif);background-repeat:no-repeat;background-position:left center}
+.LP-LightBlue-BG {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/LP-BG-LightBlue.jpg);
+    background-repeat: no-repeat;
+    background-position: center center
+}
+.LD2008_HeaderBG{background-image:url(https://pictures.tripmasters.com/siteassets/d/LD_newHeader.jpg);background-repeat:no-repeat;background-position:left top}
+.Page-TitleGreen{letter-spacing:1px;font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:700;color:#360}
+.Border-Green{border:1px solid #690}
+.Border-Blue{border:1px solid #34498C}
+.glidecontentwrapperCo{height:120px;overflow:hidden;position:relative;width:325px}
+.glidecontentCo{padding:1px 10px 10px;position:absolute;visibility:hidden;width:320px;background-color:#D9EF85}
+.glidecontentwrapper{height:320px;overflow:hidden;position:relative;width:420px;z-index:99}
+.glidecontent {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/BG-Slice.jpg) repeat-x scroll center top;
+    padding: 10px;
+    position: absolute;
+    visibility: hidden;
+    width: 415px
+}
+.glidecontenttoggler{margin-top:0;width:60px}
+.glidecontenttoggler a{color:#2E6AB1;display:inline-block;font-weight:700;padding:1px;text-decoration:none}
+.glidecontenttoggler a.selected{background:#E4EFFA none repeat scroll 0 0;color:#000}
+.glidecontenttoggler a:hover{background:#E4EFFA none repeat scroll 0 0;color:#000}
+.sliderwrapper{height:auto;overflow:hidden;position:relative;width:550px}
+    .sliderwrapper .contentdiv {
+        background: transparent url(https://pictures.tripmasters.com/siteassets/d/BG-Slice.jpg) repeat-x scroll center top;
+        height: 320px;
+        left: 0;
+        padding: 5px;
+        position: absolute;
+        top: 0;
+        visibility: hidden;
+        width: 415px
+    }
+.pagination{padding:5px 10px;text-align:right}
+.pagination a{padding:0 5px;text-decoration:none}
+.H-Feed-BG{background-image:url(https://pictures.tripmasters.com/siteassets/d/H-BG-Feed.jpg);background-position:center center;background-repeat:no-repeat}
+.H-Feed-Top{background-image:url(https://pictures.tripmasters.com/siteassets/d/H-Fe-Top.jpg);background-position:center top;background-repeat:no-repeat;height:188px;overflow:hidden}
+.H-Feed-Mid{background-image:url(https://pictures.tripmasters.com/siteassets/d/H-Fe-Nid.jpg);background-position:center center;background-repeat:repeat-y}
+.H-Feed-Bot {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/H-Fe-Bot.gif);
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    height: 200px
+}
+.BlueL-Arial12{color:#06C;font-family:Arial;font-size:12px;font-weight:700}
+.DE_divCusComBG {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/BG-Slice.jpg);
+    background-position: center top;
+    background-repeat: repeat-x
+}
+.DE_divCusComT {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_Border_Top.jpg);
+    background-position: center top;
+    background-repeat: repeat-x;
+    height: auto;
+    width: 101%
+}
+.DE_divCusComR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_Border_R.jpg);
+    background-position: right center;
+    background-repeat: repeat-y
+}
+.DE_divCusComB {
+    background-image: url(https://pictures.tripmasters.com/siteassets/dDE_Border_B.jpg);
+    background-position: center bottom;
+    background-repeat: repeat-x
+}
+.DE_divCusComL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_Border_L.jpg);
+    background-position: left center;
+    background-repeat: repeat-y
+}
+.DE_divCusComCTL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_CO_TL.jpg);
+    background-position: left top;
+    background-repeat: no-repeat
+}
+.DE_divCusComCTR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_CO_TR.jpg);
+    background-position: right top;
+    background-repeat: no-repeat
+}
+.DE_divCusComCBL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_CO_BL.jpg);
+    background-position: left bottom;
+    background-repeat: no-repeat
+}
+.DE_divCusComCBR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DE_CO_BR.jpg);
+    background-position: right bottom;
+    background-repeat: no-repeat
+}
+.BG-Light_Yellow{background-color:#FFE9A6}
+.BOX-Select_City_Small{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;color:#013567}
+.BG-Light_Cream{background-color:#F0EFD2}
+.CO-bgshortdescr{background-image:url(https://pictures.tripmasters.com/siteassets/d/CO-BGpicshort.gif);background-repeat:no-repeat;background-position:right top}
+.brdivCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-BotR.gif) no-repeat scroll right bottom;
+    padding: 5px 1px 5px 5px
+}
+.trdivCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-TopR.gif) no-repeat scroll right top
+}
+.roundedCo {
+    background: url(https://pictures.tripmasters.com/siteassets/d/Cor-TopL.gif) no-repeat left top;
+    width: 430px
+}
+.ro-MRCo{background:#FFDB70 none repeat scroll 0 0}
+.ro-MLCo{background:#FFDB70 none repeat scroll 0 0}
+.ro-MBCo{background:#FFDB70 none repeat scroll 0 0}
+.ro-BGCo{background:#FFDB70 none repeat scroll 0 0;width:430px}
+.RO_WhiteCO{background-image:url(https://pictures.tripmasters.com/siteassets/d/RO_WhiteCOBG.jpg);background-position:center center;background-repeat:repeat-y}
+.RO_WhiteTOP{background-image:url(https://pictures.tripmasters.com/siteassets/d/RO_WhiteBG.jpg);background-position:center top;background-repeat:repeat-x;height:37px}
+.div_int_Title_B{background-color:#690;color:#FFF;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;height:30px;padding-top:8px}
+.div_int_Title{background-color:#D9EF85;color:#360;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;height:30px;padding-top:8px}
+.Yellow_Dots {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Yellow_Dots.gif);
+    background-position: left top;
+    background-repeat: repeat-y
+}
+.RO_WhiteBL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ro_WhiteBL.jpg);
+    background-position: left bottom;
+    background-repeat: no-repeat
+}
+.RO_WhiteBR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ro_WhiteBR.jpg);
+    background-position: right bottom;
+    background-repeat: no-repeat
+}
+.Yellow_BG{background-image:url(https://pictures.tripmasters.com/siteassets/d/Yellow_BG.gif);background-position:center top;background-repeat:repeat-x}
+.Border-Green{border:1px solid #690}
+.divOver_B{background-color:#DFEFFF;border:1px solid #CCC;cursor:hand;color:#039}
+.divOut_B{border:1px solid #FFF;cursor:hand;color:#039}
+.brdivCal1{background:url(https://pictures.tripmasters.com/siteassets/d/QE_back.jpg) no-repeat left top;padding:15px}
+.CO-bgshortdescr{background-image:url(https://pictures.tripmasters.com/siteassets/d/CO-BGpicshort.gif);background-repeat:no-repeat;background-position:right top}
+.brdivCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-BotR.gif) no-repeat scroll right bottom;
+    padding: 10px
+}
+.brdivCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-BotR.gif) no-repeat scroll right bottom;
+    padding: 10px
+}
+.bldivCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-BotL.gif) no-repeat scroll left bottom
+}
+.trdivCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-TopR.gif) no-repeat scroll right top
+}
+.roundedCo {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/Cor-TopL.gif) no-repeat scroll left top;
+    width: 430px
+}
+.ro-MRCo{background:#FFDB70}
+.ro-MLCo{background:#FFDB70}
+.ro-MBCo{background:#FFDB70}
+.ro-BGCo{background:#FFDB70;width:430px}
+.RO_WhiteCO{background-image:url(https://pictures.tripmasters.com/siteassets/d/RO_WhiteCOBG.jpg);background-position:center center;background-repeat:repeat-y}
+.RO_WhiteTOP{background-image:url(https://pictures.tripmasters.com/siteassets/d/RO_WhiteBG.jpg);background-position:center top;background-repeat:repeat-x;height:37px}
+.div_int_Title_B{background-color:#690;color:#FFF;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;height:30px;padding-top:8px}
+.div_int_Title{background-color:#D9EF85;color:#360;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;height:30px;padding-top:8px}
+.Yellow_Dots {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Yellow_Dots.gif);
+    background-position: left top;
+    background-repeat: repeat-y
+}
+.RO_WhiteBL{background-image:url(https://pictures.tripmasters.com/siteassets/d/ro_WhiteBL.jpg);background-position:left bottom;background-repeat:no-repeat}
+.RO_WhiteBR{background-image:url(https://pictures.tripmasters.com/siteassets/d/ro_WhiteBR.jpg);background-position:right bottom;background-repeat:no-repeat}
+.Yellow_BG{background-image:url(https://pictures.tripmasters.com/siteassets/d/Yellow_BG.gif);background-position:center top;background-repeat:repeat-x}
+.Border-Green{border:1px solid #690}
+.divOver_B{background-color:#DFEFFF;border:1px solid #CCC;cursor:hand;color:#039}
+.divOut_B{border:1px solid #FFF;cursor:hand;color:#039}
+.HotelsInCity_Cal {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/htlcal_top2.gif);
+    background-position: left top;
+    background-repeat: no-repeat
+}
+.CityList_CountryPopularCityList{border-style:solid;border-width:1px;border-color:#690}
+.HotelTableMargins{border-left-color:#D9EF85;border-left-width:4px;border-left-style:solid;border-right-color:#D9EF85;border-right-width:4px;border-right-style:solid}
+.HB_BL {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_BL.jpg) 0 100% no-repeat
+}
+.HB_BR {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_BR.jpg) 100% 100% no-repeat
+}
+.HB_TL {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_TL.jpg) 0 0 no-repeat
+}
+.HB_TR {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_TR.jpg) 100% 0 no-repeat;
+    padding: 10px
+}
+.HB_HT {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_HorizTop.jpg) 0 0 repeat-x
+}
+.HB_HB {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_HorizBottom.jpg) 0 100% repeat-x
+}
+.HB_VL {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_VertLeft.jpg) 0 100% repeat-y
+}
+.HB_VR {
+    background: url(https://pictures.tripmasters.com/siteassets/d/HB_VertRight.jpg) 100% 100% repeat-y
+}
+.CityList_PackList{background-image:url(https://pictures.tripmasters.com/siteassets/d/box_1.jpg);background-repeat:no-repeat;background-position:left center}
+.Hotel_Section_1 {
+    height: 28px;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/htl-section-R.gif);
+    background-position: right;
+    background-repeat: no-repeat;
+    margin: 25px 10px 15px
+}
+.Hotel_Section_2 {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/htl-section-L.gif);
+    background-repeat: no-repeat;
+    background-position: left;
+    height: 28px;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: 700;
+    color: #036
+}
+.BG_GreenGrad {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/BG_GreenGrad.gif);
+    background-repeat: repeat-x;
+    background-position: bottom
+}
+.questionMark{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#36C;background-color:#D5EAFF;padding:1px 3px;border:1px solid #CCC;cursor:hand}
+.Bx_TL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_TL.gif);
+    background-repeat: no-repeat;
+    background-position: left top
+}
+.Bx_TM {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_TM.gif);
+    background-repeat: repeat-x;
+    background-position: top
+}
+.Bx_TR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_TR.gif);
+    background-repeat: no-repeat;
+    background-position: right top
+}
+.Bx_CL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_CL.gif);
+    background-repeat: repeat-y;
+    background-position: left
+}
+.Bx_CR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_CR.gif);
+    background-repeat: repeat-y;
+    background-position: right
+}
+.Bx_BL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_BL.gif);
+    background-repeat: no-repeat;
+    background-position: left bottom
+}
+.Bx_BM {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_BM.gif);
+    background-repeat: repeat-x;
+    background-position: bottom
+}
+.Bx_BR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/ED_Bx_BR.gif);
+    background-repeat: no-repeat;
+    background-position: right bottom
+}
+.popUP_Top{background-image:url(https://pictures.tripmasters.com/siteassets/d/BRD_PopUp_TOP.jpg);background-repeat:no-repeat;background-position:center top}
+.popUP_Mid{background-image:url(https://pictures.tripmasters.com/siteassets/d/BRD_PopUp_MID.jpg);background-repeat:repeat-y;background-position:center}
+.popUP_Bot{background-image:url(https://pictures.tripmasters.com/siteassets/d/BRD_PopUP_BOT.jpg);background-repeat:no-repeat;background-position:center bottom}
+.bgTitl_L{background-image:url(https://pictures.tripmasters.com/siteassets/d/BG_TitBlue_L.jpg);background-repeat:no-repeat;background-position:left center}
+.bgTitl_C{background-image:url(https://pictures.tripmasters.com/siteassets/d/BG_TitBlue_M.jpg);background-repeat:repeat-x;background-position:center}
+.bgTitl_R{background-image:url(https://pictures.tripmasters.com/siteassets/d/BG_TitBlue_R.jpg);background-repeat:no-repeat;background-position:right center}
+.Comb_TL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_TL.gif);
+    background-repeat: no-repeat;
+    background-position: left top
+}
+.Comb_TM {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_TM.gif);
+    background-repeat: repeat-x;
+    background-position: top
+}
+.Comb_TR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_TR.gif);
+    background-repeat: no-repeat;
+    background-position: right top
+}
+.Comb_CL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_CL.gif);
+    background-repeat: repeat-y;
+    background-position: left
+}
+.Comb_CR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_CR.gif);
+    background-repeat: repeat-y;
+    background-position: right
+}
+.Comb_BL {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_BL.gif);
+    background-repeat: no-repeat;
+    background-position: left bottom
+}
+.Comb_BM {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_BM.gif);
+    background-repeat: repeat-x;
+    background-position: bottom
+}
+.Comb_BR {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Comb_Bx_BR.gif);
+    background-repeat: no-repeat;
+    background-position: right bottom
+}
+.Ttl_Bx_Navy15B{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;color:#006;padding:12px 15px 5px}
+.Ttl_Bx_White30{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#FFF;padding:10px 15px 5px}
+.Ttl_Bx_Navy14B{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;color:#006;padding:0 15px}
+.BG_need {background: url(https://pictures.tripmasters.com/siteassets/d/NeedAssistance_W.gif) no-repeat left center;}
+.Ttl_TL{background-image:url(https://pictures.tripmasters.com/siteassets/d/ED_PgTtl_TL.gif);background-repeat:no-repeat;background-position:left top}
+.Tlt_TR{background-image:url(https://pictures.tripmasters.com/siteassets/d/ED_PgTtl_TR.gif);background-repeat:no-repeat;background-position:right top}
+.Ttl_BL{background-image:url(https://pictures.tripmasters.com/siteassets/d/ED_PgTtl_BL.gif);background-repeat:no-repeat;background-position:left bottom}
+.Ttl_BR{background-image:url(https://pictures.tripmasters.com/siteassets/d/ED_PgTtl_BR.gif);background-repeat:no-repeat;background-position:right bottom}
+.Ttl_BG{background-image:url(https://pictures.tripmasters.com/siteassets/d/ED_PgTtl_BG.gif);background-repeat:repeat-y}
+.falsecheck {
+    font: 11px Tahoma,Arial,Helvetica,sans-serif;
+    text-decoration: none;
+    outline: none;
+    background: url(https://pictures.tripmasters.com/siteassets/d/checkboxN.gif) no-repeat;
+    height: 17px;
+    display: block;
+    padding: 1px 0 0 20px;
+    color: #666
+}
+.falsecheck:hover{color:#06F}
+.falsechecked{background-position:left -25px}
+.falsecheckdop:hover{color:#06F}
+.falsecheckeddop{background-position:left -25px}
+#mask{position:absolute;z-index:9000;background-color:#369;display:none;top:0;left:0;opacity:.8}
+.Bx_Title_L {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Bx_Tlt_H_L.jpg);
+    background-repeat: no-repeat;
+    background-position: left top
+}
+.Bx_Title_C {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Bx_Tl_H_C.jpg);
+    background-repeat: repeat-x;
+    background-position: top
+}
+.Bx_Title_R {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Bx_Tl_H_R.jpg);
+    background-repeat: no-repeat;
+    background-position: right top;
+    height: 30px
+}
+.Bx_Title_R span{font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#FFF;vertical-align:middle}
+#footLinks{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#FFF}
+#footLinks a{color:#FFF}
+#footLinks a:hover{text-decoration:underline}
+.overSelect{background-color:#E4E4E4;cursor:default}
+.downSelect {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DownSelect.jpg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    border: 1px solid #A8BEF2;
+    cursor: default;
+    width: 250px;
+    padding: 1px 1px 1px 3px
+}
+.downSelectOver {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DownSelectover.jpg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding: 1px 1px 1px 3px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    border: 1px solid #A8BEF2;
+    cursor: default;
+    width: 250px
+}
+.secAnnounce {
+    max-width: 52%;
+    display: block;
+    font-size: 14px;
+    background: #333;
+    color: #fff;
+    width: 37%!important;
+    padding: 5px 20px 30px;
+    margin: 30px auto;
+}
+p.closeAnn, p.closeTopAnn {
+    text-align: right !important;
+    margin: 0 !important;
+    padding: 0 0 15px !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    width: 100% !important;
+}
+.secAnnounce p {
+    text-align: center;
+    margin: 25px 0 0 0 !important;
+    width: 100% !important;
+}
+.secAnnounce img{
+    float: left;
+    margin: 0 10px 0 0;
+}
+.secAnnounce p a {
+    color: #fff;
+    text-decoration: underline;
+    font-size: 16px;
+}
+.secVoucher {
+    background-color: #F5F5F5;
+    height: 146px;
+    margin-top: 25px !important;
+    margin: 0 auto;
+    display: table
+}
+
+.divSecVoucher1 {
+    display: table-cell;
+    width: 41%;
+    vertical-align: middle;
+    text-align: center
+}
+
+.divSecVoucher2 {
+    display: table-cell;
+    width: 64%;
+    text-align: center;
+    padding: 0 30px 0 18px;
+}
+
+.giftForTravel {
+    color: #638BD1;
+    font-size: 25px;
+    margin: 0px;
+    padding-right: 16px;
+}
+
+.giftVoucher {
+    color: #121852;
+    font-size: 46px;
+    margin: 0px;
+    font-weight: bold;
+}
+
+.divSecVoucher2 p {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.divSecVoucher2 a {
+    background: #1F2B6C 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 1px solid #121852 !important;
+    border-radius: 19px;
+    opacity: 1;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 9px 90px;
+    font-size: 17px;
+    max-width: 276px;
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+}
+#mktLabels{
+    position:absolute;
+    color:transparent;
+    z-index:-1;
+}
+#mktLabels ul{
+    list-style:none;
+}

@@ -1,0 +1,294 @@
+﻿@model MVC_TMED.Models.ViewModels.HotelViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options;
+@using System.Globalization;
+@using System.Text.RegularExpressions;
+@inject IOptionsMonitor<AppSettings> _appsettings
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+@{
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/hotel/dt.style.hotelPage.css" />
+        <link href="~/css/hotelreview/dt.style.hotelreview.css" rel="stylesheet" />
+        <link href="~/css/site_responsive/dm.site.responsive.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/hotel/dt.style.hotelPage.min.css" asp-append-version="true" />
+        <link href="~/css/hotelreview/dt.style.hotelreview.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/site_responsive/site_responsive.min.css" rel="stylesheet" />
+    </environment>
+}
+
+@{
+    TextInfo ctyProp = CultureInfo.CurrentCulture.TextInfo;
+    var cityProper = ctyProp.ToTitleCase(ViewBag.cityNA);
+}
+@{
+    string category = "";
+    string styleHotel = Model.hotelInfo.HotelStyle;
+    var descriptionRoom = "";
+    if (Model.dvCat.Count > 0)
+    {
+        @foreach (var c in Model.dvCat)
+        {
+            category = @c.PTY_Title;
+        }
+    }
+
+    if (Model.hotelInfo.RoomDescr != null)
+    {
+        descriptionRoom = @Model.hotelInfo.RoomDescr;
+
+    }
+
+}
+
+@section structureData {
+    <script type="application/ld+json">
+        {
+
+          "@@context" : "https://schema.org",
+          "@@type": "Hotel",
+          "name": " @Model.hotelInfo.Name",
+          "description":" @Model.hotelInfo.HotelDescription.Trim()",
+        @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/{1}/{2}/hotel-{3}\",", @Model.couName.Replace(" ", "_").ToLower(), ViewBag.cityNA.Replace(" ", "_").ToLower(), @Model.hotNa.Replace(" ", "_").ToLower(), ViewBag.hotID))
+
+          "address": {
+            "@@type": "PostalAddress",
+             "streetAddress": "@Model.hotelInfo.HotelAddress.Replace("<br/>", " ")",
+            "addressLocality": "@ViewBag.cityNA.ToUpper()",
+            "addressCountry" :[{
+                        "@@type":"Country",
+                        "name" : "@Model.couName"
+                     }]
+          },
+        @Html.Raw(String.Format("\"telephone\" : \"{0}\"", @Model.hotelInfo.Phone)),
+          "priceRange": "$30 - $1000",
+        @Html.Raw(String.Format("\"image\" : \"https://www.tripmasters.com{0}\"", @Model.imageHotel)),
+        "containsPlace": {
+            "@@type": "HotelRoom",
+            "name": "@category",
+        @Html.Raw(String.Format("\"description\" : \"{0}\"", @descriptionRoom))
+
+          }
+
+         }
+    </script>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName'</script>
+    <script>var Latitude = '@Model.hotelInfo.Latitude'</script>
+    <script>var Longitude = '@Model.hotelInfo.Longitude'</script>
+    <script>var hotelID = '@Model.hotelInfo.PDLID'</script>
+    <script>var SPD_StatePlaceID = '@Model.SPD_StatePlaceID'</script>
+    <script>var STR_PlaceID = '@Model.STR_PlaceID'</script>
+    <script>var STR_PlaceTitle = '@Model.STR_PlaceTitle'</script>
+}
+<div class="dvpageContainer">
+    <ul class="breadcrumbs">
+        <li><a href="/europe/">Home</a></li>
+        <li class="breadcrumbs__arrow">›</li>
+        <li><a href=@String.Format("/europe/{0}/vacations", @Model.couName.Replace(" ", "_").ToLower())>@Model.couName</a></li>
+        <li class="breadcrumbs__arrow">›</li>
+        <li><a href=@String.Format("/europe/{0}/vacations", @Model.hotelInfo.STR_PlaceTitle.Replace(" ", "_").ToLower())>@Model.hotelInfo.STR_PlaceTitle</a></li>
+        <li class="breadcrumbs__arrow">›</li>
+        <li><a href=@String.Format("/europe/{0}/{1}/hotels",@Model.couName.Replace(" ", "_").ToLower(), @Model.hotelInfo.STR_PlaceTitle.Replace(" ", "_").ToLower())>@Model.hotelInfo.STR_PlaceTitle Hotels</a></li>
+    </ul>
+    <h1 class="sphotelName">@Model.hotelInfo.Name</h1>
+    <div class="review-info">
+        @{
+            string imgsrc = Model.hotelInfo.Rating;
+            switch (true)
+            {
+                case bool _ when Regex.IsMatch(imgsrc, @"Stars|Lodge|Cruise"):
+                    imgsrc = "Stars_" + imgsrc.Replace(" ", "_");
+                    if (imgsrc.Contains("+"))
+                    {
+                        imgsrc = imgsrc.Replace("+", "_Plus");
+                    }
+                    break;
+                default:
+                    imgsrc = imgsrc.Replace(" ", "_").ToLower();
+                    break;
+            }
+
+            <img class="delay" src=@String.Format("https://pictures.tripmasters.com/siteassets/d/spacer.gif", _appsettings.CurrentValue.ApplicationSettings.SiteName) data-src=@String.Format("https://pictures.tripmasters.com/siteassets/d/{0}.gif", imgsrc) align="absmiddle" />
+        }
+        <span class="review-info__rating">@Model.hotelInfo.Rating</span>
+        @{
+            if (Model.hotelInfo.GHS_FinalScore != 0)
+            {
+                <span class="review-info__score"><b>@(Model.hotelInfo.GHS_FinalScore.ToString("0.##"))/5</b> @Model.solNA</span>
+                if (@Model.hotelInfo.GHS_ExpediaReviewCount > 0)
+                {
+                    <button type="button" id="@Model.hotelInfo.PDLID" data-title="@Model.hotelInfo.GiataName" onclick=@String.Format("getReview(this); return false;")> (@Model.hotelInfo.GHS_ExpediaReviewCount &nbsp; reviews) </button>
+                }
+            }
+        }
+    </div>
+    <div class="main-content info-section__line">
+        <div class="information">
+            <div class="information-item">
+                <p class="information-name">City Zone:</p>
+
+                @{
+                    string hotCityZone = "";
+                    if (Model.hotelInfo.CityZone.Trim().Length >= 4)
+                    {
+                        hotCityZone = Model.hotelInfo.CityZone.Trim().Substring(4, Model.hotelInfo.CityZone.Trim().Length - 4);
+                    }
+                    <p class="information-value">@hotCityZone</p>
+                }
+            </div>
+            <div class="information-item">
+                <p class="information-name">Address:</p>
+                <div>
+                    <p class="information-value">@Model.hotelInfo.HotelAddress.Replace("<br/>", " ")</p>
+                    <button class="locateMap" type="button">Locate on map</button>
+                </div>
+            </div>
+            <div class="information-item">
+                <p class="information-name">Property Style</p>
+                @{
+                    string style = Model.hotelInfo.HotelStyle;
+                    if (Model.hotelInfo.HotelStyle == "")
+                    {
+                        style = "-";
+                    }
+                }
+                <p class="information-value" id="HotelStyle">@style</p>
+            </div>
+            <div class="information-item-rooms">
+                <p class="information-name">Rooms:</p>
+                @{
+                    string rooms = Model.hotelInfo.NoRooms.ToString();
+                    if (rooms == "0")
+                    {
+                        rooms = "-";
+                    }
+                }
+                <p class="information-value" id="NoRooms">@rooms</p>
+            </div>
+            @{
+                string hotHigh = "";
+                if ((Model.hotelInfo.GIPH_TNHighlights?.Trim() ?? "") != "")
+                {
+                    hotHigh = Model.hotelInfo.GIPH_TNHighlights.Trim();
+                    @Html.Raw("<p class='information-text'>" + @hotHigh + "<br/>" + @Model.hotelInfo.HotelDescription.Trim() + "</p>")
+                    ;
+                }
+                else
+                {
+                    if (Model.hotelInfo.HotelDescription != null)
+                    {
+                        @Html.Raw("<p class='information-text'>" + @Model.hotelInfo.HotelDescription.Trim() + "</p>")
+                        ;
+                    }
+                }
+            }
+        </div>
+        <div class="hotel-gallery">
+            <div class="dvhotelImgs">
+            </div>
+        </div>
+    </div>
+
+    <div id="GIATA_ExpediaExt">
+    </div>
+    @{
+        if (Model.hotelInfo.RoomDescr != null)
+        {
+            <div class="info-section">
+                <h2 class="info-section__title">room facility and description</h2>
+                <p class="info-section__text">@Html.Raw(Model.hotelInfo.RoomDescr)</p>
+            </div>
+        }
+        if (Model.dvCat.Count > 0 && !Model.hotelInfo.GIPH_TNContentSource.Contains("giata/giata"))
+        {
+            <div class="info-section">
+                <h2 class="info-section__title">category and room type</h2>
+                @foreach (var c in Model.dvCat)
+                {
+
+                    <span class="info-section__text">@c.PTY_Title</span>
+                    if (c.PTY_Description != "none")
+                    {
+                        <p class="info-section__text">@Html.Raw(c.PTY_Description)</p>
+                    }
+                    
+
+                }
+            </div>
+        }
+        if (Model.facilitiesTypes.Count > 0)
+        {
+            <div class="info-section">
+                <h2 class="info-section__title">facilities</h2>
+                @foreach (var fa in Model.facilitiesTypes)
+                {
+                    long faId = fa.Id;
+                    var faciList = @Model.facilities.Where(x => x.Id == faId).OrderBy(y => y.Name).ToList();
+                    <div class="info-section__wrapper">
+                        <h3 class="info-section__subtitle">@fa.Name</h3>
+                        <ul class="info-section__list">
+                            @for (int i = 0; i <= faciList.Count - 1; i++)
+                            {
+                                <li class="info-section__item">
+                                    @Html.Raw(faciList[i].Name);
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        }
+        if (Model.hotelInfo.Latitude != null)
+        {
+            <div class="info-section info-section__line">
+                <h2 class="info-section__title">map locations</h2>
+                <div style="padding: 7px 15px 20px 15px;">
+                    <div align="center" style="padding: 5px">
+                        <div id="map_canvas"></div>
+                    </div>
+                    @{
+                        string hotAdd = "none";
+                        if (Model.hotelInfo.HotelAddress != null)
+                        {
+                            hotAdd = Model.hotelInfo.HotelAddress.Replace("\r\n", "");
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+    <div class="suggested-section">
+    </div>
+    <section name="DownButtons" class="template-DownButtons">
+        <a class="DownButtons-allPacks" href=@String.Format("{0}/{1}/all_vacation_packages" , _appsettings.CurrentValue.ApplicationSettings.SiteName, Model.couName.Replace(" ","_").ToLower())>Browse all customizable packages<span>></span></a>
+        <span>OR</span>
+        <a class="DownButtons-browseBuild" href="https://www.tripmasters.com/build_your_own_vacation">Build Your Own Itinerary<span>></span></a>
+    </section>
+</div>
+@*Modal review*@
+<div id="modal" class="backdrop is-hidden">
+    <div class="modal__wrapper">
+        <button class="modal__close" type="button" aria-label="Close modal">✖</button>
+        <div class="modal__container">
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <environment include="Development">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/hotel/dt.java_hotelpage.js" asp-append-version="true"></script>
+        <script src="~/js/hotel/dt.java.pgwslider.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/hotel/hotel.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

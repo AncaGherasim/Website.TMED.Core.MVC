@@ -1,0 +1,65 @@
+﻿@using static MVC_TMED.Models.ViewModels.Country_T5ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+
+@{
+
+    if (Model.listGuided.Count > 0)
+    {
+        String butLabel = Model.isGuided ? "See all Guided " + Model.placeNA + " Vacations trips" : "See all " + Model.placeNA + " Vacation trips";
+        Int32 count = 0;
+        <ul id="guideList" class="guide__list">
+
+            @foreach (var p in Model.listGuided)
+            {
+                count++;
+                string hideClass = count > 6 ? "guide__item-hidden" : "";
+
+                <li class="@($"guide__item {hideClass}")">
+                    <a class="guide__link" href="@($"{_appsettings.Value.ApplicationSettings.SiteName}/{Model.placeNA.Replace(" ", "_").ToLower()}/{p.PDL_Title.Replace(" ", "_").ToLower()}/package-{p.PDLID}")">
+                        <div class="guide__img">
+                            <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com{p.IMG_500Path_URL}")" alt="View of @p.PDL_Title" />
+                        </div>
+                        <div class="guide__info">
+                            <div class="guide__wrapper">
+                                <h3>@p.PDL_Title</h3>
+                                <div class="guide__price">
+                                    @if (p.STP_Save != 9999)
+                                    {
+                                        <span>@p.PDL_Duration nights from</span>
+                                        <span>@($"{p.STP_Save:C0}*")</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@p.PDL_Duration nights itinerary</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <p class="guide__description">
+                                    @if (!string.IsNullOrEmpty(p.PDL_Description) && !Utilities.RegexHelper.MyRegex.IsMatch(p.PDL_Description))
+                                    {
+                                        @Utilities.TruncateText(p.PDL_Description, 150)
+                                    }
+                                    else
+                                    {
+                                        @Utilities.TruncateHtmlText(p.SPD_Description, 150)
+                                    }
+                                </p>
+                            </div>                            
+                            <p class="guide__description"><b style="color:gray;">Visit:</b> @p.PlacesOnPackages.Replace(" - ", ", ")</p>
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+        if (count > 6)
+        {
+            <button id="guideToggleButton" class="guide__button" aria-expanded="false"><span>@butLabel</span> </button>
+        }
+
+    }
+
+}

@@ -1,0 +1,518 @@
+﻿@model MVC_TMED.Models.ViewModels.HomeViewModel
+@using MVC_TMED.Infrastructure
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> _appsettings
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/responsive_calendar/responsive_calendar.css" />
+        <link href="~/css/home_m/mb.style.tmedSite.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/responsive_calendar/responsive_calendar.min.css" asp-append-version="true" />
+        <link href="~/css/home_m/mb.style.tmedSite.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+}
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+    <script>var TMED_HotelsAPI = '@_appsettings.Value.ApplicationSettings.TMED_HotelsAPI' </script>
+    <script>var designPage = '@ViewBag._utPg' </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+}
+
+@{
+    Int32 rev = Model.NumComments;
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(Model.Score, 1);
+    w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    string webServer = "";
+}
+
+@{
+    List<long> offerPrices = new List<long>();
+    List<string> offerUrl = new List<string>();
+    long lowP = 500;
+    long highP = 9999;
+    Int32 proID = 182;  /*UserId-LD*/
+    if (Model.objAllItineraries.Count > 0)
+    {
+        foreach (var p in Model.objAllItineraries.Take(4))
+        {
+            if (p.STP_Save != 999)
+            {
+                offerPrices.Add((Int32)p.STP_Save);
+            }
+            offerUrl.Add("https://www.tripmasters.com/europe/" + p.CountryName.Replace(" ", "_").ToLower() + "/" + p.PDL_Title.Replace(" ", "_").ToLower() + "/package-" + p.PDLID);
+        }
+        if (offerPrices.Count > 0)
+        {
+            lowP = offerPrices.Min();
+            highP = offerPrices.Max();
+        }
+
+
+    }
+
+}
+@section structureData{
+    <script type="application/ld+json">
+        [{
+	          "@@context": "https://schema.org",
+                "@@type": "Organization",
+                "@@id" : "https://www.tripmasters.com/",
+                "name": "Tripmasters",
+        	    "description": "Vacation Packages",
+                "url": "https://www.tripmasters.com/",
+                "logo": "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+	           "image": "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+                "additionalType": "https://en.wikipedia.org/wiki/Travel_agency",
+	          "telephone": "+18004300484",
+                     "founder": {
+                                "@@type": "Person",
+                                "name": "Maria Checa",
+                                "gender": "Female",
+                                "jobTitle": "President"
+                },
+                "foundingDate": "October 1, 1984",
+                "foundingLocation": "Silver Spring, Maryland, United States",
+         "address": {
+	            "@@type": "PostalAddress",
+                        "streetAddress": "8730 Georgia Ave Suite 600B",
+                        "addressLocality": "Silver Spring",
+	            "addressRegion": "MD",
+                        "postalCode": "20910",
+	            "addressCountry": "US"
+	          },
+               "sameAs": [
+                    "https://twitter.com/tripmasters",
+                    "https://www.facebook.com/Tripmasters",
+                    "https://www.pinterest.com/tripmasters/",
+                    "https://www.instagram.com/tripmasterstravel/",
+                    "https://www.linkedin.com/company/tripmasters",
+                    "https://en.everybodywiki.com/Tripmasters",
+                    "https://www.youtube.com/tripmasters"
+                ]
+	       },
+        {
+        "@@context": "https://schema.org/",
+        "@@type": "Service",
+	    "name": "Custom Europe Vacation Packages",
+        "description": "We have built Europe vacation itineraries which you can price and customize according to your budget and how much time you want to spend in each destination. We curate and recommend hotels, transportation, and activities at each stop of your itinerary. You can build and price all this in seconds. If you can't find the exact itinerary you want from our suggested itineraries you can use our booking tools to build your own itinerary in seconds. Our agents are also available 7 days a week from 8 AM to Midnight ET  to help craft your vacation."
+        },
+        {
+        "@@context": "https://schema.org/",
+        "@@type": "Product",
+        "name": "Europe Vacation Packages",
+        "sku":"@proID-mob",
+        "mpn":"@proID-vacMob",
+        "brand": {
+            "@@type": "Brand",
+            "name": "Tripmasters"
+          },
+        "image":"https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+        "review":{
+        "@@type":"Review",
+        "name":"@rev",
+        "author":{
+        "@@type":"Organization",
+        "name":"Tripmasters"
+        }
+        },
+        "description": "Built European vacation packages, you can price and customize according to your budget and how much time you want to spend in each destination. We curate and recommend hotels, transportation, and activities at each stop of your itinerary. You can build and price all this in seconds. If you can't find the exact itinerary our agents are also available 7 days a week from 8 AM to Midnight ET to help craft your vacation.",
+        "aggregateRating": {
+        "@@type": "AggregateRating",
+        "ratingValue": "@overAllAvg",
+        "bestRating": "5",
+        "ratingCount": "@rev"
+        },
+        "offers": {
+        "@@type": "AggregateOffer",
+        "priceCurrency":"USD",
+        "highPrice": "@highP",
+        "lowPrice": "@lowP",
+        "offerCount": "4",
+        "offers" : [
+
+        @foreach (var u in @offerUrl)
+        {@Html.Raw("{")
+        @Html.Raw('"' + "@type" + '"' + ":" + '"' + "Offer" + '"' + "," +
+            '"' + "url" + '"' + ":" + '"' + @u + '"');
+        @Html.Raw("}")
+        if (u != @offerUrl.Last())
+        {
+            @Html.Raw(",");
+        }
+
+    }
+        ]
+        }
+        },
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebSite",
+        "url": "https://www.tripmasters.com/",
+            "potentialAction":{
+        "@@type":"SearchAction",
+        "target":"https://www.tripmasters.com/search?q={search_term_string}",
+        "query-input":"required name=search_term_string"
+        }
+
+            },
+{
+	          "@@context": "https://schema.org",
+	          "@@type": "TravelAgency",
+        	    "name": "tripmasters europe ",
+	          "image": "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+	          "@@id": "https://www.tripmasters.com/europe/",
+              "priceRange":"699 to 99999",
+	          "address": {
+	            "@@type": "PostalAddress",
+	            "streetAddress": "8730 Georgia Ave, Suite 600B",
+	            "addressLocality": "Silver Spring",
+	            "addressRegion": "MD",
+                "postalCode": "20910",
+	            "addressCountry": "US"
+	          },
+	          "geo": {
+	            "@@type": "GeoCoordinates",
+                        "latitude": 38.99811,
+                        "longitude": -77.03066
+	          },
+	          "url": "https://www.tripmasters.com/europe/",
+	          "telephone": "+18004300484"
+        }        ]
+    </script>
+
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "ItemList",
+              "itemListElement":[
+                {
+                "@@type":"ListItem",
+                "position":"1",
+                  "url":"https://www.tripmasters.com/europe/europe_-_european_bestsellers/best_vacations"},
+                {
+                  "@@type":"ListItem",
+                 "position":"2",
+                  "url":"https://www.tripmasters.com/europe/northern_lights/multicountry/vacations"},
+                {
+                "@@type":"ListItem",
+              "position":"3",
+          "url":"https://www.tripmasters.com/europe/croatian_islands/area/vacations"}
+          ]
+        }
+    </script>
+
+}
+
+
+
+<div class="dvMMask">&nbsp;</div>
+<section class="mobile-hero">
+    <h1 class="mobile-hero__title"><span>Custom</span> <span>Europe Vacation</span> <span>Packages</span></h1>
+    <h2 class="mobile-hero__subtitle"><span>Book Customizable Multi-city trips in seconds </span><span>  Curated Hotels & Services  </span></h2>
+</section>
+<div class="hero__background">
+    <div class="calendar-review__wrapper">
+        <section class="calendar">
+            <div class="calendar__header">
+                <span>Build your vacation</span>
+                <span>Select up to 12 destinations!</span>
+            </div>
+            <div>
+                @await Component.InvokeAsync("UC_TM_ResponsiveCalendar")
+            </div>
+        </section>
+        <section class="review">
+            <div class="review__wrapper">
+                <span class="review__number">@Model.NumComments Customer Reviews</span>
+                <div class="review__stars">
+                    <div class="review__stars-wrapper">
+                        <div class="review__empty-stars"></div>
+                        <div class="review__full-stars" style="width:@(w)px"></div>
+                    </div>
+                    <span class="review__rating">@overAllAvg out of 5 stars</span>
+                </div>
+                <a class="review__link" href="/review">LEARN MORE</a>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col p-0">
+        <div class="col-12 pt-2 pb-2 mb-1 bg-white">
+            <a class="btn btn-outline-light btn-block text-left pl-0 pr-0 aBtnTabFx border-0" role="button" href="/Review">
+                <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com/siteassets/m/reviews_icon.gif", _appsettings.Value.ApplicationSettings.SiteName) /><span class="blueText pl-2">Vacations Packages' Reviews</span>
+            </a>
+        </div>
+        <div class="col-12 pt-2 pb-2 mb-1 bg-white">
+            <a class="btn btn-outline-light btn-block text-left pl-0 pr-0 aBtnTab border-0" data-toggle="collapse" role="button" aria-expanded="false" href="#dvMvisitContainer" aria-controls="dvMvisitContainer">
+                <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/m/recentlyviewed_icon.gif" /><span class="blueText pl-2">Recently viewed</span>
+
+            </a>
+            <div id="dvMvisitContainer" class="dvMvisit col-12 pl-0 pr-0 pt-3 pb-3 collapse bg-white"></div>
+        </div>
+    </div>
+</div>
+<div class="row dvMbHighAttrac">
+    <div class="col-12 text-uppercase mb-2 mt-2 pt-3 pb-2 font-weight-bold dvMbHightAttrTitle">highlights & attractions</div>
+    <div class="col-12 " style="padding: 0;">
+        <div class="row">
+            @{Int32 cou = 0;
+                foreach (var high in Model.listHighlights)
+                {
+                    if (cou == 8)
+                    {
+                            @Html.Raw("</div>")
+                            @Html.Raw("<div class='row collapse' id='dvHighlightsHide'>")
+                    }
+                        <div class="col-6 position-relative mb-3">
+                            <a href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,high.UrlPath)>
+                                <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@high.ImagePath" />
+                                <div class="col-12 position-absolute fixed-bottom text-center pl-3 dvHighTitle text-white font-weight-bold">@high.Title</div>
+                            </a>
+                        </div>
+                    cou++;
+                }
+            }
+        </div>
+    </div>
+    <div class="row w-100 mt-3 mb-3">
+        <div class="col-12 text-center">
+            <a class="btn dvMoreHighBtn collapsed" role="button" data-toggle="collapse" data-target="#dvHighlightsHide" aria-expanded="false" aria-controls="dvHighlightsHide">More Highlights & Attractions</a>
+        </div>
+    </div>
+</div>
+<div class="row dvMbFeatItin">
+    <div class="col-12 mt-2 mb-2 font-weight-bold dvMbFeatItinTit">BEST Europe VACATION PACKAGES</div>
+    @foreach (var f in Model.objAllItineraries.Take(1))
+    {
+        <div class="col-12 pl-0 pr-0 dvMbFeatImg">
+            <img class="img-fluid  delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(f.IMG_500Path_URL)" />
+        </div>
+        <div class="col-12">
+            <h6 class="mt-3 dvMbFeatItinTl font-weight-bold"><a asp-controller="Package" asp-action="Index" asp-route-Country="@(f.CountryName.Replace(" ", "_"))" asp-route-id="@(f.PDLID)" asp-route-name="@(f.PDL_Title.Replace(' ', '_'))">@(f.PDL_Title)</a></h6>
+            <h6 class="noOfNights mb-0">@(f.STP_NumOfNights) nights from <span>@String.Format("{0:c0}", f.STP_Save)*</span></h6>
+            <span class="spCustRev font-weight-bold">@(f.NoOfFeed) Customer Reviews</span>
+        </div>
+        <div class="col-12 dvMbFeatItinDesc mt-2 mb-2">@Html.Raw(f.SPD_Description)</div>
+        <div class="col-12 dvMbFeatItinIncl">
+            <p><b>Included:</b></p>
+            <ul class="p-0 pl-3">
+                @{
+                    string[] includeList = f.PDL_Content.Split("\r\n");
+                    foreach (var i in includeList)
+                    {
+                            <li>@Html.Raw(i)</li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-12 mb-3">
+            <a asp-controller="Package" asp-action="Index" asp-route-Country="@(f.CountryName.Replace(' ', '_'))" asp-route-id="@(f.PDLID)" asp-route-name="@(f.PDL_Title.Replace(' ', '_'))" class="btn  btn-block dvMbCustomIt">Customize It</a>
+        </div>
+
+    }
+
+</div>
+<div class="row">
+    <div class="col-12 text-uppercase pt-3 pb-0 dvMbOtherFeatTtl">other vacation packages</div>
+    <div class="col pl-0 pr-0">
+        <div class="carousel slide pl-4 pr-4" data-ride="carousel" data-interval="false" id="otherFeat">
+            <ol class="carousel-indicators">
+                <li data-target="#otherFeat" class="active" data-slide-to="0"></li>
+                <li data-target="#otherFeat" data-slide-to="1"></li>
+                <li data-target="#otherFeat" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                @{
+                    int count = 0;
+                    foreach (var item in Model.objAllItineraries.Skip(1).Take(3))
+                    {
+                            <div class="carousel-item @(count == 0 ? "active" : "") col-12 otherEachSlide pt-4 pl-0 pr-0">
+                                <a asp-controller="Package" asp-action="Index" asp-route-Country="@(item.CountryName.Replace(" ", "_"))" asp-route-id="@(item.PDLID)" asp-route-name="@(item.PDL_Title.Replace(" ", "_"))">
+                                    <div class="row mx-auto justify-content-center dvMSlideProduct">
+                                        <div class="col-4 p-2">
+                                            <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(item.IMG_Path_URL)" alt="@item.PDL_Title" title="@item.PDL_Title" />
+                                        </div>
+                                        <div class="col-8 p-2">
+                                            <p>@item.PDL_Title</p>
+                                            <p>@item.STP_NumOfNights nights from <b>@String.Format("{0:c0}", item.STP_Save)</b></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        ++count;
+                    }
+
+                }
+            </div>
+            <a class="carousel-control-prev" href="#otherFeat" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon text-dark" aria-hidden="true">&lsaquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#otherFeat" role="button" data-slide="next">
+                <span class="carousel-control-next-icon text-dark" aria-hidden="true">&rsaquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+<div class="row dvSuggestedItin">
+    <div class="col-12 mt-2 mb-2 font-weight-bold text-uppercase border-bottom pb-2 dvMbSuggItinTtl">suggested vacation packages</div>
+    <div class="col-12 w-100 pl-0 pr-0">
+        @{ Int32 kt = 0;
+            foreach (var sugg in Model.objAllItineraries.Skip(4).Take(Model.objAllItineraries.Count - 4))
+            {
+                if (kt == 5)
+                {
+                        @Html.Raw("</div>");
+                        @Html.Raw("<div class='collapse pl-0 pr-0' id='dvSuggItinHide'>");
+                }
+                    <div class="row dvEachSuggest m-0 pb-2 pt-2 border-bottom">
+                        <div class="col-5 pr-2">
+                            <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(sugg.IMG_Path_URL)" title="@sugg.PDL_Title" alt="@sugg.PDL_Title" />
+                        </div>
+                        <div class="col-7 pl-0 pr-2 dvSuggItinInfo collapsed" data-toggle="collapse" data-target="#dvSugg@(sugg.PDLID)" role="button" aria-expanded="false">
+                            <span class="spSuggItinTtl d-block font-weight-bold">@sugg.PDL_Title</span>
+                            <span class="spNoOfNights d-block pt-3">@sugg.STP_NumOfNights nights from <b>@string.Format("{0:c0}", sugg.STP_Save)</b></span>
+                            <span class="spCustRev d-block">@sugg.NoOfFeed Customer Reviews</span>
+                        </div>
+                        <div class="collapse col" id="dvSugg@(sugg.PDLID)">
+                            <div class="col-12 dvMbSuggItinDesc pl-0 pr-0 pt-4">@Html.Raw(sugg.SPD_Description)</div>
+                            <div class="col-12 pl-0 pr-0 dvMbSuggItinIncl">
+                                <p><b>Included:</b></p>
+                                <ul class="p-0 pl-3">
+                                    @{
+                                    string[] includelist = sugg.PDL_Content.Split("\r\n");
+                                    foreach (var i in includelist)
+                                    {
+                                                <li>@Html.Raw(i)</li>
+                                    }
+                                    }
+                                </ul>
+                            </div>
+                            <a asp-controller="Package" asp-action="Index" asp-route-Country="@(sugg.CountryName.Replace(" ", "_"))" asp-route-id="@(sugg.PDLID)" asp-route-name="@(sugg.PDL_Title.Replace(" ", "_"))" class="btn  btn-block dvSuggViewIt">View it</a>
+                        </div>
+                    </div>
+
+                ++kt;
+            }
+        }
+    </div>
+    <div class="col-12 text-center">
+        <button class="btn dvMoreSuggBtn" data-toggle="collapse" data-target="#dvSuggItinHide" aria-expanded="false" aria-controls="dvSuggItinHide">See More Vacation Packages </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 pl-0 pr-0 ">
+        <a class="btn-block text-left mt-0 mb-0 dvNavLink collapsed" data-toggle="collapse" data-target="#dvMostPopItin" role="button" aria-expanded="false" aria-controls="dvMostPopItin">Popular Vacation Packages</a>
+        <div class="collapse col" id="dvMostPopItin">
+            @{
+                foreach (var most in Model.listReviews)
+                {
+                        <div class="row ml-0 mr-0 mt-2 mb-2 pt-2 pb-2 bg-white">
+                            <div class="col-4 pl-2 pr-2">
+                                <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(most.IMG_Path_URL)" title="@most.PDL_Title" alt="@most.PDL_Title" />
+                            </div>
+                            <div class="col-8 pl-0 pr-2">
+                                <span class="d-block font16 blueText font-weight-bold">@most.PDL_Title</span>
+                                <span class="greyText">@most.STP_NumOfNights nights from <b class="orgClr">@string.Format("{0:c0}", most.STP_Save)</b></span>
+                            </div>
+                            <div class="col-12 p-2 font14">
+                             @if (most.Comment != null)
+                            {
+                                    <p>@Html.Raw(Utilities.FormatCustomerComment(most.Comment, 120))</p>
+                            }
+                                <a class="d-block aColor" asp-route="PackageByo_Route" asp-route-Country="@most.CountryName.Replace(' ', '_')" asp-route-name="@most.PDL_Title.Replace(' ','_')" asp-route-id="@most.PDLID">Read more - See this traveler's itinerary</a>
+                                <span class="d-block bg-white ">Traveled on: @most.dep_date.Date.ToString("MMMM dd")</span>
+                                <a asp-controller="Package" asp-action="Index" asp-route-Country="@most.CountryName.Replace(" ", "_")" asp-route-id="@(most.PDLID)" asp-route-name="@most.PDL_Title.Replace(" ", "_")" style="color:black" class="btn spMviewprice btn-block pl-5 pr-5 mt-4">View Price</a>
+                            </div>
+                        </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="col-12 pl-0 pr-0">
+        <a class="btn-block mt-0 mb-0 text-left dvNavLink collapsed" data-toggle="collapse" data-target="#dvSpotlights" role="button" aria-expanded="false">Spotlights on</a>
+        <div class="collapse col-12 pl-1 pr-1" id="dvSpotlights">
+
+            @{
+                foreach (var spot in Model.listSpotLights.GroupBy(x => x.CountryNA, (key, g) => g.Select(x => x).First()).ToList())
+                {
+                        <div class="card mt-2 mb-2">
+                            <div class="card-header">
+                                @spot.CountryNA
+                            </div>
+                            <ul class="list-group ">
+                                @{
+                                foreach (var item in Model.listSpotLights.Where(x => x.CountryNA == spot.CountryNA))
+                                {
+                                            <li class="list-group-item pl-0 pr-0">
+                                                <a asp-controller="Package" asp-action="Index" asp-route-Country="@item.CountryNA.Replace(" ", "_")" asp-route-id="@(item.PDLID)" asp-route-name="@item.PDL_Title.Replace(" ", "_")">
+                                                    <div class="row m-1" style="color: #006;">
+                                                        <div class="col-8 pr-0">@item.PDL_Title</div>
+                                                        <div class="col-2 pr-0">from</div>
+                                                        <div class="col-2 pr-0 pl-1 orgClr">@String.Format("{0:c0}", item.STP_Save)<span class="orgClr">*</span></div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                }
+                                }
+                            </ul>
+                        </div>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div class="col-12 pl-0 pr-0">
+        <a class="btn-block  mt-0 mb-0text-left dvNavLink collapsed" data-toggle="collapse" data-target="#dvExplore" role="button" aria-expanded="false">Explore Europe</a>
+        <div class="collapse col-12 pl-2 pr-2" id="dvExplore">
+            <div class="card">
+                <div class="card-header text-capitalize dvLinksTtle">top countries</div>
+                <ul class="list-group">
+                    @{
+                        foreach (var exp in Model.listexploreDest.Take(13))
+                        {
+                                <li class="list-group-item"><a asp-route="Vacation_Route" asp-route-placeName="@exp.CouNA.Replace(' ','_')" style="color: #006;">@exp.CouNA</a></li>
+                        }
+                    }
+                    <li class="list-group-item"><a href="@String.Format("/destinations")" style="color: #006;">>>see all countries</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-header text-capitalize dvLinksTtle">top cities</div>
+                <ul class="list-group">
+                    @{
+                        foreach (var cty in Model.listexploreDest.Take(13))
+                        {
+                                <li class="list-group-item"><a asp-route="Vacation_Route" asp-route-placeName="@cty.CtyNA.Replace(' ','_')" style="color: #006;">@cty.CtyNA</a></li>
+                        }
+                    }
+                    <li class="list-group-item"><a href="@String.Format("/destinations")" style="color: #006;">>>see all cities</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    @section Scripts{
+
+        <environment include="Development">
+            <script src="~/js/home_m/mb.java.tmedHome.js"></script>
+            <script src="~/js/smallcalendar/dm.java.TM.Calendar.js" asp-append-version="true"></script>
+            <script src="~/js/smallcalendar/dt.java.TM.CommonFunctions.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="~/js/home_m/mb.java.tmedHome.min.js"></script>
+            <script src="~/js/smallcalendar/dm.smallcalendar.min.js" asp-append-version="true"></script>
+        </environment>
+    }
+</div>

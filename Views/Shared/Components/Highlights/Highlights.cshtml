@@ -1,0 +1,31 @@
+﻿@using static MVC_TMED.Models.ViewModels.Country_T5ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+
+@{
+    if (Model.listHighligts.Count > 0)
+    {
+        Int32 count3 = 0;
+        <ul id="highlightList" class="highlight__list">
+
+            @foreach (var p in Model.listHighligts)
+            {
+                count3++;
+                string hideClass = count3 > 8 ? "highlight__item-hidden" : "";
+
+                <li class="@($"highlight__item {hideClass}")">
+                    <a class="highlight__link" href="@($"{_appsettings.Value.ApplicationSettings.SiteName}{@p.STX_URL}")">
+                        <img class="highlight__img lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@p.STX_PictureURL" alt="View of @p.STX_Title" />
+                        <h3 class="highlight__name">@p.STX_Title</h3>
+                    </a>
+                </li>
+            }
+        </ul>
+        if (count3 > 8)
+        {
+            <button id="highlightToggleButton" class="highlight__button" aria-expanded="false">Show More</button>
+        }
+    }
+}

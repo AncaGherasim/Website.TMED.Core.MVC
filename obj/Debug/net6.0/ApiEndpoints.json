@@ -1,0 +1,1961 @@
+[
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "SqlFaqCms",
+    "RelativePath": "api",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cmsId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[MVC_TMED.Models.FaqQR, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPoiByPlaceId",
+    "RelativePath": "api/activities/getpoibyplaceid",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeId",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.PoiByPlace, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "getSSToursByCity",
+    "RelativePath": "api/activities/getsstoursbycity",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "city",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.GetTours, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetAllPackages",
+    "RelativePath": "api/all_packages/getallpackages",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeId",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.CountryPackages, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetAllPlaces",
+    "RelativePath": "api/all_packages/getallplaces",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeIds",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.AllPacksPlaces, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "Get_AWS_Suggestions",
+    "RelativePath": "api/amzcloud_suggestions",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "q",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.String, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetCheckBooking",
+    "RelativePath": "api/checkbooking",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "checkBookingParams",
+        "Type": "MVC_TMED.Models.CheckBookingParams",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.BookingTest, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GET_SS",
+    "RelativePath": "api/cityactivities",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sSData",
+        "Type": "MVC_TMED.Models.SSData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.Activity, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetCitySSData",
+    "RelativePath": "api/cityssdata",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sSData",
+        "Type": "MVC_TMED.Models.SSData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetCityTripsTakenFeeds",
+    "RelativePath": "api/citytripstakenfeeds",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sSData",
+        "Type": "MVC_TMED.Models.SSData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetAllCombinePackages",
+    "RelativePath": "api/combine/getallcombinepackages",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeId",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.CountryPackages, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPacksIds",
+    "RelativePath": "api/combine/getpacksids",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetCountryPlaces",
+    "RelativePath": "api/countryplaces",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "countryId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetDestinationCities",
+    "RelativePath": "api/destinationcities",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetEDDestinos",
+    "RelativePath": "api/eddestinos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sSData",
+        "Type": "MVC_TMED.Models.SSData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CLS_PlaceValues, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "Emailtous",
+    "RelativePath": "api/emailtous",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "emailinfo",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "LogErrorCalendar",
+    "RelativePath": "api/errorcalendarlogs",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "logErrorRequest",
+        "Type": "MVC_TMED.Models.CalendarError",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetFindAllPackages",
+    "RelativePath": "api/findallpackages",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plcID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "plcNA",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "filter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "OrderVal",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNo",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "FindItinPacks",
+    "RelativePath": "api/finditinpacks",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeId",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ViewModels.CountryPackages, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetFooterDestinations",
+    "RelativePath": "api/footerdestinations",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "AWSExpediaReviewHotel",
+    "RelativePath": "api/getdataexpediareviewhotel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pdlId",
+        "Type": "MVC_TMED.Models.BaseObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetDiscountPromotion",
+    "RelativePath": "api/getdiscountrecords/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetIdsTripsTakenFeeds",
+    "RelativePath": "api/getidstripstakenfeeds",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "countryId",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetNoOfPacksFeaturedItinByPlaceId",
+    "RelativePath": "api/getnoofpacksfeatureditin/{placeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.TotalPacks, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackCustFeeds",
+    "RelativePath": "api/getpackcustfeeds",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "packId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CustomerFeedback, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "Getreviews",
+    "RelativePath": "api/getreviews",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "page",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "score",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CustomReviews, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetTripsTakenFeeds",
+    "RelativePath": "api/gettripstakenfeeds",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ids",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.TripsTakenCustomerFeedback, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "HeaderShowRecently",
+    "RelativePath": "api/headerrecentlyviewed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userID",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GeHomeTownAirport",
+    "RelativePath": "api/hometownairport",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "getImagesByProdID",
+    "RelativePath": "api/hotel/imagesbyprodid/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.HotelImages, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelInfoDetails",
+    "RelativePath": "api/hotelinfodetails",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "HotelID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetListOfAllHotels",
+    "RelativePath": "api/hotels/allhotelsbyplace",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plcID",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ListOfHotels, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetListOfAllHotelsMap",
+    "RelativePath": "api/hotels/allhotelsbyplacemap",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "place",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.ListOfHotelsMap, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelsByFacilityID",
+    "RelativePath": "api/hotels/gethotelsbyfacilityid",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fid",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "plcID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "TnGi",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.NameObject, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelsFacilities",
+    "RelativePath": "api/hotels/gethotelsfacilities",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plcID",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.HotelsFacilities, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelMapAddress",
+    "RelativePath": "api/hotels/hotelmapaddress",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlaceId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNo",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "RatingsList",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "HotelName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ReviewsList",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CityZone",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Sort",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "FirstLoad",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isRatings",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isFavorite",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isHotelName",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isCityZone",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelPlacePackagesIdeas",
+    "RelativePath": "api/hotels/hotelplacepackagesideas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelsOnPagePgs",
+    "RelativePath": "api/hotels/hotelsonpagepgs",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlaceId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNo",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "RatingsList",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "HotelName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ReviewsList",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CityZone",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Sort",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "FirstLoad",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isRatings",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isFavorite",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isHotelName",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isCityZone",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelsSummaryNews",
+    "RelativePath": "api/hotels/hotelsonplace",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "getHotelsParams",
+        "Type": "MVC_TMED.Models.GetHotelsParams",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.HotelsSummaryNew, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetHotelsOnPlaceMap",
+    "RelativePath": "api/hotels/hotelsonplacemap",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlaceId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNo",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "RatingsList",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "HotelName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ReviewsList",
+        "Type": "System.String[]",
+        "IsRequired": false
+      },
+      {
+        "Name": "CityZone",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Sort",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "FirstLoad",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isRatings",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isFavorite",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isHotelName",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "isCityZone",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPOIHotels",
+    "RelativePath": "api/hotels/poihotels",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plcId",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.POI, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetMrktEmail",
+    "RelativePath": "api/marketingsubscriber",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "mrkSubscriptionParams",
+        "Type": "MVC_TMED.Models.MrkSubscription",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetMostPop",
+    "RelativePath": "api/mostpop",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetNoOfSEOItinByPlaceID",
+    "RelativePath": "api/noofseoitinbyplaceid",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PlaceItem",
+        "Type": "MVC_TMED.Models.BaseObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Int32",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "DepCity",
+    "RelativePath": "api/packages/depcity",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.DepCity, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetCustomerFeedbacks",
+    "RelativePath": "api/packages/getcustomerfeedbacks/{packId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "packId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CountryNoOfFeedbacks, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "sqlRelPackByPackID",
+    "RelativePath": "api/packages/getdatarelpacks/{packID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "packID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "SqlThisCMS",
+    "RelativePath": "api/packages/getdatathiscms/{cmsid}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cmsid",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CMS_WebsiteContent, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "getItineraryContentFromPriceId",
+    "RelativePath": "api/packages/itinerarycontentfrompriceid/{PriceId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PriceId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.NameObject, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageActivities",
+    "RelativePath": "api/packages/packageactivities/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PackageRelatedPlacesInfo_WithCMSs, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageCMSs",
+    "RelativePath": "api/packages/packagecmss/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PackageRelatedPlacesInfo_WithCMSs, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageFeedbacks",
+    "RelativePath": "api/packages/packagefeedbacks/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PackageRelatedPlacesInfo_WithCMSs, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageHotels",
+    "RelativePath": "api/packages/packagehotels/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PackageRelatedPlacesInfo_WithCMSs, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageRelatedPlacesInfo_WithCMSs",
+    "RelativePath": "api/packages/packagerelatedplacesinfo_withcmss/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PackageRelatedPlacesInfo_WithCMSs, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPicsForPacks",
+    "RelativePath": "api/packages/picsforpacks/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PicsPackage, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPriceHistory",
+    "RelativePath": "api/packages/priceshistory/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PriceGuidance, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "PriorCity",
+    "RelativePath": "api/packages/priorcity",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.PriorCity, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "SamplePrices",
+    "RelativePath": "api/packages/sampleprices/{itinID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "itinID",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CLS_SamplePriceValues, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageTop1FeedbackByPackId",
+    "RelativePath": "api/packages/top1feedbackbypackid/{packID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "packID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "MVC_TMED.Models.Feedbacks",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "webservGetComponentList",
+    "RelativePath": "api/packages/webservcomponentlist",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "queryString",
+        "Type": "System.Dynamic.ExpandoObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "webservGetTransportationOption",
+    "RelativePath": "api/packages/webservtransportationoption",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stringForm",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPackageSamplePrice",
+    "RelativePath": "api/packagesampleprice",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "packID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "PackInfoXID",
+    "RelativePath": "api/packinfoxid/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetPacksFindItinPage",
+    "RelativePath": "api/packsfinditinpage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "findItinPage",
+        "Type": "MVC_TMED.Models.FindItinPage",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "ShowRecently",
+    "RelativePath": "api/recentlyviewed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userID",
+        "Type": "MVC_TMED.Models.PlaceObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetRecommHotels",
+    "RelativePath": "api/recommhotels/{plcID}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plcID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.RecommHotels, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetRecommSS",
+    "RelativePath": "api/recommss/{plcID}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "plcID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.RecommSS, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetTop3FeedbackByCounId",
+    "RelativePath": "api/top3feedbackbycounid/{counID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "counID",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[System.Object, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetTopSellersPackFeedback",
+    "RelativePath": "api/topsellerspackfeedback",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "placeID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "sqlEDDestinos",
+    "RelativePath": "api/vacations/eddestinos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[MVC_TMED.Models.CLS_PlaceValues, MVC_TMED, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "getVisitHistoryXunitraq",
+    "RelativePath": "api/visithistoryxunitraq",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "utVisits",
+        "Type": "MVC_TMED.Models.utVisitHistory",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MVC_TMED.API.PackagesController",
+    "Method": "GetWebAnnouncement",
+    "RelativePath": "api/webannouncement",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

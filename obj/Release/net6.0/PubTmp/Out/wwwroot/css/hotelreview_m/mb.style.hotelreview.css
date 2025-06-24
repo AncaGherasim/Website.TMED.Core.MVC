@@ -1,0 +1,151 @@
+﻿/*Display Style for Expedia Review Popup*/
+.dvHotRevScores {
+    margin-bottom: 30px;
+}
+
+.pbar {
+    width: 100%;
+    height: 0.5rem;
+}
+
+.review_comment {
+    border-bottom: 1px solid #666;
+    margin: 5px 0 15px;
+}
+
+.review_comment_overall {
+    margin-bottom: 15px;
+}
+
+    .review_comment_overall div {
+        margin-bottom: 5px;
+    }
+
+    .review_comment_overall span:nth-child(1) {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #006;
+        display: block;
+    }
+
+    .review_comment_overall span:nth-child(2) {
+        font-size: 1.2em;
+    }
+
+.prop-pbar {
+    margin-bottom: 0.5rem;
+}
+
+.review_rating {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+    .review_rating div:nth-child(1) {
+        flex: 75%;
+        color: #006;
+        font-size: 1.3em;
+        font-weight: 700;
+    }
+
+    .review_rating div:nth-child(2) {
+        flex: 25%;
+        text-align: right;
+    }
+
+.review_comment_name, .review_comment_title {
+    color: #006;
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.review_comment_date {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.review_comment_reason {
+    color: #666;
+    text-transform: capitalize;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.review_comment_companion, .review_comment_text {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+    .review_comment_companion span {
+        text-transform: capitalize;
+    }
+
+.scRating {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    color: #006;
+    font-weight: 700;
+}
+
+    .scRating span:nth-child(1) {
+        flex: 75%;
+    }
+
+    .scRating span:nth-child(2) {
+        flex: 25%;
+        text-align: right;
+    }
+
+.review__comments-button {
+    text-align: center;
+}
+
+.show_more-button {
+    padding: 10px;
+    display: inline-flex;
+    border: 0.15em solid #cccfdb;
+    border-radius: 0.5em;
+    background-color: #fff;
+    color: #006;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+progress {
+    border: 0;
+    border-radius: 5px;
+}
+
+progress::-moz-progress-bar {
+    border-radius: 5px;
+    background-color: #005aeb;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 5px;
+    background-color: #005aeb;
+}
+#revTrustYou .modal-header {
+    background-color: #039;
+}

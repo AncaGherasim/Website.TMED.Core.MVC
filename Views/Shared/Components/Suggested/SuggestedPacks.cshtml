@@ -1,0 +1,102 @@
+﻿@using static MVC_TMED.Models.ViewModels.Country_T5ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+@{
+    DateTime sixMonthsAgo = DateTime.Today.AddMonths(-6);
+    String butLabel = Model.isGuided ? "See all Guided " + Model.placeNA + " Vacations trips" : "See all " + Model.placeNA + " Vacation trips";
+    if (Model.otherFeatured.Count > 0)
+    {
+        Int32 count2 = 0;
+        <ul id="suggestedList" class="suggested__list">
+
+            @foreach (var p in Model.otherFeatured)
+            {
+                count2++;
+                string hideClass = count2 > 5 ? "suggested__item-hidden" : "";
+
+                <li class="@($"suggested__item {hideClass}")">
+                    <a class="suggested__link" href="@($"{_appsettings.Value.ApplicationSettings.SiteName}/{Model.placeNA.Replace(" ", "_").ToLower()}/{p.PDL_Title.Replace(" ", "_").ToLower()}/package-{p.PDLID}")">
+                        <div class="suggested__img">
+                            <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com{p.IMG_500Path_URL}")" alt="View of @p.PDL_Title" />
+                        </div>
+                        <div class="suggested__info">
+                            <div class="suggested__wrapper">
+                                <div>
+                                    <h3>@p.PDL_Title</h3>
+                                    <div>
+                                        <p class="guide__description">
+                                            @if (!string.IsNullOrEmpty(p.PDL_Description) && !Utilities.RegexHelper.MyRegex.IsMatch(p.PDL_Description))
+                                            {
+                                                @Utilities.TruncateText(p.PDL_Description, 150)
+                                            }
+                                            else
+                                            {
+                                                @Utilities.TruncateHtmlText(p.SPD_Description, 150)
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="suggested__price">
+                                    @if (p.STP_Save != 9999)
+                                    {
+                                        <span>@p.PDL_Duration nights from</span>
+                                        <span>@($"{p.STP_Save:C0}*")</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@p.PDL_Duration nights itinerary</span>
+                                    }
+                                </div>
+                            </div>
+
+                            @{
+                                if (!string.IsNullOrEmpty(p.Comment))
+                                {
+                                    var comment = (p.Comment.Length > 150 ? p.Comment.Substring(0, 150) + "..." : p.Comment);
+                                    <div class="suggested__wrapper">
+                                        <div>
+                                            <p class="suggested__comment"><b style="color:grey;">Review:</b> @comment</p>
+                                            @if (@p.TvlDate <= sixMonthsAgo)
+                                            {
+                                                <p class="suggested__date">Traveled on: @p.TvlDate.ToString("MM/dd/yyyy")</p>
+                                            }
+                                        </div>
+                                        @if (p.NoOfFeed > 0)
+                                        {
+                                            <div class="suggested__score">
+                                                <div class="suggested__stars" style="--rating: @Decimal.Round(p.OverAllScore, 1)" aria-label="Rated @Decimal.Round(p.OverAllScore, 1) out of 5"></div>
+                                                <div>@p.NoOfFeed reviews</div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    @if (p.NoOfFeed > 0)
+                                    {
+                                        <div class="suggested__wrapper__row">
+                                            <div class="suggested__score__row">
+                                                <div class="suggested__stars__row" style="--rating: @Decimal.Round(p.OverAllScore, 1)" aria-label="Rated @Decimal.Round(p.OverAllScore, 1) out of 5"></div>
+                                                <div>@p.NoOfFeed reviews</div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+                            }
+
+                        </div>
+                    </a>
+                </li>
+            }
+        </ul>
+        if (count2 > 5)
+        {
+            <button id="suggestedButton" class="suggested__button" aria-expanded="false"><span>See All</span> @Model.placeNA Vacations Packages</button>
+            <a id="suggestedLink" class="suggested__explore-link" href="@($"/search?q={@Model.placeNA.Replace(" ", "_")}")">Explore all our @Model.placeNA trips</a>
+        }
+    }
+}

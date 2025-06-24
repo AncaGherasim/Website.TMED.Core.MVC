@@ -1,0 +1,162 @@
+﻿@model MVC_TMED.Models.ViewModels.TripsTakenViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/tripstaken/dt.style.tripstaken.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/tripstaken/dt.style.tripstaken.css" />
+    </environment>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+}
+
+<div class="dvbContainer">
+    <div class="dvbpageTitle"><div>Trips Taken by Travelers Like You</div><br style="clear:both;" /></div>
+    <div class="dvbRoundBoxes">
+        <div style="border-bottom:1px solid #4d68ad;margin-bottom:8px;padding-bottom:8px;">
+            <span class="CountryTitle">Trips Taken to @Model.destination   </span>
+            <span id="spTotalFeeds" class="feedsNumber"></span>
+        </div>
+        <div class="dvbLeftColW">
+            <hr id="topPosition" class="grayLine" />
+            <div class="blueTitle_16">Filter by City/Area</div>
+            <div class="feedsNumber" style="text-align:center;">included in reviewed itineraries</div>
+            <hr class="grayLine" />
+            @if (Model.citiesRankLessThan5.Count > 0)
+            {
+                <div id="dvRankCities" style="margin:15px 0px;white-space: nowrap;">
+                    @foreach (var c in Model.citiesRankLessThan5)
+                    {
+                        <div id=@String.Format("city{0}", @c.Id) style="margin:5px 3px 1px 2px;white-space: nowrap;">
+                            <a href=@String.Format("#dotCity{0}", @c.Id) class="falsecheck_1 falsechecked_1" id=@String.Format("falsedotCity{0}", @c.Id)>@c.Name</a>
+                            <input type="checkbox" name=@String.Format("dotCity{0}", @c.Id) id=@String.Format("dotCity{0}", @c.Id) style="display:none" value="@c.Id" checked="checked" />
+                        </div>
+                    }
+                    <span class="spSeeAll" style="margin-top:20px;" onclick="ShowOrHideDiv();"> &gt;&gt; Show cities only in @Model.CountryName</span>
+                </div>
+            }
+            @if (Model.citiesFromCountry.Count > 0)
+            {
+                <div id="dvCountryCities" style="margin:15px 0px;display:none;white-space: nowrap;">
+                    @foreach (var c in Model.citiesFromCountry)
+                    {
+                        <div id=@String.Format("ccity{0}", @c.Id) style="margin:5px 3px 1px 2px;white-space: nowrap;">
+                            <a href=@String.Format("#dotCCity{0}", @c.Id) class="falsecheck_1 falsechecked_1" id=@String.Format("falsedotCCity{0}", @c.Id)>@c.Name</a>
+                            <input type="checkbox" name=@String.Format("dotCCity{0}", @c.Id) id=@String.Format("dotCCity{0}", @c.Id) style="display:none" value="@c.Id" checked="checked" />
+                        </div>
+                    }
+                    <span class="spSeeAll" style="margin-top:20px;" onclick="ShowOrHideDiv();"> &gt;&gt; Show cities only in @Model.CountryName</span>
+                </div>
+            }
+            <hr class="gradLine" />
+            <div class="resetFilters">Reset Filters</div>
+            <hr class="gradLine" />
+            @if (Model.topPacks.Count > 0)
+            {
+                <div style="margin:15px 0px 0px 0px;">
+                    <span class="spBgBlue txt_16_white">@Model.CountryName: Most Popular</span>
+                    @foreach (var p in Model.topPacks)
+                    {
+                        <div style="margin:8px 0px;">
+                            <div style="float:left; margin-right:5px;width:50px;height:50px;">
+                                <img id=@String.Format("img{0}", @p.PDLID) alt="" src="https://pictures.tripmasters.com/siteassets/d/ajax-loader_50_50.gif" data="@p.IMG_Path_URL.ToLower()" />
+                            </div>
+                            <div style="float:left;width:180px">
+                                <div style="color:Navy;">@p.PDL_Title</div>
+                                @if (p.STP_Save != 9999)
+                                {
+                                    <span class="spPackLength">from </span><span class="spPackPrice">@p.STP_Save.ToString("C0")*</span><br style="clear:both;" />
+                                }
+                                <a asp-controller="Package" asp-action="Index" asp-route-id="@p.PDLID" asp-route-name="@p.PDL_Title.Replace(" ", "_").ToLower()" asp-route-country="@p.CountryName.Replace(" ", "_").ToLower()">
+                                    See details
+                                </a>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <hr class="grayLine" />
+                    }
+                </div>
+                <span class="spSeeAll" style="padding-bottom:15px;" onclick=@String.Format("window.location.href='{0}/{1}/vacations'", _appsettings.CurrentValue.ApplicationSettings.SiteName,@Model.CountryName.Replace(" ", "_").ToLower())> &gt;&gt; Explore @Model.CountryName </span>
+            }
+            <hr class="gradLine" />
+            @if (Model.countryHighlights.Count > 0)
+            {
+                <div style="margin:15px 0px;">
+                    <span class="spBgBlue txt_16_white">@Model.CountryName highlights</span>
+                    @foreach (var h in @Model.countryHighlights)
+                    {
+                        
+                        <div id="selA" style="word-wrap:break-word; padding:6px 0px 6px 6px; color:navy; cursor:pointer; text-decoration:none;" class="Text_12">
+                            <span style="color:#f60;">&#9658;</span><a href="@String.Format("{0}{1}", _appsettings.CurrentValue.ApplicationSettings.SiteName, h.STX_URL.Replace("%20", "_"))">@h.STX_Title</a>
+                        </div>
+                    }
+                </div>
+                <hr class="gradLine" />
+            }
+            @if (Model.packs.Count > 0)
+            {
+                <div style="margin:15px 0px 0px 0px; padding-bottom:10px;">
+                    <span class="spBgBlue txt_16_white">Europe Best-Sellers</span>
+                    @foreach (var p in @Model.packs)
+                    {
+                        <div class="dvEachPackLeftW">
+                            <span style="color:#f60;float:left;padding-top:4px;">&#9658;</span>
+                            <div>
+                                <a asp-controller="Package" asp-action="Index" asp-route-id="@p.PDLID" asp-route-name=@String.Format("{0}", @p.PDL_Title.Replace(" ", "_")) asp-route-country=@String.Format("{0}", @p.CountryName.Replace(" ", "_"))>
+                                    @p.PDL_Title
+                                </a>
+                                @if (p.STP_Price != 9999)
+                                {
+                                    <span class="spPackLength">from </span><span class="spPackPrice">@p.STP_Price.ToString("C0")*</span><br style="clear:both;" />
+                                }
+                            </div>
+                            <br style="clear:both;" />
+                        </div>
+                    }
+                </div>
+                <hr class="gradLine" />
+            }
+
+        </div>
+        <div class="dvbRightColW">
+            <div class="spBgLinearBlue">
+                <span class="spBgLinearBlue">
+                    <span class="spWRadioButton">Show:</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderRR" name="orderValue" value="1" checked="checked" />Most Recent Reviewed</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderPH" name="orderValue" value="2" />Price - Highest First</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderPL" name="orderValue" value="3" />Price - Lowest First</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderNN" name="orderValue" value="4" />Number of nights</span>
+                    <br style="clear:both;" />
+                </span>
+            </div>
+            <div id="idPages1"></div>
+            <div style="color:#f60;font-style:italic;padding:5px 5px 10px 5px;font-size:12px;">Each package is fully customizable according to your needs. Price will vary according to your dates, hotels and activities chosen.</div>
+            <div id="dvWait" style="padding:30px; height:400px; margin-top:50px;" align="center"></div>
+            <div id="dvResp" style="display:none;" align="left"></div>
+            <div id="idPages2"></div>
+        </div>
+        <br style="clear:both;" />
+    </div>
+</div>
+
+<input id="FeedsIdsPages" name="FeedsIdsPages" type="hidden" value="" />
+<input id="TotalFeeds" name="TotalFeeds" type="hidden" value="" />
+<input id="CountryId" name="CountryId" type="hidden" value="@Model.CountryId" />
+<input id="Place" name="Place" type="hidden" value="@Model.NoCountryId" />
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/js/tripstaken/java.TripsTaken.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/tripstaken/java.TripsTaken.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

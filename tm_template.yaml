@@ -1,0 +1,13 @@
+Metadata:
+  DeploymentType: "ECS"
+  DeveloperOnDev: "mstoian@tripmasters.com"
+  DeveloperOnProd: "mstoian@tripmasters.com,jranz@tripmasters.com"
+  ECS:
+    Development:
+      ProjectName: "Website_TMED_Core_MVC_Build"
+      ClusterName: "websites"
+      ServiceName: "website-service"
+    Production:
+      ProjectName: "Website_TMED_Core_MVC_Build"
+      ClusterName: "Websites-TM"
+      ServiceName: "Websites-TM-Service"

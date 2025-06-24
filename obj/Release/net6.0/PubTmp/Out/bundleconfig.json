@@ -1,0 +1,618 @@
+[
+  {
+    "outputFileName": "wwwroot/js/cms/cms.min.js",
+    "inputFiles": [
+      "wwwroot/js/cms/java.CMS_javaScript_Optimized.js",
+      "wwwroot/js/cms/java.CMS_javaScriptLinks.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/jq_second/jq_second.min.js",
+    "inputFiles": [
+      "wwwroot/js/jq_second/jquery.BubblePopup-1.1.src.js",
+      "wwwroot/js/jq_second/jquery.cookie.js",
+      "wwwroot/js/jq_second/jquery.extjasoncookie-0.2.js",
+      "wwwroot/js/jq_second/jquery.form.js",
+      "wwwroot/js/jq_second/jquery.json-2.2.js",
+      "wwwroot/js/jq_second/jquery.nicescroll.js",
+      "wwwroot/js/jq_second/jquery.popupWindow.js",
+      "wwwroot/js/jq_second/jquery.prettyPhoto.js",
+      "wwwroot/js/jq_second/jquery.skroller.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/site/deskTopLayout.js",
+      "wwwroot/js/site/java_utInit.js",
+      "wwwroot/js/site/dt.java.CommonFunctions.js",
+      "wwwroot/js/site/dt.java.date.format.js",
+      "wwwroot/js/site/dt.java.scrollable.js",
+      "wwwroot/js/site/dt.java.simplepagination.js",
+      "wwwroot/js/site/Base.js",
+      "wwwroot/js/site/moment.js",
+      "wwwroot/js/site/dt.java.MrktEmailSubscriber.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site/java_utInit.min.js",
+    "inputFiles": [
+      "wwwroot/js/site/java_utInit.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/tmedsite.min.css",
+    "inputFiles": [
+      "wwwroot/css/tmedsite.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/smallcalendar/smallcalendar.min.js",
+    "inputFiles": [
+      "wwwroot/js/smallcalendar/dt.java.TM.Calendar.js",
+      "wwwroot/js/smallcalendar/dt.java.TM.CommonFunctions.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/t21-29/t21_29.min.js",
+    "inputFiles": [
+      "wwwroot/js/t21-29/dt.java.1.tabpriceguide.support.min.js",
+      "wwwroot/js/t21-29/dt.java.2.tabpriceguide.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/hotelist/dt.java.hotelsoncity.min.js",
+    "inputFiles": [
+      "wwwroot/js/hotelist/dt.java.hotelsoncity.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/t21/dt.java.template21.min.js",
+    "inputFiles": [
+      "wwwroot/js/t21/dt.java.template21.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/t24-26/dt.java.template24_26.min.js",
+    "inputFiles": [
+      "wwwroot/js/t24-26/dt.java.template24_26.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/home/dt.java.HomePage.min.js",
+    "inputFiles": [
+      "wwwroot/js/home/dt.java.HomePage.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/hotelist_m/mb.java.hotelist.min.js",
+    "inputFiles": [
+      "wwwroot/js/hotelist_m/mb.java.hotelist.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/ct4/dt.java.t4countrypage.min.js",
+    "inputFiles": [
+      "wwwroot/js/ct4/dt.java.t4countrypage.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/cms/cms.min.css",
+    "inputFiles": [
+      "wwwroot/css/cms/css.CMS_htmlEditor.css",
+      "wwwroot/css/cms/css.CMS_HTMLOptimized.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/ct4/dt.style.T4Country.min.css",
+    "inputFiles": [
+      "wwwroot/css/ct4/dt.style.T4Country.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/home/home.min.css",
+    "inputFiles": [
+      "wwwroot/css/home/dt.style.tmedHomePage.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/hotelist/dt.style.hotelsoncity.min.css",
+    "inputFiles": [
+      "wwwroot/css/hotelist/dt.style.hotelsoncity.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/hotelist/jquery.paginate.min.css",
+    "inputFiles": [
+      "wwwroot/css/hotelist/jquery.paginate.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/hotel/dt.style.hotelPage.min.css",
+    "inputFiles": [
+      "wwwroot/css/hotel/dt.style.hotelPage.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/hotel/hotel.min.js",
+    "inputFiles": [
+      "wwwroot/js/hotel/dt.java_hotelpage.js",
+      "wwwroot/js/hotel/dt.java.pgwslider.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/site/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site/dt.style.BYO_2014.css",
+      "wwwroot/css/site/dt.style.Calendar.css",
+      "wwwroot/css/site/dt.style.Calendar_carrousel.css",
+      "wwwroot/css/site/dt.style.Texts.css",
+      "wwwroot/css/site/dt.style.subscription.css",
+      "wwwroot/css/site/dt.style.TM_SiteStyle.css",
+      "wwwroot/css/site/dt.style.Style.css",
+      "wwwroot/css/site/dt.style.TM-ui-autocomplete.css",
+      "wwwroot/css/site/dt.style.simplepagination.css",
+      "wwwroot/css/site/dt.style.scrollable.css",
+      "wwwroot/css/site/dt.style.prettyPhoto.css",
+      "wwwroot/css/site/dt.style.jquery.alerts.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/t21/dt.style.t21.min.css",
+    "inputFiles": [
+      "wwwroot/css/t21/dt.style.t21.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/t24-26/dt.style.t24-26.min.css",
+    "inputFiles": [
+      "wwwroot/css/t24-26/dt.style.t24-26.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/activities_m/mb.style.activities.min.css",
+    "inputFiles": [
+      "wwwroot/css/activities_m/mb.style.activities.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/activities_m/mb.java.activities.min.js",
+    "inputFiles": [
+      "wwwroot/js/activities_m/mb.java.activities.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/findcuspack_m/mb.java.findcuspack.min.js",
+    "inputFiles": [
+      "wwwroot/js/findcuspack_m/mb.java.findcuspack.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/gpgp2/dt.style.gp2page.min.css",
+    "inputFiles": [
+      "wwwroot/css/gpgp2/dt.style.gp2page.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/dt.style.tmsite.min.css",
+    "inputFiles": [
+      "wwwroot/css/dt.style.tmsite.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/home_m/mb.style.ui-autocomplete.min.css",
+    "inputFiles": [
+      "wwwroot/css/home_m/mb.style.ui-autocomplete.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/ct4_m/mb.style.countryt4.min.css",
+    "inputFiles": [
+      "wwwroot/css/ct4_m/mb.style.countryt4.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/gpgp2_m/mb.java.gp2page.min.js",
+    "inputFiles": [
+      "wwwroot/js/gpgp2_m/mb.java.gp2page.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/home_m/mb.java.tmedHome.min.js",
+    "inputFiles": [
+      "wwwroot/js/home_m/mb.java.tmedHome.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/t21_m/mb.script.t21.min.js",
+    "inputFiles": [
+      "wwwroot/js/t21_m/mb.script.t21.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/t21_m/mb.style.t21.min.css",
+    "inputFiles": [
+      "wwwroot/css/t21_m/mb.style.t21.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/gpgp2_m/mb.style.gp2page.min.css",
+    "inputFiles": [
+      "wwwroot/css/gpgp2_m/mb.style.gp2page.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/bestVacations/dt.style.bestVacations.min.css",
+    "inputFiles": [
+      "wwwroot/css/bestVacations/dt.style.bestVacations.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/ct4_m/mb.java.countryt4.min.js",
+    "inputFiles": [
+      "wwwroot/js/ct4_m/mb.java.countryt4.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/home_m/mb.style.tmedSite.min.css",
+    "inputFiles": [
+      "wwwroot/css/home_m/mb.style.tmedSite.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/interest/interest.min.js",
+    "inputFiles": [
+      "wwwroot/js/interest/interest.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/contactUs/dt.style.contactUs.min.css",
+    "inputFiles": [
+      "wwwroot/css/contactUs/dt.style.contactUs.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/contactUs/dt.script.contactUs.min.js",
+    "inputFiles": [
+      "wwwroot/js/contactUs/dt.script.contactUs.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/dest/dt.java.destinations.min.js",
+    "inputFiles": [
+      "wwwroot/js/dest/dt.java.destinations.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/hotelsmap/dt.java.poi-mapgoogle.min.js",
+    "inputFiles": [
+      "wwwroot/js/hotelsmap/dt.java.poi-mapgoogle.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/hotelsmap/jquery.nicescroll.min.js",
+    "inputFiles": [
+      "wwwroot/js/hotelsmap/jquery.nicescroll.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/activities/dt.style.activities.min.css",
+    "inputFiles": [
+      "wwwroot/css/activities/dt.style.activities.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/activities/dt.java.citySS.min.js",
+    "inputFiles": [
+      "wwwroot/js/activities/dt.java.citySS.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/activities/dm.style.activities.min.css",
+    "inputFiles": [
+      "wwwroot/css/activities/dm.style.activities.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/activities/dm.java.activities.min.js",
+    "inputFiles": [
+      "wwwroot/js/activities/dm.java.activities.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tripstaken/java.TripsTaken.min.js",
+    "inputFiles": [
+      "wwwroot/js/tripstaken/java.TripsTaken.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/tripstaken/dt.style.tripstaken.min.css",
+    "inputFiles": [
+      "wwwroot/css/tripstaken/dt.style.tripstaken.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/findcuspack/dt.java.findcuspack.min.js",
+    "inputFiles": [
+      "wwwroot/js/findcuspack/dt.java.findcuspack.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/allcountpacks/dt.java.countryAllPacks.min.js",
+    "inputFiles": [
+      "wwwroot/js/allcountpacks/dt.java.countryAllPacks.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/allcountpacks/dt.style.countryallpacks.min.css",
+    "inputFiles": [
+      "wwwroot/css/allcountpacks/dt.style.countryallpacks.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/combinecou/dt.java.CombineCou.min.js",
+    "inputFiles": [
+      "wwwroot/js/combinecou/dt.java.CombineCou.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/gpgp2/dt.java.gp2page.min.js",
+    "inputFiles": [
+      "wwwroot/js/gpgp2/dt.java.gp2page.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/custfeeds/dt.java.customerfeeds.min.js",
+    "inputFiles": [
+      "wwwroot/js/custfeeds/dt.java.customerfeeds.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/custfeeds/dt.style.custfeeds.min.css",
+    "inputFiles": [
+      "wwwroot/css/custfeeds/dt.style.custfeeds.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/checkbook/dt.java.CheckBookingForReview.min.js",
+    "inputFiles": [
+      "wwwroot/js/checkbook/dt.java.CheckBookingForReview.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/checkbook/dt.style.checkbookreview.min.css",
+    "inputFiles": [
+      "wwwroot/css/checkbook/dt.style.checkbookreview.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/byo/B.css_byoItinerary.min.css",
+    "inputFiles": [
+      "wwwroot/css/byo/B.css_byoItinerary.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/gp3/dt.style.tmedGP3_City.min.css",
+    "inputFiles": [
+      "wwwroot/css/gp3/dt.style.tmedGP3_City.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/gp3-City/dt.java.tmedGP3City.min.js",
+    "inputFiles": [
+      "wwwroot/js/gp3-City/dt.java.tmedGP3City.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/gp3City_m/mb.style.tmedGP3City.min.css",
+    "inputFiles": [
+      "wwwroot/css/gp3City_m/mb.style.tmedGP3City.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/byo/B.java.byoItinerary.min.js",
+    "inputFiles": [
+      "wwwroot/js/byo/B.java.byoItinerary.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/gp3Area_m/mb.style.tmedGP3Area.min.css",
+    "inputFiles": [
+      "wwwroot/css/gp3Area_m/mb.style.tmedGP3Area.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/gp3-BestVacations/dt.java.tmedGP3_BestVacations.min.js",
+    "inputFiles": [
+      "wwwroot/js/gp3-BestVacations/dt.java.tmedGP3_BestVacations.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/gp3-BestVacations_m/mb.java.gp3BestVacationsMob.min.js",
+    "inputFiles": [
+      "wwwroot/js/gp3-BestVacations_m/mb.java.gp3BestVacationsMob.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/gp3BestVacations_m/mb.style.gp3BestVacations_Mob.min.css",
+    "inputFiles": [
+      "wwwroot/css/gp3BestVacations_m/mb.style.gp3BestVacations_Mob.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tours/dt.java.tours.min.js",
+    "inputFiles": [
+      "wwwroot/js/tours/dt.java.tours.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tours_m/mb.java.toursMob.min.js",
+    "inputFiles": [
+      "wwwroot/js/tours_m/mb.java.toursMob.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/tours/dm.style.tours.min.css",
+    "inputFiles": [
+      "wwwroot/css/tours/dm.style.tours.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/byo_m/mb.java.byoitinerary.min.js",
+    "inputFiles": [
+      "wwwroot/js/byo_m/mb.java.byoitinerary.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/byo_m/mb.style.byo.min.css",
+    "inputFiles": [
+      "wwwroot/css/byo_m/mb.style.byo.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/cfb_m/mb.style.cfb.min.css",
+    "inputFiles": [
+      "wwwroot/css/cfb_m/mb.style.cfb.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/cfb_m/mb.java.cfb.min.js",
+    "inputFiles": [
+      "wwwroot/js/cfb_m/mb.java.cfb.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/trips/dt.java.trips.min.js",
+    "inputFiles": [
+      "wwwroot/js/trips/dt.java.trips.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/trips_m/mb.java.tripsMob.min.js",
+    "inputFiles": [
+      "wwwroot/js/trips_m/mb.java.tripsMob.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/trips/dm.style.trips.min.css",
+    "inputFiles": [
+      "wwwroot/css/trips/dm.style.trips.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/holidays/dt.java.Holidays.min.js",
+    "inputFiles": [
+      "wwwroot/js/holidays/dt.java.Holidays.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/holidays_m/mb.java.HolidaysMob.min.js",
+    "inputFiles": [
+      "wwwroot/js/holidays_m/mb.java.HolidaysMob.js"
+    ]
+  },
+
+  {
+    "outputFileName": "wwwroot/css/holidays/dm.style.Holidays.min.css",
+    "inputFiles": [
+      "wwwroot/css/holidays/dm.style.Holidays.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/travel/dm.style.travel.min.css",
+    "inputFiles": [
+      "wwwroot/css/travel/dm.style.travel.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/visit/dt.style.tmas.visit.min.css",
+    "inputFiles": [
+      "wwwroot/css/visit/dt.style.tmas.visit.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/travel/dt.java.travel.min.js",
+    "inputFiles": [
+      "wwwroot/js/travel/dt.java.travel.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/travel_m/mb.java.travel_Mob.min.js",
+    "inputFiles": [
+      "wwwroot/js/travel_m/mb.java.travel_Mob.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/gp3-City_m/mb.java.gp3city.min.js",
+    "inputFiles": [
+      "wwwroot/js/gp3-City_m/mb.java.gp3city.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/allpacks/mb.java.allpacks.min.js",
+    "inputFiles": [
+      "wwwroot/js/allpacks/mb.java.allpacks.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/t24-26_m/mb.java.t24-26.min.js",
+    "inputFiles": [
+      "wwwroot/js/t24-26_m/mb.java.t24-26.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site_m/mb.java.searchhead.min.js",
+    "inputFiles": [
+      "wwwroot/js/site_m/mb.java.searchhead.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/cruise/dt.java.cruise.min.js",
+    "inputFiles": [
+      "wwwroot/js/cruise/dt.java.cruise.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/cruise/dt.style.cruise.min.css",
+    "inputFiles": [
+      "wwwroot/css/cruise/dt.style.cruise.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/hotelist_m/mb.style.hotelist.min.css",
+    "inputFiles": [
+      "wwwroot/css/hotelist_m/mb.style.hotelist.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/combinecou_m/mb.java.combine.min.js",
+    "inputFiles": [
+      "wwwroot/js/combinecou/dt.java.CombineCou.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/reponsive/dtmb.style.ResponsiveStyle.min.css",
+    "inputFiles": [
+      "wwwroot/css/reponsive/dtmb.style.ResponsiveStyle.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/site_responsive/site_responsive.min.css",
+    "inputFiles": [
+      "wwwroot/css/site_responsive/dm.site.responsive.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/visit/dm.java.visit.min.js",
+    "inputFiles": [
+      "wwwroot/js/visit/dm.java.visit.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/tripstaken_m/mb.java.tripstaken.min.js",
+    "inputFiles": [
+      "wwwroot/js/tripstaken_m/mb.java.tripstaken.js"
+    ]
+  }
+
+]

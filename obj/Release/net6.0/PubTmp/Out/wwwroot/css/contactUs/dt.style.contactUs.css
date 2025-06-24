@@ -1,0 +1,12 @@
+﻿.dvbContainer{width:980px}
+input[type=checkbox] {display:none}
+input[type=checkbox] + label{background-image:url(https://pictures.tripmasters.com/siteassets/d/checkbox.gif); background-position:0 -1px; background-repeat: no-repeat; padding-left:22px;font-size:12px;float:none;}
+input[type=checkbox]:checked + label{background-image:url(https://pictures.tripmasters.com/siteassets/d/checkbox.gif); background-position:0 -26px; background-repeat: no-repeat; padding-left:22px;}
+select::-ms-expand{display:none;background-image:url(https://pictures.tripmasters.com/siteassets/d/byo_arrowblue2.gif);background-position:right center;background-repeat:no-repeat;border:1px solid #dedede;width:65%; border-radius:2px;padding:5px 0 5px 8px;}
+.dest{padding:5px 20px 10px 20px;padding-top:20px;}
+.errMsg{background-color: #ff4d63; border-radius:2px; color:white; font-size:10px; font-weight:normal; padding:1.5px;}
+.warning{background:white url(https://pictures.tripmasters.com/siteassets/d/warning-small.png) no-repeat 95.5% center; border:2px solid #8b0300;}
+
+@media only screen and (max-width:800px) {
+    .dvbContainer{width:100%!important;background: white;}
+    }

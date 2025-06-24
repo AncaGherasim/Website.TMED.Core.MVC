@@ -1,0 +1,275 @@
+﻿@model MVC_TMED.Models.ViewModels.CustomerFeedbackViewModel;
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@section Styles
+    {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/custfeeds/dt.style.custfeeds.css" />
+        <link href="~/css/site/dt.style.simplepagination.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/custfeeds/dt.style.custfeeds.min.css" />
+        <link href="~/css/site/dt.style.simplepagination.css" rel="stylesheet" />
+    </environment>
+}
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+}
+
+<div class="dvbContainer">
+    <div class="dvbpageTitle"  style="margin-top: 10px;"><div>Customer Reviews</div><br style="clear:both;" /></div>
+    <div class="dvbRoundBoxes">
+        <div>
+            <span class="packTitle">
+                <a style="color:#f60;outline-style:none;" asp-controller="Package" asp-action="Index" asp-route-id="@Model.packInfo[0].PDLID" asp-route-name="@Model.packInfo[0].PDL_Title.Replace(' ', '_')" asp-route-country="@Model.packInfo[0].CountryName.Replace(' ', '_')">
+                    @Model.packInfo[0].PDL_Title
+                </a>
+            </span>
+        </div>
+
+        <div style="margin-bottom:5px;border-bottom:1px solid #036;font-size:12px">
+            <div style="float:left;position:relative;margin:0px 0px 20px 4px;">
+
+                @{
+                    Int32 total = 0;
+                    Int32 totalRating = 0;
+                    Decimal overAllAvg = 0;
+                    Decimal defw = 120;
+                    Decimal w = 0;
+                    if (@Model.scores.Count > 0)
+                    {
+                        total = @Model.scores.Sum(x => x.Id);
+                        totalRating = Model.scores.Where(x => x.Name != "NotRated").Sum(x => x.Id);
+                        if (total > 0)
+                        {
+                            overAllAvg = @Model.scores.Where(x => x.Name != "NotRated").Sum(x => Decimal.Parse(x.Name) * x.Id / totalRating);
+                            overAllAvg = Decimal.Round(overAllAvg, 1);
+                            w = Decimal.Round((overAllAvg * defw) / 5, 1);
+                        }
+                    }
+                }
+                <div class="emptyStars" style=@String.Format("width:{0}px;margin-top:-5px;", defw)></div>
+                <div id="dvStarsOverAll" class="fullStars" style=@String.Format("width:{0}px;margin-top:-5px;", w)></div>
+                <div id="dvNoOfFeeds" style="position:absolute;left:125px;width:150px;top:5px;font-weight:bold;font-size:12px;margin-top:-3px;">
+                    @total.ToString("0") Reviews
+                </div>
+
+                <div class="darkText" style="padding-bottom:2px!important;margin:26px 0 0 4px;">@overAllAvg out of 5 stars</div>
+
+                <div style="margin:15px 0 0 4px;">
+                    @for (Int32 i = 5; i >= 1; i--)
+                    {
+                        Int32 currentVal = -1;
+                        string current = "";
+                        Decimal perCent = 0;
+                        Int32 totFedsRat = -1;
+                        if (@Model.scores.Count > 0)
+                        {
+                            current = i.ToString();
+                            if (@Model.scores.Where(x => x.Name == current).ToList().Count > 0)
+                            {
+                                currentVal = @Model.scores.Where(x => x.Name == current).ToList().First().Id;
+                                w = Decimal.Round((currentVal * defw) / total);
+                                perCent = Decimal.Round(((decimal)currentVal * (decimal)100) / (decimal)total);
+                            }
+                            else
+                            {
+                                currentVal = 0;
+                                w = 0;
+                                perCent = 0;
+                            }
+                        }
+                        string _star = "star";
+                        if (i > 1)
+                        {
+                            _star = "stars";
+                        }
+                        string fullBardisplay = "";
+                        if (perCent < 1)
+                        {
+                            fullBardisplay = " none";
+                        }
+                        else
+                        {
+                            fullBardisplay = "block";
+                        }
+                        <div class="dvfilter" id="@i">
+                            <input id=@String.Format("totFedsRat{0}", i) name="totFedsRat" type="hidden" value="@currentVal" />
+                            <div class="starNum">@i @_star </div>
+                            <div class="emptyBar" style=@String.Format("width:{0}px;", defw)></div>
+                            <div class="fullBar" style=@String.Format("width:{0}px;display:{1}", w, fullBardisplay)></div>
+                            <div class="perCent" style="padding-bottom:2px!important;">@perCent% </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div id="dvRight">
+                <div style="margin:45px 0 25px 0;">Share your thoughts with other travelers</div>
+                <a href="https://www.tripmasters.com/checkbookingforreview"><span class="submitButton" id="submitBotton">Write a Review</span></a>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+
+        <div class="dvbLeftColW">
+            @if (Model.mostPop.Count > 0)
+            {
+                <div style="padding-bottom:15px;">
+                    <hr class="grayLine" />
+                    <span class="blueTitle_16">Reviews for Similar Packages</span>
+                    <hr class="grayLine" />
+                    @foreach (var p in Model.similarPacks)
+                    {
+                        <div class="dvEachPackLeftW">
+                            <span style="color:#f60;float:left;padding-top:4px;">&#9658;</span>
+                            <div>
+                                <a style="color:#f60;outline-style:none;" asp-controller="Package" asp-action="Index" asp-route-id="@p.PDLID" asp-route-name="@p.PDL_Title.Replace(' ', '_')" asp-route-country="@Model.packInfo[0].CountryName.Replace(' ', '_')">
+                                    @p.PDL_Title
+                                </a>
+                                <span class="spPackLength">
+                                    <a style="color:#666!important;padding:0px;" asp-controller="CustomerFeedback" asp-action="Index" asp-route-country="@Model.packInfo[0].CountryName" asp-route-pack="@p.PDL_Title.Replace(" ","_")" asp-route-id="@p.PDLID">
+                                        (@p.NoOfFeed Reviews)
+                                    </a>
+                                </span>
+                                <br style="clear:both;" />
+                            </div>
+                            <br style="clear:both;" />
+                        </div>
+                    }
+
+                </div>
+                <hr class="gradLine" />
+                <div style="margin:15px 0px 0px 0px;">
+                    <span class="spBgBlue txt_16_white">@Model.packInfo[0].CountryName: Most Popular</span>
+                    @foreach (var p in @Model.mostPop)
+                    {
+                        <div style="margin:8px 0px;font-size:12px">
+                            <div style="float:left; margin-right:5px;width:50px;height:50px;">
+                                <img id=@String.Format("img{0}", @p.PDLID) alt="" src="https://pictures.tripmasters.com/siteassets/d/ajax-loader_50_50.gif" data="@p.IMG_Path_URL.ToLower()" />
+                            </div>
+                            <div style="float:left;">
+                                <div style="color:Navy;width:180px;">@p.PDL_Title</div>
+                                @if (p.STP_Save != 9999)
+                                {
+                                    <span class="spPackLength">from </span><span class="spPackPrice">@p.STP_Save.ToString("C0")*</span><br style="clear:both;" />
+                                }
+                                <a style="color:#2020bc;text-decoration:underline;font-size:11px;" asp-controller="Package" asp-action="Index" asp-route-id="@p.PDLID" asp-route-name="@p.PDL_Title.Replace(' ', '_')" asp-route-country="@p.CountryName.Replace(' ', '_')">
+                                    See details
+                                </a>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <hr class="grayLine" />
+                    }
+                </div>
+                <span class="spSeeAll" style="padding-bottom:15px;">
+                    <a asp-route="Vacation_Route" asp-route-placeName="@Model.packInfo[0].CountryName.Replace(" ","_")">
+                        &gt;&gt; Explore @Model.packInfo[0].CountryName
+                    </a>
+                </span>
+            }
+            <hr class="gradLine" />
+            @if (Model.placeHighlights.Count > 0)
+            {
+                <div style="margin:15px 0px;">
+                    <span class="spBgBlue txt_16_white">@Model.packInfo[0].CountryName highlights</span>
+                    @foreach (var h in Model.placeHighlights)
+                    {
+                        <div id="selA" style="word-wrap:break-word; padding:6px 0px 6px 6px; color:navy; cursor:pointer; text-decoration:none;" class="Text_12">
+                            <span style="color:#f60;">&#9658;</span><a href=@String.Format("{0}{1}",_appsettings.CurrentValue.ApplicationSettings.SiteName,h.STX_URL.ToLower().Replace(" ","_"))>@h.STX_Title</a>
+                        </div>
+                    }
+                </div>
+                <hr class="gradLine" />
+            }
+
+            @if (Model.bestSell.Count > 0)
+            {
+                <div style="margin:15px 0px 0px 0px; padding-bottom:10px;">
+                    <span class="spBgBlue txt_16_white">Europe Best-Sellers</span>
+                    @foreach (var p in Model.bestSell)
+                    {
+                        <div class="dvEachPackLeftW">
+                            <span style="color:#f60;float:left;padding-top:4px;">&#9658;</span>
+                            <div>
+                                <a asp-controller="Package" asp-action="Index" asp-route-id="@p.PDLID" asp-route-name="@p.PDL_Title.Replace(' ', '_')" asp-route-country="@p.CountryName.Replace(' ', '_')">
+                                    @p.PDL_Title
+                                </a>
+                                @if (p.STP_Price != 9999)
+                                {
+                                    <span class="spPackLength">from </span><span class="spPackPrice">@p.STP_Price.ToString("C0")*</span><br style="clear:both;" />
+                                }
+                            </div>
+                            <br style="clear:both;" />
+                        </div>
+                    }
+                </div>
+                <hr class="gradLine" />
+            }
+        </div>
+
+        <div class="dvbRightColW" style="font-size:12px;">
+            <div class="spBgLinearBlue">
+                <span class="spBgLinearBlue">
+                    <span class="spWRadioButton">Show:</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderRR" name="orderValue" value="1" checked="checked" />Most Recent Reviewed</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderPH" name="orderValue" value="2" />Price - Highest First</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderPL" name="orderValue" value="3" />Price - Lowest First</span>
+                    <span class="spWRadioButton"><input type="radio" id="orderNN" name="orderValue" value="4" />Number of nights</span>
+                    <br style="clear:both;" />
+                </span>
+            </div>
+            <div class="dvPagin"><span class="dvPaginas"></span></div>
+            <div style="color:#f60;font-style:italic;padding:5px 5px 10px 5px;">Each package is fully customizable according to your needs. Price will vary according to your dates, hotels and activities chosen.</div>
+            <hr class="gradLine" />
+            <div class="dvbLighBlueBG" style="margin-bottom:12px;">
+                <div style="padding-left:10px; font-size: 18px;line-height:30px;">
+                    <a style="color: #19255f;outline-style:none;" asp-controller="Package" asp-action="Index" asp-route-id="@Model.packInfo[0].PDLID" asp-route-name="@Model.packInfo[0].PDL_Title.Replace(' ', '_')" asp-route-country="@Model.packInfo[0].CountryName.Replace(' ', '_')">
+                        @Model.packInfo[0].PDL_Title
+                    </a>
+                </div>
+                <div style="padding-left:10px;" id="spTotalFeeds2" class="feedsNumber"></div>
+                <div style="padding-top:1px;">
+                    @if (Model.packInfo[0].STP_save != 9999)
+                    {
+                        <span style="color:#333333;float:left;padding:2px 2px 2px 10px;">
+                            Price for this package starting at
+                        </span>
+                        <span class="spPackPrice">@Model.packInfo[0].STP_save.ToString("C0")*</span>
+                    }
+                    <a class="bookItButton" style="float:right;margin:-4px 10px 8px 0px;" asp-route="Package_Route" asp-route-Country="@Model.packInfo[0].CountryName.Replace(' ', '_')" asp-route-name="@Model.packInfo[0].PDL_Title.Replace(' ', '_')" asp-route-id="@Model.packInfo[0].PDLID">Customize it</a>
+                    <br style="clear:both;" />
+                </div>
+            </div>
+            <hr class="grayLine" />
+            <div id="dvWait" style="padding:30px; height:400px; margin-top:50px;" align="center"></div>
+            <div id="dvResp" style="display:none;" align="left"></div>
+            <div class="dvPagin"><span class="dvPaginas"></span> </div>
+            <div style="text-align:right;margin-top:10px;padding:8px 10px 8px 0;background-color: #dfe4f7;">
+                <span style="padding-right:10px;">Share your thoughts with other travelers</span><a href="https://www.tripmasters.com/checkbookingforreview"><span class="submitButton" id="Span1">Write a Review</span></a>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    <div style="clear:both"></div>
+</div>
+<input id="PackId" name="PackId" type="hidden" value="@Model.packInfo[0].PDLID" />
+<input id="PackPlaces" name="PackPlaces" type="hidden" value="@Model.packInfo[0].PDL_Places" />
+<input id="PackTitle" name="PackTitle" type="hidden" value="@Model.packInfo[0].PDL_Title.Replace(' ', '_')" />
+<input id="PackCountry" name="PackCountry" type="hidden" value="@Model.packInfo[0].CountryName.Replace(' ', '_')" />
+<input id="totalFeeds" name="totalFeeds" type="hidden" value="@Model.scores.Where(x => x. Name != "NotRated").Sum(x => x.Id)" />
+<input id="feedsIdsPages" name="feedsIdsPages" type="hidden" value="" />
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/js/custfeeds/dt.java.customerfeeds.js" asp-append-version="true"></script>
+        <script src="~/js/site/dt.java.simplepagination.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/custfeeds/dt.java.customerfeeds.min.js" asp-append-version="true"></script>
+        <script src="~/js/site/dt.java.simplepagination.js" asp-append-version="true"></script>
+    </environment>
+}

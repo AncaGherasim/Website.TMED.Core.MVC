@@ -1,0 +1,46 @@
+﻿@using MVC_TMED.Infrastructure;
+@model List<MVC_TMED.Models.CustomerFeedback>
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+
+@section Styles {
+    <style type="text/css">
+        .BackgroundGradinet {
+            background: -moz-linear-gradient(to bottom, #f5f7fb, #fff);
+            background: -webkit-linear-gradient(to bottom, #f5f7fb, #fff);
+            background: -o-linear-gradient(to bottom, #f5f7fb, #fff);
+            background: -moz-linear-gradient(to bottom, #f5f7fb, #fff);
+            background: linear-gradient(to bottom, #f5f7fb, #fff);
+        }
+    </style>
+}
+
+@{
+    foreach (var cf in Model)
+    {
+        <div style="padding:20px 0 5px 0;border-bottom:1px solid #999;">
+            <div style="width:150px;min-width:150px;display:table-cell;">
+                @if (cf.OverallScore > 0)
+                {
+                    <span class="darkText">Overall Product Rating</span>
+                    <div style="padding:5px 0 10px 0px;position:relative;">
+                        <img alt="@cf.OverallScore" src=@String.Format("https://pictures.tripmasters.com/siteassets/d/Stars_{0}_Stars.gif", cf.OverallScore) />
+                        <span class="darkText" style="font-weight:normal;padding:0 0 0 8px;position:absolute;margin-top:-2px;">(@cf.OverallScore out of 5)</span>
+                    </div>
+                }
+            </div>
+            <div style="width:450px;display:table-cell;max-width:450px;margin-left:150px;word-wrap:break-word;">
+                @Html.Raw(@Utilities.FormatCustomerComment(cf.PCC_Comment))
+                <div id=@String.Format("dvItinDetail{0}", cf.PCCID) class="itineraryLink" onclick="clkshowItin(@cf.PCCID)">Itinerary details  &#709;</div>
+            </div>
+            <div style="clear:both;"></div>
+            <div id=@String.Format("dvFDinclu{0}", cf.PCCID) class="dvItinInfo Text_Arial12_Light BackgroundGradinet">
+                @Html.Raw(@cf.PCC_Itinerary.Replace("\r\n", "<br>"))
+            </div>
+        </div>
+    }
+}

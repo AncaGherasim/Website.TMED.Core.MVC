@@ -1,0 +1,521 @@
+﻿@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+@model MVC_TMED.Models.ViewModels.CalendarViewModel
+
+@{
+    Layout = null;
+}
+
+
+@*<script src="~/js/byo/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/RubaXa/Sortable/Sortable.min.js"></script>*@
+@*<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+    rel="stylesheet">*@
+<style>
+    #sortable {
+    list-style-type: none;
+    padding: 0;
+    }
+
+    /*.highlight {
+    border: 1px solid red;
+    background-color: #333333;
+    font-weight: bold;
+    font-size: 45px;
+    height: 55px;
+    }*/
+
+    .default {
+    border: 1px solid #DDDDDD;
+    }
+</style>
+
+<div id="hasErr" style="display:none;">@Model.itineraryErr</div>
+<div class="divDateContent">
+    <div>Arrive in @Model.FrstCity on:</div>
+    <script type="text/javascript">
+        inDatePromo != 9999 ? $('#xtxtBYArriving').val(inDatePromo) : '';
+    </script>
+    <div><input type="text" name="xtxtBYArriving" id="xtxtBYArriving" value="mm/dd/yyyy" readonly="readonly" /></div>
+    <br style="clear:both" />
+</div>
+
+<div class="divCityContent">
+    <div>Going to:</div>
+    <div>Staying for:</div>
+    <div>Travel by:</div>
+    <br style="clear:both" />
+</div>
+
+@*<%--Cities list--%>*@
+@{
+    Int32 DropOffCityNo = 0;
+    Int32 hvCar = 0;
+    Int32 hvTRF = 0;
+    string myRgx = "(Transfers|Transfer|Flight)";
+    Int32 ovrNT = 0;
+    Int32 countCTY = 0;
+    Int32 eachSq = 0;
+}
+
+<ul id="sortable">
+    @for (Int32 cty = 0; cty <= @Model.compCity.Count - 1; cty++)
+    {
+        <li id=@String.Format("lisort{0}", @Model.compCity[cty].CitySeq) class="ui-state-default">
+            <div class="dvEachContent" id=@String.Format("dvcity_{0}", @Model.compCity[cty].CitySeq)>
+                <div>
+                    <span class="spNumber">@Model.compCity[cty].CitySeq</span>
+                    @{
+                        switch (@Model.compCity[cty].CitySeq)
+                        {
+                            case "S":
+                            case "E":
+                                {
+                                    @Html.Raw(@String.Format("<span class='spCityName' id=\"{0}\">", @Model.compCity[cty].CitySeq));
+
+                                    if (@Model.compCity[cty].CitySeq == "S")
+                                    {
+                                        <span class="spSEcity">
+                                            &#8224; Must arrive to <b>
+                                                @Model.compCity[cty].City_Name
+                                            </b>
+                                        </span>
+                                        <input type="hidden" name=@String.Format("xsCityNA{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xsCityNA{0}", @Model.compCity[cty].CitySeq)
+                                        value="@Model.compCity[cty].City_Name" style="position: absolute; overflow: hidden;" />
+                                    }
+
+                                    if (@Model.compCity[cty].CitySeq == "E")
+                                    {
+                                        <span class="spSEcity">
+                                            &#8224; Must depart from <b>
+                                                @Model.compCity[cty].City_Name
+                                            </b>
+                                        </span>
+                                        <input type="hidden" name=@String.Format("xsCityNA{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xsCityNA{0}", @Model.compCity[cty].CitySeq)
+                                        value="@Model.compCity[cty].City_Name" style="position: absolute; overflow: hidden;" />
+                                    }
+
+                                    <span class="spCityNameOff" id=@String.Format("dvMove{0}", @Model.compCity[cty].CitySeq)>
+                                        <input type="hidden" name=@String.Format("xsCityID{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xsCityID{0}", @Model.compCity[cty].CitySeq) value="@Model.compCity[cty].City_ID" />
+                                        <input type="hidden" id=@String.Format("xnoCity{0}", @Model.compCity[cty].CitySeq) name=@String.Format("xnoCity{0}", @Model.compCity[cty].CitySeq) value="@Model.compCity[cty].CitySeq" />
+                                        <input type="hidden" id=@String.Format("xsCityAPI{0}", @Model.compCity[cty].CitySeq) name=@String.Format("xsCityAPI{0}", @Model.compCity[cty].CitySeq) value="@_appsettings.CurrentValue.ApplicationSettings.CityHotelVendorAPI" />
+                                    </span>
+
+                                    @Html.Raw("</span>");
+
+                                    break;
+                                }
+                            default:
+                                {
+                                    //string hh = @Model.compCity.Where(x => Int32.TryParse(x.CitySeq, out Int32 ncitySeq)).Max(x => x.CitySeq);
+                                    if (@Model.compCity.Where(x => Int32.TryParse(x.CitySeq, out Int32 ncitySeq)).Max(x => x.CitySeq) != "1")
+                                    {
+                                        <span class="iconTrsh" id=@String.Format("{0}", @Model.compCity[cty].CitySeq) alt="Delete/Trash" title="Remove"></span>
+                                    }
+                                    <span class="iconEdit" id=@String.Format("{0}", @Model.compCity[cty].CitySeq) alt="Edit" title="Edit"></span>
+
+                                    <span class="spCityNameOff" id=@String.Format("dvMove{0}", @Model.compCity[cty].CitySeq)>
+                                        <input type="text" name=@String.Format("xsCityNA{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xsCityNA{0}", @Model.compCity[cty].CitySeq) value="@Model.compCity[cty].City_Name" readonly="readonly" />
+                                        <input type="hidden" name=@String.Format("xsCityID{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xsCityID{0}", @Model.compCity[cty].CitySeq) value="@Model.compCity[cty].City_ID" />
+                                        <input type="hidden" id=@String.Format("xnoCity{0}", @Model.compCity[cty].CitySeq) name=@String.Format("xnoCity{0}", @Model.compCity[cty].CitySeq) value="@Model.compCity[cty].CitySeq" />
+                                        <input type="hidden" id=@String.Format("xsCityAPI{0}", @Model.compCity[cty].CitySeq) name=@String.Format("xsCityAPI{0}", @Model.compCity[cty].CitySeq) value="@_appsettings.CurrentValue.ApplicationSettings.CityHotelVendorAPI" />
+                                    </span>
+
+                                    break;
+                                }
+                        }
+                    }
+                </div>
+
+                <div>
+                    @{
+                        Int32 dt = 3;
+                        string nt = "nights";
+                        string ctyCase = @Model.compCity[cty].CitySeq;
+                        if (Model.eachCity.Count > 0)
+                        {
+                            switch (@Model.compCity[cty].CitySeq)
+                            {
+                                case "S":
+                                case "E":
+                                    {
+                                        dt = 0;
+                                        eachSq = -1;
+                                    break;
+                                }
+                            default:
+                                {
+                                    dt = @Model.eachCity[eachSq].DaysDuration;
+                                    break;
+                                }
+                        }
+                    }
+                    if (dt == 1)
+                    {
+                        nt = "night";
+                    }
+                    if (@Model.compCity[cty].CitySeq == "S" || @Model.compCity[cty].CitySeq == "E")
+                    {
+                        <div style="width:80%">&nbsp;</div>
+                        <input type="hidden" name=@String.Format("xOfNtsTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xOfNtsTxt{0}", @Model.compCity[cty].CitySeq) value="">
+                    }
+                    else
+                    {
+                        <input type="text" name=@String.Format("xOfNtsTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xOfNtsTxt{0}", @Model.compCity[cty].CitySeq) value="@dt @nt">
+                    }
+                    eachSq += 1;
+                    <input name=@String.Format("xselNoOfNts{0}", @Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xselNoOfNts{0}", @Model.compCity[cty].CitySeq) value="@dt">
+                }
+            </div>
+
+            <div>
+                    @{
+                        string typTRF = "";
+                        string valTRF = "";
+                        hvTRF = 0;
+                        if (@Model.compCity[cty].ProductFF1 == "P2P" || @Model.compCity[cty].ProductFF1 == "SO")
+                        {
+                            typTRF = "Air";
+                            valTRF = "A";
+                            hvTRF = 1;
+                        }
+                        else
+                        {
+                            foreach (var tran in Model.compIntrCty)
+                            {
+                                if (@Model.compCity[cty].CitySeq == tran.CitySeq)
+                                {
+                                    hvTRF = 1;
+                                    if (tran.Prod_Type.Trim() == "C")
+                                    {
+                                        typTRF = "Car";
+                                        valTRF = "C";
+                                    }
+                                    else
+                                    {
+                                        if (tran.Prod_Type.Trim() == "T" || tran.Prod_Type.Trim() == "TR" || tran.Prod_Type.Trim() == "G")
+                                        {
+                                            if (tran.Prod_Type.Trim() == "G") //from cookie
+                                            {
+                                                typTRF = "Ground Transportation";
+                                                valTRF = "G";
+                                            }
+                                            else
+                                            {
+                                                if (tran.Prod_Type.Trim() == "T") //from cookie
+                                                {
+                                                    typTRF = "Train|Ferry";
+                                                }
+                                                else
+                                                {
+                                                    typTRF = System.Text.RegularExpressions.Regex.Replace(tran.Prod_KindTitle, myRgx, "").Trim();
+                                                }
+                                                if (typTRF == "Air")
+                                                {
+                                                    valTRF = "A";
+                                                }
+                                                else
+                                                {
+                                                    valTRF = "T";
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            typTRF = "Own";
+                                            valTRF = "W";
+                                        }
+                                }
+                            }
+                        }
+                    }
+
+                    string dropCtys = "";
+                    System.Text.StringBuilder dropCities = new System.Text.StringBuilder();
+                }
+
+                @if (cty < Model.compCity.Count - 1)
+                {
+                    @foreach (var c in Model.citiesTransportOptions.FindAll(op => op.No == @Model.compCity[cty].CitySeq))
+                    {
+                        if (c.Options.Count > 0)
+                        {
+                            string displayTransOpt = "block";
+                            if (DropOffCityNo > 0 && DropOffCityNo > cty + 1)
+                            {
+                                displayTransOpt = "none";
+                            }
+
+                            <div class="dvTransOpt" id=@String.Format("dvRadios{0}", @Model.compCity[cty].CitySeq) style=$"display:{displayTransOpt}">
+                                    @{
+                                        ovrNT = 0;
+
+                                        //check if there is a trasportation option in Options that match typTRF, if not select first option
+                                        Int32 isMatch = 0;
+                                        foreach (var t in c.Options)
+                                        {
+                                            if (typTRF == "")
+                                            {
+                                                typTRF = t.ProductTypeName;
+                                            }
+                                            if (System.Text.RegularExpressions.Regex.IsMatch(t.ProductTypeName, typTRF, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                                            {
+                                                isMatch = 1;
+                                                break;
+                                            }
+                                        }
+
+                                        if (typTRF == "Own" && isMatch == 0)
+                                        {
+                                            isMatch = 2; //special case, the client selected OWN
+                                        }
+
+
+                                        foreach (var t in c.Options)
+                                        {
+                                            ovrNT = (Int32)t.Overnight;
+                                            if (typTRF == "")
+                                            {
+                                                typTRF = t.ProductTypeName;
+                                            }
+                                            string chk = "";
+                                            string namecheck = t.ProductTypeName;
+                                            string rdonChangeX = "rdonChangeX(this.value,\'" + @c.No + "\',\'" + @c.NextPlace.Name.Replace(" ", "") + "\',\'" + @t.ProductTypeName.Replace(" ", "") + "\',\'" + t.ProductFreeField1 + "\')";
+                                            if (System.Text.RegularExpressions.Regex.IsMatch(t.ProductTypeName, typTRF, System.Text.RegularExpressions.RegexOptions.IgnoreCase) || (isMatch == 0 && t.Ranking == 1))
+                                            {
+                                                <span class="spShowChk">
+                                                    <input type="radio" id=@String.Format("xrdselTrans{0}_{1}", @Model.compCity[cty].CitySeq, @t.ProductTypeName.Replace(" ", "")) onclick="@rdonChangeX" name=@String.Format("xrdselTrans{0}", @Model.compCity[cty].CitySeq) value="@t.ProductType" checked="checked" data="@t.ProductFreeField1" />
+                                                    <label for=@String.Format("xrdselTrans{0}_{1}", @Model.compCity[cty].CitySeq,  @t.ProductTypeName.Replace(" ", ""))>@t.ProductTypeName</label>
+                                                </span>
+
+                                                if (DropOffCityNo > 0 && DropOffCityNo > cty + 1)
+                                                {
+                                                    <input type="hidden" id=@String.Format("xrdselTransField{0}", @c.No) name=@String.Format("xrdselTransField{0}", @c.No) value="" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" id=@String.Format("xrdselTransField{0}", @c.No) name=@String.Format("xrdselTransField{0}", @c.No) value="@t.ProductFreeField1" />
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="spHide">
+                                                    <input type="radio" id=@String.Format("xrdselTrans{0}_{1}", @Model.compCity[cty].CitySeq, @t.ProductTypeName.Replace(" ", "")) onclick=@rdonChangeX name=@String.Format("xrdselTrans{0}", @Model.compCity[cty].CitySeq) value="@t.ProductType" data="@t.ProductFreeField1" />
+                                                    <label for=@String.Format("xrdselTrans{0}_{1}", @Model.compCity[cty].CitySeq,  @t.ProductTypeName.Replace(" ", ""))>@t.ProductTypeName</label>
+                                                </span>
+                                            }
+                                            <input type="hidden" id=@String.Format("xOverNts{0}", @c.No) name=@String.Format("xOverNts{0}", @c.No) value="@ovrNT" />
+                                            hvCar = 0;
+                                            @if (t.CarDropOff != null)
+                                            {
+                                                hvCar = 1;
+                                                for (Int32 d = 0; d <= t.CarDropOff.Count - 1; d++)
+                                                {
+                                                    if (d == 0)
+                                                    {
+                                                        dropCtys = t.CarDropOff[d].DOPlaceNo + "|" + t.CarDropOff[d].DOPlaceName;
+                                                        dropCities.Append(t.CarDropOff[d].DOPlaceName + "|" + t.CarDropOff[d].DOPlaceNo);
+                                                    }
+                                                    else
+                                                    {
+                                                        dropCities.Append("$$$" + t.CarDropOff[d].DOPlaceName + "|" + t.CarDropOff[d].DOPlaceNo);
+                                                    }
+                                                }
+                                                <input type="hidden" id=@String.Format("carCities{0}", @Model.compCity[cty].CitySeq) value="@dropCities" />
+                                            }
+                                        }
+
+                                        if (cty < @Model.compCity.Count - 1)
+                                        {
+                                            if (isMatch == 2) //special case, the client selected OWN)
+                                            {
+                                                <span class="spShowChk">
+                                                    <input type="radio" id=@String.Format("xrdselTrans{0}_OnYourOwn2", @Model.compCity[cty].CitySeq) onclick=@String.Format("rdonChangeX(this.value,'{0}','{1}','W','OWN')", @c.No, @c.NextPlace.Name.Replace(" ", "")) name=@String.Format("xrdselTrans{0}", @Model.compCity[cty].CitySeq) value="W" checked="checked" data="OWN" />
+                                                    <label for=@String.Format("xrdselTrans{0}_OnYourOwn", @Model.compCity[cty].CitySeq)>On your Own</label>
+                                                </span>
+
+                                                if (DropOffCityNo > 0 && DropOffCityNo > cty + 1)
+                                                {
+                                                    <input type="hidden" id=@String.Format("xrdselTransField{0}", @c.No) name=@String.Format("xrdselTransField{0}", @c.No) value="" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" id=@String.Format("xrdselTransField{0}", @c.No) name=@String.Format("xrdselTransField{0}", @c.No) value="OWN" />
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="spHide">
+                                                    <input type="radio" id=@String.Format("xrdselTrans{0}_OnYourOwn2", @Model.compCity[cty].CitySeq) onclick=@String.Format("rdonChangeX(this.value,'{0}','{1}','W','OWN')", @c.No, @c.NextPlace.Name.Replace(" ", "")) name=@String.Format("xrdselTrans{0}", @Model.compCity[cty].CitySeq) value="W" data="OWN" />
+                                                    <label for=@String.Format("xrdselTrans{0}_OnYourOwn", @Model.compCity[cty].CitySeq)>On your Own</label>
+                                                </span>
+                                            }
+                                        }
+                                        <span class="spChange" id=@String.Format("spChg{0}", @Model.compCity[cty].CitySeq)>change</span>
+                                        <br style="clear:both" />
+                                }
+                            </div>
+
+                            string dvShowT = "";
+                            if (ovrNT == 1)
+                            {
+                                if (typTRF == "Train")
+                                {
+                                    dvShowT = "block";
+                                }
+                                else
+                                {
+                                    dvShowT = "none";
+                                }
+                                <div id=@String.Format("troverNts{0}Train", @Model.compCity[cty].CitySeq) style="display:@dvShowT;">
+                                    <font color="#FF3300">*</font><font color="#666666"> Overnight Train to @Model.compCity[cty + 1].City_Name</font>
+                                </div>
+                                ovrNT = 0;
+                            }
+
+                            string dvShowC = "";
+                            if (hvCar == 1)
+                            {
+                                if (typTRF == "Car")
+                                {
+                                    dvShowC = "block";
+                                }
+                                else
+                                {
+                                    dvShowC = "none";
+                                }
+
+                                <div id=@String.Format("dvCarSet{0}", @Model.compCity[cty].CitySeq) class="dvCarSet" style=@String.Format("display:{0};", dvShowC)>
+                                    <div class="dvCarVar">
+                                        <label for=@String.Format("xpickupPlaceTxt{0}", @Model.compCity[cty].CitySeq)>Pick-up:</label>
+                                        <input type="text" name=@String.Format("xpickupPlaceTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xpickupPlaceTxt{0}", @Model.compCity[cty].CitySeq) value="Airport" />
+                                        <input name=@String.Format("xpickupPlace{0}", @Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xpickupPlace{0}", @Model.compCity[cty].CitySeq) value="A">
+
+                                        <input type="text" name=@String.Format("xpickupDayTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xpickupDayTxt{0}", @Model.compCity[cty].CitySeq) value="1st. Day" />
+                                        <input name=@String.Format("xpickupDay{0}", @Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xpickupDay{0}", @Model.compCity[cty].CitySeq) value="F">
+
+                                        <br style="clear:both" />
+                                    </div>
+                                    <div class="dvCarVar">
+                                        <label for=@String.Format("xdropoffPlaceTxt{0}", @Model.compCity[cty].CitySeq)>Drop-Off:</label>
+                                        <input type="text" name=@String.Format("xdropoffPlaceTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xdropoffPlaceTxt{0}", @Model.compCity[cty].CitySeq) value="Airport" />
+                                        <input name=@String.Format("xdropoffPlace{0}", @Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xdropoffPlace{0}", @Model.compCity[cty].CitySeq) value="A">
+
+                                        <input type="text" name=@String.Format("xdropoffDayTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xdropoffDayTxt{0}", @Model.compCity[cty].CitySeq) value="Last Day" />
+                                        <input name=@String.Format("xdropoffDay{0}", @Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xdropoffDay{0}", @Model.compCity[cty].CitySeq) value="L">
+
+                                        @{
+                                            string charac = "";
+                                            string[] drpPrts = dropCtys.Split("|");
+                                            charac = ". ";
+                                        }
+
+                                        <input type="text" onchange="carSelected($(this).id)" name=@String.Format("xdropoffCityTxt{0}", @Model.compCity[cty].CitySeq) id=@String.Format("xdropoffCityTxt{0}", @Model.compCity[cty].CitySeq) value="@drpPrts[0]@charac@drpPrts[1]" />
+                                        <input name=@String.Format("xdropoffCity{0}", @Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xdropoffCity{0}", @Model.compCity[cty].CitySeq) value="@drpPrts[0]">
+                                        <br style="clear:both" />
+                                    </div>
+                                </div>
+
+                                                    if (typTRF == "Car")
+                                                    {
+                                                        if (drpPrts[0] == "E")
+                                                        {
+                                                            DropOffCityNo = Model.compCity.Count + 1;
+                                                        }
+                                                        else
+                                                        {
+                                                            DropOffCityNo = Int32.Parse(drpPrts[0]);
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                if (c.No != "E" && c.No != "S" && c.NextPlace.Id != -1)
+                                                {
+                                                    string displayTransOpt = "block";
+                                                    string selTrans = "Own";
+                                                    if (DropOffCityNo > 0 && DropOffCityNo > cty + 1)
+                                                    {
+                                                        displayTransOpt = "none";
+                                                        selTrans = "";
+                                                    }
+
+                                                    <div class="dvRadios" id=@String.Format("dvRadios{0}", @Model.compCity[cty].CitySeq) style=@String.Format("display:{0}", displayTransOpt)>
+                                                        <span class="spShowChk">
+                                                            <input type="radio" id=@String.Format("xrdselTrans{0}_OnYourOwn", @Model.compCity[cty].CitySeq) name=@String.Format("xrdselTrans{0}", @Model.compCity[cty].CitySeq) value="@selTrans" data="" checked="checked" />
+                                                            <label for=@String.Format("xrdselTrans{0}_OnYourOwn", @Model.compCity[cty].CitySeq)>On your Own</label>
+                                                        </span>
+                                                    </div>
+                                                }
+                                            }
+                    }
+                }
+            </div>
+
+            <div>
+                @if (@Model.compCity[cty].CitySeq != "E" && @Model.compCity[cty].CitySeq != "S" && @Model.compCity.Where(x => Int32.TryParse(x.CitySeq, out Int32 ncitySeq)).Max(x => x.CitySeq) != "1")
+                {
+                        <img class="delay" src=@String.Format("https://pictures.tripmasters.com/siteassets/d/fb_Cursor_12-512.png", _appsettings.CurrentValue.ApplicationSettings.SiteName) data-src=@String.Format("https://pictures.tripmasters.com/siteassets/d/fb_Cursor_12-512.png", _appsettings.CurrentValue.ApplicationSettings.SiteName) width="27" height="27" align="absmiddle" alt="" />
+                }
+            </div>
+            <br style="clear:both" />
+
+        </div>
+
+        <div class="dvEachCity" id=@String.Format("RRRdvcity_{0}", @Model.compCity[cty].CitySeq) style="display:none;">
+
+            <div class="dvClear">
+            </div>
+
+        </div>
+        <div class="dvClear">
+        </div>
+
+        @if (@Model.compCity[cty].CitySeq != "E" && @Model.compCity[cty].CitySeq != "S" ){
+            if (Int32.Parse(@Model.compCity[cty].CitySeq) > 0)
+            {
+                countCTY = countCTY + 1;
+            }
+        }
+
+    </li>
+
+    }
+</ul>
+
+
+<div class="dvAddCity">
+    <input type="hidden" id="inpCities" value="@countCTY" />
+    <a id="URLinpCities" href=@String.Format("javascript:qaddCity({0},{1});", @countCTY, @countCTY + 1)>Add another city</a>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("ui-state-default").draggable({ cursor: "move", cursorAt: { top: 56, left: 56 } });
+
+        $("#sortable").sortable({
+            cursor: "move",
+            placeholder: "highlight"
+        });
+        $("#sortable").disableSelection();
+
+        $("#sortable").on("sortupdate", function (event, ui) {
+            var productOrder = $(this).sortable('toArray');
+            var newSeq = [];
+            for (i = 0; i < productOrder.length; i++) {
+                var newid = i + 1;
+                var seqN = productOrder[i].toString().match(/[\d\.]+/g);
+                var inputna = $("[id^='xsCityNA']");
+                $('#lisort' + seqN + '').find(inputna).attr("id", "xsCityNA" + newid);
+                var inputid = $("[id^='xsCityID']");
+                $('#lisort' + seqN + '').find(inputid).attr("id", "xsCityID" + newid);
+            }
+
+            newCitySeq();
+        });
+    });
+</script>

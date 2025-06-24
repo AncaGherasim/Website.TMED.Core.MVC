@@ -1,0 +1,648 @@
+﻿@model MVC_TMED.Models.ViewModels.Country_T5ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+
+@{
+    DateTime sixMonthsAgo = DateTime.Today.AddMonths(-6);
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(@Model.listOverAllFeeds[0].Score, 1);
+    w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    Decimal lowP = 500;
+    Decimal highP = 9000;
+    List<Int64> offerPrices = new List<Int64>();
+    List<String> offerUrl = new List<string>();
+    List<String> TitlePackages = new List<string>();
+    System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("en-US", false).NumberFormat;
+    nfi.NumberDecimalDigits = 0;
+    string pack3Ids = "";
+    var pkC = 0;
+
+    if (Model.listGuided.Count > 0)
+    {
+        foreach (var z in Model.listGuided)
+        {
+            if (z.STP_Save != 999)
+            {
+                offerPrices.Add((Int32)z.STP_Save);
+            }
+            offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", Model.placeNA.Replace(" ", "_").ToLower(), z.PDL_Title.Replace(" ", "_").ToLower(), z.PDLID));
+            TitlePackages.Add(String.Format("{0}", z.PDL_Title));
+            pack3Ids = pack3Ids + z.PDLID + ", ";
+        }
+        if (Model.otherFeatured.Count > 0)
+        {
+            foreach (var o in Model.otherFeatured)
+            {
+                if (o.STP_Save != 9999)
+                {
+                    offerPrices.Add((Int32)o.STP_Save);
+                }
+                offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", Model.placeNA.Replace(" ", "_").ToLower(), o.PDL_Title.Replace(" ", "_").ToLower(), o.PDLID));
+                TitlePackages.Add(String.Format("{0}", o.PDL_Title));
+                if (pkC == 0) { pack3Ids = pack3Ids + o.PDLID + ", "; };
+                if (pkC == 1) { pack3Ids = pack3Ids + o.PDLID; };
+                pkC++;
+            }
+        }
+    }
+    if (offerPrices.Count > 0)
+    {
+        lowP = offerPrices.Min();
+        highP = offerPrices.Max();
+    }
+    if (Model.packFeedCountC <= 0)
+    {
+        Model.packFeedCountC = 1;
+    }
+    if (Model.ListDisplayPositions != null)
+    {
+        foreach (var dsp in Model.ListDisplayPositions)
+        {
+            switch (dsp.SDP_Order)
+            {
+                case 1:
+                    if (dsp.SDP_GroupProdKindID == 2032) { }
+                    break;
+            }
+        }
+    }
+}
+
+@section Styles {
+
+    <environment include="Development">
+        @if (Model.isBYO)
+        {
+            <link rel="stylesheet" href="~/css/responsive_calendar/responsive_calendar.css" />
+        }
+        <link rel="stylesheet" href="~/css/ct5/dm.style.T5Country.css" />
+    </environment>
+    <environment exclude="Development">
+        @if (Model.isBYO)
+        {
+            <link rel="stylesheet" href="~/css/responsive_calendar/responsive_calendar.min.css" asp-append-version="true" />
+        }
+        <link rel="stylesheet" href="~/css/ct5/dm.style.T5Country.min.css" asp-append-version="true" />
+    </environment>
+
+}
+
+@section structureData {
+    <script type="application/ld+json">
+            {
+            "@@context" : "https://schema.org",
+            "@@type" : "Product",
+            "name" : "@Model.placeNA Vacation",
+            "sku":"@Model.placeID",
+            "mpn":"@Model.placeID-vac",
+            "brand" : {
+            "@@type" : "Brand",
+            "name": "Tripmasters Europe",
+        @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/vacations\",", Model.placeNA.Replace(" ", "_").ToLower()))
+            "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+            },
+            "image":"https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+            "review":{
+            "@@type":"Review",
+            "name":"@Model.listCountryFeeds[0].NoOfFeedbacks",
+            "author":{
+            "@@type":"Organization",
+            "name":"Tripmasters"
+            }
+            },
+            "offers": {
+            "@@type": "AggregateOffer",
+            "priceCurrency":"USD",
+            "highPrice": "@highP",
+            "lowPrice": "@lowP",
+            "offerCount": "4",
+            "offers": [
+        @foreach (var u in @offerUrl)
+        {
+            @Html.Raw("{")
+            @Html.Raw('"' + "@type" + '"' + ":" + '"' + "Offer" + '"' + "," +
+                                           '"' + "url" + '"' + ":" + '"' + @u + '"')
+            ;
+            @Html.Raw("}")
+            if (u != @offerUrl.Last())
+            {
+                @Html.Raw(",")
+                ;
+            }
+
+        }
+            ]
+            },
+            "description" : "@Model.pageDescriptionC",
+            "additionalProperty" : "@Model.pageBannerText",
+            "aggregateRating": {
+            "@@type": "aggregateRating",
+            "ratingValue": "@overAllAvg",
+            "reviewCount": "@Model.listCountryFeeds[0].NoOfFeedbacks"
+            },
+            "sameAs":[
+            "https://twitter.com/tripmasters",
+            "https://www.facebook.com/Tripmasters",
+            "https://www.pinterest.com/tripmasters/",
+            "https://www.instagram.com/tripmasterstravel/",
+            "https://www.linkedin.com/company/tripmasters",
+            "https://en.everybodywiki.com/Tripmasters",
+            "https://www.youtube.com/tripmasters"
+            ]
+            },
+
+        {
+        "@@context": "https://schema.org",
+        "@@type": "ItemList",
+        "name": "@Model.placeNA Vacation Packages",
+        "itemListElement": [
+        @foreach (var pr in Model.otherFeatured)
+        {
+            List<String> offerUrlSD = new List<string>();
+            string pack3SD = "";
+            var pkSD = 0;
+            string SDPK = pr.SPD_Description;
+            offerUrlSD.Add("https://www.tripmasters.com/europe/" + Model.placeNA.Replace(" ", "_").ToLower() + "/" + pr.PDL_Title.Replace(" ", "_").ToLower() + "/package-" + pr.PDLID);
+            if (pkSD == 0) { pack3SD = pack3SD + pr.PDLID + ", "; }
+                      ;
+            if (pkSD == 1) { pack3SD = pack3SD + pr.PDLID; }
+                      ;
+            pkSD++;
+            @foreach (var u in @offerUrlSD)
+            {
+                @Html.Raw("{");
+                @Html.Raw('"' + "@type" + '"' + ":" + '"' + "TouristTrip" + '"' + ",")
+                @Html.Raw('"' + "name" + '"' + ":" + '"' + @pr.PDL_Title + " Vacation Package" + '"' + ",");
+                @Html.Raw('"' + "description" + '"' + ":" + '"' + @Html.Raw(String.Format(@SDPK)) + '"' + ",");
+                @Html.Raw('"' + "url" + '"' + ":" + '"' + @u + '"');
+                @Html.Raw("}")
+                if (u != @offerUrl.Last())
+                {
+                    @Html.Raw(",");
+                }
+
+            }
+        }
+
+          ]
+        }
+
+    </script>
+    <script type="text/javascript">
+        dataLayer.push({
+            'packagesIDs': '@pack3Ids'
+        });
+    </script>
+}
+
+<section class="hero second-container">
+    <h1 class="hero__title">@Model.placeNA Vacation Packages</h1>
+    <p class="hero__subtitle">@Model.firstSecDes</p>
+    <picture class="hero__image">
+        <source srcset="@($"https://pictures.tripmasters.com/images/web/tm/ct5_{Model.placeNA.ToLower().Replace(" ", "")}.jpg")" media="(min-width: 768px)">
+        <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com/images/web/tm/ct5_{Model.placeNA.ToLower().Replace(" ", "")}_mb.jpg")" alt="View of @Model.placeNA" />
+    </picture>
+</section>
+@{
+    if (Model.isBYO)
+    {
+        <section class="calendar">
+            <div>
+                @await Component.InvokeAsync("UC_TM_ResponsiveCalendar")
+            </div>
+        </section>
+    }
+}
+
+@{
+    if (Model.ListDisplayPositions != null)
+    {
+        foreach (var dsp in Model.ListDisplayPositions)
+        {
+            switch (dsp.SDP_Order)
+            {
+                case 1:
+                    <section class="guide first-container">
+                        <h2 class="guide__title">@dsp.SDP_DisplayTitle</h2>
+                        <p class="guide__subtitle">@dsp.SDP_Description</p>
+                        @{
+                            if (dsp.SDP_GroupProdKindID == 2032)
+                            {
+                                @await Component.InvokeAsync("GuidedSeller")
+                            }
+                            else if (dsp.SDP_GroupProdKindID == 1621 || dsp.SDP_GroupProdKindID == 1912)
+                            {
+                                @await Component.InvokeAsync("Highlights")
+                            }
+                            else if (dsp.SDP_GroupProdKindID == 1882)
+                            {
+                                @await Component.InvokeAsync("Suggested")
+                            }
+                        }
+                    </section>
+                    <section class="reviews first-container">
+                        <div class="reviews__wrapper">
+                            <div class="reviews__info">
+                                <h2 class="reviews__title"><span>@Model.placeNA</span><span>Customer Reviews</span></h2>
+                                <div class="reviews__yellow-stars">
+                                    <div style="--rating: @Decimal.Round(@Model.listOverAllFeeds[0].Score , 1)" aria-label="Rated @Decimal.Round(@Model.listOverAllFeeds[0].Score , 1) out of 5"></div>
+                                    <span>@Decimal.Round(@Model.listOverAllFeeds[0].Score, 1) out of 5 stars</span>
+                                </div>
+                                <a class="reviews__link" href="@($"{_appsettings.Value.ApplicationSettings.SiteName}/{Model.placeNA.Replace(" ", "_").ToLower()}/trips_taken_by_travelers")">@Model.listCountryFeeds[0].NoOfFeedbacks Reviews</a>
+                            </div>
+                            <div class="reviews__customer">
+                                <div class="reviews__black-stars">
+                                    <div style="--rating: @Decimal.Round(@Model.listCommentDate[0].pcc_overallscore, 1)" aria-label="Rated @Decimal.Round(@Model.listCommentDate[0].pcc_overallscore, 1) out of 5"></div>
+                                    <span>@Decimal.Round(@Model.listCommentDate[0].pcc_overallscore, 1) out of 5 stars</span>
+                                </div>
+                                <p class="reviews__comment">@Model.listCommentDate[0].pcc_comment</p>
+                                @if (Model.listCommentDate[0].dep_date >= sixMonthsAgo)
+                                {
+                                    <p class="reviews__date">Traveled on: @Model.listCommentDate[0].dep_date.ToString("MM/dd/yyyy")</p>
+                                }
+                            </div>
+                        </div>
+                    </section>
+                    break;
+                case 2:
+                    <section class="suggested first-container">
+                        <h2 class="suggested__title">@dsp.SDP_DisplayTitle</h2>
+                        <p class="suggested__subtitle">@dsp.SDP_Description</p>
+                        @{
+                            if (dsp.SDP_GroupProdKindID == 2032)
+                            {
+                                @await Component.InvokeAsync("GuidedSeller")
+                            }
+                            else if (dsp.SDP_GroupProdKindID == 1621 || dsp.SDP_GroupProdKindID == 1912)
+                            {
+                                @await Component.InvokeAsync("Highlights")
+                            }
+                            else if (dsp.SDP_GroupProdKindID == 1882)
+                            {
+                                @await Component.InvokeAsync("Suggested")
+                            }
+                        }
+                    </section>
+                    break;
+                case 3:
+                    <section class="highlight first-container">
+                        <h2 class="highlight__title">@dsp.SDP_DisplayTitle</h2>
+                        <p class="highlight__subtitle">@dsp.SDP_Description</p>
+                        @{
+                            if (dsp.SDP_GroupProdKindID == 2032)
+                            {
+                                @await Component.InvokeAsync("GuidedSeller")
+                            }
+                            else if (dsp.SDP_GroupProdKindID == 1621 || dsp.SDP_GroupProdKindID == 1912)
+                            {
+                                @await Component.InvokeAsync("Highlights")
+                            }
+                            else if (dsp.SDP_GroupProdKindID == 1882)
+                            {
+                                @await Component.InvokeAsync("Suggested")
+                            }
+                        }
+                    </section>
+                    break;
+            }
+        }
+    }
+}
+<section class="cities first-container">
+    <h2 class="cities__title">Cities in @Model.placeNA</h2>
+    @{
+        <ul id="citiesList" class="cities__list">
+
+            @foreach (var p in Model.listCitiesOn)
+            {
+
+                <li class="cities__item">
+                    <a class="cities__link" href="@($"{_appsettings.Value.ApplicationSettings.SiteName}/{p.STR_PlaceTitle.Replace(" ","_").ToLower()}/vacations")">
+                            <img class="cities__img lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com{p.IMG_500Path_URL}")" alt="city" title="@p.STR_PlaceTitle" />
+                        <h3 class="cities__name">@p.STR_PlaceTitle</h3>
+                        <div class="cities__shadow"></div>
+                    </a>
+                </li>
+            }
+        </ul>
+        <button class="cities__button" id="seeAllCities" type="button">See all Cities in @Model.placeNA</button>
+        @*Modal*@
+        <div id="cities_modal" class="backdrop is-hidden">
+            <div class="cities__modal-wrapper">
+                <button class="modal__close" type="button" aria-label="Close modal">✖</button>
+                <div>
+                    <h3 class="cities__modal-title">Cities in @Model.placeNA</h3>
+                    <ul class="cities__modal-list"></ul>
+                </div>
+                <div>
+                    <h3 class="regions__modal-title">Explore @Model.placeNA</h3>
+                    <ul class="regions__modal-list"></ul>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+<section class="banner second-container">
+    <div class="banner__wrapper">
+        <h2 class="banner__title"><span>Build your own</span> @Model.placeNA itinerary</h2>
+        <a class="banner__img" href="https://www.tripmasters.com/build_your_own_vacation">
+            <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/images/web/tm/htb_image.png" alt="Screenshots of itinerary examples" />
+        </a>
+        <div>
+            <p class="banner__text">Add up to 12 destinations!</p>
+            <a class="banner__link" href="https://www.tripmasters.com/build_your_own_vacation">Build your own itinerary</a>
+        </div>
+    </div>
+</section>
+@{
+    String IMG_500Path_URL = "";
+    Int32 PDLID = 0;
+    Int32 PDLDuration = 0;
+    String PDLTitle = "";
+    String SPDDescription = "";
+    Int32 NoOfFeed = 0;
+    String PDLContent = "";
+    String STPSave = "0";
+}
+
+@if (Model.ListPackInfoSEO.Count() > 0)
+{
+    <section class="best-packages">
+        @{
+            string PDLContentSEO = "";
+            string STPSaveSEO = "";
+            foreach (var fp in Model.ListPackInfo)
+            {
+                IMG_500Path_URL = fp.IMG_Path_URL.Replace("200.jpg", "500.jpg");
+                PDLID = fp.PackageId;
+                PDLTitle = fp.PDL_Title;
+                PDLDuration = fp.PDL_Duration;
+                SPDDescription = fp.SPD_Description;
+                PDLContent = fp.PDL_Content;
+                STPSave = fp.STP_Save;
+                STPSaveSEO = fp.STP_Save;
+                PDLContentSEO = fp.PDL_Content;
+            }
+        }
+        <input type="hidden" id="imgItemID" value="@PDLID" />
+        <div class="first-container">
+            <h2 class="best-packages__title">Best @PDLTitle Package</h2>
+            <div>
+                <div class="best-packages__image">
+                    <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com{0}", IMG_500Path_URL)" alt="View of @PDLTitle" />
+                </div>
+                <div class="best-packages__info">
+                    <a class="best-packages__name" asp-controller="Package" asp-action="Index" asp-route-id="@PDLID" asp-route-Country=@String.Format("{0}", Model.placeNA.Replace(" ", "_")) asp-route-name="@PDLTitle.Replace(" ", "_")">
+                        @PDLTitle
+                    </a>
+                    <p class="best-packages__night">
+                        @if (STPSave != "9999" && STPSave != "9,999" && STPSave != null)
+                        {
+                            @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", @PDLDuration, @STPSave))
+                            ;
+                        }
+                        else
+                        {
+                            @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", @PDLDuration))
+                            ;
+                        }
+                    </p>
+                    @if (NoOfFeed > 0)
+                    {
+                        <a class="best-packages__review" asp-controller="Package" asp-action="Index" asp-route-id="@PDLID" asp-route-Country=@String.Format("{0}", Model.placeNA.Replace(" ", "_")) asp-route-name="@PDLTitle.Replace(" ", "_")">
+                            @NoOfFeed Customer Reviews
+                        </a>
+                    }
+                    <p class="best-packages__description">@Html.Raw(@SPDDescription)</p>
+                    <div class="best-packages__wrapper">
+                        <div class="best-packages__include">
+                            <span>Included:</span>
+                            <ul>
+                                @{
+                                    string[] fincludeListSEO = PDLContentSEO.Split("\r\n");
+                                    foreach (var fpr in fincludeListSEO)
+                                    {
+
+                                        <li>@Html.Raw(String.Format("{0}", @fpr))</li>
+
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <a class="best-packages__customize" asp-controller="Package" asp-action="Index" asp-route-id="@PDLID" asp-route-Country=@String.Format("{0}", Model.placeNA.Replace(" ", "_")) asp-route-name="@PDLTitle.Replace(" ", "_")">
+                            CUSTOMIZE & BOOK
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+@if (Model.listCMS.Count > 0)
+{
+    <section class="about first-container">
+        <h2 class="about__title">About @Model.placeNA</h2>
+        <ul>
+            @foreach (var cm in Model.listCMS)
+            {
+                string cmsName = cm.CMS_Description.Replace(" ", "_");
+                if (cm.CMS_Description == "none")
+                {
+                    cmsName = cm.CMSW_Title.Replace(" ", "_");
+                }
+                <li>
+                    <button type="button"
+                            data-go-to="@String.Format("https://www.tripmasters.com/{0}/cms?cms={1}&wH=0&wF=0", cmsName.ToLower(), cm.CMSW_RelatedCmsID)"
+                            onclick="openWinCMS(this.getAttribute('data-go-to'))">
+                        @cm.CMSW_Title
+                    </button>
+                </li>
+            }
+        </ul>
+    </section>
+}
+<section class="FAQ">
+    <div class="first-container" itemscope="" itemtype="https://schema.org/FAQPage">
+        <div class="FAQ__wrapper">
+            <h2 class="FAQ__title">@Model.placeNA FAQ's </h2>
+            <ul id="faqList" class="FAQ__list">
+                @{
+                    Int32 count5 = 1;
+                    string toDel = @"<span\s*class=""SubTitle_Orange"">(.*)</span>|<(span\s*class=""P_Blu_Arial_12""|<strong|<em)>(.*)</(em|strong|span)>|This is a flexible vacation package. Select your number of nights in each city, desired hotel and activities.|This is a flexible package. Select your number of nights in each city, desired hotel and activities.|#ff6600";
+                    if (Model.FaqList[0].FaqQuestion != "none")
+                    {
+                        foreach (var qa in Model.FaqList)
+                        {
+                            <li id="@String.Format("faqItem-{0}", count5)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                                <button id="@String.Format("faq-{0}", count5)" itemprop="name" aria-expanded="false">@Html.Raw(qa.FaqQuestion)<span>›</span></button>
+                                <div class="FAQ__item-hidden" id="@String.Format("faqInfo-{0}", count5)" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                    <div itemprop="text">
+                                        <p>@Html.Raw(qa.FaqResponse)</p>
+                                    </div>
+                                </div>
+                            </li>
+                            count5++;
+                        }
+                    }
+                    if (PDLTitle != "")
+                    {
+                        <li id="@String.Format("faqItem-{0}", count5)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <button id="@String.Format("faq-{0}", count5)" itemprop="name" aria-expanded="false">What are the best vacation packages to @Model.placeNA?<span>›</span></button>
+                            <div class="FAQ__item-hidden" id="@String.Format("faqInfo-{0}", count5)" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <div itemprop="text">
+                                    <p>
+                                        <a asp-controller="Package" asp-action="Index" asp-route-Country="@(Model.placeNA.Replace(" ", "_"))" asp-route-id="@(PDLID)" asp-route-name="@(PDLTitle.Replace(" ", "_"))" style="text-decoration: underline"><strong>@PDLTitle</strong></a>
+                                        <span style='color: #666; margin-left: 5px;'>(@PDLDuration nights)</span>
+                                    </p>
+
+                                    <p style="line-height:16px">@Html.Raw(Regex.Replace(Model.pageDescriptionC, toDel, "", RegexOptions.IgnoreCase))</p>
+                                    <p>
+                                        <strong>Includes:</strong>
+                                        @{
+                                            var spac = ",";
+                                            var fprC = 0;
+                                            string[] include = PDLContent.Split("\r\n");
+                                            foreach (var fpr in include)
+                                            {
+                                                if (fpr.Equals(include.Last()))
+                                                {
+                                                    spac = "";
+                                                }
+                                                <span>@Html.Raw(@Regex.Replace(fpr, "P_Ora_Arial_12", "Arial_12", RegexOptions.IgnoreCase))@spac</span>
+                                                fprC = fprC + 1;
+                                            }
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        count5++;
+                    }
+                    if (Model.otherFeatured.Count() > 0)
+                    {
+                        <li id="@String.Format("faqItem-{0}", count5)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <button id="@String.Format("faq-{0}", count5)" itemprop="name" aria-expanded="false">What are the best deals to travel to @Model.placeNA?<span>›</span></button>
+                            <div class="FAQ__item-hidden" id="@String.Format("faqInfo-{0}", count5)" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <div itemprop="text">
+                                    @{
+                                        foreach (var mo in Model.otherFeatured)
+                                        {
+                                            <p>
+                                                <a asp-controller="Package" asp-action="Index" asp-route-Country="@(Model.placeNA.Replace(" ", "_"))" asp-route-id="@(mo.PDLID)" asp-route-name="@(mo.PDL_Title.Replace(" ", "_"))" style="text-decoration: underline"><strong>@mo.PDL_Title</strong></a>
+                                                <span style='color: #666; margin-left: 5px;'>(@mo.PDL_Duration nights)</span>
+                                            </p>
+                                            <p>@Html.Raw(Regex.Replace(mo.SPD_Description, toDel, "", RegexOptions.IgnoreCase))</p>
+                                            <p>
+                                                <strong>Includes:</strong>
+                                                @{
+                                                    var spac = ",";
+                                                    var fprC = 0;
+                                                    string[] include = PDLContent.Split("\r\n");
+                                                    foreach (var fpr in include)
+                                                    {
+                                                        if (fpr.Equals(include.Last()))
+                                                        {
+                                                            spac = "";
+                                                        }
+                                                        <span> @Html.Raw(@Regex.Replace(fpr, "P_Ora_Arial_12", "Arial_12", RegexOptions.IgnoreCase))@spac</span>
+                                                        fprC = fprC + 1;
+                                                    }
+                                                }
+                                            </p>
+
+                                            <br />
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                        count5++;
+                    }
+                    if (Model.listCombineCou.Count > 0)
+                    {
+                        <li id="@String.Format("faqItem-{0}", count5)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <button id="@String.Format("faq-{0}", count5)" itemprop="name" aria-expanded="false">Can I combine a vacation package for @Model.placeNA with other countries?<span>›</span></button>
+                            <div class="FAQ__item-hidden" id="@String.Format("faqInfo-{0}", count5)" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <div itemprop="text">
+                                    <p>
+                                        Yes, you can combine with:
+                                        @{
+                                            var couN = "";
+                                            string separ = "";
+                                            int comC = 0;
+                                            foreach (var com in Model.listCombineCou)
+                                            {
+                                                if (comC > 0)
+                                                {
+                                                    separ = " | ";
+                                                }
+                                                if (couN != com.CouNA.ToString())
+                                                {
+                                                    <span> @separ <a asp-route="Combine_Route" asp-route-names="@(Model.placeNA)_-_@(com.CouNA)">@com.CouNA</a></span>
+                                                }
+                                                couN = com.CouNA;
+                                                comC = comC + 1;
+                                            }
+
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        count5++;
+                    }
+                    var suggestedItin2 = from p in Model.suggestedItin
+                                         where p.STP_Save <= 2000
+                                         select p;
+                    if (suggestedItin2.Count() > 0)
+                    {
+                        <li id="@String.Format("faqItem-{0}", count5)" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <button id="@String.Format("faq-{0}", count5)" itemprop="name" aria-expanded="false">Where can I go for $2000 in @Model.placeNA?<span>›</span></button>
+                            <div class="FAQ__item-hidden" id="@String.Format("faqInfo-{0}", count5)" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <div itemprop="text">
+                                    <ul style="font-size: 11px">
+                                        @{
+                                            foreach (var su in suggestedItin2)
+                                            {
+                                                <li>
+                                                    <a asp-controller="Package" asp-action="Index" asp-route-Country="@(Model.placeNA.Replace(" ", "_"))" asp-route-id="@(su.PDLID)" asp-route-name="@(su.PDL_Title.Replace(" ", "_"))" style="text-decoration: underline">@su.PDL_Title</a>(@(su.PDL_Duration) nights from $@(su.STP_Save))
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        count5++;
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</section> 
+
+<input type="hidden" id="placeID" value="@Model.placeID" />
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/ct5/dm.java.t5countrypage.js" asp-append-version="true"></script>
+        @if (Model.isBYO)
+    {
+        <script src="~/js/smallcalendar/dm.java.TM.Calendar.js" asp-append-version="true"></script>
+        <script src="~/js/smallcalendar/dt.java.TM.CommonFunctions.js" asp-append-version="true"></script>
+    }
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/ct5/dm.java.t5countrypage.min.js" asp-append-version="true"></script>
+    @if (Model.isBYO)
+    {
+        <script src="~/js/smallcalendar/dm.smallcalendar.min.js" asp-append-version="true"></script>
+    }
+    </environment>
+}

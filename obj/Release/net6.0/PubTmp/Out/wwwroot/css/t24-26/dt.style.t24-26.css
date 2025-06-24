@@ -1,0 +1,331 @@
+﻿@charset "utf-8";
+a{color:#039;cursor:pointer}
+.verticalText{background:url(https://pictures.tripmasters.com/siteassets/d/green-bg-Tex.jpg) no-repeat top;width:50px;height:150px;float:left}
+.verticalTextS {
+    background: url(https://pictures.tripmasters.com/siteassets/d/blue-bg-Tex-S.jpg) no-repeat top;
+    width: 50px;
+    height: 85px;
+    float: left;
+    overflow: visible;
+    word-wrap: break-word
+}
+.relIntCont {
+    background: url(https://pictures.tripmasters.com/siteassets/d/LineBlue.jpg) no-repeat bottom center;
+    height: 99px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    color: navy
+}
+.horizontalR {
+    width: 152px;
+    height: 85px;
+    float: left;
+    background: url(https://pictures.tripmasters.com/siteassets/d/blue-bg-H.jpg) no-repeat top left;
+    text-align: left;
+    padding: 15px 5px 5px 15px;
+    word-wrap: break-word
+}
+.horizontalRW {
+    width: 152px;
+    height: 99px;
+    float: left;
+    background: url(https://pictures.tripmasters.com/siteassets/d/blue-bg-HW.gif) no-repeat left top;
+    overflow: visible;
+    text-align: left;
+    padding: 15px 5px 5px 15px;
+    word-wrap: break-word
+}
+#itinRELA{color:#999;font-weight:400}
+#itinRELA a{color:#999;text-decoration:underline}
+#itinRELA a:hover{color:red}
+#itinRELA span{padding:5px 0}
+.bgRelPakPrc {
+    background: url(https://pictures.tripmasters.com/siteassets/d/bg-RelPackPrice.gif) no-repeat center top
+}
+.styleOver{text-decoration:underline}
+.styleOut{text-decoration:none}
+.itemR{border-bottom:1px solid #ddd;padding:2px;width:96%;color:#036;margin-left:10px;font-size:11px}
+.itemR:hover{background-color:#FFC;text-decoration:underline;cursor:pointer;color:#F60}
+.vertical1r{position:relative;overflow:hidden;height:25px;width:auto;padding:0 15px}
+.vertical2r{position:relative;overflow:hidden;height:50px;width:auto;padding:0 15px}
+.vertical3r{position:relative;overflow:hidden;height:75px;width:auto;padding:0 15px}
+.vertical4r{position:relative;overflow:hidden;height:100px;width:auto;padding:0 15px}
+.vertical4rr{position:relative;overflow:hidden;height:150px;width:auto;padding:0 15px}
+.vertical4rrr{position:relative;overflow:hidden;height:194px;width:auto;padding:0 15px}
+.vertical5r{position:relative;overflow:hidden;height:194px;width:90%;padding:0 5px 0 0;float:left;border-right:1px solid #ddd}
+.horizontal5r{position:relative;overflow:hidden;height:50px;width:95%;padding:0 5px 0 0;float:left;border:1px solid red}
+.itemsR{position:absolute;height:auto;width:99%;margin:0;float:left}
+.itemsHR{position:absolute;height:20px;width:95%;border:solid 1px blue}
+#actionsR{width:20px;height:auto;margin:0 0 5px 5px;padding-top:15px;float:left;color:#F63}
+#actionsR a{font-size:11px;cursor:pointer;color:#666;float:left}
+#actionsR a:hover{color:#000}
+a.browseR {
+    background: url(https://pictures.tripmasters.com/siteassets/d/hori_large.png) no-repeat;
+    display: block;
+    width: 30px;
+    height: 30px;
+    float: left;
+    margin: 40px 2px;
+    cursor: pointer;
+    font-size: 1px
+}
+.moreImgButt_R {
+    background-image: linear-gradient(to bottom right,white,gainsboro);
+    border: 1px solid #ccc;
+    text-align: center;
+    padding-top: 4px;
+    height: 18px;
+    color: #333;
+    font-size: 12px;
+    cursor: pointer
+}
+.moreImgButt_R:hover{text-decoration:underline}
+#dvmediaPopUp{background-color:#FFF;display:none;padding-bottom:15px;border:1px solid #333}
+#mask27{position:absolute;z-index:9000;background-color:#369;display:none;top:0;left:0;opacity:.8;height:100%;width:100%}
+.dvClose{text-align:right;padding:10px 15px}
+.dvClose span{font-size:11px;color:#03c;cursor:pointer}
+.dvClose span:hover{text-decoration:underline}
+#dvmediaContent{margin:5px 8px 20px}
+#dvmcL{float:left;margin-left:0;width:58%}
+#dvmcR{float:right;margin-right:0;width:41%}
+.dvMPV{font-size:12px;color:#666;font-weight:700;text-align:left;padding:5px 10px;margin-top:5px;margin-bottom:5px;width:400px}
+#dvFstPic{margin-bottom:5px}
+#dvThuPic{cursor:pointer}
+.picNSel{border:1px #999 solid;margin:1px}
+.picNSel:hover{border:1px red solid;margin:1px}
+.picSel{border:1px red solid;margin:1px}
+.tabsContenedor{margin-top:20px;padding-left:30px;height:36px;font-family:Arial,Helvetica,sans-serif;font-size:12px;background-image:url(https://pictures.tripmasters.com/siteassets/d/t27_greenLineTabs.jpg);background-repeat:no-repeat;background-position:center bottom}
+.tabSel{border-left:1px solid #2a57a1;border-right:1px solid #2a57a1;border-top:1px solid #2a57a1;background-color:#FFF;float:left;padding:10px 15px;color:#2a57a1;font-weight:700;position:relative;top:0;margin-right:5px;cursor:pointer}
+.tabNSel{background-color:#2a57a1;float:left;padding:10px 15px;color:#fff;font-weight:700;position:relative;top:0;margin-right:4px;cursor:pointer;border-top-width:1px;border-right-width:1px;border-left-width:1px;border-top-style:solid;border-right-style:solid;border-left-style:solid;border-top-color:#2a57a1;border-right-color:#2a57a1;border-left-color:#2a57a1}
+.showContenedor{margin-top:5px;padding:10px;font-family:Arial,Helvetica,sans-serif;font-size:12px}
+.shwSel{display:block}
+.dvInPadd15{padding:15px 10px}
+.dvInPadd15 a{color:#999}
+.shwNSel{display:none}
+.selL{float:left;width:416px}
+.selR{float:right;margin-left:10px;width:490px}
+.divItL{float:left;width:150px}
+.divItR{float:left;width:750px}
+.divItR24 {
+    width: 500px;
+    border: 1px solid #d9a300;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+#dvContItin {
+    max-height: 550px;
+    overflow-y: scroll;
+}
+.dvBgLighBlue{background-color:#D7E1F3}
+.bg_BookIt_Butt {
+    background: #fffecd linear-gradient(to bottom,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0;
+    border: 1px solid #d9a300;
+    border-radius: 11px;
+    height: 22px;
+    width: 269px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 8px;
+    cursor: pointer;margin-bottom:10px;
+}
+#upCalendar{background-color:#FFF3AE;height:auto}
+.dvhSearch{width:66%!important}
+.t27_cal_Titl_R {
+    height: 29px;
+    font-size: 16px;
+    color: #006;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: 700;
+}
+.T27_CalBBg {
+    background-color: #FFFDEF;
+    border: 1px solid #d9a300;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+#AirOpt{padding:5px 75px}
+#wair{display:block;float:left;width:140px}
+#woair{display:block;width:140px;float:left}
+#dvCalConteiner{padding:23px}
+#AirParam{padding:10px 0}
+#dvDestTtl{padding:10px 0}
+.inputO{border:solid 1px #CCC;margin-left:1px;padding-left:5px;font-size:11px}
+.selectO{border:solid 1px #CCC;margin-left:1px;padding-left:1px;font-size:11px}
+input:not([type=radio]){border:solid 1px #CCC;margin-left:1px;padding-left:5px}
+select{border:solid 1px #CCC;margin-left:1px;padding-left:1px}
+.t27_bg_cty0{background:url(https://pictures.tripmasters.com/siteassets/d/t27_cal_BgCty0.jpg) no-repeat center top;height:23px;padding-top:7px;overflow:visible}
+.t27_bg_cty1{background:url(https://pictures.tripmasters.com/siteassets/d/t27_cal_BgCty1.jpg) no-repeat center top;height:23px;padding-top:7px;overflow:visible}
+.t27_bg_cty0M{background:url(https://pictures.tripmasters.com/siteassets/d/t27_cal_BgCty0.jpg) repeat-y center top;height:auto;padding-top:5px;padding-bottom:5px;overflow:visible}
+.t27_bg_cty1M{background:url(https://pictures.tripmasters.com/siteassets/d/t27_cal_BgCty1.jpg) repeat-y center top;height:auto;padding-top:5px;padding-bottom:5px;overflow:visible}
+.aboutDIV{padding:5px;position:absolute;width:800px;display:none;z-index:9999}
+#dvImgCont{float:right}
+#dvImgT26{border:1px solid #CCC;padding:1px;width:426px}
+#dvImgT26 img{margin:1px}
+#dvOvwImg{width:480px;margin:20px 15px}
+#dvOvwImg img{margin:5px;padding:2px;border:1px solid #CCC}
+#dvOvwImg span{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#666;float:left}
+#dvPgNav{font-family:Arial,Helvetica,sans-serif;font-size:10px;padding-left:10px;margin-bottom:3px}
+#dvPakInf{float:left;width:505px}
+#dvShwItin{padding:3px 15px}
+#divChild0{display:none;padding:5px 10px}
+.t20_downSelectDom{font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #CCC;cursor:default;width:300px;padding:1px 1px 1px 3px}
+.t20_downSelect {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DownSelect.jpg);
+    background-repeat: no-repeat;
+    background-position: 289px center;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    border: 1px solid #CCC;
+    cursor: default;
+    width: 300px;
+    padding: 1px 1px 1px 3px
+}
+.t20_downSelectOver {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/DownSelectover.jpg);
+    background-repeat: no-repeat;
+    background-position: 289px center;
+    padding: 1px 1px 1px 3px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    border: 1px solid #CCC;
+    cursor: default;
+    width: 300px
+}
+.t27_bgBB_L{background:url(https://pictures.tripmasters.com/siteassets/d/t27_cal_rdCr_BBL.jpg) no-repeat bottom left}
+.t27_bgBB_R{background:url(https://pictures.tripmasters.com/siteassets/d/t27_cal_rdCr_BBR.jpg) no-repeat bottom right}
+#dvItinDetail span:hover{text-decoration:underline}
+.t27_couInf_Butt_L{background:url(https://pictures.tripmasters.com/siteassets/d/t27_CouInf_Butt_L.jpg) top left no-repeat}
+.t27_couInf_Butt_R{background:url(https://pictures.tripmasters.com/siteassets/d/t27_CouInf_Butt_R.jpg) top right no-repeat;padding:6px 10px 0;height:23px}
+.t27_couInf_Butt_BG{background-color:#C8D7EF;margin-right:5px;float:left}
+.dvCarrCityTitle{background-color:#EAF2FF;height:24px;padding:10px;margin-bottom:5px}
+.carousel-container{width:930px;padding:20px 10px;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;background:#FFF}
+.container-horizontal{width:864px;overflow:hidden;float:left}
+.dvPrev{float:left;padding-top:40px;width:22px;height:110px;margin:5px}
+.dvPrev img:hover{cursor:pointer;filter:Light}
+.carousel-item{width:281px;height:240px;float:left;margin-right:5px}
+.clearfix{float:none;clear:both}
+.prev{float:left;margin-left:0}
+.next{float:right;margin-right:0}
+.pager{text-align:right;font-size:11px}
+.pager a{margin:0 5px;text-decoration:none}
+.pager a.selected{text-decoration:underline;padding:2px 3px;border:1px red solid}
+.timer{background-color:#999;height:6px;width:0}
+.t27_greenDotedLine{border-bottom:1px #112b77 dotted;border-style:none none dotted;color:#fff;background-color:#fff;width:90%}
+.paxRoom{width:35px;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:11px;border:solid 1px #CCC}
+.paxRoomChAg{width:25px;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:11px;border:solid 1px #CCC}
+.dvpaxRoomWide{float:left;width:60px;margin-right:2px}
+.dvpaxRoomWide span{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#333;vertical-align:text-bottom}
+.dvpaxRoom{float:left;width:50px!important;margin-right:2px}
+.dvpaxRoom span{font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#333;vertical-align:text-bottom}
+.dvpaxRoomChAg{float:left;width:30px;margin-right:2px;display:none}
+.dvClear{clear:both}
+#spChAg{display:none}
+.dvWording{padding:15px 5px 5px;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#333}
+.errorBubble{width:100%;background:#FFF;width:auto;color:#000;font-family:Arial,Helvetica,sans-serif;font-size:11px;border:2px solid red;box-shadow:0 0 6px #000;-moz-box-shadow:0 0 6px red;-webkit-box-shadow:0 0 6px red;padding:5px 10px 10px;border-radius:6px;-moz-border-radius:6px;-webkit-border-radius:6px;word-wrap:break-word;text-align:center}
+.errorBubble a{border:1px solid #999;padding:3px 4px;cursor:pointer}
+#FeedsContainer{position:relative;border:1px solid #91adda;border-radius:6px;box-shadow:0 0 4px 0 #9daccb inset;float:left;width:68%;z-index:98}
+.Tab{background-color:#999;border-radius:6px 0 0 6px;cursor:pointer;float:right;height:95px;margin-top:25px;width:200px}
+.TabActiveFeeds{background-color:#2957A2;border-radius:6px 0 0 6px;border-right:4px solid #fff;float:right;height:95px;margin:25px -5px 1px 1px;width:200px}
+.TabCaption{background-color:#dadada;height:95px;margin-left:20px;text-align:center;width:180px}
+.TabCaptionActive{background-color:#fff;background:-webkit-linear-gradient(left,#dce3f3,white);background:-o-linear-gradient(right,#dce3f3,white);background:-moz-linear-gradient(right,#dce3f3,white);background:linear-gradient(to right,#dce3f3,white);border-top:1px solid #91adda;border-bottom:1px solid #91adda;box-shadow:inset 0 8px 8px -10px #91adda,inset 0 -8px 8px -10px #91adda;height:93px;margin-left:20px;text-align:center;width:180px}
+.CaptionText{font-size:18px;padding-top:25px}
+.CaptionTextActive{color:#FF6501;font-size:22px;padding-top:23px}
+.CaptionFeedTextActive{color:#2957A2}
+.CaptionFeed{color:#000}
+.pgStyleDisabled{font-family:Arial;font-size:12px;font-weight:700;margin:0 2px;color:#8d8e8e;padding:0 3px}
+#dvFeeds{min-height:600px}
+.itineraryLink{color:#0c06ec;cursor:pointer;font-weight:700;margin-right:5px;padding:20px 0 0;text-align:right}
+.dvItinInfo{display:none;padding:20px;margin-top:5px; border-top:1px solid #999;}
+.emptyStars {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/stars_empty.png) no-repeat scroll 0 0;
+    height: 23px;
+    float: left;
+    position: absolute;
+    top: 0px;
+}
+.fullStars {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/stars_full.png) no-repeat scroll 0 0;
+    height: 23px;
+    float: left;
+    position: absolute;
+    top: 0px;
+}
+.darkText {color: #666;font-size:12px}
+.shwSel{font-size:12px;}
+#bubbleStaggerO table{opacity:1!important;border:1px solid black!important;margin:unset!important;padding:unset!important}
+.horizontalR {
+    width: 152px;
+    height: 65px;
+    background-image: linear-gradient(to bottom right,#a6bfe6,white);
+    text-align: left;
+    padding: 15px 5px 5px 15px;
+    word-wrap: break-word;
+    float: right;
+}
+.submitButton{background:#fffecd linear-gradient(to bottom,#fffecd 5%,#ffd968 100%) repeat scroll 0 0;border:1px solid #f4cd1a!important;border-radius:4px;color:#000;cursor:pointer;display:inline-block;font:12px arial;padding:8px 55px;text-decoration:none;font-weight:bold;}
+.submitButton:hover{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#ffd968),color-stop(1,#fffecd));background:-moz-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-webkit-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-o-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:-ms-linear-gradient(top,#ffd968 5%,#fffecd 100%);background:linear-gradient(to bottom,#ffd968 5%,#fffecd 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd968',endColorstr='#fffecd',GradientType=0);background-color:#ffd968;text-decoration:none;color:black!important;border: 1px solid #f4cd1a !important;}
+#leftFeedColum{position:relative;float:left;margin-top:84px;padding-left:20px;padding-top:40px;text-align:right;width:27%;z-index:99}
+div.dvPagin {border-bottom: 1px solid #9fa2c3!important;border-top: 1px solid #9fa2c3!important;margin: 10px auto;padding: 8px;text-align: center;}
+.spnPriceView{background:#2c3c9c linear-gradient(to bottom, #2c3c9c 18%, #2c3c9c 4%, #1b2560 50%, #1b2560 100%) repeat scroll 0 0;color:#FFF;width:230px;display:inline-block;font-weight:700;padding:6px 0;cursor:pointer;border-radius:7px;}
+.spnPriceView:hover{background:#2c3c9c linear-gradient(to top, #2c3c9c 18%, #2c3c9c 4%, #1b2560 50%, #1b2560 100%) repeat scroll 0 0}
+#dvContItin {
+    max-height: 550px;
+    overflow-y: scroll;
+}
+.dvRoundContainerT2x_ {
+    border: 1px solid #638bd1;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #638bd1 inset;
+    margin-bottom: 5px;
+    padding: 20px 15px;
+}
+.spCMSContentTitle {
+    color: #006;
+    font-size: 14px;
+    font-weight: 700;
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+}
+.dvCMSContainerWBorder {
+    height: auto;
+    width: auto;
+    max-width: 900px;
+    border: solid 1px navy;
+    padding: 10px;
+    text-align: left;
+    margin: 5px auto 0 auto;
+}
+.t27_cal_Titl_C {
+    background-image: linear-gradient(to bottom,#fdf2b2,#ffde73);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.dvpopCtner {
+    border: 1px solid #638bd1;
+    box-shadow: inset 0 0 15px #638bd1;
+    border-radius: 10px 10px 10px 10px;
+    padding: 25px;
+    background-color: #FFF;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 900px;
+    width: auto;
+    height: auto;
+    margin: 0 auto !important;
+    position: absolute;
+    text-align: left;
+    z-index: 4000;
+    left: 50%;
+    top: 200px;
+    transform: translate(-50%,0);
+    -moz-transform: translate(-50%,0);
+    -webkit-transform: translate(-50%,0);
+    -ms-transform: translate(-50%,0);
+    display: none
+}

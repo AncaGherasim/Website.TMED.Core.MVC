@@ -1,0 +1,772 @@
+﻿@model MVC_TMED.Models.ViewModels.PackTemplate_21ViewModel
+@using MVC_TMED.Infrastructure;
+@using System.Text.RegularExpressions;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/t21_calendar/t21_calendar.css" />
+        <link rel="stylesheet" href="~/css/t21/dm.style.t21.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/t21_calendar/t21_calendar.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/t21/dm.style.t21.min.css" asp-append-version="true" />
+    </environment>
+}
+<!-- END CALENDAR -->
+@{
+    <script>
+        var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName';
+        var PromPrice = '@Model.packPrice';
+        var PromDate = '@Model.packStartTravel';
+        var PromDeparture = '@Model.packDepartureNA';
+    </script>
+
+
+    string rpOnPopUp = "";
+    Int32 packFeedCount = Model.packFeedCount;
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(Model.overAll, 1);
+
+}
+@section structureData{
+    @if (Model.verifySite == 0 && Model.packSamplePrice.Trim() != "")
+    {
+        if (packFeedCount <= 0)
+        {
+            packFeedCount = 1;
+        }
+
+        <script type="application/ld+json">
+        {
+        "@@context" : "https://schema.org",
+        "@@type" : "Product",
+        "name" : " @Model.packNA",
+        "sku":"@Model.PackId",
+        "mpn":"@Model.PackId-vac",
+        "brand" : {
+        "@@type" : "Brand",
+        "name": "Tripmasters Europe",
+        "url": "https://www.tripmasters.com/europe/",
+        "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+        },
+             "description" : "This sample price: @Model.packSamplePrice  for arrival on @Model.packStartTravel.ToLongDateString(). Choose your own arrival dates.",
+        "offers" : {
+        "@@type" : "Offer",
+        "price" : "@String.Format("{0:0}", Decimal.Parse(@Model.packPrice))" ,
+        "availability": "https://schema.org/OnlineOnly",
+        "priceCurrency"  :"USD",
+        "PriceValidUntil":"@Model.packStartTravel.ToLongDateString()",
+        @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/{1}/package-{2}\"", @Model.packCountryNA.Replace(" ","_").ToLower(), @Model.packNA.Replace(" ", "_").ToLower(), @Model.PackId))
+        },
+        "aggregateRating": {
+        "@@type": "aggregateRating",
+        "ratingValue": "@Model.overAll out of 5 stars",
+        "reviewCount": "@packFeedCount"
+        },
+        @Html.Raw(String.Format("\"image\" : \"https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_placephoto.jpg\"", @Model.packCityID) + ",")
+        "review":{
+        "@@type":"Review",
+        "name":"@packFeedCount",
+        "author":{
+        "@@type":"Organization",
+        "name":"Tripmasters"
+        }
+        },
+        "sameAs":[
+        "https://twitter.com/tripmasters",
+        "https://www.facebook.com/Tripmasters",
+        "https://www.pinterest.com/tripmasters/",
+        "https://www.instagram.com/tripmasterstravel/",
+       "https://www.linkedin.com/company/tripmasters",
+        "https://en.everybodywiki.com/Tripmasters",
+        "https://www.youtube.com/tripmasters"
+
+        ]
+        }
+        </script>
+    }
+
+}
+
+<div class="main-container">
+    @*Breadcrumbs section*@
+    <section class="breadcrumb-section second-container">
+        <div class="breadcrumb--links">
+            <a href="/europe/">Home</a> › <a asp-route="Vacation_Route" asp-route-placeName="@Model.packCountryNA.Replace(" ", "_")">@Model.packCountryNA</a>
+            @{
+                Int32 citycnt = 0;
+            }
+            @foreach (var pk in @Model.ListRelPacks.Where(x => x.Str_PlaceTypeId == 25 || x.Str_PlaceTypeId == 1))
+            {
+                citycnt += 1;
+                string citybounder = citycnt == 1 ? " › " : " | ";
+                @Html.Raw(citybounder)
+                ;
+                <a href="@String.Format("{0}/{1}/vacations", (pk.UserID==243)?"/europe":(pk.UserID==595)?"/asia":"/latin", pk.Str_PlaceTitle.Replace(" ", "_").ToLower())">@pk.Str_PlaceTitle</a>
+
+            }
+
+        </div>
+    </section>
+    <div class="back-button">
+        <a asp-route="Vacation_Route" asp-route-placeName="@Model.packCountryNA.Replace(" ", "_")">@Model.packCountryNA</a>
+    </div>
+    @*Images section*@
+    <section class="images-section second-container">
+        <div class="image-section__wrapper">
+            <h1>@Model.packNA</h1>
+            <div style="height: 46px;margin-bottom: 30px; ">
+            @if (Model.overAll != 0)
+            {
+            @*Info section*@
+            <section class="info-section">
+                    <div id="TopOverAllFeeds" class="info-section__review">
+                        <span class="info-section__stars" style="--rating: @overAllAvg"></span>      
+                        <div id="dvTopStarsOverAllStr" class="info-section__score">@Model.overAll out of 5 stars</div>
+                    </div>
+                <div class="info-section__customer">
+                        @if (Model.packFeedCount > 0)
+                        {
+                                <span onclick="opentabSection('dvTabFeed');scrollToFeedbackSection()">@Model.packFeedCount Customer Feedbacks</span>
+                            <span onclick="openFeedbacksSection()">@Model.packFeedCount Customer Feedbacks</span>
+                        }
+                </div>
+            </section>
+            }
+            </div>
+            @if (!(Model.packPrice is null))
+            {
+                <div class="image-section__night">
+
+
+                    <span @(Model.setNts == 0 ? "id=ntsBubble title=ddd" : "")>@Model.ntsString Nights</span>
+
+                    @if (Model.packPrice != "")
+                    {
+                        <span>from <span id="packagePrice" class="image-section__price">@String.Format("{0:C0}", Decimal.Parse(@Model.packPrice))*</span></span>
+                    }
+                </div>
+                <div id="promPrice"></div>
+
+
+                <div class="info-section__description">
+                    <span>* Sample price:</span> @Model.packSamplePrice for a @Model.packStartTravel.ToShortDateString() arrival, departing @Model.packDepartureNA. Choose departure city, cabin and dates.
+                </div>
+            }
+
+        </div>
+        <ul class="images-section__list">
+            @{
+                var ik = 0;
+                foreach (var ig in Model.topPicsPack)
+                {
+
+                    var containsM = Regex.IsMatch(ig.IMG_ImageType, "M");
+
+                    if (!containsM && ik < 3)
+                    {
+
+                        <li class="images-section__item">
+                            <img src="@String.Format("https://pictures.tripmasters.com{0}", ig.IMG_500Path_URL.ToLower())" id="@String.Format("bigpicture-{0}",ik)" title="@ig.IMG_Title" onerror="this.src ='https://pictures.tripmasters.com/siteassets/d/no-image.jpg'" />
+                        </li>
+                        ik += 1;
+                    }
+
+                }
+            }
+        </ul>
+        <div id="dvmediaPopUp" class="backdrop is-hidden">
+            <div class="img-modal">
+            <div class="img-modal__wrapper">
+                <button class="img-modal__close" type="button" aria-label="Close modal">✖</button>
+                <h2 class="img-modal__title"><span>&#10094;</span>@Model.packNA</h2>
+                <p class="img-modal__subtitle">Photos</p>
+                <div id="dvmediaContent" class="img-modal__content">
+                    <div id="dvmcL" class="img-modal__left">
+                        <div class="img-modal__firts-img-wrapper">
+                            <div class="img-modal__reserved-height"></div>
+                            <div id="dvFstPic" class="img-modal__firts-img"></div>
+                        </div>
+                        <p id="dvPicNa" class="img-modal__name"></p>
+                        <div id="dvMV" class="img-modal__arrows">
+                            <button id="imgBack" type="button" aria-label="Previous picture">&#10094;</button>
+                            <button id="imgForw" type="button" aria-label="Next picture">&#10095;</button>
+                        </div>
+                        <div class="img-modal__total"><span id="totalCurrent"></span><span id="total"></span></div>
+                    </div>
+                    <div id="dvmcR" class="img-modal__right">
+                        <ul id="dvThuPic" class="img-modal__list"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <div id="discount1"></div>
+    <div id="discount2"></div>
+
+    @*Calendar*@
+    <div class="calendar second-container">
+           @await Component.InvokeAsync("UC_TM_T21Calendar")             
+    </div>
+    @*Desk tabs section*@
+    <section class="desk-tabs-section second-container">
+        <ul class="desk-tabs-section__list">
+            <li id="dvTabView" class="selected"><button type="button">Overview</button><span></span></li>
+            <li id="dvTabItin"><button type="button">Itinerary</button><span></span></li>
+            <li id="dvTabAcco"><button type="button">Hotels</button><span></span></li>
+            <li id="dvTabActi"><button type="button">Tours</button><span></span></li>
+            @if (Model.traID > 0)
+            {
+                <li id="dvTabTran"><button type="button">Transportation</button><span></span></li>
+            }
+            <li id="dvTabCou"><button type="button">Country Info</button><span></span></li>
+            @if (Model.faqID > 0)
+            {
+                <li id="dvTabFAQ"><button type="button">FAQ</button><span></span></li>
+            }
+            <li id="dvTabFeed"><button type="button">Feedbacks</button><span></span></li>
+            @* @if (Model.listPrices.Count > 0)
+            {
+                <li id="dvTabPrice"><button type="button">Price Guidance</button><span></span></li>
+            } *@
+        </ul>
+    </section>
+    @*Overview section*@
+    <section id="dvShwView" class="overview-section selected">
+        <div id="mbTabView" class="mob-tab selected"><button>Overview<span>&#8250;</span></button></div>
+        <div class="first-container overview-section__container">
+            <div class="overview-section__wrapper">
+            @if (Model.packIncluded != "")
+            {
+                <div class="overview-section__includes">
+                    <h2>This @Model.packNoNts night sample itinerary includes:</h2>
+                    <ul class="overview-section__list">
+                        @{ string[] a = Model.packIncluded.Split("\r\n");
+                            for (int i = 0; i < a.Length; i++)
+                            {
+                                                    <li class="overview-section__item"><span>@Html.Raw(@a[i])</span></li>
+                            }
+                         }
+                    </ul>
+                </div>
+            }
+            <div>
+                @if (Model.packDescription != "" && Model.packDescription != ".")
+                {
+                    <p class="overview-section__country-info">@Html.Raw(@Model.packDescription)</p>
+                }
+                <div class="overview-section__map">
+                        <div id="bigMap">
+                            @{
+                                var regex = new Regex("M");
+                                var picture = Model.topPicsPack.Any(x => regex.IsMatch(x.IMG_ImageType)) ? Model.topPicsPack.FirstOrDefault(x => regex.IsMatch(x.IMG_ImageType)) : Model.topPicsPack[3];
+                            }
+                            <img src="@String.Format("https://pictures.tripmasters.com{0}", @picture.IMG_500Path_URL.ToLower())" title="@picture.IMG_Title" onerror="this.src ='https://pictures.tripmasters.com/siteassets/d/no-image.jpg'" />
+                        </div>
+                    <button id="seeAllImg" class="overview-section__button" type="button">See Itinerary Map and all images</button>
+                </div>
+            </div>
+            </div>
+            <div id="overviewTopFeedback" class="overview-section__reviews">
+                @*Markup creating from getTop1Feedback in js file*@
+            </div>
+        </div>
+    </section>
+    @*Itinerary section*@
+    <section id="dvShwItin" class="itinerary-section">
+        <div id="mbTabItin"  class="mob-tab"><button>Itinerary<span>&#8250;</span></button></div>
+        <div id="dvContItin" class="first-container">
+            @if (Model.itiID > 0)
+            {
+                <div id="loadingItin" style="text-align:center; padding:50px;"><img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" alt="ajax-loader" /><br />loading ...<br /></div>
+            }
+            else
+            {
+                Int32 dayNo = 1;
+                <h2 class="itinerary-section__title">Flexible Itinerary</h2>
+                <ul class="itinerary-section__list">
+                    @foreach (CitySquence scty in Model.citySeq)
+                    {
+                        string _aboutPL = "aboutPL" + scty.Id.ToString() + "-" + scty.Sequence.ToString();
+                        <li>
+                                @if (scty.ProdType == "P")
+                                {
+                                    <h3>@scty.ProdTitle</h3>
+                                }
+                                else
+                                {
+                                    <h3>@scty.Name</h3>
+                                }
+                            <div>
+                                <div class="itinerary-section__picture">
+                                <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_cityimage.jpg", scty.Id)"  onerror="this.onerror=null;this.src='@String.Format("https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_placephoto.jpg", scty.Id)';" alt="about"  width="200" height="200"/>
+                                <button id=@_aboutPL type="button">About the Place</button>
+                            </div>
+                            <div class="itinerary-section__info">
+                                @{
+                                    if (scty.ProdType == "P")
+                                    {
+                                        Int32 sumdays = dayNo + Int32.Parse(scty.DaysDuration);
+                                        
+                                            <div>
+                                                Day @dayNo.ToString() to Day @sumdays.ToString()
+                                            </div>
+                                            <div>
+                                                <div id=@String.Format("prodDS{0}", scty.Sequence)></div>
+                                            </div>
+                                    }
+                                }
+
+                                @for (Int32 d = 0; d <= Int32.Parse(scty.DaysDuration); d++)
+                                {
+                                    <div>
+                                        <span>Day @dayNo</span>
+                                        <div>
+                                            @if (d == 0)
+                                        {
+                                            @Html.Raw(String.Format("Arrive to {0} <br/>", scty.Name));
+                                            @for (Int32 tr = 0; tr < Model.strTinTout.Count; tr++)
+                                            {
+                                                string[] Trin = Model.strTinTout[tr].Split("^");
+                                                @if (Trin[0] == scty.Sequence.ToString() && Trin[1] == "1" && Trin[3] == "TIN")
+                                                {
+                                                    @Html.Raw(String.Format("{0} <br/>", Trin[2]));
+                                                }
+                                            }
+                                        }
+                                        @if (d < Int32.Parse(scty.DaysDuration))
+                                        {
+                                                    <div id=@String.Format("overn-{0}-{1}",@scty.Id, @dayNo)>
+                                                        @Html.Raw(String.Format("Overnight in {0}", scty.Name))
+                                                        <div class="HotelsInfo" style="display:inline"></div>
+                                                        <div class="ActivitiesInfo" style="display:inline"></div>
+                                                    </div>
+                                                }
+                                        @if (d == Int32.Parse(scty.DaysDuration))
+                                        {
+                                            @for (Int32 tr = 0; tr < Model.strTinTout.Count; tr++)
+                                            {
+                                                string[] Trin = Model.strTinTout[tr].Split("^");
+                                                @if (Trin[0] == scty.Sequence.ToString() && Int32.Parse(Trin[1]) >= 1 && Trin[3] == "TIN")
+                                                {
+                                                    @Html.Raw(String.Format("{0} <br/>", Trin[2]));
+                                                }
+                                            }
+                                            @Html.Raw(String.Format("Departing from {0} <br/>", @scty.Name));
+                                            @if (scty.Transportation.Trim() != "none")
+                                            {
+                                                <b>Transportation to next city by: @scty.Transportation</b>
+                                            }
+                                            else
+                                            {
+                                                @if (Model.webTIC != "none" && scty.Sequence < Model.howManyCtys)
+                                                {
+                                                    <b>Transportation to next city by: @Model.webTIC</b>
+                                                }
+                                            }
+                                        }
+                                        </div>
+                                    </div>
+                                    dayNo += 1;
+                                }
+                                </div>
+                            </div>
+                        </li>
+                        dayNo -= 1;
+                     }
+                </ul>       
+            }
+        </div>               
+    </section>
+    @*Hotels section*@
+    <section id="dvShwAcco" class="hotels-section">
+        <div id="mbTabAcco"  class="mob-tab"><button>Hotels<span>&#8250;</span></button></div>
+        <div  class="first-container">
+             <ul class="hotels-section__list">
+             </ul>
+        </div>
+    </section>
+    @*Tours section*@
+    <section id="dvShwActi" class="tours-section">
+        <div id="mbTabActi"  class="mob-tab"><button>Tours<span>&#8250;</span></button></div>
+        <div class="first-container">
+                <ul class="tours-section__list">
+                </ul>
+        </div>
+    </section>
+    @if (Model.traID > 0)
+    {
+        @*Transportation section*@
+        <section id="dvShwTran" class="transportation-section">
+            <div id="mbTabTran"  class="mob-tab"><button>Transportation<span>&#8250;</span></button></div>
+        <div id="dvContTran" class="first-container">
+                <div id="loadingTran" style="text-align:center; padding:50px;"><img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" alt="ajax-loader" /><br />loading ...<br /></div>
+            </div>
+    </section>
+    }
+    @*Country info section*@
+    <section id="dvShwCou" class="country-info-section">
+        <div id="mbTabCou"  class="mob-tab"><button>Country Info<span>&#8250;</span></button></div>
+        <div class="first-container country-info-section__wrapper">
+            @foreach (var p in Model.countriesCMS)
+            {    
+                <div class="country-info-section__item">
+                    <div class="country-info-section__image">
+                        <img class="lazyload" alt="@p.STR_PlaceTitle" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com/images/web/ed/places/{0}.jpg", @p.STR_PlaceTitle.Replace(" ", "_").ToLower()) asp-append-version="true" onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'" width="150" height="150" />
+                    </div>
+                    <div class="country-info-section__info">
+                        <h3>@p.STR_PlaceTitle</h3>
+                        <p>@Html.Raw(@p.STR_PlaceShortInfo)</p>
+                        <div id=@String.Format("coun-cms-{0}", @p.STR_PlaceID)>
+                        </div>
+                    </div>
+                </div>
+             }                 
+        </div>
+    </section>
+    @if (Model.faqID > 0)
+    {
+        @*FAQ section*@
+        <section id="dvShwFAQ" class="faq-section">
+            <div id="mbTabFAQ"  class="mob-tab"><button>FAQ<span>&#8250;</span></button></div>
+            <div id="dvContFAQ" class="first-container">
+                <div id="loadingFAQ" style="text-align:center; padding:50px;"><img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" alt="ajax-loader" /><br />loading ...<br /></div>
+            </div>
+        </section>
+    }
+        @*Feedbacks section*@
+        <section id="dvShwFeed" class="feedbacks-section">
+            <div id="mbTabFeed"  class="mob-tab"><button>Feedbacks<span>&#8250;</span></button></div>
+            <div class="first-container feedbacks-section__wrapper">
+                <div class="feedbacks-section__buttons">
+                    @if (Model.packFeedCount > 0)
+                    {
+                        <input type="hidden" id="PackCustFeedIds" value=@Model.packFeedCount />
+                        <button class="feedbacks-section__button selected" onclick="openFeedsContainer('P',@Model.PackId)">
+                            <span>This package</span>
+                            <span>@Model.packFeedCount Customer Feedbacks</span>
+                        </button>
+                    }
+                </div>
+                <div class="feedbacks-section__content">
+                    <div>
+                        <div id="OverAllFeeds">
+                        <h2 class="feedbacks-section__title">Customer Reviews</h2>
+                        <div class="feedbacks-section__review">
+                        @if (Model.overAll != 0)
+                                {
+                                    <div class="info-section__review">
+                                        <span class="info-section__stars" style="--rating: @overAllAvg"></span>      
+                                        <div id="dvTopStarsOverAllStr" class="info-section__score" style="color: #000;">@Model.overAll out of 5 stars</div>
+                                    </div>
+                                }
+                                <div class="feedbacks-section__number" id="dvNoOfFeeds"></div>
+                        </div>
+                    </div>
+                        <div class="feedbacks-section__link">
+                        <p>Share your thoughts with other travelers</p>
+                        <a href="https://www.tripmasters.com/checkbookingforreview">Write a Review</a>
+                    </div>
+                    </div>
+                    <div>
+                        <div class="dvPagin"> <span class="dvPaginas"></span> </div>
+                        <div id="dvFeeds" class="feedbacks-section__comment"></div>
+                        <div class="feedbacks-section__link-bottom ">
+                            <p>Share your thoughts with other travelers</p>
+                            <a href="https://www.tripmasters.com/checkbookingforreview">Write a Review</a>
+                        </div>
+                        <div class="dvPagin"> <span class="dvPaginas"></span> </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @{
+         decimal W = Decimal.Round((Model.overAll * 120) / 5, 1);
+     }
+     <input id=@String.Format("PVal{0}", Model.PackId) type="hidden" value="@Model.packFeedCount|@Model.overAll|@W" />
+    @* @if (Model.listPrices.Count > 0)
+    { *@
+        @*Prise guidance section*@
+        @* <section id="dvShwPrice" class="price-section">
+            <div class="first-container">
+                <div class="dvPriceGui">
+                    <h2 class="price-section__title">Price Guidance</h2>
+                    <p>
+                        The package rates displayed are your total price per person based on Double Occupancy and your Arrival Date and Number of Nights selected.
+                        You can change details after selecting your travel date.
+                    </p>
+                </div>
+                <div class="dvPriceHisto">
+                    <span>Price history for this itinerary (past 7 days):</span>
+                    <p>Your Preferred Major Airport:</p>
+                    @{
+                        List<PriceGuidance> listAirports = Model.listPrices.OrderBy(x => x.PLC_Title).ToList();
+                        var groups = listAirports.GroupBy(x => x.PLC_Title);
+                    }
+                    <div id="dep" class="dropdownContainer">
+                        @if (Model.DepartureAirport.Id <= 0)
+                        {
+                            string titleAirport = "";
+                            @if (Model.listPrices.Where(x => x.PLCID == 1).Any())
+                            {
+                                titleAirport = "New York City (all Airports),  NY";
+                            }
+                            else
+                            {
+                                titleAirport = listAirports.FirstOrDefault().PLC_Title;
+                            }
+                            <span class="spdepair">@titleAirport</span>
+                            <input type="hidden" id="inpFromNA" value="New York City (all Airports),  NY" />
+                            <input type="hidden" id="inpFromID" value="1" />
+                            }
+                        else
+                        {
+                            <span class="spdepair">@Model.DepartureAirport.Name</span>
+                            <input type="hidden" id="inpFromNA" value="@Model.DepartureAirport.Name" />
+                            <input type="hidden" id="inpFromID" value="@Model.DepartureAirport.Id" />
+                        }
+                        <ul class="dropdownList">
+                            @foreach (var grp in groups)
+                            {
+                                <li><a href="#" lang="@grp.First().PLCID">@grp.First().PLC_Title</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div id="dvOrangeText" style="padding: 20px 0"><span class="Text_Arial1_OrangeBold">*Sample prices on display include ALL taxes & fuel surcharges... </span><a href="/" class="Text_11_Blue" onclick="$('#dvOrangeText').hide();$('#dvTxtDisclam').show(); return false;"><u>read more</u></a> </div>
+                <div id="dvTxtDisclam" style="padding: 0 20px 20px; font-size:12px; box-shadow: 5px 7px 7px #999; margin: 0 0 20px 0; display:none;">
+                    <span style="display:block; padding:10px 20px; color:#666; font-size:10px; text-align:right"><a href="/" onclick="$('#dvOrangeText').show();$('#dvTxtDisclam').hide(); return false;">close [x]</a></span> * Sample prices displayed include international and domestic airline tickets as per itinerary and ALL airline-related taxes and fuel surcharges and are per person, based on double occupancy, and are dynamic in nature. Prices do not include insurance or delivery charges which are optional and customizable by the traveler. The airfare portion of the itinerary price is based on economy class, midweek departure. Prices do not include fees for carry on or checked baggage which can add additional fees per ticket on a roundtrip flight based on carrier charges. It also does not include any entrance fees or visa fees that may be charged at international airports. Some cities may charge local taxes that can only be collected by hotel at destination.
+                            Prices were accurate at the time we posted them. Sample prices were for a specific travel date and specific departure airport, as indicated. Your prices will vary according to departure cities and travel dates. We do not control prices (airlines and hotel reservation systems do). Prices may change dynamically and at times significantly numerous times during any given day.
+                </div>
+                <div id='PriceGuideCalendar' style="margin: 0 auto;"></div>
+            </div>
+            <div id="dvPopUpGL" class="dvPopUpOrangeTopL">
+                <p class="pClose" onclick="hidePopUpInfo('dvPopUpGL')">✖</p>
+                <div id="dvPopContentL" class="dvPopContentL"></div>
+            </div>
+            <div id="dvPopUpGR" class="dvPopUpOrangeTopR">
+                <p class="pClose" onclick="hidePopUpInfo('dvPopUpGR')">✖</p>
+                <div id="dvPopContentR" class="dvPopContentR"></div>
+            </div>
+        </section>
+    } *@
+    @*Related itineraries*@
+    <section class="related-section">
+        <div class="first-container">
+            @if (Model.PackRelItins.Count > 0)
+            {
+                <div class="history-section__related-itin">
+                    <h2> Related Itineraries:</h2>
+                    <ul>
+                        @{Int32 relC = 0; }
+                        @foreach (var x in Model.PackRelItins)
+                        {
+                            relC += 1;
+                            @if (relC <= 5)
+                            {
+                                string counName = String.IsNullOrEmpty(@x.CountryName) ? @Model.packCountryNA.Replace(' ', '_') : @x.CountryName.Replace(' ', '_');
+                                var _dvRpk = "dvRpk" + @x.STP_ProdItemID.ToString();
+                                            <li id=@_dvRpk>
+                                                <a asp-route="Package_Route" asp-route-id="@x.STP_ProdItemID" asp-route-name="@x.PDL_Title.Replace(' ', '_')" asp-route-country="@counName" onclick="relIntForm(this,@Model.relatedItin); return false">@x.PDL_Title</a>
+                                    @if (x.STP_Save != "9999")
+                                    {
+                                                        <span>from @String.Format("{0:C0}", Decimal.Parse(@x.STP_Save))</span>
+                                    }
+                                            </li>
+                            }
+                    }
+                    </ul>
+                </div>
+            }
+            @if (@Model.ListRelPacks.Count > 0)
+            {
+                <div class="history-section__related">
+                    <h2> Related Cities:</h2>
+                    <ul id='packRELA'>
+                        @foreach (var pk in @Model.ListRelPacks.Where(x => x.Str_PlaceTypeId == 25 || x.Str_PlaceTypeId == 1))
+                        {
+                        <li><a href="@String.Format("{0}/{1}/vacations", (pk.UserID==243)?"/europe":(pk.UserID==595)?"/asia":"/latin", pk.Str_PlaceTitle.Replace(" ", "_").ToLower())"><u>@pk.Str_PlaceTitle</u></a></li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </section>
+    @if (Model.ovrID == 0)
+    {
+        @*Trip section*@
+        <section class="trip-section">
+            <div class="trip-section__wrapper first-container">
+                <h2 class="trip-section__title">Trip Summary</h2>
+                <ul class="trip-section__list">
+                    @foreach (CitySquence tcty in Model.citySeq)
+                    {
+                        string _idAbout = "aboutOVR" + tcty.Id.ToString() + "-" + tcty.Sequence;
+                        string _placephoto = "https://pictures.tripmasters.com/images/destination_icons/ed/cities/" + tcty.Id.ToString() + "_placephoto.jpg";
+
+                        <li class="trip-section__item">
+                            <div class="trip-section__flex">
+                                <span class="trip-section__name">@tcty.Name</span>
+                                <div class="trip-section__image">
+                                    <img class="lazyload" alt="@tcty.Name" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_cityimage.jpg", tcty.Id.ToString())" onerror="this.onerror=null;this.src='@String.Format("https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_placephoto.jpg", tcty.Id.ToString())';" />
+                                </div>
+                            </div>
+                            <div class="trip-section__flex">
+                                <div class="trip-section__subtitle">
+                                    <button id=@_idAbout>Recommended Stay: at least <span>@tcty.DaysDuration nights</span></button>
+                                </div>
+                                @if (!string.IsNullOrEmpty(tcty.PlaceShortInfo))
+                                {
+                                    <p class="trip-section__description">@Html.Raw(@tcty.PlaceShortInfo.Replace("<br />", ""))</p>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </section>
+    }
+    else
+    {
+        @if (Model.ovrID > 0)
+        {
+            <div style="padding:20% 0;" align="center"><img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/world-globe-animated-ajax-loaders.gif" alt="world-globe-animated-ajax-loaders" asp-append-version="true" align="absmiddle" /><br />Loading ...</div>
+            <input id="ovrCms" type="hidden" value=@Model.ovrID />
+        }
+    }
+    @*Pay section*@
+    <section class="pay-section first-container">
+    @{
+        var byt1 = 100;
+        var px21 = default(decimal);
+        if (Model.packPrice != null)
+        {
+            byt1 = 100;
+            px21 = Decimal.Parse(@Model.packPrice) * 2;
+        }
+        <div class="pay-section__wrapper">
+            <ul class="pay-section__list">
+                <li class="pay-section__item">
+                    <div data-pp-message data-pp-style-layout="flex" data-pp-style-ratio="1x1" data-pp-style-color="white" data-pp-amount="@Html.Raw(String.Format("{0}", px21))"></div>
+                </li>
+                <li class="pay-section__item">
+                    <div class="pay-section__flex">
+                        <a class="affirm-site-modal" data-page-type="banner">
+                            <img src="https://cdn-assets.affirm.com/images/banners/190x100.png" alt="banners"/>
+                        </a>
+                        @{
+                            if (Model.packPrice != null)
+                            {
+                                <p class="affirm-as-low-as pay-section__description" data-page-type="product" data-amount="@Html.Raw(String.Format("{0}",(@px21 * @byt1)))"></p>
+                            }
+                        }
+                    </div>
+                </li>
+                <li class="pay-section__item">
+                    <div class="pay-section__flex">
+                        <p class="pay-section__text">You can now</p>
+                        <h2 class="pay-section__title">Stagger</h2>
+                        <p class="pay-section__text">your payment!</p>
+                        <button id="staggerPaymentsInfo" class="pay-section__button">see conditions</button>
+                    </div>
+                </li>
+            </ul>
+        </div>                        
+        }
+    </section>
+    @*History section*@
+    @* <section class="history-section">
+        <div class="history-section__wrapper first-container">
+            <div id="history-section__prices">
+            </div>
+        </div>
+    </section> *@
+    @*Modal*@
+    <div id="modal" class="backdrop is-hidden">
+        <div class="modal-wrapper">
+            <button class="modal__close" type="button" aria-label="Close modal">✖</button>
+            <div class="modal__container"></div>
+        </div>
+    </div>
+    <div id="dvFixDates" onclick="$('#dvFixDates').hide();" style="display:none;" align="left"> </div>
+    <div id="divError" class="ketchup-error-container" style="left: 5px; top: 200px; display: none;">
+        <ol>
+            <li>This field is required.</li>
+            <li>Must be a valid username.</li>
+        </ol>
+    </div>
+    <div class="backdrop-about is-hidden">
+        @foreach (CitySquence sctyI in Model.citySeq)
+        {
+            <div id=@String.Format("aboutDIV{0}-{1}", sctyI.Id, sctyI.Sequence) class="about-section">
+                <button id=@String.Format("aboutCls{0}-{1}", sctyI.Id, sctyI.Sequence) class="about-section__close" type="button" aria-label="Close modal">✖</button>
+                <div class="about-section__wrapper">
+                <div>
+                        <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_cityimage.jpg", sctyI.Id)" onerror="this.onerror=null;this.src='@String.Format("https://pictures.tripmasters.com/images/destination_icons/ed/cities/{0}_placephoto.jpg", sctyI.Id)';" alt="@sctyI.Name" style="width: 100%;" />
+                    <div class="about-section__name"> @sctyI.Name</div>
+                </div>
+                <div style="flex: 2;"> @Html.Raw(@sctyI.PlaceShortInfo)</div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+ 
+<input type="hidden" id="inpRelItin" name="inpRelItin" value="@rpOnPopUp" />
+<input type="hidden" id="pakID" value="@Model.PackId" />
+<input type="hidden" id="prodID" value="@Model.packProdID" />
+<input type="hidden" id="pakNA" value="@Model.packNA" />
+<input type="hidden" id="plcNA" value="@Model.packCountryNA" />
+<input type="hidden" id="pakNTS" value="@Model.ntsString Nights | @Model.txtNites"/>
+<input type="hidden" id="hwMnyCty" value="@Model.howManyCtys" />
+<input type="hidden" id="tCityIDs" value="@Model.stringCityIDs" />
+<input type="hidden" id="cmsIti" value="@Model.itiID" />
+<input type="hidden" id="cmsPri" value="@Model.priID" />
+<input type="hidden" id="cmsAcc" value="@Model.accID" />
+<input type="hidden" id="cmsAct" value="@Model.actID" />
+<input type="hidden" id="cmsTra" value="@Model.traID" />
+<input type="hidden" id="cmsFaq" value="@Model.faqID" />
+<input type="hidden" name="citiesInfo" id="citiesInfo" value="@Model.citiesInfo" />
+<input type="hidden" name="packFeedCount" id="packFeedCount" value="@Model.packFeedCount" />
+@section Scripts
+    {
+    <script src="https://www.paypal.com/sdk/js?client-id=AWoO3MlpkUvFsL33p6NRa-PstulItsMWHVKr8bViELOmPAPQXm9D1UGxfiANreyxiudZo40fijtQb2Es&components=messages"
+            data-namespace="PayPalSDK">
+    </script>
+    <environment include="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/site/dt.java.simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/jq_second/jquery.extjasoncookie-0.2.js"></script>
+        <script src="~/js/jq_second/jquery.popupWindow.js"></script>
+        <script src="~/js/site/dt.java.scrollable.js"></script>
+        <script src="~/js/site/dt.java.date.format.js"></script>
+        <script src="~/js/site/moment.js"></script>
+        <script src="~/js/t21_calendar/t21_calendar.js" asp-append-version="true"></script>
+        <script src="~/js/t21/dm.java.template21.js" asp-append-version="true"></script>
+        <script src="~/js/t21-29/dt.java.2.tabpriceguide.js" asp-append-version="true"></script>
+        <script src="~/js/t21-29/dt.java.1.tabpriceguide.support.min.js" asp-append-version="true"></script>
+        <script src="~/js/cms/java.CMS_javaScriptLinks.js" asp-append-version="true"></script>
+        <script src="~/js/cms/java.CMS_javaScript_Optimized.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/site/dt.java.simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/jq_second/jquery.extjasoncookie-0.2.js"></script>
+        <script src="~/js/jq_second/jquery.popupWindow.js"></script>
+        <script src="~/js/site/dt.java.scrollable.js"></script>
+        <script src="~/js/site/dt.java.date.format.js"></script>
+        <script src="~/js/site/moment.js"></script>
+        <script src="~/js/t21_calendar/t21_calendar.min.js" asp-append-version="true"></script>
+        <script src="~/js/t21/dm.java.template21.min.js" asp-append-version="true"></script>
+        <script src="~/js/t21-29/t21_29.min.js" asp-append-version="true"></script>
+        <script src="~/js/cms/cms.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

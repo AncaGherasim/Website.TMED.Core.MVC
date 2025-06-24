@@ -1,0 +1,313 @@
+﻿.dvEachPkInclude:nth-child(odd) {
+    background-color: #ecf1ff;
+}
+.dvEachPkInclude span:nth-child(1) {
+    color: navy;
+    font-size: 14px;
+}
+dvEachPkInclude span:nth-child(2) {
+    color: #666;
+    font-size: 14px;
+}
+
+.dvEachPkInclude span {
+    font-size: 12px;
+}
+
+.btnExpand.collapsed:after {
+    transform: rotate(90deg);
+    margin-right: 0px;
+}
+
+.btnExpand:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    color: #f93;
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+.dvEachFeed:nth-child(odd) {
+    background-color: #ecf1ff;
+}
+
+#filterSort {
+    font-size: 14px;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+}
+
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 1.95em;
+    cursor: pointer;
+    display: inherit;
+}
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .4em;
+    width: 1em;
+    height: 1em;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    content: '\002714';
+    position: absolute;
+    top: 0.1em;
+    left: .13em;
+    font-size: 1.3em;
+    line-height: 1.1;
+    color: #0581d4;
+    transition: all .2s;
+}
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+
+[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+label:hover:before {
+    border: 1px solid #666 !important;
+}
+
+.modal_content {
+    height: 100vh;
+    border-radius: 0;
+    position: relative;
+}
+
+.modal_footer {
+    border-radius: 0;
+    bottom: 0px;
+    width: 100%;
+}
+
+.modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    height: 250px;
+    overflow-y: auto;
+}
+
+/* Custom modal for iframe TrustYou Review*/
+.modal-full{
+    min-height:100%;
+}
+.modal-full .modal-content, .ifrTrustYou{
+    min-height:100vh;
+}
+.dvHotelTitle {
+    font-size: 20px;
+    color: #5f8cde;
+    font-weight: bolder;
+}
+.dvHotelArea{
+    font-size:11px;
+    color:#666;
+    font-weight:bolder;
+}
+.dvhotelDetailsMap {
+    background: rgba(99,139,209,1);
+    float: right;
+    padding: 0 18px 0 10px;
+    color: #fff;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    width: 140px;
+    font-size: 12px;
+    margin: 7px 0 0;
+    font-weight: 700;
+}
+    .dvhotelDetailsMap:after {
+        content: "\203A";
+        float: right;
+        font-size: 12px;
+        line-height: 20px;
+        transform: rotate(270deg);
+        color: white;
+        font-weight: 700;
+        margin-right: 6px;
+    }
+/* Css for google map*/
+#dvMHOMap{
+    height:500px;
+}
+.dvHotBubble {
+    color: #333;
+    text-align: left;
+    width: auto;
+    font: 12px Arial,Helvetica,sans-serif
+}
+
+.dvaddHot {
+    text-align: left
+}
+
+    .dvaddHot p {
+        height: 20px;
+        margin: 1px 0;
+        position: relative;
+        left: 0px
+    }
+
+.spFav {
+    background: url(https://pictures.tripmasters.com/siteassets/d/recommIcon.png) no-repeat center center !important;
+    border: 1px solid #CCC;
+    display: inline-block;
+    float: left;
+    height: 15px;
+    width: 15px;
+    padding: 2px;
+    margin: 0 3px;
+    border-radius: 3px
+}
+
+.fF {
+    background: url(https://pictures.tripmasters.com/siteassets/d/favorite.gif) no-repeat left center
+}
+
+.s5 {
+    background: url(https://pictures.tripmasters.com/siteassets/d/Stars_5_Stars.gif) no-repeat left center
+}
+
+.s4 {
+    background: url(https://pictures.tripmasters.com/siteassets/d/Stars_4_Stars.gif) no-repeat left center
+}
+
+.s3 {
+    background: url(https://pictures.tripmasters.com/siteassets/d/Stars_3_Stars.gif) no-repeat left center
+}
+
+.s2 {
+    background: url(https://pictures.tripmasters.com/siteassets/d/Stars_2_Stars.gif) no-repeat left center
+}
+
+.s1 {
+    background: url(https://pictures.tripmasters.com/siteassets/d/Stars_1_Stars.gif) no-repeat left center
+}
+
+.mapBubb {
+    border-radius: 3px;
+    height: 80;
+    max-width: 110px;
+    background: #f3f3f3;
+    border: 1px solid #ccc;
+    padding: 3px;
+    position: relative
+}
+
+.jsO {
+    margin: 3px 0;
+    width: auto
+}
+
+.mrDet {
+    text-decoration: underline;
+    color: #00F;
+    font-size: 10px;
+    padding: 0 5px
+}
+
+    .mrDet:hover {
+        color: red;
+        cursor: pointer
+    }
+
+.dvO {
+    width: 200px
+}
+
+.dvSpinLoader {
+    background: url(https://pictures.tripmasters.com/siteassets/d/image_857948.gif) no-repeat center center;
+    height: 200px;
+    margin: 0 auto 80px;
+    width: 400px;
+    opacity: .4
+}
+
+.dvPoiList {
+    padding: 0;
+    height: 220px;
+    width: 240px;
+    overflow: auto;
+    margin-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto
+}
+.aBkPvPg {
+    background-color: #039
+}
+.aBkPvPg:before{
+    content: "\2039";
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin-right: 10px;
+}
+.aDet {
+    background-color: rgba(99,139,209,1);
+    border-radius: 0;
+    font-size:14px;
+    font-weight: 700;
+}
+.aDet:after{
+    content: "\203A";
+    color: #fff;
+    font-size: 20px;
+    position:relative;
+    top: 2px;
+    margin-left:10px;
+}
+.btnSrt {
+    background-color: rgba(99,139,209,1);
+}
+.btnSrt:after {
+    content: "\00BB";
+    color: #fff;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.spSeeAll {
+    margin: 10px;
+    text-align: right;
+    display: block;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600
+}
+
+p.pMHOhotrevtitle {
+    font-size: 2em;
+    color: #5F8CDE;
+    font-weight: bolder;
+    padding: 5px 0 5px 15px;
+}

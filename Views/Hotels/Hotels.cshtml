@@ -1,0 +1,385 @@
+﻿@model MVC_TMED.Models.ViewModels.HotelsViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options;
+@using System.Text.RegularExpressions;
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@section Styles {
+    <environment include="Development">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/hotelist/dt.style.hotelsoncity.css" />
+        <link href="~/css/hotelreview/dt.style.hotelreview.css" rel="stylesheet" />
+        <link href="~/css/hotelist/jquery.paginate.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/hotelist/dt.style.hotelsoncity.min.css" asp-append-version="true" />
+        <link href="~/css/hotelreview/dt.style.hotelreview.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/hotelist/jquery.paginate.min.css" rel="stylesheet" />
+    </environment>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName'</script>
+    <script>var NoOfHotels = '@Model.allHotels.TotalCount'</script>
+    <script>var ctyLatLong = '@Model.ctyLatLong'</script>
+}
+
+
+<form id="Form1" runat="server">
+    <input type="hidden" id="placeNA" value="@Model.hotelInfo.First().plcNA" />
+    <input type="hidden" id="placeID" value="@Model.hotelInfo.First().plcID" />
+    <input type="hidden" id="countryNA" value="@Model.hotelInfo.First().couNA" />
+    <input type="hidden" id="countryID" value="@Model.hotelInfo.First().couID" />
+    <input type="hidden" id="strID" value="@Model.hotelInfo.First().strID" />
+    <div class="main-content">
+        <div class="main-container">
+            <ul class="breadcrumbs">
+                <li><a href="/europe/">Home</a></li>
+                <li class="breadcrumbs__arrow">›</li>
+                <li><a href=@String.Format("/europe/{0}/vacations", @Model.hotelInfo.First().couNA.Replace(" ", "_").ToLower())>@Model.hotelInfo.First().couNA</a></li>
+                <li class="breadcrumbs__arrow">›</li>
+                <li><a href=@String.Format("/europe/{0}/vacations", @Model.hotelInfo.First().plcNA.Replace(" ", "_").ToLower())>@Model.hotelInfo.First().plcNA</a></li>
+            </ul>
+            <h1 class="main-title">Hotels in @Model.hotelInfo.First().plcNA</h1>
+            <div class="mobile-nav">
+                <div class="mobile-nav__buttons">
+                    <button id="modalMap" type="button">locate on map<span>&#8250;</span></button>
+                    <button id="modalFilter" type="button"><div><span></span><span></span><span></span></div>sort & filter</button>
+                </div>
+                <p class="mobile-nav__title">We found a total of:</p>
+                <p class="mobile-nav__num"><span>@Model.allHotels.TotalCount</span> properties in @Model.hotelInfo.First().plcNA</p>
+            </div>
+            <div class="main-content__wrapper">
+                <!-- Left Column W -->
+                <div class="main-content__left">
+                    <div class="hotels__map">
+                        <div>
+                            <h3 class="hotels__map--title">Locate on map</h3>
+                            <div class="hotels__map-wrapper">
+                                <div id="dvMapCanvas"></div>
+                                <button id="dvMapLegend">All hotels in this city</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hotels__filter">
+                        <div>
+                            <h3 class="hotels__filter-title">Filter hotels by:</h3>
+                            <div class="hotels__filter-zone">
+                                <h4 class="hotels__filter--subtitle">Neigborhood/City Zone:</h4>
+                                <div>
+                                    <select id="selZone">
+                                        <option value="-1">Show All</option>
+                                        @foreach (ListCityZones obj in Model.allHotels.list_cityzones.OrderBy(z => z.cityzone).ToList())
+                                        {
+                                            string cityz = "";
+                                            if (@obj.cityzone == null)
+                                            {
+                                                cityz = "----";
+                                            }
+                                            else
+                                            {
+                                                if (@obj.cityzone.Length >= 4)
+                                                {
+                                                    cityz = @obj.cityzone.Substring(4);
+                                                }
+                                            }
+                                            <option value="@obj.giph_tnzoneid">@cityz</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hotels__filter-name">
+                                <h4 class="hotels__filter--subtitle">Hotel name contains:</h4>
+                                <div>
+                                    <input type="text" id="hotContain" name="hotContain" value="Type word" />
+                                    <button type="button" onclick="UpdateHotelList();">
+                                        ›
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hotels__filter-rating">
+                                <h4 class="hotels__filter--subtitle">Rating:</h4>
+                                <div id="ratingFilters">
+                                    @{
+                                        Model.allHotels.list_ratings.Sort((a, b) => string.Compare(b.giph_tntournetrating, a.giph_tntournetrating));
+                                    }
+                                    @foreach (ListRatings obj in Model.allHotels.list_ratings)
+                                    {
+                                        string strs = obj.giph_tntournetrating;
+                                        string imgSrc = "";
+                                        string hrate = "hotels";
+                                        string imgAlg = "align='absmiddle'";
+                                        string hotRat = "";
+                                        if (System.Text.RegularExpressions.Regex.IsMatch(strs, "Stars|Lodge|Cruise"))
+                                        {
+                                            imgSrc = "Stars_" + strs.Replace(" ", "_");
+                                            if (imgSrc.Contains("+"))
+                                            {
+                                                imgSrc = imgSrc.Replace("+", "_Plus");
+                                            }
+                                            hotRat = strs;
+                                        }
+                                        else
+                                        {
+                                            imgSrc = strs.Replace(" ", "_").ToLower();
+                                        }
+                                        var idValue = strs.Replace(" ", "_").Replace("+", "plus");
+                                        <div class="dvChecks">
+                                            <input type="checkbox"
+                                                   class="css-checkbox rat"
+                                                   id=@($"chkStar{idValue}")
+                                                   value=@($"{idValue}")
+                                                   checked="checked" />
+
+                                            <label for=@($"chkStar{idValue}") name="checkbox65_lbl" class="css-label rat">
+                                                <img src=@($"https://pictures.tripmasters.com/siteassets/d/{imgSrc}.gif") @Html.Raw(imgAlg) />
+                                                @hotRat
+                                            </label>
+                                            <a href="/" class="aOnly" id=@($"a|chkStar{idValue}")>only</a>
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                            <div class="hotels__filter-favorite">
+                                <h4 class="hotels__filter--subtitle">Favorite</h4>
+                                <div class="dvChecks">
+                                    <input type="checkbox" class="css-checkbox fav" id="favorite" value="1" />
+                                    <label for="favorite" name="checkbox65_lbl" class="css-label fav"> Show only <img src="https://pictures.tripmasters.com/siteassets/d/favorite.gif" align="absmiddle" /></label>
+                                    <a href="/" class="aOnly" id="a|favorite">only</a>
+                                </div>
+                            </div>
+                            <div class="hotels__filter-score">
+                                <h4 class="hotels__filter--subtitle">Review Score</h4>
+                                <div class="dvReview" id="reviewFilters">
+                                    @{
+                                        var reviewFilters = (Model.strReview.ToString() ?? "").Split('|');
+                                        string idScore = "";
+                                        string grpScore = "";
+                                        string reviewNA = "";
+                                    }
+
+                                    @foreach (var e in reviewFilters)
+                                    {
+                                        switch (e)
+                                        {
+                                            case "Excellent":
+                                                idScore = "4_5";
+                                                grpScore = "4.5+";
+                                                reviewNA = "Excellent 4.5+";
+                                                break;
+                                            case "Very":
+                                                idScore = "4";
+                                                grpScore = "4+";
+                                                reviewNA = "Very Good 4+";
+                                                break;
+                                            case "Good":
+                                                idScore = "3_5";
+                                                grpScore = "3.5+";
+                                                reviewNA = "Good 3.5+";
+                                                break;
+                                            case "Fair":
+                                                idScore = "3";
+                                                grpScore = "3+";
+                                                reviewNA = "Fair 3+";
+                                                break;
+                                            case "Poor":
+                                                idScore = "0";
+                                                grpScore = "-3";
+                                                reviewNA = "Poor -3";
+                                                break;
+                                            case "":
+                                                reviewNA = "none";
+                                                break;
+                                            default:
+                                                reviewNA = "none";
+                                                break;
+                                        }
+
+                                        if (reviewNA != "none")
+                                        {
+                                            <div class="dvChecks">
+                                                <input type="checkbox" class="css-checkbox rev" id=@($"chkRevw{idScore}") value="@idScore" checked="checked" />
+                                                <label for=@($"chkRevw{idScore}") name="checkbox65_lbl" class="css-label rev">@reviewNA&nbsp; </label>
+                                                <a href="/" class="aOnly" id=@($"a|chkRevw{idScore}")>only</a>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="hotels__reset">
+                                <button id="resetButton" type="button">Reset Filters</button>
+                                <button id="applyButton" type="button">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotels__packages">
+                        <h4>Packages including:</h4>
+                        <span>@Model.hotelInfo.First().plcNA</span>
+                        <ul class="hotels__packages-list">
+                        </ul>
+                        <a asp-route="Vacation_Route" asp-route-placeName="@Model.hotelInfo.First().couNA.Replace(" ","_")">see all<span>›</span></a>
+                    </div>
+                </div>
+                <!-- Righ Column W -->
+                <div class="main-content__right" id="hotelList">
+                    <div class="desk-nav">
+                        <div class="desk-nav__total">
+                            <p class="desk-nav__title">We found a total of:</p>
+                            <p class="desk-nav__num"><span>@Model.allHotels.TotalCount</span> properties in @Model.hotelInfo.First().plcNA</p>
+                        </div>
+                        <div class="desk-nav__sort">
+                            <div class="desk-nav__sort-wrapper">
+                                <span>Sort By:</span>
+                                <div>
+                                    <div>
+                                        <label class="active" id="sortBy1">
+                                            <input type="radio" id="rad" name="rad" value="1" checked="checked" class="rad" />
+                                            <span>A-Z</span>
+                                            Name
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label id="sortBy2">
+                                            <input type="radio" id="rad" name="rad" value="2" class="rad" />
+                                            <span>RA</span>
+                                            Rating
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label id="sortBy3">
+                                            <input type="radio" id="rad" name="rad" value="3" class="rad" />
+                                            <span>RE</span>
+                                            Review
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="hotels__list" id="updateContenedor">
+                        @foreach (var hotel in Model.allHotels.hotels)
+                        {
+                            string HOTtitle = hotel.pdl_title;
+                            if (HOTtitle.EndsWith("."))
+                            {
+                                HOTtitle = HOTtitle.Substring(0, HOTtitle.LastIndexOf('.'));
+                            }
+                            string favorite = (hotel.giph_tnsequence > 49 && hotel.giph_tnsequence < 60)
+                            ? "<img src=\"https://pictures.tripmasters.com/siteassets/d/favorite.gif\" align=\"absmiddle\" />"
+                            : "";
+                            string textStars = hotel.giph_tntournetrating.Contains("Stars") ? hotel.giph_tntournetrating : "";
+                            string imgStar = "";
+                            if (System.Text.RegularExpressions.Regex.IsMatch(hotel.giph_tntournetrating, "Stars|Lodge|Cruise"))
+                            {
+                                imgStar = "Stars_" + hotel.giph_tntournetrating.Replace(" ", "_");
+                                if (imgStar.Contains("+"))
+                                {
+                                    imgStar = imgStar.Replace("+", "_Plus");
+                                }
+                            }
+                            else
+                            {
+                                imgStar = hotel.giph_tntournetrating.Replace(" ", "_").ToLower();
+                            }
+
+                            // Assuming expediaNoRange is a helper method you define
+                            string solScore = HotelsByPlaceID_PG.ExpediaNoRange(hotel.ghs_finalscore);
+                            string NoOfReviews = hotel.ghs_expediareviewcount > 0
+                            ? $"(<button type=\"button\" onclick=\"getReview({hotel.pdlid},'{hotel.pdl_title}',this)\">{hotel.ghs_expediareviewcount} reviews</button>)"
+                            : "";
+                            string solNA = solScore switch
+                            {
+                                "EX" => "Excellent",
+                                "VG" => "Very Good",
+                                "GD" => "Good",
+                                "FR" => "Fair",
+                                "PO" => "Poor",
+                                _ => ""
+                            };
+
+                            string imG_Url = hotel.img_500path_url ?? hotel.img_path_url;
+                            string cityZone = hotel.cityzone ?? "----";
+                            <li class="hotels__item">
+                                <div class="hotels__mobile-title">
+                                    <h2>
+                                        <a asp-controller="Hotel" asp-action="Index" asp-route-id="@hotel.pdlid" asp-route-country="@Model.hotelInfo.First().couNA.Replace(" ", "_").ToLower()" asp-route-city="@Model.hotelInfo.First().plcNA.Replace(" ", "_").ToLower()" asp-route-title="@HOTtitle.Replace("&", "and").Replace(" ", "_").ToLower()">
+                                            <span>@hotel.pdl_title</span>
+                                            @Html.Raw(favorite)
+                                        </a>
+                                    </h2>
+                                    <p>@hotel.cityzone</p>
+                                </div>
+                                <div class="hotels__wrapper">
+                                    <div class="hotels__image">
+                                        <img src="https://pictures.tripmasters.com@(imG_Url.ToLower())?growid=@hotel.giphid" />
+                                        <a asp-controller="Hotel" asp-action="Index" asp-route-id="@hotel.pdlid" asp-route-country="@Model.hotelInfo.First().couNA.Replace(" ", "_").ToLower()" asp-route-city="@Model.hotelInfo.First().plcNA.Replace(" ", "_").ToLower()" asp-route-title="@HOTtitle.Replace("&", "and").Replace(" ", "_").ToLower()">
+                                            Details, photos, map<span>&#8250;</span>
+                                        </a>
+                                    </div>
+                                    <div class="hotels__info">
+                                        <div class="hotels__desk-title">
+                                            <h2>
+                                                <a asp-controller="Hotel" asp-action="Index" asp-route-id="@hotel.pdlid" asp-route-country="@Model.hotelInfo.First().couNA.Replace(" ", "_").ToLower()" asp-route-city="@Model.hotelInfo.First().plcNA.Replace(" ", "_").ToLower()" asp-route-title="@HOTtitle.Replace("&", "and").Replace(" ", "_").ToLower()">
+                                                    <span>@hotel.pdl_title</span>
+                                                    @Html.Raw(favorite)
+                                                </a>
+                                            </h2>
+                                            <p>@cityZone</p>
+                                        </div>
+                                        <div class="hotels__review">
+                                            <div>
+                                                <img src=@($"https://pictures.tripmasters.com/siteassets/d/{imgStar}.gif") />
+                                                <span>@textStars</span>
+                                            </div>
+                                            <p>
+                                                <span>@hotel.ghs_finalscore</span> @solNA @Html.Raw(NoOfReviews)
+                                            </p>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(hotel.tnhighlights))
+                                        {
+                                            <p class="hotels__text"><span>&#9751;</span>@hotel.tnhighlights</p>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                    <div class="hotels__show-more">
+                        @{
+                            string buttonShow = (@Model.allHotels.TotalCount > 12) ? "style=display:inline-block;" : "style=display:none;";
+                        }
+                        <button id="showMoreHotels" @buttonShow type="button">show more</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@*Modal*@
+<div id="modal" class="backdrop is-hidden">
+    <div class="modal__wrapper">
+        <button class="modal__close" type="button" aria-label="Close modal">✖</button>
+        <div class="modal__container">
+        </div>
+    </div>
+</div>
+<input type="hidden" id="totPages" value="" />
+<input type="hidden" id="hotelTOT" value="" />
+
+@section Scripts
+{
+    <environment include="Development">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/jq_second/jquery.popupWindow.js" asp-append-version="true"></script>
+        <script src="~/js/hotelist/dt.java.hotelsoncity.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/jq_second/jquery.popupWindow.js" asp-append-version="true"></script>
+        <script src="~/js/hotelist/dt.java.hotelsoncity.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

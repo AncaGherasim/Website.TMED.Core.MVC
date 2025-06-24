@@ -1,0 +1,434 @@
+﻿@model MVC_TMED.Models.ViewModels.InterestViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+@inject IOptionsMonitor<AppSettings> _appsettings
+@{
+    ViewData["Title"] = "GP_Interest_Mob";
+}
+
+@section Styles{
+    <environment include="Development">
+        <link href="~/css/gpgp2_m/mb.style.gp2page.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/gpgp2_m/mb.style.gp2page.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+}
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+}
+@{
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(Model.Score, 1);
+    w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    Decimal lowP = 500;
+    Decimal highP = 9000;
+    List<Int64> offerPrices = new List<Int64>();
+    List<String> offerUrl = new List<string>();
+    string pack3Ids = "";
+    var pkC = 0;
+    if (Model.listFeatured.Count > 0)
+    {
+        foreach (var z in Model.listFeatured)
+        {
+            if (z.STP_Save_ != 9999)
+            {
+                offerPrices.Add((Int32)z.STP_Save_);
+            }
+            offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", Model.plcNA.Replace(" ", "_").ToLower(), z.PDL_Title.Replace(" ", "_").ToLower(), z.PDLID));
+            pack3Ids = pack3Ids + z.PDLID + ", ";
+        }
+        if (Model.otherFeatured.Count > 0)
+        {
+            foreach (var o in Model.otherFeatured)
+            {
+                if (o.STP_Save_ != 9999)
+                {
+                    offerPrices.Add((Int32)o.STP_Save_);
+                }
+                offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}",  Model.plcNA.Replace(" ", "_").ToLower(), o.PDL_Title.Replace(" ", "_").ToLower(), o.PDLID));
+                if (pkC == 0) { pack3Ids = pack3Ids + o.PDLID + ", "; };
+                if (pkC == 1) { pack3Ids = pack3Ids + o.PDLID; };
+                pkC++;
+            }
+        }
+        if (offerPrices.Count > 0)
+        {
+            lowP = offerPrices.Min();
+            highP = offerPrices.Max();
+        }
+    }
+    Int32 packFeedCountCity = Model.listCustomFeed.Count;
+    if (packFeedCountCity <= 0)
+    {
+        packFeedCountCity = 1;
+    }
+}
+
+@{
+    <script type="application/ld+json">
+        {
+        "@@context" : "https://schema.org",
+        "@@type" : "Product",
+        "name" : "@Model.intNA-mob",
+        "mpn":"@Model.intNA-vac-mob",
+        "sku":"@Model.intNA",
+        "brand" : {
+        "@@type" : "Brand",
+        "name": "Tripmasters Europe",
+        @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/{1}/interest-{2}-{3}\",", @Model.plcNA.Replace(" ", "_").ToLower(), Model.intNA.Replace(" ", "_").ToLower(), @Model.intID, @Model.plcID))
+        "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+        },
+        "image":"https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+        "review":{
+        "@@type":"Review",
+        "name":"@Model.packFeedCountC",
+        "author":{
+        "@@type":"Organization",
+        "name":"Tripmasters"
+        }
+        },
+        "offers": {
+        "@@type": "AggregateOffer",
+        "priceCurrency":"USD",
+        "highPrice": "@highP",
+        "lowPrice": "@lowP",
+        "offerCount": "4",
+        "offers": [
+        {
+        "@@type": "Offer",
+        "url": "@offerUrl[0]"
+        },
+        {
+        "@@type": "Offer",
+        "url": "@offerUrl[1]"
+        },
+        {
+        "@@type": "Offer",
+        "url": "@offerUrl[2]"
+        },
+        {
+        "@@type": "Offer",
+        "url": "@offerUrl[4]"
+        }
+        ]
+        },
+        "description" : "@Model.pageDescriptionCity",
+        "additionalProperty" : "@Model.pageBannerText",
+        "aggregateRating": {
+        "@@type": "aggregateRating",
+        "ratingValue": "@overAllAvg",
+        "reviewCount": "@packFeedCountCity"
+        },
+        "sameAs":[
+        "https://twitter.com/tripmasters",
+        "https://www.facebook.com/Tripmasters",
+        "https://www.pinterest.com/tripmasters/",
+        "https://www.instagram.com/tripmasterstravel/",
+        ]
+        }
+    </script>
+    <script type="text/javascript">
+            dataLayer.push({
+                'packagesIDs': '@pack3Ids'
+            });
+    </script>
+}
+<div class="row bg-white">
+    <div class="col-12 pt-2 pb-2 text-white dvBlueTitle">@Model.intNA </div>
+    @{
+        if (@Model.centerDsp.Count > 0)
+        {
+            <div class="col-12 pb-2 dvCenterTop">
+                <div class="col-12 pt-3 pb-3 pl-0 pr-0">@Model.centerDsp[0].STX_Title</div>
+                <div class="col-12 pl-0 pr-0">@Html.Raw(Model.centerDsp[0].STX_Description)</div>
+            </div>
+        }
+    }
+</div>
+<div class="row bg-white">
+    <div class="col-12 pt-2 pb-2 text-capitalize border border-secondary border-left-0 border-right-0 dvOrgTitle">featured itinerary</div>
+    <div class="col-12 pt-2 pb-2 dvBstPack collapsed dvArrToggle" role="button" data-target="#dvFeatPack" data-toggle="collapse" aria-expanded="false" aria-controls="dvFeatPack">
+        <span class="font-weight-bold">@Model.featPack[0].PDL_Title</span><br />
+        <span>@Model.featPack[0].PDL_Duration nights from <b>@string.Format("{0:c0}", Model.featPack[0].STP_Save_)</b></span>
+    </div>
+
+    <div class="collapse dvInfoPacks" id="dvFeatPack">
+        <div class="col-12 pt-2">@Html.Raw(Model.featPack[0].SPD_Description)</div>
+        <div class="col-12 pt-2">
+            <span class="font-weight-bold">Included:</span>
+            <ul class="pl-3">
+                @{
+                    string[] list = Model.featPack[0].PDL_Content.Split("\r\n");
+                    foreach (var item in list)
+                    {
+                        <li>@item</li>
+                    }
+                }
+            </ul>
+
+        </div>
+        <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[0].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[0].CountryName.Replace(" ", "_")) asp-route-name="@Model.featPack[0].PDL_Title.Replace(" ", "_")" class="btn btn-block font-weight-bold w-75 mx-auto pb-2 dvBookIt">View it</a>
+    </div>
+</div>
+<div class="row">
+    @{
+        foreach (var c in Model.listCustDly.FindAll(x => x.SDP_GroupProdKindID == 1619))
+        {
+            <a role="button" class="btn btn-block text-left pt-3 pb-3 dvMoreExpl btnArrow collapsed" data-toggle="collapse" data-target="#dvMoreExpl" aria-expanded="false" aria-controls="dvMoreExpl">@c.SDP_DisplayTitle</a>
+            <div class="collapse bg-white" id="dvMoreExpl">
+                @{
+                    foreach (var box in Model.boxContent.FindAll(x => x.STX_ProdKindID == 1619))
+                    {
+                        if (box.STX_CMSID == 0)
+                        {
+                            <div class="row mx-auto mb-2">
+                                <div class="col-12 mb-2 mt-2" style="border-top: 1px solid grey;">
+                                    <a class="btn-link d-block mt-2 aMore spDealsWkT" style="font-weight:700;text-decoration:underline" href=@String.Format("{0}{1}", Context.Request.Scheme + "://" + Context.Request.Host,box.STX_URL)>@box.STX_Title</a>
+
+                                </div>
+                                <div class="col-3 pr-0"><img class="img-fluid moreImg delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@(box.STX_PictureURL.Replace("http:", "https:").ToLower())" /></div>
+                                <div class="col-9 pl-0">@box.STX_Description</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    @box.CMS_Content
+                                </div>
+                            </div>
+                        }
+
+                    }
+                }
+            </div>
+        }
+    }
+
+</div>
+<div class="row bg-white">
+    <div class="col-12 pt-2 pb-2 text-capitalize border border-secondary border-left-0 border-right-0 dvOrgTitle">other vacation packages</div>
+    @{
+        foreach (var oth in Model.featPack.Skip(1).Take(3))
+        {
+            <div class="col-12 pt-2 pb-2 border border-secondary border-top-0 border-left-0 border-right-0 dvBstPack collapsed dvArrToggle" role="button" data-target="#dvOthInfo@(oth.PDLID)" data-toggle="collapse" aria-expanded="false" aria-controls="dvOthInfo@(oth.PDLID)">
+                <span class="font-weight-bold">@oth.PDL_Title</span><br />
+                <span>@oth.PDL_Duration nights from <b>@String.Format("{0:c0}", oth.STP_Save_)</b></span>
+            </div>
+            <div class="collapse dvInfoPacks" id="dvOthInfo@(oth.PDLID)">
+                <div class="col-12">@Html.Raw(oth.SPD_Description)</div>
+                <div class="col-12 pt-2">
+                    <span class="font-weight-bold">Included:</span>
+                    <ul class="pl-3">
+                        @{
+                            string[] item = oth.PDL_Content.Split("\r\n");
+                            foreach (var i in item)
+                            {
+                                <li>@i</li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[0].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[0].CountryName.Replace(" ", "_")) asp-route-name="@Model.featPack[0].PDL_Title.Replace(" ", "_")" class="btn btn-block font-weight-bold w-75 mx-auto pb-2 dvBookIt">View it</a>
+            </div>
+        }
+    }
+    <buton role="button" class="btn btn-outline-light btn-block font-weight-bold text-dark text-left pt-3 pb-3 border-secondary border-top-0 border-left-0 border-right-0 rounded-0 btnBlue" data-toggle="modal" data-target="#modalSuggPack">Suggested Vacation Packages</buton>
+</div>
+
+<div class="row bg-white">
+    <div class="col-12">
+        <a href="#" class="btn btn-link btn-block text-left text-dark aCustItin ">Customize your Itinerary</a>
+        <a href="#" class="pl-2"><img class="img-fluid pb-3 delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/m/BYO.jpg" /></a>
+    </div>
+</div>
+
+<div class="row bg-white">
+    @{
+        foreach (var bx in Model.listCustDly.FindAll(x => x.SDP_DisplayProdKindID == 1877))
+        {
+            switch (bx.SDP_GroupProdKindID)
+            {
+                case 2032:
+                    <div class="col-12 border border-right-0 border-left-0">
+                        <div class="col-12 pl-0 pr-0 pt-1 pb-2">@bx.SDP_DisplayTitle</div>
+                        <div class="row">
+                            <div class="col-2 pr-0">
+                                <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/map_icon.png" />
+                            </div>
+                            <div class="col-10 pl-0 pt-1">Map of Point of Interest</div>
+                        </div>
+
+                    </div>
+                    break;
+                case 1621:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @foreach (var item in Model.boxContent)
+                            {
+                                if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                {
+                                    <a href=@String.Format("{0}{1}",_appsettings.CurrentValue.ApplicationSettings.SiteName,item.STX_URL.Replace(" ","_").ToLower()) class="list-group-item list-group-item-action">@item.STX_Title</a>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1880:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="col-12 collapse pt-2 pb-2" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var cms in Model.leftCMS)
+                                {
+                                    <button type="button" class=" btn btn-link d-block pl-3 pt-1 pb-1 aCms" id="@cms.CMSID" title="@cms.CMSW_Title" data-toggle="modal" data-target="#modalCMS">@cms.CMSW_Title</button>
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1622:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="col-12 collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var item in Model.boxContent)
+                                {
+                                    if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                    {
+                                        <button type="button" class="btn btn-link d-block pl-3 pt-1 pb-1 aCms" id="@item.STX_URL" title="@item.STX_Title" data-toggle="modal" data-target="#modalCMS">@item.STX_Title</button>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1623:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse " id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var item in Model.boxContent)
+                                {
+                                    if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                    {
+                                        <a class="border-bottom pl-2 pr-2 aRegion clearfix" href=@String.Format("{0}{1}",_appsettings.CurrentValue.ApplicationSettings.SiteName,item.STX_URL.Replace(" ","_").ToLower())>
+                                            <div class="row mx-auto pl-3 pr-3 dvRegion">
+                                                @{
+                                                    if (item.STX_PictureURL != "none")
+                                                    {
+                                                        <div class="col-3">
+                                                            <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@item.STX_PictureURL.Replace("http:", "https:").ToLower()" />
+                                                        </div>
+                                                    }
+                                                }
+
+                                                <div class="col-9 pt-3 pb-1 pl-0">@item.STX_Title</div>
+                                            </div>
+                                        </a>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1915:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+
+                            @{
+                                foreach (var ct in Model.placesOnWeight)
+                                {
+                                    <a class="list-group-item list-group-item-action aCtyNa">@ct.STR_PlaceTitle</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+</div>
+
+<div class="row bg-white border border-left-0 border-right-0 border-bottom-0">
+    <div class="col-12 text-capitalize font-weight-bold pt-2 pb-2">customer reviews</div>
+    <div class="col-12 pMtab">
+        <div class="emptyStars mt-1"></div>
+        <div class="fullStars mt-1" style="width:@(w)px"></div>
+        <div class="darkText col">@overAllAvg out of 5 stars</div>
+        <div class="col-12 pl-1 mt-3" style="font-size:12px">@packFeedCountCity Reviews</div>
+    </div>
+</div>
+<div class="row bg-white">
+    <a role="button" class="btn btn-outline-light btn-block border-0 text-left font-weight-bold pt-4 pb-4 btnFeed" href=@String.Format("{0}/{1}/trips_taken_by_travelers",_appsettings.CurrentValue.ApplicationSettings.SiteName, Model.plcNA.Replace(" ", "_").ToLower())>Feedback from our Travelers - @Model.plcNA.Replace(" ", "_")</a>
+</div>
+
+<!-- Modal Suggested Vacation Packages-->
+<div class="modal" tabindex="-1" id="modalSuggPack" aria-hidden="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Back</button>
+            </div>
+            <div class="modal-body p-0 border border-secondary border-left-0 border-right-0">
+                @{
+                    foreach (var oth in Model.featPack.Skip(4))
+                    {
+                        <div class="col-12 pt-2 pb-2 border border-secondary border-top-0 border-left-0 border-right-0 dvBstPack collapsed dvArrToggle" role="button" data-target="#dvOthInfo@(oth.PDLID)" data-toggle="collapse" aria-expanded="false" aria-controls="dvOthInfo@(oth.PDLID)">
+                            <span class="font-weight-bold">@oth.PDL_Title</span><br />
+                            <span>@oth.PDL_Duration nights from <b>@String.Format("{0:c0}", oth.STP_Save_)</b></span>
+                        </div>
+                        <div class="collapse dvInfoPacks" id="dvOthInfo@(oth.PDLID)">
+                            <div class="col-12">@Html.Raw(oth.SPD_Description)</div>
+                            <div class="col-12 pt-2">
+                                <span class="font-weight-bold">Included:</span>
+                                <ul class="pl-3">
+                                    @{
+                                        string[] item = oth.PDL_Content.Split("\r\n");
+                                        foreach (var i in item)
+                                        {
+                                            <li>@i</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <a asp-controller="Package" asp-action="Index" asp-route-id="@oth.PDLID" asp-route-Country=" @oth.CountryName.Replace(" ", "_")" asp-route-name="@oth.PDL_Title.Replace(" ", "_")" class="btn btn-block btn-primary font-weight-bold w-75 mx-auto pb-2 dvBookIt">View it</a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal CMS-->
+<div class="modal" id="modalCMS" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <button type="button" class="btn btn-link text-left" id="backCms">Back</button>
+                <button type="button" class="btn btn-link text-right" data-dismiss="modal">Close</button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/gpgp2_m/mb.java.gp2page.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/gpgp2_m/mb.java.gp2page.min.js" asp-append-version="true"></script>
+    </environment>
+}

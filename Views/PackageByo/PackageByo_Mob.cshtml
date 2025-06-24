@@ -1,0 +1,371 @@
+﻿@model MVC_TMED.Models.ViewModels.PackTemplate_21ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> _appsettings
+
+@{
+    ViewData["Title"] = "PackageByo_Mob";
+}
+
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+}
+
+@section Styles{
+    <environment include="Development">
+        <link href="~/css/byo_m/mb.style.byo.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/byo_m/mb.style.byo.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+}
+@{
+    DateTime chckDate = new DateTime(1900, 1, 1);
+    DateTime promDate = @Model.ListPackInfo.First().STP_StartTravelDate;
+    string calDate = "9999";
+    if (chckDate == promDate)
+    {
+        calDate = DateTime.Now.AddDays(90).ToShortDateString();
+    }
+    else
+    {
+        calDate = promDate.ToShortDateString();
+    }
+}
+
+<input type="hidden" id="pakID" value="@Model.PackId" />
+<input type="hidden" id="pakNA" value="@Model.ListPackInfo.First().PDL_Title" />
+
+<div class="row ">
+    <div class="col-12 blueBack text-white font20 pt-2 pb-2">Customize this Itinerary</div>
+    <div class="col-12 yellowBck">
+        <div class="row mx-auto p-3">
+            <div class="col-12 text-center blueBack text-white rounded-top">Icon Legend</div>
+            <div class="col-12 pl-0 pr-0">
+                <div class="row mx-auto bg-white dvByoIcons font14">
+                    <div>
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Icon_Up.gif" asp-append-version="true" />
+                        <span>Move city up</span>
+                    </div>
+                    <div>
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/icon_Dwn.gif" asp-append-version="true" />
+                        <span>Move city down</span>
+                    </div>
+                    <div>
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/icon_Trsh.gif" asp-append-version="true" />
+                        <span>Remove city</span>
+                    </div>
+                    <div>
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Icon_Edit.gif" asp-append-version="true" />
+                        <span>Edit city</span>
+                    </div>
+                    <br style="clear: both" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mx-auto">
+    <div class="col-12 pl-0 pr-0 bg-white">
+        <span class="arrowDown"></span>
+    </div>
+    <div class="col-12 pl-0 pr-0 bg-white">
+        <form id="getNewItin" name="getNewItin" method="post">
+            <div class="row mx-auto">
+                <div class="col-12">International Flight:</div>
+                <div class="col-12">
+                    <div class="dvRadioAir">
+                        <label class="radioCtn w-50">
+                            Yes
+                            <input type="radio" id="xrdAWair" name="xrdAWair" value="True" checked="checked" />
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="radioCtn w-50">
+                            No
+                            <input type="radio" id="xrdAWair" name="xrdAWair" value="False" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12 pt-3 pb-3" id="dvLeavingFrom">
+                    <label for="xtxtLeavingFrom">Leaving from:</label>
+                    @{
+                        if (Model.DepartureAirport.Id <= 0)
+                        {
+                            <input class="form-control form-text" id="xtxtLeavingFrom" name="xtxtLeavingFrom" value="US city airport" />
+                            <input type="hidden" name="xIDLeavingFrom" id="xIDLeavingFrom" value="-1" />
+                        }
+                        else
+                        {
+                            <input class="form-control" id="xtxtLeavingFrom" name="xtxtLeavingFrom" value="@Model.DepartureAirport.Name" />
+                            <input type="hidden" name="xIDLeavingFrom" id="xIDLeavingFrom" value="@Model.DepartureAirport.Id" />
+                        }
+                    }
+                </div>
+                <div class="col-12 dvByoCityContainer">
+                    <div class="loader"></div>
+                </div>
+            </div>
+            <div class="row mx-auto divAirAdvance">
+                <button class="btn btn-link collapsed btnAirAdvance text-primary font14" type="button" data-target="#dvReturn" data-toggle="collapse" aria-expanded="false">Different return location or upgrade cabin</button>
+                <div class="collapse col-12" id="dvReturn">
+                    <div class="col-12 pl-0 pr-0">
+                        <label for="xtxtLeavingFrom">Returning to:</label>
+                        @{
+                            if (Model.DepartureAirport.Id <= 0)
+                            {
+                                <input class="form-control" id="xtxtReturningTo" name="xtxtReturningTo" value="US city airport" />
+                                <input type="hidden" name="xIDReturningTo" id="xIDReturningTo" value="-1" />
+                            }
+                            else
+                            {
+                                <input class="form-control" id="xtxtReturningTo" name="xtxtReturningTo" value="@Model.DepartureAirport.Name" />
+                                <input type="hidden" name="xIDReturningTo" id="xIDReturningTo" value="@Model.DepartureAirport.Id" />
+                            }
+                        }
+                    </div>
+                    <div class="col-12 pl-0 pr-0 pt-3 pb-4">
+                        <label for="xCabinTxt" class="pt-1 w-50">Cabin Class</label>
+                        <input type="text" class="form-control float-right w-50" name="xCabinTxt" id="xCabinTxt" value="Economy" />
+                        <input name="xCabin" type="hidden" id="xCabin" value="Y" />
+                    </div>
+                </div>
+            </div>
+            <div class="row mx-auto">
+                <div class="col-12 dvMPaxRoom">
+                    <label for="xcabinRoomPax">Options</label>
+                    <input class="form-control border-left-0 border-right-0 border-top-0 bg-white" name="xcabinRoomPax" type="text" id="xcabinRoomPax" value="1 Room, 2 Travelers" readonly="readonly" data-target="#dvRoomPax" data-toggle="modal" />
+                    <input type="hidden" name="xiRoom" id="xiRoom" value="1">
+                    <input type="hidden" name="xRooms" id="xRooms" value="1">
+                </div>
+            </div>
+            <div class="row mx-auto text-center">
+                <div class="col-12">
+                    <button type="button" class="btn btn-primary btn-block spMbtnCont spMnextbutt">Continue</button>
+                </div>
+                <div class="col-12">or</div>
+                <div class="col-12 pt-3 pb-3">
+                    <button type="reset" class="btn btn-light btn-block spMbtnReset">Reset</button>
+                </div>
+            </div>
+            <!-- Modal room and pax-->
+            <div class="modal" tabindex="-1" aria-hidden="true" id="dvRoomPax" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modalHeadTrans dvMbyodialogDone">
+                            <button type="button" class="btn btn-link text-white text-left" id="BackModal"><span>X</span> Close</button>
+                            <button type="button" class="btn btn-link text-white text-right" id="DoneModal">Done</button>
+                        </div>
+                        <div class="modal-body dvMbyopackInfo">
+                            <p class="pMbyodialogTitle">Room/Travelers</p>
+                            <div id="dvpaxRoom" class="dvMbyodialogRoom" lang="&rsaquo;">
+                                <span>&#x25a0;</span><span id="roomPaxTxt">1 room for 2 adults</span>
+                                <input name="xiRoomsAndPax" type="hidden" id="xiRoomsAndPax" value="1|2" />
+                            </div>
+                            <div class="dvMbyodialogList" id="dvpxroomlst">
+                                <ul>
+                                    <li id="1|1">1 room for 1 adult</li>
+                                    <li id="1|2">1 room for 2 adults</li>
+                                    <li id="1|3">1 room for 3 adults</li>
+                                    <li id="1|Other">1 room with children or other options</li>
+                                    <li id="-1">
+                                        <hr class="hrDots" />
+                                    </li>
+                                    <li id="2|2-2">2 rooms for (2 adults + 2 adults)</li>
+                                    <li id="2|3-3">2 rooms for (3 adults + 3 adults)</li>
+                                    <li id="2|Other">2 rooms with children or other options</li>
+                                    <li id="-1">
+                                        <hr class="hrDots" />
+                                    </li>
+                                    <li id="3|2-2-2">3 rooms for (2 adults + 2 adults + 2 adults)</li>
+                                    <li id="3|Other">3 rooms with children or other options</li>
+                                </ul>
+                            </div>
+                            <div class="dvMbyodialogRooms" id="dvpxperroom">
+                                <div class="dvMbyoeachRoom" id="dvroom1">
+                                    <!-- dotts-->
+                                    <hr class="hrDots" />
+                                    <h2>Room 1</h2>
+                                    <p data-role="none">
+                                        <input type="text" name="xiAdults" id="xiAdults" value="2" data-role="none" class="inpAdult" />
+                                        <label for="xiAdults">Adults</label>
+                                        <span id="adultPlus">+</span> <span id="adultMinus">-</span>
+                                    </p>
+                                    <p data-role="none">
+                                        <input type="text" name="xiChildren" id="xiChildren" value="" data-role="none" class="inpChildren" />
+                                        <label for="iChildren">Children</label>
+                                        <span id="childrenPlus">+</span> <span id="childrenMinus">-</span>
+                                    </p>
+                                    <p id="pAge1">
+                                        <select id="xiChild1" name="xiChild1" class="custom-select noNights">
+                                            <option value="" selected="selected"></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                    </p>
+                                    <p id="pAge2">
+                                        <select id="xiChild2" name="xiChild2" class="custom-select noNights">
+                                            <option value="" selected="selected"></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                    </p>
+                                    <!-- dotts-->
+                                    <hr class="hrDots" />
+                                </div>
+                                <div class="dvMbyoeachRoom" id="dvroom2">
+                                    <h2>Room 2</h2>
+                                    <p data-role="none">
+                                        <input type="text" name="xRoom2_iAdults" id="xRoom2_iAdults" value="" data-role="none" class="inpAdult" />
+                                        <label for="xRoom2_iAdults">Adults</label>
+                                        <span id="adultPlus2">+</span> <span id="adultMinus2">-</span>
+                                    </p>
+                                    <p data-role="none">
+                                        <input type="text" name="xRoom2_iChildren" id="xRoom2_iChildren" value="" data-role="none" class="inpChildren" />
+                                        <label for="xRoom2_iChildren">Children</label>
+                                        <span id="childrenPlus2">+</span> <span id="childrenMinus2">-</span>
+                                    </p>
+                                    <p id="pAge1">
+                                        <select id="xRoom2_iChild1" name="xRoom2_iChild1" class="custom-select noNights">
+                                            <option value="" selected="selected"></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                    </p>
+                                    <p id="pAge2">
+                                        <select id="xRoom2_iChild2" name="xRoom2_iChild2" class="custom-select noNights">
+                                            <option value="" selected="selected"></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                    </p>
+                                    <!-- dotts-->
+                                    <hr class="hrDots" />
+                                </div>
+                                <div class="dvMbyoeachRoom" id="dvroom3">
+                                    <h2>Room 3</h2>
+                                    <p data-role="none">
+                                        <input type="text" name="xRoom3_iAdults" id="xRoom3_iAdults" value="" data-role="none" class="inpAdult" />
+                                        <label for="xRoom3_iAdults">Adults</label>
+                                        <span id="adultPlus3">+</span> <span id="adultMinus3">-</span>
+                                    </p>
+                                    <p data-role="none">
+                                        <input type="text" name="xRoom3_iChildren" id="xRoom3_iChildren" value="" data-role="none" class="inpChildren" />
+                                        <label for="Room3_iChildren">Children</label>
+                                        <span id="childrenPlus3">+</span> <span id="childrenMinus3">-</span>
+                                    </p>
+                                    <p id="pAge1">
+                                        <select id="xRoom3_iChild1" name="xRoom3_iChild1" class="custom-select noNights">
+                                            <option value="" selected="selected"></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                    </p>
+                                    <p id="pAge2">
+                                        <select id="xRoom3_iChild2" name="xRoom3_iChild2" class="custom-select noNights">
+                                            <option value="" selected="selected"></option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                        </select>
+                                    </p>
+                                    <!-- dotts-->
+                                    <hr class="hrDots" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="xselRooms" name="xselRooms" value="" />
+            <input type="hidden" id="xutm_campaign" name="xutm_campaign" value="" />
+            <input type="hidden" id="xtotCities" name="xtotCities" value="" />
+        </form>
+    </div>
+</div>
+<div id="content" style="position: relative; z-index: 3990;"> </div>
+<input type="hidden" id="placeNa" value="@Model.packNA" />
+<input type="hidden" id="placeID" value="@Model.PackId" />
+<input type="hidden" id="inDatePromo" value="@calDate" />
+<input name="fixDates" type="hidden" id="fixDates" value="@Model.fixNetDts" />
+<input name="blockDates" type="hidden" id="blockDates" value="@Model.BkDates" />
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/jq_second/jq_second.min.js" asp-append-version="true"></script>
+        <script src="~/js/byo_m/mb.java.byoitinerary.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/jq_second/jq_second.min.js" asp-append-version="true"></script>
+        <script src="~/js/byo_m/mb.java.byoitinerary.min.js"></script>
+    </environment>
+
+    <script>
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        }
+    </script>
+}
+

@@ -1,0 +1,89 @@
+﻿@using MVC_TMED.Infrastructure;
+@model MVC_TMED.Models.ViewModels.CustomerFeedbackByPageParamsViewModel
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+
+@{
+    Int32 k = 1;
+    Int32 n = @Model.cfs.Count;
+}
+@foreach (var c in Model.cfs)
+{
+    <div style="margin-top:15px;">
+        @if (c.OverallScore > 0)
+        {
+            <div style="padding:0 0 2px 0px;position:relative;">
+                <img alt="@c.OverallScore" src=@String.Format("https://pictures.tripmasters.com/siteassets/d/Stars_{0}_Stars.gif", @c.OverallScore) />
+                <span class="darkText" style="font-weight:normal;padding:0 0 0 8px;position:absolute;margin-top:-2px;">(@c.OverallScore out of 5)</span>
+            </div>
+        }
+        <div class="darkText">Date: @c.dep_date.ToString("MM/dd/yyyy")</div>
+    </div>
+    <div style="margin:15px 0px;"><span style="color:#f60;">&#9658;</span>@Html.Raw(@Utilities.FormatCustomerComment(c.PCC_Comment))</div>
+    <div class="dvLinearTopBgRev" style="padding:8px 5px 0px 5px;">
+        <div class="leftCol"><b>Itinerary Details:</b><div>@Html.Raw(@c.PCC_Itinerary.Replace("\r\n", "<br>"))</div></div>
+        <div class="rightCol">
+            <b>Places visited on this trip</b>
+            <div>
+                @{
+                    Int32 j = 0;
+                }
+                @foreach (var p in @Model.packPlaces)
+                {
+                    if (p.PlaceType == 6)
+                    {
+                        if (j > 0)
+                        {
+                            Html.Raw(" - ");
+                        }
+                        <span><a style="color:Gray;" asp-route="Area_Route" asp-route-placeName="@p.Name.Replace(' ', '_')"><u>@p.Name</u></a></span>
+                    }
+                    else
+                    {
+                        if (j > 0)
+                        {
+                            Html.Raw(" - ");
+                        }
+                        <span><a style="color:Gray;" asp-route="Vacation_Route" asp-route-placeName="@p.Name.Replace(' ', '_')"><u>@p.Name</u></a></span>
+                    }
+                    j += 1;
+                }
+            </div>
+            <div style="margin-top:20px;">
+                <b>More choices, combine cities found in this itinerary</b>
+                <div style="margin-top:5px;">
+                    <form id=@String.Format("frm{0}", @c.PCCID) name=@String.Format("frm{0}", @c.PCCID) method="post">
+                        @foreach (var p in @Model.packPlaces.Where(x => x.PlaceType == 25))
+                        {
+                            <div style="float:left; width:50%;">
+                                <a href=@String.Format("#dot{0}{1}", @c.PCCID, @p.Id) class="falsecheck_1" id=@String.Format("falsedot{0}{1}", @c.PCCID, @p.Id)>@p.Name</a>
+                                <input type="checkbox" name=@String.Format("dot{0}{1}", @c.PCCID, @p.Id) id=@String.Format("dot{0}{1}", @c.PCCID, @p.Id) style="display:none" value="@p.Id|@p.Name" />
+                            </div>
+                        }
+                        <div style="clear:both;"></div>
+                        <input type="hidden" name="allID" id="allID" value="" />
+                        <input type="hidden" name="allNA" id="allNA" value="" />
+                    </form>
+                    <div onclick=@String.Format("findPacks('frm{0}');", @c.PCCID) style="cursor:pointer;color:Gray;text-align:right; margin:15px 20px 0px 0px;"><u> >> Find similar itinerary</u></div>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div style="margin-top:15px;text-align:center;">
+        <a class="bookItButtonTrip" asp-route="Package_Route" asp-route-Country="@Model.CountryName.Replace(' ', '_')" asp-route-name="@Model.PDL_Title.Replace(' ', '_')" asp-route-id="@Model.PDLID">
+            Customize a trip like this one
+        </a>
+        <div style="clear:both;"></div>
+    </div>
+    @if (k <= n - 1 && k <= 9)
+    {
+        <hr class="grayLine" />
+
+    }
+                        k +=1;
+                    }

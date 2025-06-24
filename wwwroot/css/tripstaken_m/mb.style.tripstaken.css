@@ -1,0 +1,65 @@
+﻿.pgTitle {
+    background-color: #608ED5;
+}
+
+.aCms{
+    color:#666;
+}
+.aCms:before{
+    content: "\a";
+    border-style:solid;
+    border-width:6px 0 6px 7px;
+    border-color:transparent transparent transparent #f60;
+    position:absolute;
+    left:15px;
+    margin-top: 5px;
+}
+.bCms{
+    color:#666;
+}
+.bCms:before{
+    content: "\a";
+    border-style:solid;
+    border-width:6px 0 6px 7px;
+    border-color:transparent transparent transparent #f60;
+    position:absolute;
+    left:5px;
+    top:10px;
+}
+.bestSell:nth-child(odd) {
+    background-color: #ecf1ff;
+}
+.btnExpand.collapsed:after {
+    transform: rotate(90deg);
+    margin-right: 0px;
+}
+
+.btnExpand:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    color: #000;
+    font-weight: 500;
+    margin-right: 6px;
+}
+.trip {
+    background-color: #dfe4f7;
+}
+.btnIncl.collapsed:after {
+    transform: rotate(90deg);
+    margin-left: 10px;
+    color: #007bff;
+}
+
+.btnIncl:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    font-weight: 500;
+    margin-left: 10px;
+    color: #0056b3;
+}

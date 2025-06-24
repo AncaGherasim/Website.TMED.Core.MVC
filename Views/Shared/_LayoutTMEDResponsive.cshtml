@@ -1,0 +1,937 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options;
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings;
+@using Microsoft.AspNetCore.Http.Extensions;
+
+@{
+    var request = Context.Request;
+    var response = Context.Response;
+    string qryString = request.QueryString.Value;
+    var wh = request.Query["wh"];
+    var wf = request.Query["wf"];
+
+    // *** Canonical
+    string canonicalURL = request.GetDisplayUrl();
+    if (!string.IsNullOrEmpty(qryString))
+    {
+        int queryIndex = canonicalURL.IndexOf('?');
+        if (queryIndex >= 0)
+        {
+            canonicalURL = canonicalURL.Substring(0, queryIndex);
+        }
+    }
+    if (canonicalURL.StartsWith("http://"))
+    {
+        canonicalURL = canonicalURL.Replace("http://", "https://");
+    }
+    canonicalURL = canonicalURL.ToLower();
+
+    string _utInputString = "";
+    //**** Cookie for marketing Compaign
+    string strURL = request.Path;
+    string sCampaignCode = "";
+    if (request.Query["utm_campaign"].ToString() != "")
+    {
+        sCampaignCode = request.Query["utm_campaign"];
+    }
+    else
+    {
+        if (strURL.Contains("utm_campaign"))
+        {
+            sCampaignCode = strURL.Replace(strURL.Substring(1, strURL.IndexOf("utm_campaign=") - 1), "");
+            sCampaignCode = sCampaignCode.Replace("utm_campaign=", "");
+            if (sCampaignCode.Contains("&"))
+            {
+                string[] strParts = sCampaignCode.Split("&");
+                sCampaignCode = strParts[0];
+            }
+        }
+    }
+    if (sCampaignCode == "")
+    {
+        if (request.Cookies["utmcampaign"] != null)
+        {
+            sCampaignCode = request.Cookies["utmcampaign"];
+            CookieOptions destroyUtmCampaign = new CookieOptions();
+            destroyUtmCampaign.Domain = ".tripmasters.com";
+            destroyUtmCampaign.IsEssential = true;
+            destroyUtmCampaign.Expires = DateTime.Now.AddDays(-10);
+            response.Cookies.Append("utmcampaign", "", destroyUtmCampaign);
+        }
+        else if (request.Cookies["utm_campaign"] != null)
+        {
+            sCampaignCode = request.Cookies["utm_campaign"];
+        }
+        else
+        {
+            sCampaignCode = "Direct";
+        }
+    }
+    if (sCampaignCode.StartsWith("a="))
+    {
+        sCampaignCode = sCampaignCode.Substring(2, sCampaignCode.Length - 2);
+    }
+    sCampaignCode = HtmlEncoder.Encode(sCampaignCode);
+    CookieOptions optionUtmCampaign = new CookieOptions();
+    optionUtmCampaign.Domain = ".tripmasters.com";
+    optionUtmCampaign.IsEssential = true;
+    optionUtmCampaign.Expires = DateTime.Now.AddDays(365);
+    response.Cookies.Append("utm_campaign", sCampaignCode, optionUtmCampaign);
+    //**** Start utEmail
+    string utEmail = String.Empty;
+    System.Text.RegularExpressions.Regex emailRegex = new System.Text.RegularExpressions.Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+    if (request.Query["utEmail"].ToString() != "")
+    {
+        utEmail = request.Query["utEmail"];
+    }
+    else if (System.Text.RegularExpressions.Regex.IsMatch(strURL, "utEmail", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+    {
+        utEmail = strURL.Replace(strURL.Substring(1, strURL.IndexOf("utEmail=") - 1), "");
+        utEmail = utEmail.Replace("utEmail=", "");
+        if (utEmail.Contains("&"))
+        {
+            string[] strParts = utEmail.Split("&");
+            utEmail = strParts[0];
+        }
+    }
+    else if (request.Cookies["utEmail"] != null)
+    {
+        utEmail = request.Cookies["utEmail"];
+    }
+    System.Text.RegularExpressions.Match match = emailRegex.Match(utEmail);
+    if (!match.Success) { utEmail = ""; }
+    CookieOptions utemailoption = new CookieOptions();
+    utemailoption.Domain = ".tripmasters.com";
+    utemailoption.IsEssential = true;
+    utemailoption.Secure = true;
+    utemailoption.Expires = DateTime.Now.AddDays(365);
+    response.Cookies.Append("utEmail", utEmail, utemailoption);
+    //**** End utEmail
+    //prepare variables for Unitraq input data - to send them to /JAVA/java_utInit.js
+    string _utRawUrl = Context.Request.Path;
+    string queryString = Context.Request.QueryString.ToString();
+    string _ut2Server = @_appsettings.Value.ApplicationSettings._ut2Server;
+    string _utSiteName = @_appsettings.Value.ApplicationSettings._utSiteName;
+    string _utRef = "";
+    string _utPlaceId = "0";
+    string _utPackId = "0";
+    if (_utRawUrl == "/") { _utRawUrl = "/home"; };
+    _utRawUrl = "/europe" + _utRawUrl;
+
+    if (response.Headers["plcID"].ToString() != "")
+    {
+        _utPlaceId = response.Headers["plcID"];
+    };
+
+    if (response.Headers["packID"].ToString() != "")
+    {
+        _utPackId = response.Headers["packID"];
+    };
+
+    var _headerRef = "";
+    if (request.Headers["Referer"] != "")
+    {
+        _headerRef = request.Headers["Referer"].ToString();
+    }
+    _utRef = _headerRef; ///HttpContextAccessor.HttpContext.Session.GetString("_utRef");
+    _utInputString = _utInputString + _utSiteName + "@@" + _appsettings.Value.ApplicationSettings.deptID + "@@"
+    + sCampaignCode + "@@" + response.Headers["_utPg"]
+    + "@@" + _utRawUrl
+    + "@@" + _utPlaceId
+    + "@@" + _utPackId;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    @if (ViewBag.PageTitle != null)
+    {
+        <title>@ViewBag.PageTitle</title>
+    }
+    else
+    {
+        <title>Europe Vacation Packages | Custom Vacation Packages | Tripmasters</title>
+    }
+    <meta name="description" id="PageDescription" content="@Html.Raw(@ViewBag.pageMetaDesc)" runat="server" />
+    <meta name="keywords" id="PageKeyword" content="@ViewBag.pageMetaKey" runat="server" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    @{
+        var isNoIndex = @_utRawUrl.Contains("/tours")
+        || @_utRawUrl.Contains("/travel")
+        || @_utRawUrl.Contains("/visit")
+        || @_utRawUrl.Contains("/holidays")
+        || @_utRawUrl.Contains("/package-144780")
+        || @_utRawUrl.Contains("/hotel-143582")
+        || @_utRawUrl.Contains("/package-48011");
+    }
+
+    <environment include="Production">
+        @if (isNoIndex)
+        {
+            <meta name="robots" content="noindex, nofollow" />
+        }
+        else
+        {
+            <meta name="robots" content="index, follow" />
+        }
+        <link rel="canonical" href="@canonicalURL" />
+    </environment>
+
+    <environment exclude="Production">
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="testcanonical" content="@canonicalURL" />
+    </environment>
+
+    @{
+        ViewBag.Mobile = Utilities.CheckMobileDevice() ? 1 : 0;
+
+        var ogTitle = ViewBag.PageTitle ?? "Europe Vacation Packages | Custom Vacation Packages | Tripmasters";
+        var ogType = _utRawUrl.Contains("/home") ? "website" : "product";
+    }
+
+    <meta property="og:title" content="@ogTitle" />
+    <meta property="og:description" content="@ViewBag.pageMetaDesc" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="tripmasters.com" />
+    <meta property="og:type" content="@ogType" />
+    @if (ViewBag.image != null)
+    {
+        <meta property="og:image" content="@ViewBag.image" />
+        <meta property="og:image:type" content="image/jpg" />
+    }
+
+    <script type="text/javascript">
+        var SiteName = "@_appsettings.Value.ApplicationSettings.SiteName";
+        var _bpURL = "@_appsettings.Value.ApplicationSettings._bpURL";
+        var _utRawUrl = "@_utRawUrl";
+        var _utRef = "@_utRef";
+        var _utInputString = "@_utInputString";
+        var _ut2Server = "@_ut2Server";
+        var utmValue = "@sCampaignCode";
+        var _utEmail = "@utEmail";
+        var winOp = true;
+        //var webAnnounce = "webAnnouncement";
+        var dataLayer = dataLayer || [];
+        dataLayer.push({
+            'fireTEST': false
+        });
+        var viewUsed = "@ViewBag.viewUsedName";
+    </script>
+
+    <!-- TrustBox script -->
+    <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+    <!-- End TrustBox script -->
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-T844C6G');</script>
+    <!-- End Google Tag Manager -->
+    @{
+        if (Utilities.CheckMobileDevice() == true)
+        {
+            <environment include="Development">
+                <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+                <link href="~/css/home_m/mb.style.tmedSite.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/home_m/mb.style.ui-autocomplete.css" rel="stylesheet" />
+                <link href="~/css/cms/css.CMS_HTMLOptimized.css" rel="stylesheet" />
+                <link href="~/css/cms/css.CMS_htmlEditor.css" rel="stylesheet" />
+                <link href="~/css/reponsive/dtmb.style.ResponsiveStyle.css" rel="stylesheet" />
+                <link href="~/css/site_responsive/dm.site.responsive.css" rel="stylesheet" />
+            </environment>
+            <environment exclude="Development">
+                <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/home_m/home_m.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/cms/cms.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/reponsive/dtmb.style.ResponsiveStyle.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/site_responsive/site_responsive.min.css" rel="stylesheet" asp-append-version="true" />
+            </environment>
+        }
+        else
+        {
+            <environment include="Development">
+                <link href="~/css/site/dt.style.TM-ui-autocomplete.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.BYO_2014.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.Calendar.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.Calendar_carrousel.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.Style.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.subscription.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.Texts.css" rel="stylesheet" />
+                <link href="~/css/site/dt.style.TM_SiteStyle.css" rel="stylesheet" />
+                <link href="~/css/tmedsite.css" rel="stylesheet" />
+                <link href="~/css/cms/css.CMS_HTMLOptimized.css" rel="stylesheet" />
+                <link href="~/css/cms/css.CMS_htmlEditor.css" rel="stylesheet" />
+                <link href="~/css/reponsive/dtmb.style.ResponsiveStyle.css" rel="stylesheet" />
+                <link href="~/css/site_responsive/dm.site.responsive.css" rel="stylesheet" />
+            </environment>
+            <environment exclude="Development">
+                <link rel="stylesheet" href="~/css/site/site.min.css" asp-append-version="true" />
+                <link href="~/css/tmedsite.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/cms/cms.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/reponsive/dtmb.style.ResponsiveStyle.min.css" rel="stylesheet" asp-append-version="true" />
+                <link href="~/css/site_responsive/site_responsive.min.css" rel="stylesheet" asp-append-version="true" />
+            </environment>
+        }
+    }
+
+    @RenderSection("Styles", required: false)
+
+    @RenderSection("structureData", required: false)
+
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T844C6G"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!--Facebook script for likes number -->
+    <header class="hdr" id="pgHeader">
+        <div class="headerContent">
+            <div class="headerMain">
+                <div class="container">
+                    <div class="divImgLogo"><a href="/"><img class="hdr__logo" src="https://pictures.tripmasters.com/siteassets/d/TM_logo 400 x 97px-01.png" alt="TM_logo" /></a></div>
+                    <ul class="headerListLogo">
+                        <li class="mkt-sel no-js-hidden hdr__tel-text hide-until-md liABBB">
+                            <span class="adotDecorResponsive" onclick="window.open('http://www.bbb.org/washington-dc-eastern-pa/business-reviews/travel-agencies-and-bureaus/solar-tours-inc-in-rockville-md-17245', 'newwindow', 'scrollbars=1,width=600, height=600'); return false;"> An <span>A+</span> company rated by BBB</span>
+                        </li>
+                        <li class="liChat hdr__tel-text hide-until-md"><a href="/chat">Chat with us! <img src="https://pictures.tripmasters.com/siteassets/d/chat_mini_icon.jpg" alt="chat_mini_icon" /></a></li>
+                        <li class="liCall hdr__tel-text hide-until-md">Call US <span class="hide-until-lg"> 7 days a week from 8AM to Midnight ET</span> <span class="spanTel"> 1-800-430-0484</span></li>
+                    </ul>
+                </div>
+            </div>
+            <nav class="headerNav" aria-label="Primary">
+                <div class="first-container">
+                    <div class="header-wrapper">
+                        <ul class="navBar">
+                            <li class="nav__primary has-subnav has-arrow deskDestinations">
+                                <span>Where to go</span> <span id="des">&rsaquo;</span>
+
+                            </li>
+                            <li class="nav__primary has-subnav has-arrow deskLuxury">
+                                <a href="/luxury/"><span>Luxury Vacations </span> <span id="lux">★</span></a>
+                            </li>
+                            <li class="nav__primary has-subnav has-arrow deskMyBooking">
+                                <span>My Booking </span> <span id="book">&rsaquo;</span>
+                            </li>
+                            <li class="nav__primary has-subnav has-arrow deskContact">
+                                <span>Contact Us </span> <span id="contact">&rsaquo;</span>
+                            </li>
+                        </ul>
+                        <form class="form-inline frmSearchForm site-search " id="frmSearch" name="frmSearch" onsubmit="event.preventDefault(); searchGO($('#q').val()); return $('#q').val() == '' || $('#q').val() == undefined ? false : true;">
+                            <div class="site-search__field">
+                                <input class="form-control inputSearch" id="q" name="q" type="text" onclick="javascript: select();" placeholder="Search Tripmasters" aria-label="Search">
+                                <button class="btn btn-outline-success  searchSubmit" onclick="searchGO($('#q').val()); return $('#q').val() == '' || $('#q').val() == undefined ? false : true;" type="submit" aria-label="Search"><img src="https://pictures.tripmasters.com/siteassets/d/lupa_icon.gif" alt="lupa_icon" /></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <section id="destinationsContent" class="nav__secondary nav__section" style="z-index:1">
+
+            <div class="container">
+
+                <div style="display: flex; justify-content: space-between">
+
+                    <div>
+                        <div class="heading  show-until-md borderBottom mobDestinations">Destinations</div>
+                        <div class="rowDestinations" style="display:flex; flex-wrap: wrap;">
+                            <div class="heading  regions-heading " style="margin-right: 120px">
+                                <h2 class="borderBottom">Destinations</h2>
+                                <ul class="hide-until-md">
+                                    <li class="liWorldRegion"><a href="/destinations">All Destinations A - Z</a></li>
+                                    <li class="liWorldRegion"><a href="/europe/" title="Europe, Africa & Middle East Vaction Packages"> Europe, Africa & Middle East</a></li>
+                                    <li class="liWorldRegion"><a href="/asia/" title="Asia & South Pacific Vacation Packages"> Asia & South Pacific</a></li>
+                                    <li class="liWorldRegion"><a href="/asia/hawaii/vacations" title="Hawaii Vacation Packages"> Hawaii</a></li>
+                                    <li class="liWorldRegion"><a href="/latin/usa/vacations" title="USA Vacation Packages"> USA</a></li>
+                                    <li class="liWorldRegion"><a href="/latin/" title="Latin America and Caribbean Vacation Packages">Latin America and Caribbean</a></li>
+                                    <li class="liWorldRegion"><a href="/latin/canada/vacations" title="Canada Vacation Packages">Canada</a></li>
+                                </ul>
+                            </div>
+                            <div class="heading regions-heading" style="padding-top:70px">
+                                <ul class="hide-until-md">
+                                    <li class="liWorldRegion"><a href="/build_your_own_vacation">Build your Vacation Itinerary</a></li>
+                                    <li class="liWorldRegion"><a href="https://travel.tripmasters.com/inspiration/">Interests</a></li>
+                                    <li class="liWorldRegion borderBottom"><a href="/review"> Reviews</a></li>
+                                    <li class="liWorldRegion borderBottom"><a href="https://reservation.tripmasters.com/bp5/travelcredit"> Gift Certificate</a></li>
+                                    <li class="liWorldRegion borderBottom"><a href="/top_deals">Top Deals</a></li>
+                                    <li class="liWorldRegion borderBottom"><a href="#anchorEmail">Subscribe to our Newsletter</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav__promo hide-until-lg secMostPop">
+                        <h2 class="heading">Most Popular Packages</h2>
+                        <div id="dvajx">
+                            <ul id="dvRelF">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dvCloseDesk"> ✖ </div>
+        </section>
+
+        <section id="manageContent" class="nav__secondary nav__section">
+            <div class="container">
+                <div style="display: flex">
+                    <div style="width: calc(100% - (100% / 3))">
+                        <div class="heading show-until-md">My Booking</div>
+                        <div style="display: flex">
+                            <div class="heading  regions-heading hide-until-md" style="width: calc(100% /2)">
+                                <h2>Manage Bookings</h2>
+                                <ul>
+                                    <li class="liWorldRegion"><a href="/booking_confirmation"> My Booking</a></li>
+                                </ul>
+                            </div>
+                            <div class="heading  regions-heading hide-until-md " style="width: calc(100% /2)">
+                                <h2>Additional Information</h2>
+                                <ul>
+                                    <li class="liWorldRegion"><a href="/payments">Payments</a></li>
+                                    <li class="liWorldRegion"><a href="/insurance">Travel Insurance</a></li>
+                                    <li class="liWorldRegion"><a href="https://visacentral.com/?login=tripmasters">Visas</a></li>
+                                    <li class="liWorldRegion"><a href="/frequently_asked_questions">FAQ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="nav__promo hide-until-lg secMostPop" style="width: calc(100%/3)">
+                        <h2 class="heading ">
+                            Recently Viewed
+                        </h2>
+                        <div id="dvajx">
+                            <ul id="dvMvisit">
+                            </ul>
+                            <a class="allRecently" href="/recently_viewed">See all Recently Viewed</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="dvCloseBook" onclick="$('#manageContent').slideUp(); $('#book').css({ 'transform': 'rotate(90deg)'})"> ✖ </div>
+        </section>
+
+        <section id="whoContent" class="nav__secondary nav__section">
+            <div class="container">
+                <div>
+                    <div>
+                        <div class="heading show-until-md">Contact us</div>
+                        <div>
+                            <div class="col-12 heading  regions-heading hide-until-md">
+                                <h2>Who We Are</h2>
+                                <ul>
+                                    <li class="liWorldRegion"><a href="/contact_us">Contact us</a></li>
+                                    <li class="liWorldRegion"><a href="/about_us">About us</a></li>
+                                    <li class="liWorldRegion"><a href="/terms">Terms & Conditions</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="dvCloseWho"> ✖ </div>
+        </section>
+
+        @*Header mobile*@
+        <div class="hdrBrand">
+            <div class="container mobContainer show-until-md">
+
+                <img class="hdr__logo" src="https://pictures.tripmasters.com/siteassets/d/TM_logo 400 x 97px-01.png" alt="TM_logo" onclick="window.location='/'" style="cursor:pointer;" />
+
+                <label for="nav-toggle" class="mob-nav-btn show-until-md btnMob acetrnt-toggle" data-click-state="1">
+                    <span class="line-1"></span>
+                    <span class="line-2"></span>
+                    <span class="line-3"></span>
+                    <span class="burger-label">MENU</span>
+                </label>
+                <a href="/contact_us" class="mob-contact-btn show-until-md" aria-label="Contact us" data-cta>
+                    <img style="padding-right: 1rem" width="45" height="32" src="https://pictures.tripmasters.com/siteassets/d/phone_icon.png" alt="phone_icon" />
+                </a>
+            </div>
+            <div class="site-search__mob">
+                <form class="form-inline frmSearchForm " id="frmSearch" name="frmSearch" onsubmit="event.preventDefault(); searchGO($('#qm').val()); return $('#qm').val() == '' || $('#qm').val() == undefined ? false : true;">
+                    <div class="site-search__fieldMob">
+                        <input class="form-control inputMob" id="qm" name="qm" type="text" onclick="javascript: select();" placeholder="Search Tripmasters" aria-label="Search">
+                        <button class="btn btn-outline-success searchSubmit" onclick="searchGO($('#qm').val()); return $('#qm').val() == '' || $('#qm').val() == undefined ? false : true;" type="submit" aria-label="Search"><img src="https://pictures.tripmasters.com/siteassets/d/lupa_icon.gif" alt="lupa_icon" /></button>
+                    </div>
+                </form>
+            </div>
+            <div class="divNavMob">
+                <ul class="navBarMob">
+                    <li>
+                        <div class="p_subnav" id="worldReg">Destinations<span id="spanArrow">&#10095;</span></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav">
+                            <a style="display: flex;align-items: center;grid-gap: 3px;" href="/luxury/">
+                                Luxury Vacations <div style="color: #fc0; font-size: 25px; position: relative; top: -1px;">★</div>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="https://www.tripmasters.com/build_your_own_vacation"> Build Your Vacation Itinerary</a></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="https://travel.tripmasters.com/inspiration/"> Interests</a></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="https://www.tripmasters.com/review">Reviews</a></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="https://reservation.tripmasters.com/bp5/travelcredit">Gift Certificate</a></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="https://www.tripmasters.com/top_deals">Top Deals</a></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="#anchorEmail">Subscribe to our Newsletter</a></div>
+                    </li>
+                    <li>
+                        <div class="p_subnav" id="myBooking">My Booking<span id="spanArrow">&#10095;</span> </div>
+                    </li>
+                    <li>
+                        <div class="p_subnav" id="contactUs">About Us<span id="spanArrow">&#10095;</span> </div>
+                    </li>
+                    <li>
+                        <div class="p_subnav"><a href="https://www.tripmasters.com/contact_us"> Contact Us </a></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        @*Mobile sections for the header*@
+        <div class="heading show-until-md  regions-heading worldRegion">
+            <h2 class="worldMobh2">Destinations</h2>
+            <div class="dvBackRes borderBottom"><span>&#10094;</span>Main Menu</div>
+            <ul>
+                <li class="liWorldRegion"><a href="/destinations/" title="All Destinations">All Destinations A-Z</a></li>
+                <li class="liWorldRegion"><a href="/europe/" title="Europe, Africa & Middle East Vacation Packages"> Europe, Africa & Middle East </a></li>
+                <li class="liWorldRegion"><a href="/asia/" title="Asia & South Pacific Vacation Packages"> Asia & South Pacific</a></li>
+                <li class="liWorldRegion"><a href="/asia/hawaii/vacations" title="Hawaii Vacation Packages"> Hawaii</a></li>
+                <li class="liWorldRegion"><a href="/latin/usa/vacations" title="USA Vacation Packages"> USA</a></li>
+                <li class="liWorldRegion"><a href="/latin/" title="Latin America and Caribbean Vacation Packages">Latin America and Caribbean</a></li>
+                <li class="liWorldRegion"><a href="/latin/canada/vacations" title="Canada Vacation Packages">Canada</a></li>
+            </ul>
+        </div>
+
+        <div class="heading show-until-md  regions-heading myBookings ">
+            <h2 class="worldMobh2">My Booking</h2>
+            <div class="dvBackRes borderBottom"><span>&#10094;</span>Main Menu</div>
+            <ul>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/booking_confirmation"> My Booking</a></li>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/payments"> Payments</a></li>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/insurance"> Travel Insurance</a></li>
+                <li class="liWorldRegion"><a href="https://visacentral.com/?login=tripmasters"> Visas</a></li>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/frequently_asked_questions"> FAQ</a></li>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/recently_viewed">See all Recently Viewed</a></li>
+            </ul>
+        </div>
+
+        <div class="heading show-until-md  regions-heading contactUs ">
+            <h2 class="worldMobh2">About Us</h2>
+            <div class="dvBackRes borderBottom"><span>&#10094;</span>Main Menu</div>
+            <ul>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/about_us">About us </a></li>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/contact_us"> Contact us </a></li>
+                <li class="liWorldRegion"><a href="https://www.tripmasters.com/terms"> Terms & Conditions </a></li>
+            </ul>
+        </div>
+
+    </header>
+    <section id="mktLabels">
+        <ul>
+            <li>[tmpagetype=@ViewBag.tmpagetype]</li>
+            <li>[tmpagetypeinstance=@ViewBag.tmpagetypeinstance]</li>
+            <li>[tmrowid=@ViewBag.tmrowid]</li>
+            <li>[tmadstatus=@ViewBag.tmadstatus]</li>
+            <li>[tmregion=@ViewBag.tmregion]</li>
+            <li>[tmcountry=@ViewBag.tmcountry]</li>
+            <li>[tmdestination=@ViewBag.tmdestination]</li>
+        </ul>
+    </section>
+
+    <div class="@(Utilities.CheckMobileDevice() == true ? "container dvMhomeContainer" : "dvContainer")">
+        @RenderBody()
+    </div>.
+
+
+    <footer id="pgFooter" style="@(wf!="0" ? "display:block" : "display:none")">
+        <div class="container">
+            @{
+                if (Utilities.CheckMobileDevice() == true)
+                {
+                    <div class="col-12 text-center bg-secondary text-white text-center text-uppercase pl-3 pr-3 pt-0 pb-2 dvMtopPage" style="font-size: 14px;">
+                        <span></span><br />
+                        <span>Top Of Page</span>
+                    </div>
+                }
+            }
+            <div id="subscriptionpopup" class="subscriptionpopup" style="display: none">
+                <div class="dvSubscriptionBox">
+                    <div id="pnlSubscribe">
+                        <div><a href="#" style="color: #999; text-decoration: none; font-size: 11px; cursor: pointer; padding: 10px 30px"><span class="subscriptionpopupClose">close window [ x ]</span></a></div>
+                        <div class="subscribeTop">
+                            Thank you for subscribing!<br />
+                            You will now receive Asia, Europe, Hawaii and The Americas latest deals
+                        </div>
+                        <div class="eachSuscriber">
+                            <div class="boldLetters eachSuscribL">You can also subscribe to our sister brands to receive more travel deals: </div>
+                            <div class="eachSuscribR">
+                                Subscribe all
+                                <input type="checkbox" id="SubscribeAll" value="ALL" />
+                            </div>
+                            <br style="clear: both" />
+                        </div>
+                        <div class="eachSuscriber">
+                            <div class="eachSuscribL">
+                                <img class="delay imgsuscribtNoWrap" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/TM_Logo.jpg" border="0" alt="no image" align="absmiddle"/>
+                                <p class="psuscribNoWrap">Receive the latest deals for travel to Asia, Europe, Hawaii and The Americas.</p>
+                            </div>
+                            <div class="eachSuscribR">
+                                Subscribe
+                                <input type="checkbox" id="SubscribeTM" />
+                            </div>
+                            <br style="clear: both" />
+                        </div>
+                        <div class="eachSuscriber">
+                            <div class="eachSuscribL">
+                                <img class="delay imgsuscribtNoWrap" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/ED_Logo.jpg" border="0" alt="no image" align="absmiddle"/>
+                                <p class="psuscribNoWrap">Receive the latest deals for travel to Europe.</p>
+                            </div>
+                            <div class="eachSuscribR">
+                                Subscribe
+                                <input type="checkbox" id="SubscribeED" />
+                            </div>
+                            <br style="clear: both" />
+                        </div>
+                        <hr class="gradLine" />
+                        <div class="dvFindButtons">
+                            <input type="button" id="SubscribeSubmit" value="Subscribe" />
+                        </div>
+                    </div>
+                    <div id="pnlResult" style="display: none">
+                        <div class="subscriptionUpdated">
+                            We have updated your subscription preferences.<br />
+                            Keep browsing <a href="#" id="SubscribeMainSite">Tripmasters.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <section class="secTrustBox">
+                <!-- TrustBox widget - Slider -->
+                <div class="trustpilot-widget" data-locale="en-US" data-template-id="54ad5defc6454f065c28af8b" data-businessunit-id="5cb67c0b7142f60001738c17" data-style-height="240px" data-style-width="100%" data-stars="5" data-review-languages="en">
+                    <a href="https://www.trustpilot.com/review/tripmasters.com " target="_blank" rel="noopener">Trustpilot</a>
+                </div>
+                <!-- End TrustBox widget -->
+            </section>
+
+            <section id="anchorEmail" class="secEmailSubscriber">
+                <h1>Subscribe to our mailing list</h1>
+                <p>and receive our latest deal!</p>
+                <div class="emailBox">
+                    <input type="text" name="TMSubscribeEmail" id="TMSubscribeEmail" value="" placeholder="Email Address" />
+                    <button type="button" onclick="SubscribeEmailPopUp('TMSubscribeEmail');">Subscribe</button>
+                    <br style="clear: both" />
+                </div>
+            </section>
+
+            <section class="secDvfooterButtons">
+                <h1>Explore Our Vacation Destinations</h1>
+                <div class="dvfooterButtons">
+                    <div class="dvEachBtn dvEachBtnLux" style="font-size: 14px;"><a href="/luxury/" title="Luxury">Luxury <div>★</div></a><span>›</span></div>
+                    <div class="dvEachBtn" style="font-size: 14px;">
+                        <a href="/europe/" title="Europe, Middle East & Africa Vacation Packages">Europe, Middle East & Africa</a>
+                        <span><a href="/europe/" title="Europe, Middle East & Africa Vacation Packages" style="font-size: 30px!important;">›</a></span>
+                    </div>
+                    <div class="dvEachBtn" style="font-size: 14px;">
+                        <a href="/asia/" title="Asia & South Pacific Vacation Packages">Asia & South Pacific</a>
+                        <span><a href="/asia/" title="Asia & South Pacific Vacation Packages" style="font-size: 30px!important;">›</a></span>
+                    </div>
+                    <div class="dvEachBtn" style="font-size: 14px;">
+                        <a href="/latin/" title="Latin America and Caribbean Vacation Packages"> Latin America and Caribbean</a>
+                        <span><a href="/latin/" title="Latin America and Caribbean Vacation Packages" style="font-size: 30px!important;">›</a></span>
+                    </div>
+                    <div class="dvEachBtn" style="font-size: 14px;">
+                        <a href="/latin/usa/vacations" title="USA Vacation Packages">USA</a>
+                        <span><a href="/latin/usa/vacations" title="USA Vacation Packages" style="font-size: 30px!important;">›</a></span>
+                    </div>
+                    <div class="dvEachBtn" style="font-size: 14px;">
+                        <a href="/asia/hawaii/vacations" title="Hawaii Vacation Packages">Hawaii</a>
+                        <span><a href="/asia/hawaii/vacations" title="Hawaii Vacation Packages" style="font-size: 30px!important;">›</a></span>
+                    </div>
+                    <div class="dvEachBtn" style="font-size: 14px;">
+                        <a href="/latin/canada/vacations" title="Canada Vacation Packages">Canada</a>
+                        <span><a href="/latin/canada/vacations" title="Canada Vacation Packages" style="font-size: 30px!important;">›</a></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="secCompanyInfoRes">
+                <div class="colFooter">
+                    <h2 class="thtitleRes" @(ViewBag.Mobile == 1 ? "id=1" : "")>Who are we<span class="spanArrowMob" id="arrow_1">&rsaquo;</span> </h2>
+                    <ul class="ulWho" id="meniu_1">
+                        <li><a href="/about_us">About Us </a></li>
+                        <li><a href="/contact_us">Contact Us </a></li>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/security-privacy">Security & Privacy</a></li>
+                    </ul>
+                </div>
+                <div class="colFooter">
+                    <h2 class="thtitleRes" @(ViewBag.Mobile == 1 ? "id=2" : "")> Additional Information<span class="spanArrowMob" id="arrow_2">&rsaquo;</span> </h2>
+                    <ul class="ulAdditional" id="meniu_2">
+                        <li><a href="/booking_confirmation">Manage Bookings</a></li>
+                        <li><a href="/insurance">Travel Insurance</a></li>
+                        <li><a href="https://visacentral.com/?login=tripmasters" target="_blank" class="openVISA">Visas</a></li>
+                        <li><a href="/how_to_book_on_tripmasters">How to book on Tripmasters </a></li>
+                        <li><a href="/frequently_asked_questions">FAQ </a></li>
+                        <li><a href="https://travel.tripmasters.com/inspiration/">Interests</a></li>
+                    </ul>
+
+
+                </div>
+                <div class="colFooter">
+                    <h2 class="thtitleRes" @(ViewBag.Mobile == 1 ? "id=3" : "")> Secured Payment<span class="spanArrowMob" id="arrow_3">&rsaquo;</span> </h2>
+                    <ul class="ulSecured" id="meniu_3">
+                        <li><a href="/payments">Payments</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="secPayments">
+                <div class="footerPayment">
+                    <div>
+                        We accept major credit cards<br />
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/creditcards.png" alt="no image" />
+                    </div>
+
+                    <div>
+                        Also available<br />
+                        <span class="text_blackbold">Staggered Payments</span><br /><span class="text_link"><a style="margin-left: 5px;" href="/payments">see conditions</a></span>
+                    </div>
+
+                    <div>
+                        Also accept<br />
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/paypal.png" width="90" height="24" alt="no image" />
+                    </div>
+
+                    <div>
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/US_234x60_BLK.jpg" alt="no image" />
+                    </div>
+
+                    <div>
+                        <a onclick="centerWindow(this.href); return false" href="https://www.affirm.com/how-it-works">
+                            Pay over time<br /><img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://cdn-assets.affirm.com/images/black_logo-transparent_bg.png" style="width: 80%" alt="no image" />
+                        </a>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="secVoucherRes">
+                <div class="divSecVoucher1Res">
+                    <p class="giftForTravelRes">Give the gift of travel!</p>
+                    <p class="giftVoucherRes">Gift Certificates</p>
+                </div>
+                <div class="divSecVoucher2Res">
+                    <p>
+                        Gift your loved ones a certificate. Anniversaries, Honeymoons, Birthdays, Graduations, or a romantic getaway!
+                    </p>
+                    <a href="https://reservation.tripmasters.com/bp5/travelcredit">GET YOURS</a>
+                </div>
+            </section>
+
+            <section class="secSocialmediaRes">
+                <a onclick="window.open(this.href); return false" href="http://twitter.com/tripmasters">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/twitter_logo.png" alt="no image" />
+                </a>
+                <a onclick="window.open(this.href); return false" href="http://www.facebook.com/Tripmasters">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/facebook_logo.png" alt="no image" />
+                </a>
+                <a onclick="window.open(this.href); return false" href="http://pinterest.com/tripmasters">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/pinterest_logo.png" alt="no image" />
+                </a>
+                <a onclick="window.open(this.href); return false" href="https://www.instagram.com/tripmasterstravel/">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/instagram_logo.png" alt="no image" />
+                </a>
+                <a onclick="window.open(this.href); return false" href="https://www.youtube.com/tripmasters">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/youtube_logo.png" alt="no image" />
+                </a>
+            </section>
+            <div class="divCopyRes">
+                <section class="secCopyrightRes">
+                    <p class="mx-auto my-auto">&copy; Copyright 2008 tripmasters.com. California Seller of Travel Registration #: 2051869&dash;40.</p>
+                </section>
+                <section class="secDisclaimer">
+                    <div class="txtDisclimer" id="discla">
+                        *Sample prices are based on the services indicated in the Suggested Itinerary which include Flights from your selected airport into your destination city and back to your chosen airport plus hotel accommodations and taxes for the number of nights specified, as well as transportation between cities included in your itinerary, and activities if indicated in the itinerary. They are per person, based on double occupancy, and are dynamic in nature. Some cities or hotels may charge local taxes or resort fees that can only be collected by the hotel at the destination. Travel insurance is not part of the listed prices and is also customizable and optional for the traveler.
+                        <br>
+                        Flights include all applicable airline taxes and fuel surcharges. Baggage fees, such as those for carry-on or checked luggage, as well as seat assignments, may not be included in some fares and may vary depending on the carrier's policies. Prices do not include any entrance or visa fees that may be charged at international airports.
+                        <br>
+                        The prices listed were accurate at the time of publication and were specific to a particular travel date and departure location. Actual prices may vary based on travel dates. Despite our best efforts, we do not have control over the fluctuation of prices, as airlines and hotel reservation systems determine them. Prices are subject to dynamic changes and may vary significantly multiple times within a single day.
+                    </div>
+                </section>
+            </div>
+            <section class="secUt2User">
+                <div style="display: inline-block; width: 100%;">
+                    <div id="_utdivUsrName2" class="Text_Arial12_OrangeBoldNew txtR"></div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <section class="secDestinations container">
+
+            <div class="citylist">
+            </div>
+
+        </section>
+
+    </footer>
+    @{
+        <environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/lib/jquery/dist/jquery-ui.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/lib/jquery/dist/js.cookie.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/js/site/Base.js"></script>
+            <script src="~/js/site/deskTopLayout.js"></script>
+            <script src="~/js/site/dt.java.CommonFunctions.js"></script>
+            <script src="~/js/site/dt.java.MrktEmailSubscriber.js"></script>
+            <script src="~/js/site/java_utInit.js"></script>
+            <script src="~/js/cms/java.CMS_javaScriptLinks.js"></script>
+            <script src="~/js/cms/java.CMS_javaScript_Optimized.js"></script>
+            @{
+                if (Utilities.CheckMobileDevice() == true)
+                {
+                    <script src="~/js/site_m/mb.java.searchhead.js" asp-append-version="true"></script>
+                }
+            }
+        </environment>
+        <environment exclude="Development">
+            <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/lib/jquery/dist/jquery-ui.min.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/lib/jquery/dist/js.cookie.min.js" type="text/javascript" asp-append-version="true"></script>
+            <script src="~/js/site/site.min.js" asp-append-version="true"></script>
+            <script src="~/js/cms/cms.min.js" asp-append-version="true"></script>
+            @{
+                if (Utilities.CheckMobileDevice() == true)
+                {
+                    <script src="~/js/site_m/mb.java.searchhead.min.js" asp-append-version="true"></script>
+                }
+            }
+        </environment>
+    }
+
+
+    <script type="text/javascript" src="https://unitraq.tripmasters.com/js/_ut.min.js"></script>
+    <script type="text/javascript" src="~/js/snippetScripts.js"></script>
+    <script>
+        // -- unitraqv2 --
+        var _ut2Functions = _ut2Functions || [];
+        _ut2Functions.push(function () {
+            //console.log("_ut2Functions.push");
+            var _ut2UsrName = _ut2GetUserName();
+            var _ut2UsrId = _ut2GetVisitorId();
+            //console.log("_ut2UsrName");
+            //console.log(_ut2UsrName);
+            //console.log("_ut2UsrId");
+            //console.log(_ut2UsrId);
+            //check to be internal user _utUsrId !=0 and _utGetStatus() != 0
+            if ((_ut2UsrId != 0) && Number(_ut2GetUTStatus()) != 0) {
+                var _utDisplayMessage = "Agent: " + _ut2UsrName + "<br/>Source: " + _utCookie;
+                $('#_utdivUsrName2').html(_utDisplayMessage);
+            }
+        });
+
+
+        function waitForUnitraq2() {
+            if (typeof _unitraq2 !== "undefined") {
+                //console.log("waitForUnitraq2");
+                //_unitraq2.init('unitraq.tripdev.net/', _utDataIn, _ut2Functions);//Develop
+                _unitraq2.init('unitraq.tripmasters.com/', _utDataIn, _ut2Functions);//Production
+            }
+            else {
+                setTimeout(waitForUnitraq2, 250);
+            }
+        }
+
+        $(document).ready(function () {
+            waitForUnitraq2();
+            $(".closeAnnResponsive").click(function () {
+                $(".secAnnounceResponsive").slideUp(function () { $(".dvImgContainer").css({ "margin": "0 auto", "padding": "20px 0", "max-width": "980px", "height": "auto" }); });
+            });
+            //console.log($('#utm_campaign').length);
+            $('#utm_campaign').length > 0 ?
+                (
+                    //console.log($('#utm_campaign').val()),
+                    $('#utm_campaign').val() == "" ? $('#utm_campaign').val('' + utmValue + '') : ''
+                )
+                : '';
+            //console.log($('#utm_campaign').val());
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+    @{
+        if (Utilities.CheckMobileDevice() == true)
+        {
+            <script type="text/javascript">
+                (function () {
+                    checkDate();
+                })();
+                var popDateFinal;
+                function checkDate() {
+                    var popDate = new Date();
+                    var daysToAdd = 90;
+                    popDate.setDate(popDate.getDate() + daysToAdd);
+                    popDateFinal = (popDate.getMonth() + 1) + '/' + (popDate.getDate()) + '/' + (popDate.getFullYear());
+                    var dd = popDate.getDate();
+                    var mm = popDate.getMonth() + 1;
+                    var y = popDate.getFullYear();
+                    $('#InDate1').val() === 'mm/dd/yyyy' ? $('#InDate1').val(popDateFinal) : '';
+                    $('#qArrDate').val(popDateFinal);
+                };
+
+                // if (webAnnounce != "") {
+                //     var secAnn = '<section class="secTopAnnounce">' +
+                //         '<p class="closeTopAnn">X</p>' +
+                //         '<img src="https:pictures.tripmasters.com/siteassets/d/attention_icon2.png" alt="attention_icon2"/>' + webAnnounce +
+                //         '</section>'
+                //     if (_utInputString.includes('home')) {
+                //         $(".dvMhomeContainer").prepend(secAnn);
+                //         $(".secTopAnnounce").css({ "margin": "0px auto 0px auto", "padding": "15px", "max-width": "95%", "background": "#333", "color": "white" });
+                //         $(".closeTopAnn").click(function () {
+                //             $(".secTopAnnounce").slideUp();
+                //         })
+                //     }
+                //     else {
+                //         $(secAnn).insertAfter($('.dvMSearch'))
+                //         $(".secTopAnnounce").css({ "margin": "0 auto", "padding": "30px", "width": "90%", "background": "#333", "color": "white" }).slideDown("fast");
+                //         $(".closeTopAnn").click(function () { $(".secTopAnnounce").slideUp("fast"); })
+                //     }
+                // };
+            </script>
+        }
+    }
+
+</body>
+</html>

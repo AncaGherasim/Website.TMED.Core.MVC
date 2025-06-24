@@ -1,0 +1,64 @@
+﻿@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+@model MVC_TMED.Models.ViewModels.FindCusPackInfoViewModel
+
+@{
+    Layout = null;
+}
+@{
+    Int32 n = 3;
+    string firstPageIdsStr = Model.boxAllPacksStr.Split("|")[0];
+    string[] firstPageIds = firstPageIdsStr.Split(",");
+    string pack3Ids = "";
+    if (firstPageIds.Length < 3)
+    {
+        n = firstPageIds.Length;
+    }
+    for (Int32 i = 0; i <= n - 1; i++)
+    {
+        switch (i)
+        {
+            case 0:
+                pack3Ids = pack3Ids + firstPageIds[i].ToString() + ", ";
+                break;
+            case 1:
+                pack3Ids = pack3Ids + firstPageIds[i].ToString() + ", ";
+                break;
+            case 2:
+                pack3Ids = pack3Ids + firstPageIds[i].ToString();
+                break;
+        }
+    }
+}
+<script type="text/javascript">
+            dataLayer.push({
+                'packagesIDs': '@pack3Ids'
+            });
+</script>
+
+
+<div>
+    <div id="header" style="height:36px; background-color:#edf2f8; vertical-align:middle; margin-right:8px;visibility:hidden;">
+        <span class="Text_16Arial_Bold" style="line-height:32px; margin-left:20px; vertical-align:middle;">@Model.totalPacks&nbsp;&nbsp;Itineraries</span>
+        <span id="idPages" style="line-height:26px; margin-left:10px;vertical-align:middle;"> </span>
+        <span class="Text_12Arial_BlackBold" style="line-height:32px;margin-right:10px;vertical-align:middle;float:right;">
+            Order by&nbsp;
+            <select id="idOrderBy" style="line-height:32px;width:170px; vertical-align:middle;" onchange="getOrderValue()">
+                <option value="0" selected="selected">Most Popular</option>
+                <option value="1">Length of Stay</option>
+                <option value="2">Price: Low to High</option>
+                <option value="3">Price: High to Low</option>
+                <option value="4">Package Name</option>
+            </select>
+        </span>
+    </div>
+    <div id="dvWaitPacks" style="padding:30px; height:200px; margin-top:14px;" align="center"></div>
+    <div id="dvPackets"></div>
+    <div id="footer" style="height:36px; background-color:#edf2f8; vertical-align:middle; margin-right:8px;visibility:hidden;clear:both;">
+        <span class="Text_16Arial_Bold" style="line-height:32px; margin-left:20px; vertical-align:middle;">@Model.totalPacks&nbsp;&nbsp;Itineraries</span>
+        <span id="idPages1" style="line-height:26px; margin-left:10px;vertical-align:middle;"> </span>
+    </div>
+    <input name="TotalPacks" type="hidden" id="TotalPacks" value="@Model.totalPacks" />
+    <input name="AllPackIds" type="hidden" id="AllPackIds" value="@Model.boxAllPacksStr" />
+</div>

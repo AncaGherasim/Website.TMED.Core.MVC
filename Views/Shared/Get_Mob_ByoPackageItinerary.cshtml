@@ -1,0 +1,542 @@
+﻿@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+@model MVC_TMED.Models.ViewModels.CalendarViewModel
+@{
+    Layout = null;
+}
+
+<div class="col-12 pt-3 pb-3 pl-0 pr-0">
+    <label for="xtxtBYArriving" class="pt-1 w-50">Arrive in @Model.FrstCity on:</label>
+    <input class="form-control float-right w-50" id="xtxtBYArriving" name="xtxtBYArriving" value="mm/dd/yyyy" readonly="readonly" />
+</div>
+@{
+    Int16 eachSq = 0;
+    Int32 countCTY = 0;
+    Int32 DropOffCityNo = 0;
+    string myRgx = "(Transfers|Transfer|Flight)";
+    Int16 hvTRF = 0;
+        @for (Int16 cty = 0; cty <= Model.compCity.Count - 1; cty++)
+        {
+                <div class="row mx-auto mt-3 mb-5 pt-2 pb-3 dvMTo" id="@String.Format("cityTo{0}", Model.compCity[cty].CitySeq)">
+                    <div class="col-12">
+                        <span class="spCityNo">@Model.compCity[cty].CitySeq</span>
+                        <span class="spbtnicons float-right">
+                            @{
+                                switch (Model.compCity[cty].CitySeq)
+                                {
+                                    case "S":
+                                    case "E":
+                                    case "1":
+                                        {
+                                            @Html.Raw("<span class='iconNull'></span>");
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            @Html.Raw(String.Format("<span class='iconUp ml-2 mr-2' id='{0}'></span>", Model.compCity[cty].CitySeq));
+                                            break;
+                                        }
+                                }
+                                switch (Model.compCity[cty].CitySeq)
+                                {
+                                    case "S":
+                                    case "E":
+                                        {
+                                            @Html.Raw("<span class='iconNull'></span>");
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            if (Int16.Parse(Model.compCity[cty].CitySeq) == Model.compCity.Count())
+                                            {
+                                                @Html.Raw("<span class='iconNull'></span>");
+                                            }
+                                            else
+                                            {
+                                                if (cty + 1 == Model.compCity.Count - 1)
+                                                {
+                                                    if (Model.compCity[cty + 1].CitySeq == "E")
+                                                    {
+                                                        //Html.Raw("<span class='iconNull'></span>");
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.Raw(String.Format("<span class='iconDwn ml-2 mr-2' id='{0}'></span>", Model.compCity[cty].CitySeq));
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (cty < Model.compCity.Count - 1)
+                                                    {
+                                                        @Html.Raw(String.Format("<span class='iconDwn ml-2 mr-2' id='{0}'></span>", Model.compCity[cty].CitySeq));
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Int16.Parse(Model.compCity[cty].CitySeq) < Model.compCity.Count)
+                                                        {
+                                                            @Html.Raw("<span class='iconNull'></span>");
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                        }
+                                }
+                                @if (@Model.compCity[cty].CitySeq != "E" && @Model.compCity[cty].CitySeq != "S")
+                                {
+                                    if (@Model.compCity.Where(x => Int32.TryParse(x.CitySeq, out Int32 ncitySeq)).Max(x => x.CitySeq) != "1")
+                                    {
+                                        <span class="iconTrsh ml-2 mr-2" id="@Model.compCity[cty].CitySeq" title="Remove"></span>
+                                    }
+                                    <span class="iconEdit ml-2 mr-2" id="@Model.compCity[cty].CitySeq" title="Edit"></span>
+                                }
+
+                            }
+                        </span>
+                    </div>
+                    <div class="col-12">
+                        @{
+                            switch (Model.compCity[cty].CitySeq)
+                            {
+                                case "S":
+                                    {
+                                        <input type="hidden" id="xnoCity@(Model.compCity[cty].CitySeq)" name="xnoCity@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].CitySeq" />
+                                        <input type="hidden" id="xsCityID@(Model.compCity[cty].CitySeq)" name="xsCityID@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].City_ID" />
+                                        <input type="hidden" id="xsCityNA@(Model.compCity[cty].CitySeq)" name="xsCityNA@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].City_Name" />
+                                        <input type="hidden" id="xsCityCO@(Model.compCity[cty].CitySeq)" name="xsCityCO@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].Prod_Code" />
+                                        <input type="hidden" id="xsCityAPI@(Model.compCity[cty].CitySeq)" name="xsCityAPI@(Model.compCity[cty].CitySeq)" value="@_appsettings.CurrentValue.ApplicationSettings.CityHotelVendorAPI" />
+                                        <input type="hidden" id="xOfNtsTxt@(Model.compCity[cty].CitySeq)" name="xOfNtsTxt@(Model.compCity[cty].CitySeq)" value="" />
+                                        <input type="hidden" id="xselNoOfNts@(Model.compCity[cty].CitySeq)" name="xselNoOfNts@(Model.compCity[cty].CitySeq)" value="0" />
+                                        <span class="S"><font class="orgClr">&#9632;</font> Must arrive to <b>@Model.compCity[cty].City_Name</b></span>
+                                    }
+                                    break;
+                                case "E":
+                                    {
+                                        <input type="hidden" id="xnoCity@(Model.compCity[cty].CitySeq)" name="xnoCity@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].CitySeq" />
+                                        <input type="hidden" id="xsCityID@(Model.compCity[cty].CitySeq)" name="xsCityID@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].City_ID" />
+                                        <input type="hidden" id="xsCityNA@(Model.compCity[cty].CitySeq)" name="xsCityNA@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].City_Name" />
+                                        <input type="hidden" id="xsCityCO@(Model.compCity[cty].CitySeq)" name="xsCityCO@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].Prod_Code" />
+                                        <input type="hidden" id="xsCityAPI@(Model.compCity[cty].CitySeq)" name="xsCityAPI@(Model.compCity[cty].CitySeq)" value="@_appsettings.CurrentValue.ApplicationSettings.CityHotelVendorAPI" />
+                                        <input type="hidden" id="xOfNtsTxt@(Model.compCity[cty].CitySeq)" name="xOfNtsTxt@(Model.compCity[cty].CitySeq)" value="" />
+                                <input type="hidden" id="xselNoOfNts@(Model.compCity[cty].CitySeq)" name="xselNoOfNts@(Model.compCity[cty].CitySeq)" value="0" />
+                                        <span class="S"><font class="orgClr">&#9632;</font> Must depart from <b>@Model.compCity[cty].City_Name</b></span>
+                                    }
+                                    break;
+                                default:
+                                    {
+                                        <div class="row mx-auto pb-2">
+                                            <div class="col-8 font14 pl-0 textgrey">Going to:</div>
+                                            <div class="col-4 font14 textgrey pr-0 pl-2">Staying for:</div>
+                                        </div>
+                                        <div class="row mx-auto">
+                                            <div class="col-8 pl-0 pr-0">
+                                                @*<p id="xArrCode@(Model.compCity[cty].CitySeq)" class="parrbyocode">@Model.compCity[cty].Prod_Code</p>*@
+                                                <p id="xArrCity@(Model.compCity[cty].CitySeq)" class="parrbyocity pt-4">@Model.compCity[cty].City_Name</p>
+                                                <input type="text" class="form-control mt-3" id="xsCityNA@(Model.compCity[cty].CitySeq)" name="xsCityNA@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].City_Name" readonly style="display: none" />
+                                                <input type="hidden" id="xnoCity@(Model.compCity[cty].CitySeq)" name="xnoCity@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].CitySeq" />
+                                                <input type="hidden" id="xsCityID@(Model.compCity[cty].CitySeq)" name="xsCityID@(Model.compCity[cty].CitySeq)" value="@Model.compCity[cty].City_ID" />
+                                                <input type="hidden" id="xsCityAPI@(Model.compCity[cty].CitySeq)" name="xsCityAPI@(Model.compCity[cty].CitySeq)" value="@_appsettings.CurrentValue.ApplicationSettings.CityHotelVendorAPI" />
+                                            </div>
+                                            <div class="col-4 pr-0 pl-1">
+                                                <p id="xArrNoCode@(Model.compCity[cty].CitySeq)" class="parrnocode"></p>
+                                                <select class="form-control pl-0 border-left-0 border-right-0 border-top-0 selNts pr-0" id="xSTCity@(Model.compCity[cty].CitySeq)" name="xSTCity@(Model.compCity[cty].CitySeq)">
+                                                    @{
+                                                        Int32 dt = 3;
+                                                        string nts = "nights";
+                                                        string sel = "";
+                                                        Int32 ctyCase = Int32.Parse(Model.compCity[cty].CitySeq);
+                                                        if (Model.eachCity.Count > 0)
+                                                        {
+                                                            switch (Model.compCity[cty].CitySeq)
+                                                            {
+                                                                case "S":
+                                                                case "E":
+                                                                default:
+                                                                    {
+                                                                        dt = Model.eachCity[ctyCase - 1].DaysDuration;
+                                                                    }
+                                                                    break;
+                                                            }
+                                                        }
+                                                        for (Int32 n = 1; n <= 14; n++)
+                                                        {
+                                                            if (dt == 1) { nts = "night"; }
+                                                            if (dt == n)
+                                                            {
+                                                                sel = "selected";
+                                                            }
+                                                            else
+                                                            {
+                                                                sel = "";
+                                                            }
+                                                            @Html.Raw(String.Format("<option value='{0}' {1}>{2} {3}</option>", n, sel, n, nts));
+                                                        }
+                                                    }
+                                                </select>
+                                                <input type="hidden" id="xOfNtsTxt@(Model.compCity[cty].CitySeq)" name="xOfNtsTxt@(Model.compCity[cty].CitySeq)" value="@dt" />
+                                                <input type="hidden" id="xselNoOfNts@(Model.compCity[cty].CitySeq)" name="xselNoOfNts@(Model.compCity[cty].CitySeq)" value="@dt" />
+                                            </div>
+                                        </div>
+                                    }
+                                    break;
+                            }
+                        }
+                    </div>
+                    @{
+                        string typTRF = "";
+                        string valTRF = "";
+                        hvTRF = 0;
+                        if (@Model.compCity[cty].ProductFF1 == "P2P" || @Model.compCity[cty].ProductFF1 == "SO")
+                        {
+                            typTRF = "Air";
+                            valTRF = "A";
+                            hvTRF = 1;
+                        }
+                        else
+                        {
+                            foreach (var tran in Model.compIntrCty)
+                            {
+                                if (@Model.compCity[cty].CitySeq == tran.CitySeq)
+                                {
+                                    hvTRF = 1;
+                                    if (tran.Prod_Type.Trim() == "C")
+                                    {
+                                        typTRF = "Car";
+                                        valTRF = "C";
+                                    }
+                                    else
+                                    {
+                                        if (tran.Prod_Type.Trim() == "T" || tran.Prod_Type.Trim() == "TR")
+                                        {
+                                            if (tran.Prod_Type.Trim() == "T") //from cookie
+                                            {
+                                                typTRF = "Train";
+                                            }
+                                            else
+                                            {
+                                                typTRF = System.Text.RegularExpressions.Regex.Replace(tran.Prod_KindTitle, myRgx, "").Trim();
+                                            }
+                                            if (typTRF == "Air")
+                                            {
+                                                valTRF = "A";
+                                            }
+                                            else
+                                            {
+                                                valTRF = "T";
+                                            }
+                                        }
+                                        else
+                                        {
+                                            typTRF = "Own";
+                                            valTRF = "W";
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+                        if (1 < 2)
+                        { 
+                            string selfCss = "spTransActive";
+                            Int32 countRank = 1;
+                            string spDisplay = "none";
+                            foreach (var c in Model.citiesTransportOptions.FindAll(x => x.No == Model.compCity[cty].CitySeq))
+                            {
+                                if (c.Options.Count > 0)
+                                {
+                                    string displayTransOpt = "block";
+                                    if (DropOffCityNo > 0 && DropOffCityNo > cty + 1)
+                                    {
+                                        displayTransOpt = "none";
+                                    }
+
+                                        <div class="col-12 pl-0 pr-0" id="dvMtravelTo@(Model.compCity[cty].CitySeq)" style=$"display:{displayTransOpt}">
+                                            @{
+                                                Int32 isMatch = 0;
+                                                foreach (var t in c.Options)
+                                                {
+                                                    if (typTRF == "")
+                                                    {
+                                                        typTRF = t.ProductTypeName;
+                                                    }
+                                                    if (System.Text.RegularExpressions.Regex.IsMatch(t.ProductTypeName, typTRF, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                                                    {
+                                                        isMatch = 1;
+                                                        break;
+                                                    }
+                                                }
+
+                                                foreach (var t in c.Options)
+                                                {
+                                                    if (typTRF == "")
+                                                    {
+                                                        typTRF = t.ProductTypeName;
+                                                    }
+                                                    if (System.Text.RegularExpressions.Regex.IsMatch(t.ProductTypeName, typTRF, System.Text.RegularExpressions.RegexOptions.IgnoreCase) || (isMatch == 0 && t.Ranking == 1))
+                                                    {
+                                                        if (DropOffCityNo > 0 && DropOffCityNo > cty + 1)
+                                                        {
+                                                            <input type="hidden" id=@String.Format("xrdselTransField{0}", Model.compCity[cty].CitySeq) name=@String.Format("xrdselTransField{0}", Model.compCity[cty].CitySeq) value="" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="hidden" id=@String.Format("xrdselTransField{0}", Model.compCity[cty].CitySeq) name=@String.Format("xrdselTransField{0}", Model.compCity[cty].CitySeq) value="@t.ProductFreeField1" />
+                                                        }
+                                                        <input type="hidden" id="xrdselTrans@(Model.compCity[cty].CitySeq)" name="xrdselTrans@(Model.compCity[cty].CitySeq)" value="@t.ProductType" />
+                                                        <input type="hidden" id="xOverNts@(Model.compCity[cty].CitySeq)" name="xOverNts@(Model.compCity[cty].CitySeq)" value="@t.Overnight" />
+                                                        string clsTransp = "spTransNoActive";
+                                                        if (cty < Model.compCity.Count - 1)
+                                                        {
+                                                            clsTransp = "spTransActive";
+                                                        }
+                                                        <span class="@clsTransp col-12 pt-2" id="spTransRank@(Model.compCity[cty].CitySeq)@(t.Ranking)" data-type="@(t.ProductType)" data-field="@t.ProductFreeField1" data-ovrnts="@t.Overnight">
+                                                            <span class="font14 textgrey">Travel by</span>
+                                                <img src="https://pictures.tripmasters.com/siteassets/m/@(t.ProductTypeName.Replace(" ", "_").ToLower())_icon.gif" />
+                                                            <span class="spMtranspR">&#10095;</span>
+                                                        </span>
+                                                        if (t.CarDropOff != null)
+                                                        {
+                                                            spDisplay = "block";
+                                                            <div id="dvCarOpt@(Model.compCity[cty].CitySeq)" class="dvCarOpt row mx-auto pb-3" style="display:@(spDisplay)">
+                                                                <div class="col-12">
+                                                                    <div class="row mx-auto">
+                                                                        <span class="pikdrp col-4 pr-0">
+                                                                            <label for="xpickupPlace@(Model.compCity[cty].CitySeq)">Pick-up</label>
+                                                                            <input id="xpickupPlace@(Model.compCity[cty].CitySeq)" name="xpickupPlace@(Model.compCity[cty].CitySeq)" type="hidden" value="A" />
+                                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xpickupPlaceTxt@(Model.compCity[cty].CitySeq)" name="xpickupPlaceTxt@(Model.compCity[cty].CitySeq)">
+                                                                                <option value="Airport">Airport</option>
+                                                                            </select>
+                                                                        </span>
+                                                                        <span class="when col-8">
+                                                                            <label for="xpickupDay@(Model.compCity[cty].CitySeq)">When</label>
+                                                                            <input id="xpickupDay@(Model.compCity[cty].CitySeq)" name="xpickupDay@(Model.compCity[cty].CitySeq)" type="hidden" value="F" />
+                                                                            <select class="form-control w-50 pl-0 border-left-0 border-right-0 border-top-0" id="xpickupDayCity@(Model.compCity[cty].CitySeq)" name="xpickupDayCity@(Model.compCity[cty].CitySeq)">
+                                                                                <option value="First Day">First Day</option>
+                                                                                <option value="Last Day">Last day</option>
+                                                                            </select>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="dvoff row mx-auto">
+                                                                        <span class="pikdrp col-4 pr-0 pl-0">
+                                                                            <label for="xdropoffPlace@(Model.compCity[cty].CitySeq)">Drop-off</label>
+                                                                            <input id="xdropoffPlace@(Model.compCity[cty].CitySeq)" name="xdropoffPlace@(Model.compCity[cty].CitySeq)" type="hidden" value="A" />
+                                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xdropoffPlaceTxt@(Model.compCity[cty].CitySeq)" name="xdropoffPlaceTxt@(Model.compCity[cty].CitySeq)">
+                                                                                <option value="Airport">Airport</option>
+                                                                            </select>
+                                                                        </span>
+                                                                        <span class="when col-4 pr-0">
+                                                                            <label for="xdropoffDay@(Model.compCity[cty].CitySeq)">When</label>
+                                                                            <input id="xdropoffDay@(Model.compCity[cty].CitySeq)" name="xdropoffDay@(Model.compCity[cty].CitySeq)" type="hidden" value="L" />
+                                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xdropoffDayCity@(Model.compCity[cty].CitySeq)" name="xdropoffDayCity@(Model.compCity[cty].CitySeq)">
+                                                                                <option value="L">Last day</option>
+                                                                                <option value="F">First Day</option>
+                                                                            </select>
+                                                                        </span>
+                                                                        <span class="where col-4 pr-0">
+                                                                            @{
+                                                                                Int16 FirstOption = -1;
+                                                                            }
+                                                                            <label for="xdropoffCityTxt@(Model.compCity[cty].CitySeq)">Where</label>
+                                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xdropoffCityTxt@(Model.compCity[cty].CitySeq)" name="xdropoffCityTxt@(Model.compCity[cty].CitySeq)">
+                                                                                @{
+                                                                                    string dropCtys = "";
+                                                                                    System.Text.StringBuilder dropCities = new System.Text.StringBuilder();
+                                                                                    Int32 hvCar = 1;
+                                                                                    if (t.CarDropOff.Count > 0)
+                                                                                    {
+                                                                                        for (Int32 d = 0; d <= t.CarDropOff.Count - 1; d++)
+                                                                                        {
+                                                                                            if (d == 0)
+                                                                                            {
+                                                                                                dropCtys = t.CarDropOff[d].DOPlaceNo + "|" + t.CarDropOff[d].DOPlaceName;
+                                                                                                dropCities.Append(t.CarDropOff[d].DOPlaceName + "|" + t.CarDropOff[d].DOPlaceNo);
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                dropCities.Append("$$$" + t.CarDropOff[d].DOPlaceName + "|" + t.CarDropOff[d].DOPlaceNo);
+                                                                                            }
+                                                                                            if (t.CarDropOff[d].DOPlaceNo != "")
+                                                                                            {
+                                                                                                if (FirstOption == -1)
+                                                                                                {
+                                                                                                    if (t.CarDropOff[d].DOPlaceNo == "E")
+                                                                                                    {
+                                                                                                        FirstOption = (Int16)Model.compCity.Count;
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        FirstOption = Int16.Parse(t.CarDropOff[d].DOPlaceNo);
+                                                                                                    }
+                                                                                                    DropOffCityNo = FirstOption;
+                                                                                                }
+                                                                                                @Html.Raw(String.Format("<option value='{0}'>{1}</option>", t.CarDropOff[d].DOPlaceNo, t.CarDropOff[d].DOPlaceName));
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            </select>
+                                                                            @if (FirstOption == (Int16)Model.compCity.Count)
+                                                                            {
+                                                                                <input name=@String.Format("xdropoffCity{0}", Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xdropoffCity{0}", Model.compCity[cty].CitySeq) value="E" />
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <input name=@String.Format("xdropoffCity{0}", Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xdropoffCity{0}", Model.compCity[cty].CitySeq) value="@FirstOption" />
+                                                                            }
+                                                                        </span>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        selfCss = "spTransNoActive";
+                                            }
+                                            else
+                                            {
+                                            if (t.ProductType == "C")
+                                            {
+                                            if (System.Text.RegularExpressions.Regex.IsMatch(t.ProductTypeName, typTRF, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                                            {
+                                            spDisplay = "block";
+                                            }
+                                            <br style="clear: both" />
+                                            <div id="dvCarOpt@(Model.compCity[cty].CitySeq)" class="dvCarOpt row mx-auto pb-3" style="display:@(spDisplay)">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <span class="pikdrp col-4 pr-0">
+                                                            <label for="xpickupPlace@(Model.compCity[cty].CitySeq)">Pick-up</label>
+                                                            <input id="xpickupPlace@(Model.compCity[cty].CitySeq)" name="xpickupPlace@(Model.compCity[cty].CitySeq)" type="hidden" value="A" />
+                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xpickupPlaceTxt@(Model.compCity[cty].CitySeq)" name="xpickupPlaceTxt@(Model.compCity[cty].CitySeq)">
+                                                                <option value="Airport">Airport</option>
+                                                            </select>
+                                                        </span>
+                                                        <span class="when col-8">
+                                                            <label for="xpickupDay@(Model.compCity[cty].CitySeq)">When</label>
+                                                            <input id="xpickupDay@(Model.compCity[cty].CitySeq)" name="xpickupDay@(Model.compCity[cty].CitySeq)" type="hidden" value="F" />
+                                                            <select class="form-control w-50 pl-0 border-left-0 border-right-0 border-top-0" id="xpickupDayCity@(Model.compCity[cty].CitySeq)" name="xpickupDayCity@(Model.compCity[cty].CitySeq)">
+                                                                <option value="First Day">First Day</option>
+                                                                <option value="Last Day">Last day</option>
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="dvoff row mx-auto">
+                                                        <span class="pikdrp col-4 pr-0 pl-0">
+                                                            <label for="xdropoffPlace@(Model.compCity[cty].CitySeq)">Drop-off</label>
+                                                            <input id="xdropoffPlace@(Model.compCity[cty].CitySeq)" name="xdropoffPlace@(Model.compCity[cty].CitySeq)" type="hidden" value="A" />
+                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xdropoffPlaceTxt@(Model.compCity[cty].CitySeq)" name="xdropoffPlaceTxt@(Model.compCity[cty].CitySeq)">
+                                                                <option value="Airport">Airport</option>
+                                                            </select>
+                                                        </span>
+                                                        <span class="when col-4 pr-0">
+                                                            <label for="xdropoffDay@(Model.compCity[cty].CitySeq)">When</label>
+                                                            <input id="xdropoffDay@(Model.compCity[cty].CitySeq)" name="xdropoffDay@(Model.compCity[cty].CitySeq)" type="hidden" value="L" />
+                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xdropoffDayCity@(Model.compCity[cty].CitySeq)" name="xdropoffDayCity@(Model.compCity[cty].CitySeq)">
+                                                                <option value="L">Last day</option>
+                                                                <option value="F">First Day</option>
+                                                            </select>
+                                                        </span>
+                                                        <span class="where col-4 pr-0">
+                                                            @{
+                                                                Int16 FirstOption = -1;
+                                                            }
+                                                            <label for="xdropoffCityTxt@(Model.compCity[cty].CitySeq)">Where</label>
+                                                            <select class="form-control pl-0 border-left-0 border-right-0 border-top-0" id="xdropoffCityTxt@(Model.compCity[cty].CitySeq)" name="xdropoffCityTxt@(Model.compCity[cty].CitySeq)">
+                                                                @{
+                                                                    string dropCtys = "";
+                                                                    System.Text.StringBuilder dropCities = new System.Text.StringBuilder();
+                                                                    Int32 hvCar = 1;
+                                                                    if (t.CarDropOff.Count > 0)
+                                                                    {
+                                                                        for (Int32 d = 0; d <= t.CarDropOff.Count - 1; d++)
+                                                                        {
+                                                                            if (d == 0)
+                                                                            {
+                                                                                dropCtys = t.CarDropOff[d].DOPlaceNo + "|" + t.CarDropOff[d].DOPlaceName;
+                                                                                dropCities.Append(t.CarDropOff[d].DOPlaceName + "|" + t.CarDropOff[d].DOPlaceNo);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                dropCities.Append("$$$" + t.CarDropOff[d].DOPlaceName + "|" + t.CarDropOff[d].DOPlaceNo);
+                                                                            }
+                                                                            if (t.CarDropOff[d].DOPlaceNo != "")
+                                                                            {
+                                                                                if (FirstOption == -1)
+                                                                                {
+                                                                                    Int16.TryParse(t.CarDropOff[d].DOPlaceNo, out FirstOption);
+                                                                                    //DropOffCityNo = FirstOption;
+                                                                                }
+                                                                                @Html.Raw(String.Format("<option value='{0}'>{1}</option>", t.CarDropOff[d].DOPlaceNo, t.CarDropOff[d].DOPlaceName));
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            </select>
+                                                            <input name=@String.Format("xdropoffCity{0}", Model.compCity[cty].CitySeq) type="hidden" id=@String.Format("xdropoffCity{0}", Model.compCity[cty].CitySeq) value="@FirstOption" />
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <span class="spTransNoActive col-12 pt-2" id="spTransRank@(Model.compCity[cty].CitySeq)@(t.Ranking)" data-type="@(t.ProductType)" data-field="@t.ProductFreeField1" data-ovrnts="@t.Overnight">
+                                                <span class="font14 textgrey">Travel by</span>
+                                                <img src="https://pictures.tripmasters.com/siteassets/m/@(t.ProductTypeName.Replace(" ", "_").ToLower())_icon.gif" />
+                                                <span class="spMtranspR">&#10095;</span>
+                                            </span>
+                                            selfCss = "spTransNoActive";
+
+                                            }
+                                            else
+                                            {
+                                            <span class="spTransNoActive col-12 pt-2" id="spTransRank@(Model.compCity[cty].CitySeq)@(t.Ranking)" data-type="@(t.ProductType)" data-field="@t.ProductFreeField1" data-ovrnts="@t.Overnight">
+                                                <span class="font14 textgrey">Travel by</span>
+                                                <img src="https://pictures.tripmasters.com/siteassets/m/@(t.ProductTypeName.Replace(" ", "_").ToLower())_icon.gif" />
+                                                <span class="spMtranspR">&#10095;</span>
+                                            </span>
+                                            selfCss = "spTransNoActive";
+
+                                            }
+                                            }
+                                            countRank++;
+
+
+                                            }
+
+                                            if (c.No != "E" && c.No != "S" && c.NextPlace.Id != -1)
+                                            {
+                                            <span class="@selfCss col-12 pt-2" id="spTransRank@(Model.compCity[cty].CitySeq)@(countRank)" data-type="OWN" data-field="W" data-ovrnts="0">
+                                                <span class="font14 textgrey">Travel by</span>
+                                                <img src="https://pictures.tripmasters.com/siteassets/m/self_icon.gif" />
+                                                <span class="spMtransp">&#10095;</span>
+                                            </span>
+                                            }
+                                            }
+</div>
+                                                                                        }
+                                                                                    }
+                        }
+                    }
+                </div>
+                @if (Int32.TryParse(Model.compCity[cty].CitySeq, out int g) == true)
+                {
+                    if (Int32.Parse(Model.compCity[cty].CitySeq) > 0)
+                    {
+                        countCTY = countCTY + 1;
+                    }
+                }
+        }
+}
+<div id="dvMaddcity" class="pMaddcity row pt-3 pb-3" lang="@countCTY,@(countCTY + 1)">
+    <div class="col-12 text-center">
+        <input type="hidden" id="inpCities" value="@countCTY" />
+        <img src="https://pictures.tripmasters.com/siteassets/m/add_icon.png" class="img-fluid" />
+        <span class="text-uppercase" n>Add Destination</span>
+    </div>
+</div>
+

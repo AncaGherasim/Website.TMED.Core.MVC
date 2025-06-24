@@ -1,0 +1,28 @@
+StatusCode: 404
+ErrorMessage: 404 error type
+StackTrace: 
+InnerException: 
+OriginalPath: 10.12.17.3/europe/
+InternalPath: 10.12.17.3
+
+StatusCode: 404
+ErrorMessage: 404 error type
+StackTrace: 
+InnerException: 
+OriginalPath: 10.12.17.3/europe/
+InternalPath: 10.12.17.3
+
+StatusCode: 404
+ErrorMessage: 404 error type
+StackTrace: 
+InnerException: 
+OriginalPath: 10.12.17.3/europe/
+InternalPath: 10.12.17.3
+
+StatusCode: 404
+ErrorMessage: 404 error type
+StackTrace: 
+InnerException: 
+OriginalPath: 10.12.17.3/europe/
+InternalPath: 10.12.17.3
+

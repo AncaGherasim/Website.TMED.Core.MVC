@@ -1,0 +1,63 @@
+p a{ text-decoration:underline !important}
+.starImg{border: 0 none !important;display: inline-block !important;height: 12px !important;vertical-align: middle !important;width: 59px !important}
+.dvCMSPageTitle{background:gray;color:#FFF;padding:15px;text-align:center;font-size:18px}
+.dvCMSContainerWBorder{height:auto;width:auto;max-width:900px;border:solid 1px navy;padding:10px;text-align:left;margin:5px auto 0 auto}
+.dvCMSContainerNoBorder{height:auto;width:auto;max-width:900px;border:solid 0px navy;padding:10px;text-align:left;margin:5px auto 0 auto}
+.pCMSTitleBlueBoxItalicC{background:#013299;text-align:center;color:#fff;font-size:18px;font-style:italic;padding:10px;margin:5px auto !important;max-width:900px}
+.pCMSTitleBlueBoxItalicL{background:#013299;text-align:left;color:#fff;font-size:18px;font-style:italic;padding:10px;margin:5px auto !important;max-width:900px}
+.pCMSNoteBoxItalic{background:#e0ffff;font-style:italic;padding:10px;border:solid 1px #CCC;font-size:12px;margin:5px auto !important;max-width:900px}
+.pCMSTitleBlueBoxNormalC{background:#013299;text-align:center;color:#fff;font-size:18px;padding:10px;margin:5px auto !important;max-width:900px}
+.pCMSTitleBlueBoxNormalL{background:#013299;text-align:left;color:#fff;font-size:18px;padding:10px;margin:5px auto !important;max-width:900px}
+.pCMSNoteBoxNomal{background:#e0ffff;padding:10px;border:solid 1px #CCC;font-size:12px;margin:5px auto !important;max-width:900px}
+.dvCMSContentBoxGrayBorder{border:solid 1px #CCC;padding:5px;text-align:left;margin:0 auto 10px; max-width:900px}
+.dvCMSContentBoxNoBorder{padding:5px;text-align:left;margin:0 auto 10px;max-width:900px}
+.spCMSContentTitle{color:#006;font-size:14px;font-weight:700;display:block;width:100%;margin:5px 0}
+.spCMSContentText{font-size:12px;display:block;width:100%;margin:5px 0}
+.spCMSContentText a{text-decoration:underline !important}
+.dvCMSThreeImages{margin:0 auto;text-align:center;width:auto;max-width:624px}
+.dvCMSThreeImages span{float:left;width:33%}
+.dvCMSThreeImages span img{max-width:200px;max-height:200px;width:100%;border:4px solid #FFF}
+.dvCMSThreeLinks{margin:0 auto;text-align:center;width:auto;max-width:624px}
+.dvCMSThreeLinks span{float:left;width:33%}
+.dvCMSOneImage{margin:0 auto;text-align:center;max-width:600px}
+.dvCMSOneImage span{float:left;width:100%}
+.dvCMSOneImage span img{max-width:600px;max-height:180px;width:100%}
+.dvCMSAloneBigImages{margin:0 auto; max-width:900px; max-height:300px; text-align:center}
+.dvCMSAloneBigImages img{max-width:900px;max-height:300px;width:100%}
+.dvCMSTextUnderOneImge{margin:0 auto;text-align:center;max-width:600px;text-align:left}
+.dvCMSTextArroundImage{border:0 solid navy;width:100%;max-width:900px;margin:0 auto}
+.dvCMSTextArroundImage span{float:left; width:18%; max-width:200px; padding:0 10px 10px 0}
+.dvCMSTextArroundImage span img{max-width:200px;max-height:200px;width:100%;margin:0; border:solid 2px #ccc}
+.dvCMSTextArroundImage p{margin:0;overflow:visible;padding:0;word-wrap:break-word;font-size:12px}
+.dvCMSTextArroundImage p span, .dvCMSTextArroundImage p img{margin: 0 !important; padding: 0 2px 0 0 !important; width: auto}
+.dvCMSButtonsLinks{margin:0 auto;text-align:center;max-width:900px}
+.dvCMSButtonsLinks a{background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#e0ffff),color-stop(1,#638bd1));background:-moz-linear-gradient(top,#e0ffff 5%,#638bd1 100%);background:-webkit-linear-gradient(top,#e0ffff 5%,#638bd1 100%);background:-o-linear-gradient(top,#e0ffff 5%,#638bd1 100%);background:-ms-linear-gradient(top,#e0ffff 5%,#638bd1 100%);background:linear-gradient(to bottom,#e0ffff 5%,#638bd1 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e0ffff',endColorstr='#638bd1',GradientType=0);background-color:#e0ffff;-moz-border-radius:5px;-webkit-border-radius:4px;border-radius:4px;border:1px solid #638bd1;display:inline-block;cursor:pointer;color:#333;padding:10px 20px;text-decoration:none;font:12px arial;margin:10px;float:left;color:navy}
+.dvCMSButtonsLinks a:hover{border: 1px solid #638bd1 !important;background:-webkit-gradient(linear,left top,left bottom,color-stop(0.05,#638bd1),color-stop(1,#e0ffff));background:-moz-linear-gradient(top,#638bd1 5%,#e0ffff 100%);background:-webkit-linear-gradient(top,#638bd1 5%,#e0ffff 100%);background:-o-linear-gradient(top,#638bd1 5%,#e0ffff 100%);background:-ms-linear-gradient(top,#638bd1 5%,#e0ffff 100%);background:linear-gradient(to bottom,#638bd1 5%,#e0ffff 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#638bd1',endColorstr='#e0ffff',GradientType=0);background-color:#638bd1;color:red;text-decoration:underline}
+.dvCMSItineraryDay{border-spacing:3px;display:table;font-size:12px;margin:0 auto;max-width:900px;width:100%}
+.dvCMSItineraryDay div{display:table-row-group;height:25px}
+.pCMSItineraryDayTitle{color:#006;font-size:14px;font-weight:700;display:block;width:100%;margin:2px 0; padding:3px 0px}
+.dvCMSItineraryDay span{display:table-cell;vertical-align:middle}
+.dvCMSItineraryDay span img{border:2px solid #ccc;max-width:100px;max-height:100px;width:100%;margin:10px 0}
+.dvCMSItineraryDay span font{color:#006;font-size:14px;font-weight:700;display:block;width:100%;margin:5px 0}
+.dvCMSItineraryDay span:nth-child(1){width:80%;padding:0 10px}
+.dvCMSItineraryDay span:nth-child(2){width:19%;text-align:center;vertical-align:middle}
+.dvCMSIntercityTransfer{border-spacing:3px;display:table;font-size:12px;margin:0 auto;max-width:900px;width:100%}
+.dvCMSIntercityTransfer div{display:table-row-group;height:25px}
+.dvCMSIntercityTransfer span{background-color:#fff;display:table-cell;vertical-align:middle}
+.dvCMSIntercityTransfer span img{border:2px solid #ccc;max-width:100px;max-height:100px;width:100%;margin:10px 0}
+.dvCMSIntercityTransfer span font{color:#006;font-size:14px;font-weight:700;display:block;width:100%;margin:5px 0}
+.dvCMSIntercityTransfer span:nth-child(1){width:19%;text-align:center;vertical-align:middle}
+.dvCMSIntercityTransfer span:nth-child(2){width:80%;padding:0 10px}
+.dvCMSLikeTable{border:0 solid navy;display:table;border-spacing:3px;max-width:900px;width:100%;font-size:12px;background-color:#CCC;margin:0 auto}
+.tblCMSlHorizontal{display:table-row-group;height:25px}
+.tblCMSlHorizontal span{display:table-cell;padding:1px 3px;vertical-align:middle;background-color:#FFF}
+.tblCMSlHorizontal span:nth-child(1){background:#E6FFFF;font-weight:700;width:20%}
+.tblCMSVertical{display:table-row-group;border-width:3px;margin:3px;height:25px}
+.tblCMSVertical:nth-of-type(odd){background:#F2F2F2}
+.tblCMSVertical span{display:table-cell;border:0 solid #CCC;padding:1px 3px;vertical-align:middle;background-color:#FFF}
+.tblCMSHeading{display:table-row-group;font-weight:700;height:25px}
+.tblCMSHeading span{display:table-cell;border:0 solid #CCC;padding:1px 3px;background:#E6FFFF;vertical-align:middle}
+.dvCMSCode{background:#DFDFDF;padding:10px;margin:8px auto;max-width:900px}
+hr{height:1px;background:#638AD6;margin:5px 0}
+h2{margin:0 0 10px}
+h3{padding:3px 20px}

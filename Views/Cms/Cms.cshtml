@@ -1,0 +1,170 @@
+﻿@model MVC_TMED.Models.ViewModels.CmsViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+
+@{ ViewBag.PageTitle = Model.pageTitle;
+    ViewBag.pageMetaDesc = Model.pageMetaDesc;
+    ViewBag.pageMetaKey = Model.pageMetaKey;
+    @if (ViewBag.PageTitle != null)
+    {
+        <title>@ViewBag.PageTitle</title>
+    }
+    else
+    {
+        <title>Customized Vacation Packages, Multi Destination Vacation | Tripmasters</title>
+    }
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" id="PageDescription" content="@ViewBag.pageMetaDesc" runat="server" />
+    <meta name="keywords" id="PageKeyword" content="@ViewBag.pageMetaKey" runat="server" />
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/cms/css.CMS_htmlEditor.css" />
+        <link rel="stylesheet" href="~/css/cms/css.CMS_HTMLOptimized.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/cms/cms.min.css" asp-append-version="true" />
+    </environment>
+    <style>
+        .container-fluid dvClassContent {
+            padding: 20px 20px;
+            margin: 0 auto;
+        }
+
+        @@media only screen and (max-width:800px) {
+            .container-fluid dvClassContent {
+                width: auto !important;
+                padding: 5px 5px !important;
+            }
+
+            table {
+                width: 100% !important;
+                font-size: 12px;
+            }
+
+            .P_Blk_Arial_11 {
+                font-size: 13px !important;
+            }
+
+            p {
+                font-size: 13px !important;
+            }
+
+            table img {
+                width: 100% !important
+            }
+        }
+    </style>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+}
+
+
+<center>
+    <div class="row container-fluid dvClassContent">
+        @Html.Raw(@Model.CMSwebContentStr.Replace("http://", "https://"))
+    </div>
+</center>
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/js/cms/java.CMS_javaScriptLinks.js" asp-append-version="true"></script>
+        <script src="~/js/cms/java.CMS_javaScript_Optimized.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/cms/cms.min.js" asp-append-version="true"></script>
+    </environment>
+
+
+    <center>
+        <div class="container-fluid dvClassContent" style="padding:20px 20px; margin:0 auto;"> @Model.CMSwebContentStr.Replace("http://", "https://") </div>
+    </center>
+    <script>
+        itisMobile == true ? cleanCMSLinks() : '';
+        $(document).ready(function () {
+            cleanCMSLinks();
+            // **** To fit content ****
+            var dvW = $('div:first').width() + 100;
+            var w, d, b, dw, bw;
+            w = $(window); d = $(document); b = $('body');
+            dw = dvW;
+            bw = dvW;
+            window.resizeBy(((bw - w.width()) || dw - w.width()), 0);
+            b.height() < 650 ? window.resizeBy(0, ((b.height() - w.height()) || d.height() - w.height())) : '';
+            var nwW = Number((screen.width / 2) - (w.width() / 2));
+            var nwH = Number((screen.height / 2) - (w.height() / 2));
+            window.moveTo(nwW, nwH);
+        });
+        function cleanCMSLinks() {
+            $('.dvClassContent a').each(function () {
+                var hrefTxt = $(this).attr('href');
+                if (this.className != 'aCMStxtLink') {
+                    var aS;
+                    var aE;
+                    var lastQuote;
+
+                    /javascript:/.test(hrefTxt) ?
+                        (
+                            aS = hrefTxt.indexOf('('),
+                            aE = hrefTxt.indexOf(')'),
+                            lastQuote = hrefTxt.lastIndexOf("'"),
+                            lastQuote == -1 ?
+                                hrefTxt = hrefTxt.substring(Number(aS + 2), Number(aE - 1))
+                                : hrefTxt = hrefTxt.substring(Number(aS + 2), Number(lastQuote))
+                        )
+                        : '';
+                    var regx = /Booking_Confirmation.|Review.|TopDeals.|About_us.|Contact_us.|Terms.|Security-Privacy.|insurance.|visas.|AirlineAncillaryFees.|Payments./;
+                    var rgxmail = /mailto/;
+                    var rgxmtch = "";
+                    if (regx.test(hrefTxt) === true) {
+                        rgxmtch = hrefTxt.match(regx);
+                        hrefTxt = 'https://www.tripmasters.com/' + rgxmtch + 'aspx';
+                    }
+                    else if (rgxmail.test(hrefTxt) === true) {
+
+                    }
+                    else {
+                        if (!/\/latin\/|\/asia\//.test(hrefTxt)) {
+                            /tripmasters.com/.test(hrefTxt) ?
+                                (
+
+                                    hrefTxt = hrefTxt.replace("https://", ''),
+                                    hrefTxt = hrefTxt.replace(/tripmasters.com\/|www.tripmasters.com\//, '')
+
+                                )
+                                : '';
+                            /europeandestinations.com/.test(hrefTxt) ?
+                                (
+                                    hrefTxt = hrefTxt.replace("https://", ''),
+                                    hrefTxt = hrefTxt.replace(/europeandestinations.com\/|www.europeandestinations.com\//, '')
+                                ) : ''
+                            !/\?/.test(hrefTxt) ? hrefTxt = hrefTxt + "?cms&wh=0&wf=0" : '';
+                            /\https:/.test(hrefTxt) ? '' : !/\/europe\//.test(hrefTxt) ? this.href = "/europe/" + hrefTxt : this.href = "/" + hrefTxt;
+                            this.className != 'aCMStxtLink' ? $(this).addClass('aCMStxtLink').attr('rel', '700,500').popupCMSNewWindow({ centerBrowser: 1, heigh: 500, width: 700 }) : '';
+                        };
+                    }
+
+                }
+                else {
+                    var regx = /Booking_Confirmation.|Review.|TopDeals.|About_us.|Contact_us.|Terms.|Security-Privacy.|insurance.|visas.|AirlineAncillaryFees.|Payments./;
+                    var rgxmtch = ""
+
+                    regx.test(hrefTxt) === true ? (rgxmtch = hrefTxt.match(regx), hrefTxt = 'https://www.tripmasters.com/' + rgxmtch + 'aspx')
+                        :
+                        (
+                            !/\?/.test(hrefTxt) ? hrefTxt = hrefTxt + "?cms&wh=0&wf=0" : '',
+                            !/\/europe\//.test(hrefTxt) ? hrefTxt = "/europe" + hrefTxt : ''
+                        );
+                    $(this).attr('href', '' + hrefTxt + '');
+                };
+            });
+        };
+    </script>
+}

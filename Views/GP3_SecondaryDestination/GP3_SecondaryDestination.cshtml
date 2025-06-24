@@ -1,0 +1,1043 @@
+﻿@model MVC_TMED.Models.ViewModels.GP3_SecondaryDestinationViewModel
+@using Microsoft.Extensions.Options
+@using MVC_TMED.Infrastructure
+@inject IOptions<AppSettings> _appsettings
+@using System.Text.RegularExpressions;
+@section Styles {
+    <environment include="Development">
+        <link href="~/css/site_responsive/dm.site.responsive.css" rel="stylesheet"  asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/gp3_SecondaryDestination/dm.style.gp3_SecondaryDestination.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/site_responsive/site_responsive.min.css" rel="stylesheet" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/gp3_SecondaryDestination/dm.style.gp3_SecondaryDestination.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName'</script>
+}
+
+@{
+    ViewData["Title"] = "GP3";
+}
+
+@{
+    Int32 imgC = 0;
+    String banner1 = "";
+    String banner2 = "";
+    String bannerSRC = "";
+    if (Model.bannerOnPage != null)
+    {
+        foreach (var bn in Model.bannerOnPage)
+        {
+            bannerSRC = bn.STX_PictureURL.Replace("http:", "https:");
+            if (imgC == 0)
+            {
+                banner1 = "<a href='" + @String.Format("{0}", _appsettings.Value.ApplicationSettings.SiteName) + bn.STX_URL.Replace("/europe", "").Replace(" ", "_").ToLower() + "'><img src='" + bannerSRC.ToLower() + "' border = '0' style = 'padding: 2px 0px 2px 0px' title='" + bn.STX_Title + "'></img></a>";
+            }
+            if (imgC == 1)
+            {
+                banner2 = "<a href='" + @String.Format("{0}", _appsettings.Value.ApplicationSettings.SiteName) + bn.STX_URL.Replace("/europe", "").Replace(" ", "_").ToLower() + "'><img src='" + bannerSRC.ToLower() + "' border = '0' style = 'padding: 2px 0px 2px 0px' title='" + bn.STX_Title + "'></img></a>";
+            }
+            imgC += 1;
+        }
+    }
+    
+}
+
+
+<div class="main-container">
+    @*Center Orientation*@
+    <section class="hero">
+        @{
+            if (Model.allTop > 0)
+            {
+                foreach (var tp in Model.allTopDisplay)
+                {
+                    if (tp.STX_CMSID > 0)
+                    {
+                        <h1 class="main-title">@Model.destinationName Vacation Packages</h1>
+                        <div class="cmsContainerA">
+                            <div style="clear: both"></div>
+                            @Html.Raw(tp.CMS_Content.Replace("http:", "https:"))
+                        </div>
+                    }
+                    else
+                    {
+                        string imgSRC = tp.STX_PictureURL.Replace("http:", "https:");
+                        string topTitle = tp.SDP_DisplayTitle != "none" ? tp.SDP_DisplayTitle : tp.STX_Title;
+                        <div class="hero__wrapper">
+                            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@imgSRC.ToLower()" />
+                            <div class="hero__shadow"></div>
+                            <h1>@topTitle</h1>
+                        </div>
+                        <p class="hero__description">
+                            @tp.STX_Description
+                        </p>
+                    }
+                }
+            }
+            else
+            {
+                <h1 class="main-title">@Model.destinationName Vacation Packages</h1>
+                <div style="clear: both"></div>
+            }
+        }
+    </section>
+    @*Best packages*@
+    @if (Model.allFeatPackages.Count() > 0)
+    {
+
+        <section class="best-packages">
+            @{
+                String IMG_500Path_URL = "";
+                Int32 PDLID = 0;
+                Int32 PDLDuration = 0;
+                String PDLTitle = "";
+                String SPDDescription = "";
+                Int32 NoOfFeed = 0;
+                String PDLContent = "";
+                decimal STPSave = 0;
+                foreach (var fp in Model.allFeatPackages.Take(1))
+                {
+                    IMG_500Path_URL = fp.IMG_Path_URL;
+                    PDLID = fp.PDLID;
+                    PDLTitle = fp.PDL_Title;
+                    PDLDuration = fp.PDL_Duration;
+                    NoOfFeed = fp.NoOfFeed;
+                    SPDDescription = fp.SPD_Description;
+                    PDLContent = fp.PDL_Content;
+                    STPSave = fp.STP_Save_;
+                }
+            }
+            <input type="hidden" id="imgItemID" value="@PDLID" />
+            <div class="first-container">
+                <h2>Best @Model.destinationName Vacation Packages</h2>
+                <div>
+                    <div class="best-packages__image">
+                        <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com{0}", IMG_500Path_URL)" alt="@PDLTitle" />
+                    </div>
+                    <div class="best-packages__info">
+                        <a class="best-packages__name" asp-controller="Package" asp-action="Index" asp-route-id="@PDLID" asp-route-Country=@String.Format("{0}", Model.destinationName.Replace(" ", "_")) asp-route-name="@PDLTitle.Replace(" ", "_")">
+                            @PDLTitle
+                        </a>
+                        <p class="best-packages__night">
+                            @if (STPSave != 9999)
+                            {
+                                @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", @PDLDuration, @STPSave))
+                                ;
+                            }
+                            else
+                            {
+                                @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", @PDLDuration))
+                                ;
+                            }
+                        </p>
+                        @if (NoOfFeed > 0)
+                        {
+                            <a class="best-packages__review" asp-controller="Package" asp-action="Index" asp-route-id="@PDLID" asp-route-Country=@String.Format("{0}", Model.destinationName.Replace(" ", "_")) asp-route-name="@PDLTitle.Replace(" ", "_")">
+                                @NoOfFeed Customer Reviews
+                            </a>
+                        }
+                        <p class="best-packages__description">@Html.Raw(@SPDDescription)</p>
+                        <div class="best-packages__wrapper">
+                            <div class="best-packages__include">
+                                <span>Included:</span>
+                                <ul>
+                                    @{
+                                        string[] fincludeList = PDLContent.Split("\r\n");
+                                        foreach (var fpr in fincludeList)
+                                        {
+
+                                            <li>@Html.Raw(String.Format("{0}", @fpr))</li>
+
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <a class="best-packages__customize" asp-controller="Package" asp-action="Index" asp-route-id="@PDLID" asp-route-Country=@String.Format("{0}", Model.destinationName.Replace(" ", "_")) asp-route-name="@PDLTitle.Replace(" ", "_")">
+                                CUSTOMIZE & BOOK
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    @*Other packages*@
+    @if (Model.allFeatPackages.Count() > 1)
+    {
+        <section name="BestPackages" class="template-FullPackImage first-container">
+            <h2>Other @Model.destinationName Vacation Packages</h2>
+            <ul class="ul-Flex">
+                @foreach (var ids in Model.allFeatPackages.Skip(1).Take(4))
+                {
+                    string pathURL = string.IsNullOrEmpty(ids.IMG_Path_URL) ? "/siteassets/d/no-image.jpg" : ids.IMG_Path_URL.ToLower();
+                    string siteURL = "/europe/";
+                    <li>
+                        <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com{0}", pathURL)" alt="@ids.PDL_Title" />
+                        <div class="wrapper">
+                            <a class="image-link" asp-controller="Package" asp-action="Index" asp-route-Country="@Model.destinationName.Replace(" ","_").ToLower()" asp-route-id="@ids.PDLID" asp-route-name="@ids.PDL_Title.Replace(' ', '_')">
+                            <h5>@ids.PDL_Title</h5>
+                            <p>
+                                @if (ids.STP_Save_ != 9999)
+                                {
+                                    @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", ids.PDL_Duration, ids.STP_Save_))
+                                }
+                                else
+                                {
+                                    @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", ids.PDL_Duration))
+                                }
+                            </p>
+                            </a>
+                            @if (ids.NoOfFeed > 0)
+                            {
+                                <a class="a-white" href=@String.Format("{0}{1}/{2}/feedback-{3}", siteURL, Model.destinationName.Replace(" ","_").ToLower().ToLower(), ids.PDL_Title.Replace(' ', '_').ToLower(), @ids.PDLID)> @ids.NoOfFeed Customer Review</a>
+                            }
+                            <hr class="hr1" />
+                            <button class="a-white" id=@String.Format("info{0}",@ids.PDLID) data-id="@ids.PDLID|ED" onclick="otherMoreDetails('@ids.PDLID',1),toggleClassMoreDetails(@ids.PDLID)">View Details<span></span></button>
+                        </div>
+
+
+                        <div class="ft-modal is-hidden" id="@String.Format("fti-{0}-modal", ids.PDLID)">
+                            <div class="ft-modal-content">
+                                <div class="ft-modal-mob-close">
+                                    <button id="@String.Format("aClose{0}",ids.PDLID)" onclick="toggleClassMoreDetails(@ids.PDLID)" type="button"><span>&#10006;</span> close</button>
+                                </div>
+                                <div class="ft-modal-header">
+                                    <h3>@ids.PDL_Title</h3>
+                                </div>
+                                <div class="ft-modal-body">
+                                    <p>@Html.Raw(@ids.SPD_Description)</p>
+                                    <div class="divFlexModal">
+                                        <div>
+                                            <p>Includes:</p>
+                                            <ul>
+                                                @{
+                                                    string[] inclIdeasList = @ids.PDL_Content.Split("\r\n");
+                                                    foreach (var inc in inclIdeasList)
+                                                    {
+                                                        <li>@Html.Raw(@inc)</li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div>
+                                            <article>
+                                                @if (@ids.STP_Save_ != 9999)
+                                                {
+                                                    <p>
+                                                        @Html.Raw(String.Format("{0} nights from <span style='color:#f60;'>{1:C0}*</span>", ids.PDL_Duration, ids.STP_Save_))
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <p>@ids.PDL_Duration nights from <span>@Html.Raw("&nbsp;")</span></p>
+                                                }
+                                                <a class="aModal" href="@String.Format("{0}{1}/{2}/package-{3}", "/europe/", Model.destinationName.Replace(" ","_").ToLower().ToLower(), @ids.PDL_Title.Replace(' ', '_').ToLower(), @ids.PDLID)">
+                                                    <span class="customBtn">Customize it</span>
+                                                </a>
+                                                @if (ids.NoOfFeed > 0)
+                                                {
+                                                    <a class="aModal" href=@String.Format("{0}{1}/{2}/feedback-{3}", "/europe/", Model.destinationName.Replace(" ","_").ToLower().ToLower(), @ids.PDL_Title.Replace(' ', '_').ToLower(), @ids.PDLID)> @ids.NoOfFeed Customer @(ids.NoOfFeed > 1 ? "Reviews" : "Review")</a>
+                                                }
+                                            </article>
+                                        </div>
+                                    </div>
+                                    <div class="dvRelPack" id="@String.Format("dvRel{0}", ids.PDLID)">
+                                        <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" />
+                                    </div>
+                                    <form name="@String.Format("frm{0}", ids.PDLID)" id="@String.Format("frm{0}", ids.PDLID)" method="post">
+                                        <div class="dvMorChoice" id="@String.Format("dvCom{0}", ids.PDLID)">
+                                            <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" />
+                                        </div>
+                                        <div class="divLast">
+                                            <button type="button" onclick=@String.Format("findPacks('frm{0}'); return false", ids.PDLID)>
+                                                &gt;&gt;
+                                                Find similar package
+                                            </button>
+                                        </div>
+                                        <hr class="spdotLine" />
+                                        <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                                        <input type="hidden" name="allID" id="Hidden1" value="" />
+                                        <input type="hidden" name="allNA" id="Hidden2" value="" />
+                                    </form>
+
+                                </div>
+                                <div class="ft-modal-footer">
+                                    <button id="@String.Format("aClose{0}",ids.PDLID)" class="ft-modal-close" onclick="toggleClassMoreDetails(@ids.PDLID)"><span>&#10006;</span> Close </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+    @*start Map + Hotels&Activities*@
+    @if (Model.leftDisplay.Exists(d => d.SDP_GroupProdKindID == 2032) || Model.leftDisplay.Exists(d => d.SDP_GroupProdKindID == 1621))
+    {
+        <div class="map-hotel second-container">
+            @*Map *@
+            @if (Model.leftDisplay.Exists(d => d.SDP_GroupProdKindID == 2032))
+            {
+                <section class="map">
+                    <h2 class="map__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 2032).SDP_DisplayTitle</h2>
+                    <div class="map__wrapper">
+                        <button class="map__button" id="dvPoiMap" type="button">
+                            <span>@Model.destinationName</span>
+                            <span>Map of Point of Interest</span>
+                        </button>
+
+                    </div>
+                </section>
+            }
+            @*Hotels&Activities *@
+            @if (Model.leftDisplay.Exists(d => d.SDP_GroupProdKindID == 1621))
+            {
+                <section class="hotels">
+                    <h2 class="hotels__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1621).SDP_DisplayTitle</h2>
+                    <ul class="hotels__list">
+
+                        @{
+                            List<BoxContent> HotelsActivities = Model.boxContent.FindAll(at => at.STX_ProdKindID == 1621);
+                            foreach (var at in HotelsActivities)
+                            {
+                                Int32 pW = 50;
+                                Int32 pH = 50;
+                                if (at.STX_PictureHeightpx != 0)
+                                {
+                                    pH = at.STX_PictureHeightpx;
+                                }
+                                if (at.STX_PictureWidthpx != 0)
+                                {
+                                    pW = at.STX_PictureWidthpx;
+                                }
+                                string xURL = at.STX_Title;
+                                if (at.STX_URL != "none")
+                                {
+                                    string xpicURL = at.STX_URL;
+                                    if (xpicURL[0].ToString() == "/")
+                                    {
+                                        xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_");
+                                    }
+
+                                    xURL = "<a href='" + @_appsettings.Value.ApplicationSettings.SiteName + xpicURL.ToLower() + "'>" + at.STX_Title + "</a>";
+
+                                }
+                                if (at.STX_CMSID == 0)
+                                {
+                                    <li class="hotels__item">
+                                        <img src="https://pictures.tripmasters.com/siteassets/d/cm_orange.png" alt="check mark" />
+                                        @Html.Raw(xURL)
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    <li class="hotels__item">
+                                        <div style=" overflow:auto">
+                                            @at.CMS_Content.Replace("http:", "https:")
+                                        </div>
+                                    </li>
+                                }
+
+                            }
+
+
+                        }
+
+                    </ul>
+                </section>
+
+            }
+        </div>
+    }
+    @*loop*@
+    @if (Model.areaHighlightOrientation.Exists(hi => hi.SDP_GroupProdKindID == 1623 || hi.SDP_GroupProdKindID == 1619 || hi.SDP_GroupProdKindID == 1912 || hi.SDP_GroupProdKindID == 1620))
+    {
+        foreach (var r in Model.areaHighlightOrientation)
+        {
+            Int32 boxOn = @r.SDP_GroupProdKindID;
+            string displayTitle = r.SDP_DisplayTitle;
+            switch (boxOn)
+            {
+                @*Start highlight1*@
+                case 1912:
+                    @if (Model.leftDisplay.Exists(h => h.SDP_GroupProdKindID == 1912))
+                    {
+                        List<BoxContent> leftOrientLong = Model.boxContent.FindAll(hi => hi.STX_ProdKindID == 1912);
+
+                        if (leftOrientLong.Count() > 0)
+                        {
+                            <section class="interests first-container" id=" 1912">
+                                <h2 class="interests__title" id="@r.SDP_GroupProdKindID longOrientation">Interests </h2>
+                                <ul class='interests__list'>
+
+                                    @foreach (var at in @leftOrientLong)
+                                    {
+                                        string xURL = at.STX_Title;
+                                        if (at.STX_URL != "none")
+                                        {
+                                            string xpicURL = at.STX_URL;
+                                            if (xpicURL[0].ToString() == "/")
+                                            {
+                                                xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_");
+                                            }
+                                            xURL = "<a href='" + xpicURL.ToLower() + "'>" + at.STX_Title + "</a>";
+                                        }
+                                        if (at.STX_CMSID == 0)
+                                        {
+
+                                            @if (at.STX_PictureURL != "none")
+                                            {
+                                                string imgSRC = at.STX_PictureURL.Replace("http:", "https:");
+                                                <li class="interests__item">
+                                                    <div class="interests__image">
+                                                        <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@imgSRC.ToLower()" />
+                                                    </div>
+                                                    <div class="interests__wrapper">
+                                                        <h4 class="interests__name"><a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,at.STX_URL.Replace(" ","_").ToLower())>@at.STX_Title</a></h4>
+                                                        <p class="interests__description">@at.STX_Description</p>
+                                                    </div>
+
+                                                </li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div style="margin:3px 5px 10px 5px; display:block">
+                                                <div style=" overflow:auto">
+                                                    @at.CMS_Content.Replace("http:", "https:")
+                                                </div>
+                                            </div>
+                                        }
+
+
+                                    }
+                                </ul>
+
+                            </section>
+                        }
+                    }
+                    break;
+                @*start Highlights 2*@
+                case 1623:
+                    @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1623))
+                    {
+                        List<BoxContent> Regions = Model.boxContent.FindAll(hi => hi.STX_ProdKindID == 1623);
+
+                        if (Regions.Count() > 0)
+                        {
+                            <section class="regions first-container" id="1623">
+                                <h2 class="regions__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1623).SDP_DisplayTitle</h2>
+                                <ul class="regions__list">
+
+                                    @{
+
+                                        Int32 noReg = 0;
+                                        foreach (var hi in Regions)
+                                        {
+                                            string xpicURL;
+                                            Int32 pW = 50;
+                                            Int32 pH = 50;
+                                            if (hi.STX_PictureHeightpx != 0)
+                                            {
+                                                pH = hi.STX_PictureHeightpx;
+                                            }
+                                            if (hi.STX_PictureWidthpx != 0)
+                                            {
+                                                pW = hi.STX_PictureWidthpx;
+                                            }
+                                            string xURL = hi.STX_Title;
+                                            if (hi.STX_URL != "none")
+                                            {
+                                                xpicURL = hi.STX_URL;
+                                                if (xpicURL[0].ToString() == "/")
+                                                {
+                                                    xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_").Replace("/europe", "");
+                                                }
+                                                if (xpicURL[0].ToString() == "h")
+                                                {
+                                                    if (System.Text.RegularExpressions.Regex.Match(xpicURL, "\bbeach\b.|\blatin\b.|\beurope\b.|\basia\b.", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                                    {
+
+                                                    }
+                                                }
+                                                xURL = "<a href='" + xpicURL.ToLower() + "'>" + hi.STX_Title + "</a>";
+                                            }
+
+                                            if (hi.STX_CMSID == 0)
+                                            {
+                                                if (noReg == 3)
+                                                {
+                                                    @Html.Raw("</ul>")
+                                                    ;
+                                                    @Html.Raw("<ul id='dvEachHideReg' class='more__list' style='display: none;'>")
+                                                    ;
+                                                }
+
+                                                <li class="regions__item">
+                                                    @if (hi.STX_PictureURL != "none")
+                                                    {
+                                                        string imgSRC = hi.STX_PictureURL.Replace("http:", "https:");
+                                                        <div class="regions__image">
+                                                            <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,hi.STX_URL.Replace(" ","_").ToLower())><img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@imgSRC.ToLower()" alt="@hi.STX_Title" /></a>
+                                                        </div>
+                                                    }
+                                                    <div>
+                                                        <h4 class="regions__name"><a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,hi.STX_URL.Replace(" ","_").ToLower())>@hi.STX_Title</a></h4>
+                                                        @if (hi.STX_Description != "none")
+                                                        {
+                                                            <p class="regions__description">@hi.STX_Description</p>
+                                                        }
+                                                    </div>
+
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <div style="display:block">
+                                                    <div style=" overflow:auto">@hi.CMS_Content.Replace("http:", "https:")</div>
+                                                </div>
+
+                                            }
+                                            noReg = noReg + 1;
+
+                                        }
+
+                                    }
+                                </ul>
+                                @if (Regions.Count() > 3)
+                                {
+                                    <button class="regions__button" id="moreButtonReg" type="button"><span>See All</span> @Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1623).SDP_DisplayTitle</button>
+
+                                }
+                            </section>
+                        }
+                    }
+                    break;
+                @*start  highlight3*@
+                case 1619:
+                    @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1619))
+                    {
+                        List<BoxContent> MoreToExplore = Model.boxContent.FindAll(hi => hi.STX_ProdKindID == 1619);
+                        if (MoreToExplore.Count > 0)
+                        {
+                            <section class="more first-container" id="1619">
+                                <h2 class="more__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1619).SDP_DisplayTitle</h2>
+                                <ul class='more__list'>
+                                    @{
+
+                                        Int32 noMoreToExplore = 0;
+                                        foreach (var hi in MoreToExplore)
+                                        {
+                                            Int32 pW = 50;
+                                            Int32 pH = 50;
+                                            if (hi.STX_PictureHeightpx != 0)
+                                            {
+                                                pH = hi.STX_PictureHeightpx;
+                                            }
+                                            if (hi.STX_PictureWidthpx != 0)
+                                            {
+                                                pW = hi.STX_PictureWidthpx;
+                                            }
+                                            string xURL = hi.STX_Title;
+                                            if (hi.STX_URL != "none")
+                                            {
+                                                string xpicURL = hi.STX_URL;
+                                                if (xpicURL[0].ToString() == "/")
+                                                {
+                                                    xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_").Replace("/europe", "");
+                                                }
+                                                if (xpicURL[0].ToString() == "h")
+                                                {
+                                                    if (System.Text.RegularExpressions.Regex.Match(xpicURL, "\bbeach\b.|\blatin\b.|\beurope\b.|\basia\b.", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                                    {
+
+                                                    }
+                                                }
+                                                xURL = "<a href='" + xpicURL.ToLower() + "'>" + hi.STX_Title + "</a>";
+                                            }
+
+                                            if (hi.STX_CMSID == 0)
+                                            {
+                                                if (noMoreToExplore == 3)
+                                                {
+                                                    @Html.Raw("</ul>")
+                                                    ;
+                                                    @Html.Raw("<ul id='dvEachHideExpl' class='more__list' style='display: none;'>")
+                                                    ;
+                                                }
+
+                                                <li class="more__item">
+                                                    <div class="more__image">
+                                                        @if (hi.STX_PictureURL != "none")
+                                                        {
+                                                            string imgSRC = hi.STX_PictureURL.Replace("http:", "https:");
+                                                            <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,hi.STX_URL.Replace(" ","_").ToLower())>
+                                                                <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@imgSRC.ToLower()" alt="@hi.STX_Title" />
+                                                            </a>
+                                                        }
+
+                                                    </div>
+                                                    <div class="more__wrapper">
+                                                        <h4 class="more__name">
+                                                            <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,hi.STX_URL.Replace(" ","_").ToLower())>
+                                                                @hi.STX_Title
+                                                                <img src="https://pictures.tripmasters.com/siteassets/d/icon-next-blue-light-braun-md.png" />
+                                                            </a>
+                                                        </h4>
+                                                        @if (hi.STX_Description != "none")
+                                                        {
+                                                            <p class="more__description">@hi.STX_Description</p>
+                                                        }
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <div style="display:block">
+                                                    <div style=" overflow:auto">@hi.CMS_Content.Replace("http:", "https:")</div>
+                                                </div>
+
+                                            }
+                                            noMoreToExplore = noMoreToExplore + 1;
+
+                                        }
+
+                                    }
+                                </ul>
+                                @if (MoreToExplore.Count() > 3)
+                                {
+                                    <button class="more__button" id="moreButtonExpl" type="button"><span>See All</span> @Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1619).SDP_DisplayTitle </button>
+
+                                }
+                            </section>
+                        }
+
+                    }
+                    break;
+                @*Start highlight4*@
+                case 1620:
+                    @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1620))
+                    {
+                        List<BoxContent> MoreToExplore = Model.boxContent.FindAll(hi => hi.STX_ProdKindID == 1620);
+                        if (MoreToExplore.Count > 0)
+                        {
+                            <section class="more first-container" id="1620">
+                                <h2 class="more__title">EXPERIENCES & ADVENTURES</h2>
+                                <ul class='more__list'>
+                                    @{
+
+                                        Int32 noMoreToExplore = 0;
+                                        foreach (var hi in MoreToExplore)
+                                        {
+                                            Int32 pW = 50;
+                                            Int32 pH = 50;
+                                            if (hi.STX_PictureHeightpx != 0)
+                                            {
+                                                pH = hi.STX_PictureHeightpx;
+                                            }
+                                            if (hi.STX_PictureWidthpx != 0)
+                                            {
+                                                pW = hi.STX_PictureWidthpx;
+                                            }
+                                            string xURL = hi.STX_Title;
+                                            if (hi.STX_URL != "none")
+                                            {
+                                                string xpicURL = hi.STX_URL;
+                                                if (xpicURL[0].ToString() == "/")
+                                                {
+                                                    xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_").Replace("/europe", "");
+                                                }
+                                                if (xpicURL[0].ToString() == "h")
+                                                {
+                                                    if (System.Text.RegularExpressions.Regex.Match(xpicURL, "\bbeach\b.|\blatin\b.|\beurope\b.|\basia\b.", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                                    {
+
+                                                    }
+                                                }
+                                                xURL = "<a href='" + xpicURL.ToLower() + "'>" + hi.STX_Title + "</a>";
+                                            }
+
+                                            if (hi.STX_CMSID == 0)
+                                            {
+                                                if (noMoreToExplore == 3)
+                                                {
+                                                    @Html.Raw("</ul>")
+                                                    ;
+                                                    @Html.Raw("<ul id='dvEachHideMr' class='more__list' style='display: none;'>")
+                                                    ;
+                                                }
+
+                                                <li class="more__item">
+                                                    <div class="more__image">
+                                                        @if (hi.STX_PictureURL != "none")
+                                                        {
+                                                            string imgSRC = hi.STX_PictureURL.Replace("http:", "https:");
+                                                            <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,hi.STX_URL.Replace(" ","_").ToLower())>
+                                                                <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@imgSRC.ToLower()" alt="@hi.STX_Title" />
+                                                            </a>
+                                                        }
+
+                                                    </div>
+                                                    <div class="more__wrapper">
+                                                        <h4 class="more__name">
+                                                            <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,hi.STX_URL.Replace(" ","_").ToLower())>
+                                                                @hi.STX_Title
+                                                                <img src="https://pictures.tripmasters.com/siteassets/d/icon-next-blue-light-braun-md.png" />
+                                                            </a>
+                                                        </h4>
+                                                        @if (hi.STX_Description != "none")
+                                                        {
+                                                            <p class="more__description">@hi.STX_Description</p>
+                                                        }
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <div style="display:block">
+                                                    <div style=" overflow:auto">@hi.CMS_Content.Replace("http:", "https:")</div>
+                                                </div>
+
+                                            }
+                                            noMoreToExplore = noMoreToExplore + 1;
+
+                                        }
+
+                                    }
+                                </ul>
+                                @if (MoreToExplore.Count() > 3)
+                                {
+                                    <button class="more__button" id="moreButtonMr" type="button"><span>See All</span> @Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1619).SDP_DisplayTitle </button>
+
+                                }
+                            </section>
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    @*Suggested*@
+    @if (Model.allFeatPackages.Count() > 5)
+    {
+        <section class="suggested first-container">
+            <h2>@Model.destinationName Suggested Vacation Packages</h2>
+            <ul>
+                @{
+                    Int32 sugC = 0;
+                    foreach (var sug in Model.allFeatPackages.Skip(5))
+                    {
+                        if (sugC < 12)
+                        {
+                            <li>
+                                <div class="suggested__image">
+                                    <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("https://pictures.tripmasters.com{0}", sug.IMG_Path_URL)" alt="@sug.PDL_Title" onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'" />
+                                    <div>
+                                        <h3>
+                                            <a asp-controller="Package" asp-action="Index" asp-route-Country="@Model.destinationName.Replace(' ', '_')" asp-route-id="@sug.PDLID" asp-route-name="@sug.PDL_Title.Replace(' ', '_')" id=@String.Format("{0}", sug.PDLID)>
+                                                @sug.PDL_Title
+                                            </a>
+                                        </h3>
+                                        <p>
+                                            @if (sug.STP_Save_ != 9999)
+                                            {
+                                                @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", sug.PDL_Duration, sug.STP_Save_))
+                                                ;
+                                            }
+                                            else
+                                            {
+                                                @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", sug.PDL_Duration))
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="otherMoreDetails('@sug.PDLID',1),toggleClassMoreDetails(@sug.PDLID)">MORE DETAILS <span>›</span></button>
+
+
+                                <div class="ft-modal is-hidden" id="@String.Format("fti-{0}-modal", sug.PDLID)">
+                                    <div class="ft-modal-content">
+                                        <div class="ft-modal-mob-close">
+                                            <button id="@String.Format("aClose{0}",sug.PDLID)" onclick="toggleClassMoreDetails(@sug.PDLID)" type="button">close</button>
+                                        </div>
+                                        <div class="ft-modal-header">
+                                            <h3>@sug.PDL_Title</h3>
+                                        </div>
+                                        <div class="ft-modal-body">
+                                            <p>@Html.Raw(@sug.SPD_Description)</p>
+                                            <div class="divFlexModal">
+                                                <div>
+                                                    <p>Includes:</p>
+                                                    <ul>
+                                                        @{
+                                                            string[] inclIdeasList = @sug.PDL_Content.Split("\r\n");
+                                                            foreach (var inc in inclIdeasList)
+                                                            {
+                                                                <li>@Html.Raw(@inc)</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                <div>
+                                                    <article>
+                                                        @if (sug.STP_Save_ != 9999)
+                                                        {
+                                                            <p>
+                                                                @Html.Raw(String.Format("{0} nights from <span style='color:#f60;'>{1:C0}*</span>", sug.PDL_Duration, sug.STP_Save_))
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>@sug.PDL_Duration nights from <span>@Html.Raw("&nbsp;")</span></p>
+                                                        }
+                                                        <a class="aModal" href="@String.Format("{0}{1}/{2}/package-{3}", "/europe/", Model.destinationName.Replace(" ","_").ToLower().ToLower(), @sug.PDL_Title.Replace(' ', '_').ToLower(), @sug.PDLID)">
+                                                            <span class="customBtn">Customize it</span>
+                                                        </a>
+                                                        @if (sug.NoOfFeed > 0)
+                                                        {
+                                                            <a class="aModal" href=@String.Format("{0}{1}/{2}/feedback-{3}", "/europe/", Model.destinationName.Replace(" ","_").ToLower().ToLower(), @sug.PDL_Title.Replace(' ', '_').ToLower(), @sug.PDLID)> @sug.NoOfFeed Customer Review</a>
+                                                        }
+                                                    </article>
+                                                </div>
+                                            </div>
+                                            <div class="dvRelPack" id="@String.Format("dvRel{0}", sug.PDLID)">
+                                                <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" />
+                                            </div>
+                                            <form name="@String.Format("frm{0}", sug.PDLID)" id="@String.Format("frm{0}", sug.PDLID)" method="post">
+                                                <div class="dvMorChoice" id="@String.Format("dvCom{0}", sug.PDLID)">
+                                                    <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" />
+                                                </div>
+                                                <div class="divLast">
+                                                    <button type="button" onclick=@String.Format("findPacks('frm{0}'); return false", sug.PDLID)>
+                                                        &gt;&gt;
+                                                        Find similar package
+                                                    </button>
+                                                </div>
+                                                <hr class="spdotLine" />
+                                                <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                                                <input type="hidden" name="allID" id="Hidden1" value="" />
+                                                <input type="hidden" name="allNA" id="Hidden2" value="" />
+                                            </form>
+
+                                        </div>
+                                        <div class="ft-modal-footer">
+                                            <button id="@String.Format("aClose{0}",sug.PDLID)" class="ft-modal-close" onclick="toggleClassMoreDetails(@sug.PDLID)"><span>&#10006;</span> Close </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+                            sugC += 1;
+                        }
+                    }
+                }
+            </ul>
+            <div class="suggested__buttons">
+                @if (Model.allItineraries > 0)
+                {
+                    <a class="suggested__browse" href="@String.Format("{0}/{1}/{2}/all_vacation_packages", _appsettings.Value.ApplicationSettings.SiteName,Model.countryNA.ToLower(), Model.destinationName.Replace(" ", "_").ToLower())">Browse all @Model.allItineraries customizable packages<span>›</span></a>
+                    <span>OR</span>
+                }
+                <a class="suggested__build" href="https://www.tripmasters.com/build_your_own_vacation">Build Your Own Itinerary<span>›</span></a>
+            </div>
+        </section>
+    }
+    @*Banners*@
+    @if (banner1 != "" || banner2 != "")
+    {
+        <section class="banners second-container">
+            <ul>
+                @if (banner1 != "")
+                {
+                    <li>@Html.Raw(@banner1)</li>
+                }
+                @if (banner2 != "")
+                {
+                    <li>@Html.Raw(@banner2)</li>
+                }
+            </ul>
+        </section>
+    }
+    @*orientation and expect*@
+    @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1880) || (Model.isWhatExpect.Count() > 0) && Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1622))
+    {
+        <div class="orientation-expect__wrapper">
+            <div class="first-container">
+                @* start orientation*@
+                @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1880) && Model.leftCMS.Count() > 0)
+                {
+                    <section class="orientation">
+                        <h2 class="orientation__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1880).SDP_DisplayTitle</h2>
+                        <ul class="orientation__list">
+                            @{
+                                Int32 faqcmsid = 0;
+                                foreach (var cms in Model.leftCMS)
+                                {
+                                    string hrefURL = "";
+                                    if (cms.CMS_Description != "none")
+                                    {
+                                        hrefURL = String.Format("/{0}/cms?cms={1}&wH=0&wF=0", cms.CMSW_Title.Trim().Replace(" ", "_"), cms.CMSW_RelatedCmsID);
+                                        if (Regex.IsMatch(cms.CMS_Description, "FAQ", RegexOptions.IgnoreCase))
+                                        {
+                                            faqcmsid = cms.CMSW_RelatedCmsID;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        hrefURL = String.Format("/{0}/cms?cms={1}&wH=0&wF=0", cms.CMSW_Title.Trim().Replace(" ", "_"), cms.CMSW_RelatedCmsID);
+                                        if (Regex.IsMatch(cms.CMSW_Title, "FAQ", RegexOptions.IgnoreCase))
+                                        {
+                                            faqcmsid = cms.CMSW_RelatedCmsID;
+                                        }
+
+                                    }
+                                    <li id="selA" class="orientation__item">
+                                        <a class="orientation__link" data-go-to="@hrefURL.ToLower()" onclick="@String.Format("openWinCMS({0},this.getAttribute('data-go-to'))", cms.CMSW_RelatedCmsID)">@cms.CMSW_Title</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </section>
+                }
+                @* start what to expect *@
+                @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1622) && Model.WhatExpect.Count() > 0)
+                {
+                    <section class="expect">
+                        <h2 class="expect__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1622).SDP_DisplayTitle</h2>
+                        <ul class="expect__list">
+                            @{
+                                @foreach (var exp in Model.WhatExpect)
+                                {
+                                    string[] prtURL = exp.CMS_Description.Split("|");
+
+                                    if (prtURL[0] == "none")
+                                    {
+                                        prtURL[0] = prtURL[1];
+                                    }
+                                    if (prtURL[0].Contains("-"))
+                                    {
+                                        string[] clnD = prtURL[0].Split("-");
+                                        if (clnD[1].Trim().Contains(clnD[0].Trim()))
+                                        {
+                                            prtURL[0] = clnD[0].Trim();
+                                        }
+                                    }
+                                    <li class="expect__item">
+                                        <a class="expect__link" href=@String.Format("/{0}/cms?cms={1}&wH=0&wF=0",prtURL[0].Replace(" ","_").ToLower(), exp.CMSID) onclick="openWinCMS(@exp.CMSID , this.href); return false">@prtURL[1]</a>
+                                    </li>
+
+                                }
+                            }
+                        </ul>
+                    </section>
+                }
+            </div>
+        </div>
+    }
+    @*cities and combine*@
+    @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1883) || Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1884))
+    {
+        <div class="cities-combine__wrapper first-container">
+            @*start cities in*@
+            @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1883))
+            {
+                <section class="cities">
+                    <h2 class="cities__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1883).SDP_DisplayTitle</h2>
+                    @{
+                        Int32 plC = 0;
+                        int mathCeil = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((Model.leftCountryCityList.Count() / 4))));
+                        <ul class="cities__list" id="dvmorecty">
+                            @for (int cy = 0; cy < Model.leftCountryCityList.Count() - 1; cy++)
+                            {
+                                if (Model.leftCountryCityList[cy].STR_PlaceTitle != "Popular Cities" && Model.leftCountryCityList[cy].STR_PlaceTitle != "Other Cities")
+                                {
+                                    <li class="cities__item">
+                                        <a href=@String.Format("{0}/{1}/vacations", _appsettings.Value.ApplicationSettings.SiteName, Model.leftCountryCityList[cy].STR_PlaceTitle.Replace(" ","_").ToLower())>@Model.leftCountryCityList[cy].STR_PlaceTitle</a>&nbsp;&nbsp;
+                                    </li>
+                                    if (plC == 2)
+                                    {
+                                        cy = Model.leftCountryCityList.Count() - 1;
+                                        <li class="cities__item"><button id="moreCities" type="button">more cities <span> &#x25BA; </span></button></li>
+
+                                    }
+                                    plC = plC + 1;
+                                }
+                            }
+                        </ul>
+                        if (plC > 2)
+                        {
+                            <div id="dvmoreCities" class="cities__modal is-hidden">
+                                <button class="cities__modal-close" id="closeMoreCity" type="button">close [x]</button>
+                                <ul class="cities__modal-list">
+                                    @{
+                                        for (int ty = 0; ty < Model.leftCountryCityList.Count() - 1; ty++)
+                                        {
+                                            if (Model.leftCountryCityList[ty].STR_PlaceTitle == "Popular Cities" || Model.leftCountryCityList[ty].STR_PlaceTitle == "Other Cities")
+                                            {
+                                                <li class="cities__modal-title">@Model.leftCountryCityList[ty].STR_PlaceTitle</li>
+                                            }
+                                            else
+                                            {
+                                                <li class="cities__modal-item">
+                                                    <a asp-route="Vacation_Route" asp-route-placeName="@Model.leftCountryCityList[ty].STR_PlaceTitle.Replace(" ","_")">@Model.leftCountryCityList[ty].STR_PlaceTitle</a>
+                                                </li>
+
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    }
+                </section>
+            }
+            @*start combine*@
+            @if (Model.leftDisplay.Exists(hi => hi.SDP_GroupProdKindID == 1884) && Model.arrpCombCountry.Count() > 0)
+            {
+                <section class="combine">
+                    <h1 class="combine__title">@Model.leftDisplay.FirstOrDefault(hi => hi.SDP_GroupProdKindID == 1884).SDP_DisplayTitle</h1>
+                    <ul class="combine__list">
+                        @foreach (var coc in Model.arrpCombCountry)
+                        {
+                            string[] innLn = coc.Split("|");
+
+                            <li class="combine__item">
+                                <a asp-route="Combine_Route" asp-route-names="@String.Format("/{0}_-_{1}", Model.countryNA.Replace(" ","_"), innLn[1].Replace(" ","_"))">@innLn[1]</a>
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+        </div>
+    }
+    @*Modal*@
+    <div id="modal" class="backdrop is-hidden">
+        <div class="modal-wrapper">
+            <button class="modal__close" type="button" aria-label="Close modal">✖</button>
+            <div id="dvGoogleMap" class="modal__container"></div>
+        </div>
+    </div>
+    <input type="hidden" id="plcID" value="@Model.destinationId" />
+</div>
+
+
+@section Scripts
+{
+    <environment include="Development">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/hotelsmap/dt.java.poi-labelmarke.min.js"></script>
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/gp3_SecondaryDestination/dm.java.gp3_SecondaryDestination.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/hotelsmap/dt.java.poi-labelmarke.min.js" asp-append-version="true"></script>
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/gp3_SecondaryDestination/dm.java.gp3_SecondaryDestination.min.js" asp-append-version="true"></script>
+    </environment>
+}

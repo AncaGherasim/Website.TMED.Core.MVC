@@ -1,0 +1,576 @@
+﻿@model MVC_TMED.Models.ViewModels.ToursViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options;
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+@{
+    ViewBag.Mobile = 0;
+
+    if (Utilities.CheckMobileDevice() == true)
+    {
+        ViewBag.Mobile = 1;
+
+    }
+}
+
+
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+}
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/trips/dm.style.trips.css" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
+
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/trips/dm.style.trips.min.css" asp-append-version="true" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+}
+@{
+
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(Model.Score, 1);
+    w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    string webServer = "";
+}
+
+@{
+    List<long> offerPrices = new List<long>();
+    List<string> offerUrl = new List<string>();
+    long lowP = 500;
+    long highP = 9999;
+    long reviewC = Model.packFeedCountC;
+    if (Model.listFeatured.Count > 0)
+    {
+        foreach (var z in Model.listFeatured)
+        {
+            if (z.STP_save != 9999)
+            {
+                offerPrices.Add(z.STP_save);
+            };
+            offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", Model.placeNA.Replace(" ", "_").ToLower(), z.PDL_Title.Replace(" ", "_").ToLower(), z.PDLID));
+        }
+        if (Model.otherFeatured.Count > 0)
+        {
+            foreach (var o in Model.otherFeatured)
+            {
+                if (o.STP_save != 9999)
+                {
+                    offerPrices.Add(o.STP_save);
+                };
+                offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}",Model.placeNA.Replace(" ", "_").ToLower(), o.PDL_Title.Replace(" ", "_").ToLower(), o.PDLID));
+            }
+        }
+        if (offerPrices.Count > 0)
+        {
+            lowP = offerPrices.Min();
+            highP = offerPrices.Max();
+        }
+        if (reviewC == 0) { reviewC = 1; };
+    }
+}
+
+@{
+    <script type="application/ld+json">
+        {
+        "@@context" : "http://schema.org",
+        "@@type" : "Product",
+        "name" : "@Model.placeNA Trips",
+        "sku":"@Model.placeID-Trips",
+        "mpn":"@Model.placeID-Tripsvac",
+        "brand" : {
+        "@@type" : "Brand",
+        "name": "Tripmasters Europe",
+        "url": "http://www.tripmasters.com/europe/",
+        "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+        },
+        "image":"https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+        "review":{
+        "@@type":"Review",
+        @{ if (Model.packFeedCountC == 0)
+            {
+                <text>
+                    "name":"1",
+                </text>
+            }
+            else
+            {
+                <text>
+                    "name":"@Model.packFeedCountC",
+                </text>
+            }
+        }
+        "author":{
+        "@@type":"Organization",
+        "name":"Tripmasters"
+        }
+        },
+        "offers": {
+        "@@type": "AggregateOffer",
+        "priceCurrency":"USD",
+        "highPrice": "@highP",
+        "lowPrice": "@lowP",
+        "offerCount": "4",
+        "offers": [
+        @{
+
+            foreach (var o in offerUrl)
+            {
+                <text>
+                    {
+                    "@@type":"Offer",
+                    "url":"  @o  "
+                    }@if (o != offerUrl.Last())
+                    {<text>,</text>}
+                    </text>
+                }
+
+        }
+        ]
+        },
+        "description" : "@ViewBag.MetaDescription",
+        "additionalProperty" : "Book Customizable Multi-city trips in seconds | 24/7 support during trip | Discounted Air",
+        "aggregateRating": {
+        "@@type": "aggregateRating",
+        "ratingValue": "@overAllAvg",
+        @{ if (Model.packFeedCountC == 0)
+            {
+                <text>
+                    "reviewCount":"1"
+                </text>
+            }
+            else
+            {
+                <text>
+                    "reviewCount":"@Model.packFeedCountC"
+                </text>
+            }
+        }
+        },
+        "sameAs":[
+        "https://twitter.com/tripmasters",
+        "https://www.facebook.com/Tripmasters",
+        "https://www.pinterest.com/tripmasters/",
+        "https://www.instagram.com/tripmasterstravel/",
+        "https://www.linkedin.com/company/tripmasters",
+        "https://en.everybodywiki.com/Tripmasters",
+        "https://www.youtube.com/tripmasters"
+
+        ]
+        }
+    </script>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName'</script>
+}
+
+
+<div id="dvMask"></div>
+<div id="dvTransOptResp">
+    <div id="dvOptions"></div>
+</div>
+<div class="resp-container">
+        <h1 class="main-title">
+            Trips to @Model.placeNA
+        </h1>
+      @if (Model.listFeatured.Count > 0)
+    {
+          <div class="feature-pack">
+            @{
+                Int32 PDLID = 0;
+                Int32 PDLDuration = 0;
+                String PDLTitle = "";
+                String SPDDescription = "";
+                Int32 NoOfFeed = 0;
+                String PDLContent = "";
+                Int64 STPSave = 0;
+                string IMG_Path_URL = "";
+                foreach (var p in Model.listFeatured)
+                {
+                    PDLID = p.PDLID;
+                    PDLTitle = p.PDL_Title;
+                    PDLDuration = p.PDL_Duration;
+                    NoOfFeed = p.NoOfFeed;
+                    SPDDescription = p.SPD_Description;
+                    PDLContent = p.PDL_Content;
+                    STPSave = p.STP_save;
+                    IMG_Path_URL = p.IMG_Path_URL;
+                }
+            }
+            <div class="feature-pack__picture">
+                <input type="hidden" id="imgItemID" value="@PDLID" />
+                        <a href="/">
+                            <img src=@String.Format("https://pictures.tripmasters.com{0}", IMG_Path_URL) onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'"/>
+                        </a>
+            </div>
+            <div class="feature-pack__description">
+                <input type="hidden" id="featItinLink" value=@String.Format("/{0}/Package/{1}/{2}", Model.placeNA.Replace(" ", "_"), PDLID, PDLTitle.Replace(" ", "_")) />
+                <h2>
+                    <a href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),PDLTitle.Replace(" ","_").ToLower(), PDLID )>
+                        @PDLTitle
+                    </a>
+                </h2>
+                <h3>
+                    @if (STPSave != 9999)
+                    {
+                        @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", @PDLDuration, @STPSave));
+                    }
+                    else
+                    {
+                        @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", @PDLDuration));
+                    }
+                </h3>
+
+
+                <p class="feature-pack__description--text">@Html.Raw(@SPDDescription)</p>
+                @if (NoOfFeed > 0)
+                {
+                        <a class="feature-pack__description--reviews" href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),PDLTitle.Replace(" ","_").ToLower(), PDLID )>
+                            @NoOfFeed Customer Reviews
+                        </a>
+                }
+                <a class="feature-pack__description--button" href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),PDLTitle.Replace(" ","_").ToLower(), PDLID )>
+                    Customize and Book!
+                </a>
+
+            </div>
+
+        </div>
+    }
+    @if (Model.otherFeatured.Count > 0)
+    {
+          <section class="OtherVacation">
+        <h1 class="section-title"> Best Trips to @Model.placeNA</h1>
+        <ul class="ul-Flex">
+
+            @{
+                foreach (weightItinCountry ot in Model.otherFeatured)
+                {
+                                        <li>
+                                            <div class="li-div-1">
+                                            <figure>
+                                                        <a href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),ot.PDL_Title.Replace(" ","_").ToLower(), ot.PDLID )>
+                                                            <img src=@String.Format("https://pictures.tripmasters.com{0}", ot.IMG_Path_URL.ToLower()) onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'"/>                                    
+                                                        </a>  
+                                                        <figcaption>
+                                                        
+                                                               <a href="#">@ot.PDL_Title</a> 
+                                                            
+                                                        </figcaption>
+                                            </figure>
+                                                           
+                                                        <p>
+                                        @if (ot.STP_save != 9999)
+                                        {
+                                                                @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", ot.PDL_Duration, ot.STP_save));
+                                        }
+                                        else
+                                        {
+                                                                @Html.Raw(String.Format("{0} nights from <span>&nbsp;</span>", ot.PDL_Duration));
+                                        }
+                                                        </p>
+                                        @if (ot.NoOfFeed > 0)
+                                        {
+                                                                <a  href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),ot.PDL_Title.Replace(" ","_").ToLower(), ot.PDLID )>
+                                                                    @ot.NoOfFeed Customer Reviews
+                                                                </a>
+                                        }
+                                        else
+                                        {
+                                                                <a href="/">&nbsp;</a>
+                                        }           
+                                            <a id="@String.Format("p{0}", ot.PDLID)" onclick="otherMoreDetails('@ot.PDLID',1),toggleClassMoreDetailsBestCities()">More details</a>
+                                            </div>
+                                            
+                                        </li>
+
+                }
+            }
+        </ul>
+         </section>
+
+     
+    <div class="backdrop-best-cities is-hidden">
+        @foreach (var oti in Model.otherFeatured)
+        {
+            Int32 otiC = 0;
+            <div class="secPackInfo pack-info" id="@String.Format("divInfo{0}", oti.PDLID)">
+                <div>
+                <div class="pack-info__close-button" onclick="otherMoreDetails('@String.Format("close{0}", oti.PDLID)', 0),toggleClassMoreDetailsBestCities()"><span id=@String.Format("close{0}", oti.PDLID)>✖</span></div>
+                <p>@Html.Raw(@oti.SPD_Description)</p>
+                <div class="pack-info__container">
+                    <div class="pack-info__icluded">
+                        <p>Included:</p>
+                        <ul class="pack-info__list">
+                            @{
+                                string[] includotherList = @oti.PDL_Content.Split("\r\n");
+                                foreach (var fpr in includotherList)
+                                {
+                                                        <li> @Html.Raw(@fpr) </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="pack-info__customize">
+                        <p>
+                            @if (oti.STP_save != 9999)
+                            {
+                                @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", oti.PDL_Duration, oti.STP_save));
+                            }
+                            else
+                            {
+                                @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", oti.PDL_Duration));
+                            }
+                        </p>
+                        <a class="pack-info__button-cusomize" href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),oti.PDL_Title.Replace(" ","_").ToLower(), oti.PDLID )>
+                           Customize it
+                        </a>
+                            @if (oti.NoOfFeed > 0)
+                            {
+                                <a class="pack-info__reviews" href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),oti.PDL_Title.Replace(" ","_").ToLower(), oti.PDLID )>
+                                    @oti.NoOfFeed Customer Reviews
+                                </a>
+                            }
+                    </div>
+                </div>
+                <br style="clear:both" />
+                <span class"spdotLine" style=" border-bottom:0.17em dotted #ccc; width:100%; margin:0 auto; display:inline-block;">&nbsp;</span>
+                <div class="txt_11" id=@String.Format("dvRel{0}", oti.PDLID) style="display: block; padding: 5px 2px 5px 10px;">
+                    <center>
+                        <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" />
+                    </center>
+                </div>
+                <span class"spdotLine" style=" border-bottom:0.17em dotted #ccc; width:100%; margin:0 auto; display:inline-block;">&nbsp;</span>
+                <form name=@String.Format("frm{0}", @oti.PDLID) id=@String.Format("frm{0}", @oti.PDLID) method="post">
+                    <div class="txt_grayLight11" id=@String.Format("dvCom{0}", oti.PDLID) style="display: block; padding: 5px 5px;">
+                        <center>
+                            <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" />
+                        </center>
+                    </div>
+                    <div class="txt_grayLight12" style="padding: 5px 3px 15px 3px;" align="right">
+                        <a style="cursor: pointer;" onclick=@String.Format("findPackst4('frm{0}'); return false", oti.PDLID)>
+                            &gt;&gt;
+                            Find similar package
+                        </a>
+                    </div>
+                    <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                    <input type="hidden" name="allID" id="Hidden1" value="" />
+                    <input type="hidden" name="allNA" id="Hidden2" value="" />
+                </form>
+                </div>
+            </div>
+            otiC += 1;
+        }
+        
+         </div>
+             <br style="clear:both" />
+    }
+
+
+    @if (@Model.suggestedItin.Count > 0)
+    {
+        <div class="more-tours">
+            <h2 class="section-title">More Trips to @Model.placeNA</h2>
+            <div class="more-tours__list">
+
+                @foreach (var sg in Model.suggestedItin)
+                {
+                    <div class="more-tours__item">
+                            <div class="more-tours__img">
+                                <a href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),@sg.PDL_Title.Replace(" ", "_").ToLower(), @sg.PDLID )>
+                                    <img src=@String.Format("https://pictures.tripmasters.com{0}", sg.IMG_Path_URL.ToLower()) onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'"/>
+                                </a>
+                            </div>
+                            <div>
+                                    <a href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),@sg.PDL_Title.Replace(" ", "_").ToLower(), @sg.PDLID )>
+                                        @sg.PDL_Title
+                                    </a>
+                                <p>
+                                    @if (sg.STP_save != 9999)
+                                    {
+                                        @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", sg.PDL_Duration, sg.STP_save));
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(String.Format("{0} nights from <span>&nbsp;</span>", sg.PDL_Duration));
+                                    }
+                                </p>
+                            </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @if (Model.moreItin.Count > 0)
+{
+        <hr class="blueLine" />
+<section class="more-tours-list">
+    <div class="more-tours-list__container">
+
+                     <div>
+                    <h2 class="section-title">More Trips</h2>
+
+                    @foreach (var mo in Model.moreItin)
+                    {
+                        <div class="more-tours-list__item" id="@String.Format("eachPk{0}", @mo.PDLID)" onclick="otherMoreDetails('@mo.PDLID',1), toggleClassMoreDetailsMoreCities()">
+                            
+                            <h2>
+                                <a href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),mo.PDL_Title.Replace(" ","_").ToLower(), mo.PDLID ) id='@String.Format("{0}", @mo.PDLID)' onclick="return false;">
+                                    @mo.PDL_Title
+                                </a>
+                            </h2>
+                            <h3>
+                                @if (mo.STP_save != 9999)
+                                {
+                                    @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", mo.PDL_Duration, mo.STP_save));
+                                }
+                                else
+                                {
+                                    @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", mo.PDL_Duration));
+                                }
+                            </h3>
+                            <span class="arrowH">🛈</span>    
+                        </div>
+                    }
+                    <div class="backdrop-more-cities is-hidden">
+                         @foreach (var mo in Model.moreItin)
+                    {
+                            <section class="secPackInfo pack-info" id="@String.Format("divInfo{0}", mo.PDLID)">
+                                <div>
+                                    <button class="pack-info__close-button" onclick="otherMoreDetails('@String.Format("close{0}", mo.PDLID)',0),toggleClassMoreDetailsMoreCities()" aria-label="Close modal">✖</button>
+                                    <p class="pack-info__description">@Html.Raw(@mo.SPD_Description)</p>
+                                        <div class="pack-info__container">
+                                            <div class="pack-info__included">
+                                                <p>Included:</p>
+                                                <ul class="pack-info__list">
+                                                    @{
+                                                        string[] includotherList = @mo.PDL_Content.Split("\r\n");
+                                                        foreach (var fpr in includotherList)
+                                                        {
+                                                                            <li>@Html.Raw(@fpr)  </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div class="pack-info__customize">
+                                                    <p>
+                                                        @if (mo.STP_save != 9999)
+                                                        {
+                                                            @Html.Raw(String.Format("{0} nights from <span>{1:C0}*</span>", mo.PDL_Duration, mo.STP_save));
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Raw(String.Format("{0} nights itinerary <span>&nbsp;</span>", mo.PDL_Duration));
+                                                        }
+                                                    </p>
+                                                        <a class="pack-info__button-cusomize" onclick="otherMoreDetails('',2)" href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),mo.PDL_Title.Replace(" ","_").ToLower(), mo.PDLID )>Customize it</a>
+                                                        @if (mo.NoOfFeed > 0)
+                                                        {
+                                                            <a class="pack-info__reviews" onclick="otherMoreDetails('',2)" href=@String.Format("{0}/{1}/{2}/package-{3}" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower(),mo.PDL_Title.Replace(" ","_").ToLower(), mo.PDLID )>@mo.NoOfFeed Customer Reviews</a>
+                                                        }
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <p id="@String.Format("dvRel{0}", mo.PDLID)">
+                                        <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" />
+                                    </p>
+                                    <hr />
+                                    <form name="@String.Format("frm{0}", @mo.PDLID)" id="@String.Format("frm{0}", @mo.PDLID)" method="post">
+                                        <p id="@String.Format("dvCom{0}", mo.PDLID)">
+                                            <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" />
+                                        </p>
+                                            <a class="pack-info__find-similar" onclick=@String.Format("findPackst4('frm{0}'); return false", mo.PDLID)>
+                                                &gt;&gt; Find similar package
+                                            </a>
+                                        <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                                        <input type="hidden" name="allID" id="Hidden1" value="" />
+                                        <input type="hidden" name="allNA" id="Hidden2" value="" />
+                                    </form>
+                                </div>
+                            </section>
+                    }
+                    </div>
+
+                    <div class="downButtons"> 
+                        <a class="browseAllPacks" href=@String.Format("{0}/{1}/all_vacation_packages" , _appsettings.Value.ApplicationSettings.SiteName, Model.placeNA.Replace(" ","_").ToLower())>Browse all @Model.allItineraries customizable packages<span>></span></a>
+                        <span class="spanOR">or</span>    
+                        <a class="browseBuild" href="https://www.tripmasters.com/build_your_own_vacation">Build Your Own Itinerary<span>></span></a>
+                    </div>
+                     </div>     
+    </div>
+</section>
+ }
+    <section class="cities-section">
+        <div class="cities-section__container" id="cities-section-1" >
+            <h2 class="cities-section__title" onclick="citiesAccordion('cities-section-1')">Cities in @Model.placeNA<span>›</span></h2>
+            <ul class="cities-section__list">
+                @foreach (var cto in Model.listCities)
+                {  <li>
+                    <a href=@String.Format("{0}/{1}/vacations", _appsettings.Value.ApplicationSettings.SiteName, cto.STR_PlaceTitle.Replace(" ", "_").ToLower())>
+                        @cto.STR_PlaceTitle
+                    </a>
+                    </li>
+                }
+                <li class="cities-section__list--more">
+                    <a href="https://www.tripmasters.com/destinations" >
+                    <i style="text-transform:lowercase">more cities</i><font style="color:#ff6a00; margin: 0 0 0 5px;">&#x25b6;</font>
+                </a>
+                </li>
+            </ul>
+        </div>
+        <div class="cities-section__container" id="cities-section-2" >
+            <h2 class="cities-section__title" onclick="citiesAccordion('cities-section-2')">Combine @Model.placeNA with <span>›</span></h2>
+            <ul class="cities-section__list">
+                @{
+                    string couChk = "";
+                    foreach (var com in Model.listCombineCou)
+                    {
+                        if (couChk != com.CouNA)
+                        {
+                                                <li><a asp-route="Combine_Route" asp-route-names="@(Model.placeNA)_-_@(com.CouNA)">
+                                                    @com.CouNA </a>
+                                                </li>
+                        }
+                        couChk = com.CouNA;
+                    }
+                }
+            </ul>
+        </div>
+        @if (Model.listCMS.Count > 0)
+        {
+            <div class="cities-section__container" id="cities-section-3" >
+            <h2 class="cities-section__title" onclick="citiesAccordion('cities-section-3')">About @Model.placeNA<span>›</span></h2>
+            <ul class="cities-section__list">
+                @foreach (var cm in Model.listCMS)
+                {
+                    <li>
+                            <a class="cms" href=@String.Format("https://www.tripmasters.com/{0}/cms?cms={1}&wH=0&wF=0", cm.CMSW_Title.Replace(" ","_").ToLower(),cm.CMSW_RelatedCmsID)>@cm.CMSW_Title</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        }
+    </section>
+</div>
+
+<input type="hidden" id="placeID" value="@Model.placeID" />
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/js/trips/dt.java.trips.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/trips/dt.java.trips.min.js" asp-append-version="true"></script>
+
+    </environment>
+    
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Tripmasters\publish\MVC_TMED</_PublishTargetUrl>
+    <History>True|2023-06-06T20:55:44.7163040Z;False|2023-06-06T23:52:27.7397363+03:00;True|2023-05-19T22:36:49.7330242+03:00;True|2023-05-11T09:44:47.7917144+03:00;True|2023-05-03T21:15:39.0559597+03:00;True|2023-05-02T12:09:24.5473752+03:00;True|2023-05-02T11:13:32.9415442+03:00;True|2023-05-02T10:17:16.0093049+03:00;True|2023-03-06T21:08:46.0245001+02:00;True|2023-02-28T22:21:14.6154136+02:00;True|2023-02-03T12:12:50.3225898+02:00;True|2023-01-30T13:20:49.9840776+02:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

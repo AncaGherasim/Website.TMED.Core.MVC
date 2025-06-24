@@ -1,0 +1,180 @@
+﻿@model MVC_TMED.Models.ViewModels.CustomerFeedbackViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    ViewData["Title"] = "CustomerFeedback_Mob";
+}
+@section Styles{
+    <environment include="Development">
+        <link href="~/css/cfb_m/mb.style.cfb.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/cfb_m/mb.style.cfb.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+}
+
+@{
+    Int32 total = 0;
+    Int32 totalRating = 0;
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    if (Model.scores.Count > 0)
+    {
+        total = Model.scores.Sum(x => x.Id);
+        totalRating = Model.scores.Where(x => x.Name != "NotRated").Sum(x => x.Id);
+        overAllAvg = Model.scores.Where(x => x.Name != "NotRated").Sum(x => Decimal.Parse(x.Name) * x.Id / totalRating);
+        overAllAvg = Decimal.Round(overAllAvg, 1);
+        w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    }
+
+}
+<div class="row dvFeedTitle">Customer Reviews</div>
+<div class="row bg-white mx-auto">
+    <div class="col-12 dvPackTitle pt-2 pb-2">@Model.packInfo[0].PDL_Title</div>
+    <div class="col-12" style="line-height:35px;">
+        <div class="emptyStars mt-1"></div>
+        <div class="fullStars mt-1" style="width:@(w)px"></div>
+        <div class="col-12 pl-1 float-right text-center pl-5 blueText font14 font-weight-bold">@total Reviews</div>
+        <div class="col-12 darkT font12">@overAllAvg out of 5 stars</div>
+    </div>
+    <div class="col-12 pt-3">
+        @{
+            for (Int32 i = 5; i >= 1; i--)
+            {
+                Int32 currentVal = -1;
+                string current = "";
+                Decimal perCent = 0;
+                if (Model.scores.Count > 0)
+                {
+                    current = i.ToString();
+                    if (Model.scores.Where(x => x.Name == current).ToList().Count > 0)
+                    {
+                        currentVal = Model.scores.Where(x => x.Name == current).ToList().FirstOrDefault().Id;
+                        w = Decimal.Round((currentVal * 100) / total);
+                        perCent = Decimal.Round(((decimal)currentVal * (decimal)100) / (decimal)total);
+                    }
+                    else
+                    {
+                        currentVal = 0;
+                        w = 0;
+                        perCent = 0;
+                    }
+                }
+                <div class="row pt-1 pb-1">
+                    <div class="col-3 font12 pr-1">@(i > 1 ? i + " stars" : i + " star")</div>
+                    <div class="col-6 pl-0 pr-0">
+                        <div class="progress" style="height: 20px">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="@w" style="width: @w%" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="col-3 text-left font12">@perCent %</div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class="row mx-auto dvWriteRev">
+    <div class="col-12 pt-4 text-center text-dark font14 font-weight-bold">Share your thoughts with other travelers</div>
+    <div class="col-12 pt-1 pb-4 text-center mx-auto">
+        <a href="https://www.tripmasters.com/checkbookingforreview" role="button" class="btn btn-warning text-center">Write a Review</a>
+    </div>
+</div>
+<div class="row mx-auto bg-white">
+    <div class="col-12 dvorangeblock font12 border border-secondary border-top-0 border-left-0 border-right-0 pt-1 pb-1">Each package is fully customizable according to your needs. Price will vary according to your dates, hotels and activities chosen.</div>
+    <div class="col-12 dvFeeds"></div>
+</div>
+<div class="row mx-auto text-center mt-2 bg-white">
+    <div class="col-12 pt-3 pb-3 divbtMoreReviews">
+        <button type="button" class="btn btnMore" value="1">Show more reviews</button>
+    </div>
+</div>
+<div class="row mx-auto mt-2 mb-2">
+    <div class="col-12 pl-2 pr-2 bg-white mb-2 pt-2 pb-2">
+        <button type="button" class="btn btn-outline-light btn-block border-0 bg-white text-dark text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvSimilar" data-toggle="collapse" aria-expanded="false">Reviews for Similar Packages</button>
+        <div class="collapse pl-2 pr-2 bg-white clearfix" id="dvSimilar">
+            @{
+                foreach (var sim in Model.similarPacks)
+                {
+                    <div class="col-12 pt-2 pb-2 pl-1 pr-1 dvtitlePackage">
+                        <a asp-route="Package_Route" asp-route-Country="@Model.packInfo.FirstOrDefault().CountryName.Replace(' ', '_')" asp-route-id="@sim.PDLID" asp-route-name="@sim.PDL_Title.Replace(' ', '_')">
+                            <span class="d-block pl-3 bCms font12">@sim.PDL_Title</span>
+                            <span class="d-block pl-3 font12 text-dark">(@sim.NoOfFeed) Reviews</span>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-12 pl-2 pr-2 bg-white mb-2 pt-2 pb-2">
+        <button type="button" class="btn btn-outline-light border-0 bg-white text-dark btn-block text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvMostPop" data-toggle="collapse" aria-expanded="false">@Model.packInfo.FirstOrDefault().CountryName Most Popular</button>
+        <div class="collapse pl-2 pr2 bg-white clearfix" id="dvMostPop">
+            @{
+                foreach (var pop in Model.mostPop)
+                {
+                    <div class="row pt-2 pb-2 border border-top-0 border-right-0 border-left-0 ">
+                        <div class="col-5">
+                            <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(pop.IMG_Path_URL)" title="@pop.PDL_Title" />
+                        </div>
+                        <div class="col-7 pl-0 pr-0">
+                            <span class="d-block font14">@pop.PDL_Title</span>
+                            <span class="d-block font12 greyText">from <b class="orgClr">@String.Format("{0:c0}", pop.STP_Save) </b></span>
+                            <a class="btn btn-link font12 pl-0" asp-route="Package_Route" asp-route-Country="@pop.CountryName.Replace(' ', '_')" asp-route-id="@pop.PDLID" asp-route-name="@pop.PDL_Title.Replace(' ', '_')">See details</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-12 pl-2 pr-2 bg-white mb-2 pt-2 pb-2">
+        <button type="button" class="btn btn-outline-light border-0 bg-white text-dark btn-block text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvHigh" data-toggle="collapse" aria-expanded="false">@Model.packInfo.FirstOrDefault().CountryName highlights</button>
+        <div class="collapse pl-2 pr-2 bg-white clearfix" id="dvHigh">
+            @{
+                foreach (var high in Model.placeHighlights)
+                {
+                    <a class="d-block pl-3 pt-1 pb-1 aCms font12" href=@string.Format("{0}{1}",_appsettings.CurrentValue.ApplicationSettings.SiteName,@high.STX_URL.Replace(" ","_").ToLower()) title="@high.STX_Title">@high.STX_Title</a>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-12 pl-2 pr-2 bg-white mb-2 pt-2 pb-2">
+        <button type="button" class="btn btn-outline-light border-0 bg-white text-dark btn-block text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvBest" data-toggle="collapse" aria-expanded="false">Europe Best-Sellers</button>
+        <div class="collapse pl-2 pr-2 bg-white clearfix" id="dvBest">
+            @{
+                foreach (var bst in Model.bestSell)
+                {
+                    <div class="col-12 bestSell pt-2 pb-2 pl-1 pr-1">
+                        <a asp-route="Package_Route" asp-route-Country="@bst.CountryName.Replace(' ', '_')" asp-route-id="@bst.PDLID" asp-route-name="@bst.PDL_Title.Replace(' ', '_')">
+                            <span class="d-block bCms pl-3 font12">@bst.PDL_Title</span>
+                            <span class="d-block pl-3 font12 text-dark">from <b class="orgClr">@String.Format("{0:c0}", bst.STP_Price) </b></span>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+@{
+    string places = "";
+    foreach (var p in Model.placeNames)
+    {
+        places = places + p.Name + "|";
+    }
+
+}
+<input type="hidden" id="places" value="@places" />
+<input type="hidden" id="packId" value="@Model.packInfo.FirstOrDefault().PDLID" />
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/cfb_m/mb.java.cfb.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/cfb_m/mb.java.cfb.js"></script>
+    </environment>
+}

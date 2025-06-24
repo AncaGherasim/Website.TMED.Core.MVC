@@ -1,0 +1,133 @@
+﻿.aCms{
+    color:#666;
+}
+.aCms:before{
+    content: "\a";
+    border-style:solid;
+    border-width:6px 0 6px 7px;
+    border-color:transparent transparent transparent #f60;
+    position:absolute;
+    left:15px;
+    margin-top:2px;
+}
+.bCms{
+    color:#666;
+}
+.bCms:before{
+    content: "\a";
+    border-style:solid;
+    border-width:6px 0 6px 7px;
+    border-color:transparent transparent transparent #f60;
+    position:absolute;
+    left:5px;
+    top:10px;
+}
+.btnExpand.collapsed:after {
+    transform: rotate(90deg);
+    margin-right: 0px;
+}
+
+.btnExpand:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    color: #000;
+    font-weight: 500;
+    margin-right: 6px;
+}
+.bestSell:nth-child(odd) {
+    background-color: #ecf1ff;
+}
+.btnIncl.collapsed:after {
+    transform: rotate(90deg);
+    margin-left: 10px;
+    color: #007bff;
+}
+
+.btnIncl:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    font-weight: 500;
+    margin-left: 10px;
+    color: #0056b3;
+}
+.dtBack {
+    background-color: #F2F4FA;
+}
+.greyText {
+    color: #666!important;
+    font-size: 12px!important;
+}
+.btn-link {
+    color: #12174E!important;
+}
+.font14{font-size:14px}
+.btnMore {
+    border-radius: 5px 5px 0 0;
+    font-size: 17px;
+    width: 88%;
+    color: #040404;
+    padding: 14px;
+    border: 1px solid #CCC;
+    background: linear-gradient(to bottom,#fff 0,#e5e5e5 100%);
+    text-align: center;
+}
+.divbtMoreReviews {
+    background: #e7e7e7 !important;
+}
+.dvtitlePackage, .dvtitlePackage a {
+    color: #12174E !important
+}
+.dvtitlePackage:nth-child(odd){background-color:white}
+.dvtitlePackage:nth-child(even){background-color:#e7ebf7;}
+.bCms {
+    color: #12174E !important
+}
+.darkT {
+    color: black;
+    padding: unset;
+    font-size: 12px;
+}
+.dvorangeblock {
+    color: #F60;
+    font-size: 1em;
+    font-style: italic;
+    padding: 1em;
+    border-bottom: 1px solid #CCC;
+    background-color: #fff;
+}
+
+.progress {
+    height: 25px !important;
+    border-radius: 0px !important;
+    border: 1px solid #dbdbdb !important;
+}
+.dvFeedTitle {
+    background-color: #81a6dd;
+    color: #fff;
+    font-size: 20px;
+    padding: 15px;
+}
+
+.dvPackTitle {
+    color: #F60;
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 3px;
+}
+.dvWriteRev {
+    background-color: #dfe4f7;
+    text-align: center;font-size:14px;
+}
+.btn-warning {
+    height: 30px!important;
+    border-radius: 20px!important;
+    font-size: 14px!important;
+    width: 130px!important;
+    padding: 3px 0px!important;
+}

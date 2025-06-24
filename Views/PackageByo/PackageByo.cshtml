@@ -1,0 +1,330 @@
+﻿@model MVC_TMED.Models.ViewModels.PackTemplate_21ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> _appsettings
+
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/byo/B.css_byoItinerary.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/byo/B.css_byoItinerary.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+    DateTime chckDate = new DateTime(1900, 1, 1);
+    DateTime promDate = @Model.ListPackInfo.First().STP_StartTravelDate;
+    string calDate = "9999";
+    if (chckDate == promDate)
+    {
+        calDate = DateTime.Now.AddDays(90).ToShortDateString();
+    }
+    else
+    {
+        calDate = promDate.ToShortDateString();
+    }
+}
+
+<input type="hidden" id="pakID" value="@Model.PackId" />
+<input type="hidden" id="pakNA" value="@Model.ListPackInfo.First().PDL_Title" />
+<input type="hidden" id="cmsIti" value="0" />
+<input type="hidden" id="tCityIDs" value="@Model.stringCityIDs" />
+<input type="hidden" id="cmsPri" value="0" />
+<input type="hidden" id="cmsAcc" value="0" />
+<input type="hidden" id="cmsAct" value="0" />
+<input type="hidden" id="cmsTra" value="0" />
+<input type="hidden" id="cmsFaq" value="0" />
+<input type="hidden" id="plcNA" value="@Model.ListPackInfo.First().CityNA" />
+<input type="hidden" name="Pkgid" id="Pkgid" value="@Model.PackId" />
+<input name="fixDates" type="hidden" id="fixDates" value="@Model.FxDates" />
+<input name="blockDates" type="hidden" id="blockDates" value="@Model.BkDates" />
+<div id="popUpConteiner" class=" dvpopCtner">
+    <div style="padding-bottom: 5px" align="right"> <span class="Text_12_Gray" onclick="$('#popUpConteiner').hide(); $('#popUpCMS').html('');" style="cursor:pointer">close X</span></div>
+    <div id="popUpCMS" class="dvPopCMS"></div>
+</div>
+<div class="pageContainer">
+    @if (Model.PackRelItins.Count > 1)
+    {
+        <div id="dvRelItinShow" class="dvRelItin">
+            <div class="dvVerticalText dvRelItinBG">
+                <div class="css-vertical-text">
+                    Related<br />
+                    Itineraries
+                </div>
+            </div>
+            @{
+                Int32 relC = 0;
+                foreach (var rel in @Model.PackRelItins)
+                {
+                    if (rel.STP_ProdItemID.ToString() == Model.PackId)
+                    {
+                        <div id=@String.Format("dvRpk{0}", @rel.STP_ProdItemID) class="dvRelItinBGActiv">
+                            <a asp-route="PackageByo_Route" asp-route-id="@rel.STP_ProdItemID" asp-route-name="@rel.PDL_Title.Replace(' ', '_')" asp-route-Country="@Model.packCountryNA.Replace(' ', '_')" onclick=@String.Format("relIntForm(this,{0});return false", @Model.relatedItin)>
+                                <b> @rel.PDL_Title</b>
+                            </a>
+
+                            @if (@rel.STP_Save != "9999")
+                            {
+                                <br />
+                                <span class="Text_Aria12_Green">from $@rel.STP_Save</span>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        if (relC < 5)
+                        {
+                            string counName = String.IsNullOrEmpty(@rel.CountryName.Trim()) ? @Model.packCountryNA.Replace(' ', '_') : @rel.CountryName.Replace(' ', '_');
+                            <div id=@String.Format("dvRpk{0}", @rel.STP_ProdItemID) class="dvRelItinBGnoActiv" style="float: left;">
+                                <a asp-route="PackageByo_Route" asp-route-id="@rel.STP_ProdItemID" asp-route-name="@rel.PDL_Title.Replace(' ', '_')" asp-route-Country="@counName" onclick=@String.Format("relIntForm(this,{0});return false", @Model.relatedItin)>
+                                    <b> @rel.PDL_Title</b>
+                                </a>
+                                @if (@rel.STP_Save != "9999")
+                                {
+                                    <br />
+                                    <span class="Text_Aria12_Green">from $@rel.STP_Save</span>
+                                }
+                            </div>
+                        }
+                    }
+                    relC += 1;
+                }
+            }
+            <div style="clear: both"> </div>
+        </div>
+
+        <br />
+        <hr class="gradLine" />
+    }
+    <div class="dvDown">
+        <div class="dvCustomTitle"> Customize this Itinerary</div>
+        <div class="dvCalContainerbyo">
+            <form id="getNewItin" name="getNewItin">
+                <div class="dvHeadLeft">
+                    <div id="xdivBYOIAirChoose" class="dvChoiceAir">
+                        <span>International Flight:</span>
+                        <input type="radio" onclick="Check_WAir(this.value,this.id);" id="xrdAWair" name="xrdAWair"
+                               value="True" checked="checked" />
+                        <span>Yes</span>
+                        <input type="radio" onclick="Check_WAir(this.value,this.id);" id="xrdAWair" name="xrdAWair"
+                               value="False" />
+                        <span>No</span>
+                    </div>
+                    <div id="dvAllAirOpt">
+                        <div id="divBYOIAir" class="dvAirContent">
+                            <div>
+                                <label for="xtxtLeavingFrom"> Leaving from:</label>
+                                @if (Model.DepartureAirport.Id <= 0)
+                                {
+                                    <input type="text" name="xtxtLeavingFrom" id="xtxtLeavingFrom" value="US city airport" />
+                                    <input type="hidden" name="xIDLeavingFrom" id="xIDLeavingFrom" value="-1" />
+                                }
+                                else
+                                {
+                                    <input type="text" name="xtxtLeavingFrom" id="xtxtLeavingFrom" value="@Model.DepartureAirport.Name" />
+                                    <input type="hidden" name="xIDLeavingFrom" id="xIDLeavingFrom" value="@Model.DepartureAirport.Id" />
+                                }
+                            </div>
+                        </div>
+                        <div id="divAirAdvance" class="dvAirContent"> <a id="aAirDiff">Different return location or upgrade cabin</a> </div>
+                        <div id="divReturnAir" class="dvAirContent dvHide">
+                            <div>
+                                <label for="xtxtLeavingFrom"> Returning to:</label>
+                                @if (Model.DepartureAirport.Id <= 0)
+                                {
+                                    <input type="text" name="xtxtReturningTo" id="xtxtReturningTo" value="US city airport" />
+                                    <input type="hidden" name="xIDReturningTo" id="xIDReturningTo" value="-1" />
+                                }
+                                else
+                                {
+                                    <input type="text" name="xtxtReturningTo" id="xtxtReturningTo" value="@Model.DepartureAirport.Name" />
+                                    <input type="hidden" name="xIDReturningTo" id="xIDReturningTo" value="@Model.DepartureAirport.Id" />
+                                }
+                            </div>
+                            <div>
+                                <label for="xCabinTxt"> Cabin Class:</label>
+                                <input type="text" name="xCabinTxt" id="xCabinTxt" value="Economy" />
+                                <input name="xCabin" type="hidden" id="xCabin" value="Y">
+                            </div>
+                            <div style="clear: both;"> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dvHeadRight">
+                    <div class="dvLegends">
+                        <div class="dvVerticalText-icon">
+                            <div class="css-vertical-text-icon"> Icon Legend</div>
+                        </div>
+                        <div class="dvIconLegen">
+                            <div> <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/fb_Cursor_12-512.png" asp-append-version="true" align="absmiddle" /> Drag and drop city</div>
+                            <div> <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/icon_Trsh.gif" asp-append-version="true" align="absmiddle" /> Remove city</div>
+                            <div> <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Icon_Edit.gif" asp-append-version="true" align="absmiddle" /> Edit city</div>
+                        </div>
+                        <div style="clear: both;"> </div>
+                    </div>
+                </div>
+                <div style="clear: both;"> </div>
+                <!--- Cities Combination List --->
+                <div id="dvWait" style="display:none;"><div class="spinner"></div></div>
+                <div id="dvCalContainerbyo">
+                    <div class="spinner"> </div>
+                </div>
+                <!--- Guest and Rooms --->
+                <div class="dvGuest">
+                    <label for="xiRoomsAndPax" class="labelSpc">Guest:</label>
+                    <input type="text" name="xiRoomsAndPaxText" id="xiRoomsAndPaxText" value="1 room for 2 adults" />
+                    <input name="xiRoomsAndPax" type="hidden" id="xiRoomsAndPax" value="1|2" />
+                    <div class="dvPaxTypes" id="dvPaxLabel">
+                        <div class="dvpaxRoom"> <span>&nbsp;</span></div>
+                        <div class="dvpaxRoom"> <span>Adults:</span></div>
+                        <div class="dvpaxRoom"> <span>Children:</span></div>
+                        <div class="dvpaxRoom"> <span id="spChAg">Child Ages:</span></div>
+                        <div class="dvClear"> </div>
+                    </div>
+                    <!-- Room 1 -->
+                    <div id="dvRoom1" class="dvRoomNum">
+                        <div class="dvpaxRoom"> <span>Room 1:</span></div>
+                        <div id="dvR1adults" class="dvpaxRoom">
+                            <input type="text" id="xiAdultsText" value="2" />
+                            <input name="xiAdults" type="hidden" id="xiAdults" value="2" />
+                        </div>
+                        <div id="dvR1children" class="dvpaxRoom">
+                            <input type="text" id="xiChildrenText" value="0" />
+                            <input name="xiChildren" type="hidden" id="xiChildren" value="0" />
+                        </div>
+                        <div id="dvR1child1" class="dvpaxRoomChAg">
+                            <input name="xiChild1" type="text" id="xiChild1" class="paxRoomChAg" value="" />
+                        </div>
+                        <div id="dvR1child2" class="dvpaxRoomChAg">
+                            <input name="xiChild2" type="text" id="xiChild2" class="paxRoomChAg" value="" />
+                        </div>
+                        <div id="dvR1child3" class="dvpaxRoomChAg">
+                            <input name="xiChild3" type="text" id="xiChild3" class="paxRoomChAg" value="" />
+                        </div>
+                        <div id="dvR1child4" class="dvpaxRoomChAg">
+                            <input name="xiChild4" type="text" id="xiChild4" class="paxRoomChAg" value="" />
+                        </div>
+                        <div class="dvClear"> </div>
+                    </div>
+                    <!-- Room 2 -->
+                    <div id="dvRoom2" class="dvRoomNum">
+                        <div class="dvpaxRoom"> <span>Room 2:</span></div>
+                        <div id="dvR2adults" class="dvpaxRoom">
+                            <input type="text" id="xRoom2_iAdultsText" value="2" />
+                            <input name="xRoom2_iAdults" type="hidden" id="xRoom2_iAdults" value="2" />
+                        </div>
+                        <div id="dvR2children" class="dvpaxRoom">
+                            <input type="text" id="xRoom2_iChildrenText" value="0" />
+                            <input name="xRoom2_iChildren" type="hidden" id="xRoom2_iChildren" value="0" />
+                        </div>
+                        <div id="dvR2child1" class="dvpaxRoomChAg">
+                            <input name="xRoom2_iChild1" type="text" id="xRoom2_iChild1" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div id="dvR2child2" class="dvpaxRoomChAg">
+                            <input name="xRoom2_iChild2" type="text" id="xRoom2_iChild2" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div id="dvR2child3" class="dvpaxRoomChAg">
+                            <input name="xRoom2_iChild3" type="text" id="xRoom2_iChild3" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div id="dvR2child4" class="dvpaxRoomChAg">
+                            <input name="xRoom2_iChild4" type="text" id="xRoom2_iChild4" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div class="dvClear"> </div>
+                    </div>
+                    <!-- Room 3-->
+                    <div id="dvRoom3" class="dvRoomNum">
+                        <div class="dvpaxRoom"> <span>Room 3:</span></div>
+                        <div id="dvR3adults" class="dvpaxRoom">
+                            <input type="text" id="xRoom3_iAdultsText" value="2" />
+                            <input name="xRoom3_iAdults" type="hidden" id="xRoom3_iAdults" value="2" />
+                        </div>
+                        <div id="dvR3children" class="dvpaxRoom">
+                            <input type="text" id="xRoom3_iChildrenText" value="0" />
+                            <input name="xRoom3_iChildren" type="hidden" id="xRoom3_iChildren" value="0" />
+                        </div>
+                        <div id="dvR3child1" class="dvpaxRoomChAg">
+                            <input name="xRoom3_iChild1" type="text" id="xRoom3_iChild1" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div id="dvR3child2" class="dvpaxRoomChAg">
+                            <input name="xRoom3_iChild2" type="text" id="xRoom3_iChild2" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div id="dvR3child3" class="dvpaxRoomChAg">
+                            <input name="xRoom3_iChild3" type="text" id="xRoom3_iChild3" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div id="dvR3child4" class="dvpaxRoomChAg">
+                            <input name="xRoom3_iChild4" type="text" id="xRoom3_iChild4" class="paxRoomChAg"
+                                   value="" />
+                        </div>
+                        <div class="dvClear"> </div>
+                    </div>
+                </div>
+                <div class="dvWording">
+                    Please contact us for any special arrangements such as more than three rooms and
+                    partial stays.
+                </div>
+                <div class="dvButtons">
+                    <input id="bContinue" type="button" value="Continue" onclick="submitToBook()" class="pricebutton" />
+                </div>
+                <div class="dvButtons" style="margin-top:15px">
+                    <span>or</span>
+                    <input id="bAddCity" type="button" value="Reset" onclick="resetPage()" class="resetbutton" />
+                </div>
+                <!-- PAX Rooms parameters -->
+                <input type="hidden" name="xselRooms" id="xselRooms" value="" />
+                <input name="xutm_campaign" type="hidden" id="xutm_campaign" value="" />
+                <input type="hidden" id="xtotCities" name="xtotCities" value="" />
+            </form>
+        </div>
+    </div>
+    <!-- end page container div -->
+</div>
+<div class="mask"></div>
+<div id="dvFixDates" onclick="$('#dvFixDates').hide();" style="display: none; border: 1px solid #CCCCCC; padding: 5px; width: 200px; background-color: #FFFFFF; position:absolute" align="left"> </div>
+<div id="content" style="position: relative; z-index: 3990;"> </div>
+<div id="dvError" class="bubble" style="display: none;">
+    <div id="dvErrMess"> </div>
+</div>
+
+<div id="dvPopUpGL" class="dvPopUpOrangeTopL">
+    <p class="pClose" onclick="hidePopUpInfo('dvPopUpGL')">close [X]</p>
+    <div id="dvPopContentL" class="dvPopContentL"></div>
+</div>
+<div id="dvPopUpGR" class="dvPopUpOrangeTopR">
+    <p class="pClose" onclick="hidePopUpInfo('dvPopUpGR')">close [X]</p>
+    <div id="dvPopContentR" class="dvPopContentR"></div>
+</div>
+<div id="dvPopCal" class="dvPopThinCal">
+    <p class="pClose" onclick="hidePopUpInfo('dvPopCal')">close [X]</p>
+    <div id="dvPopCalContent" class="dvPopCalContent"></div>
+</div>
+<div id="dvCalMask"></div>
+
+
+@section Scripts
+    {
+    <script type="text/javascript">var inDatePromo = '@calDate'</script>
+
+    <environment include="Development">
+        <script src="~/js/site/moment.js"></script>
+        <script src="~/js/byo/B.java.byoItinerary.js" asp-append-version="true"></script>
+        <script src="~/js/t21-29/dt.java.2.tabpriceguide.js" asp-append-version="true"></script>
+        <script src="~/js/t21-29/dt.java.1.tabpriceguide.support.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/site/moment.js"></script>
+        <script src="~/js/jq_second/jquery.extjasoncookie-0.2.js"></script>
+        <script src="~/js/byo/B.java.byoItinerary.min.js" asp-append-version="true"></script>
+        <script src="~/js/t21-29/t21_29.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

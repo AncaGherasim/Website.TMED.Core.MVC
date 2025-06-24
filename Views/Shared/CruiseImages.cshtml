@@ -1,0 +1,83 @@
+﻿@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+@Html.Raw(ViewBag.imageArray)
+
+<table wid@Htmlth="500" border="0" align="center" cellpadding="2" cellspacing="0">
+    <tr>
+        <td>
+            <div class="popUp_CR" style=" background-color:#FFFFFF">
+                <div class="popUp_CL">
+                    <div class="popUp_TC">
+                        <div class="popUp_BC">
+                            <div class="popUp_BL">
+                                <div class="popUp_BR">
+                                    <div class="popUp_TR">
+                                        <div class="popUp_TL" style="padding-bottom:50px; ">
+                                            <table width="90%" border="0" align="center" cellpadding="2" cellspacing="0">
+                                                <tr>
+                                                    <td valign="top" style="padding-top:20px;">
+                                                        <div class="Bx_Title_C" style="margin-top:10px;">
+                                                            <div class="Bx_Title_L">
+                                                                <div class="Bx_Title_R" style="padding-left:15px;">
+                                                                    <div style="float:left; padding-top:3px;" class="picsTitle">@ViewBag.ShipNa Photos</div>
+                                                                    <div id="closex" style="float:right; padding-top:5px;" class="closex" onClick="jHide()">close [x]</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top" style="padding-left:15px;; ">
+                                                        <div style="float:left; padding-top:5px;"><img id="pictureshow" src=@String.Format("https://pictures.tripmasters.com{0}", ViewBag.img0)></div>
+                                                        <div style="float:left">
+                                                            <table width="5%" collspacing="0" border="0" cellpadding="0" align="center">
+                                                                <tr>
+                                                                    @{
+                                                                        Int32 picBreak = 4;
+                                                                        Int32 picTotal = @ViewBag.TotaldvpicProd - 1;
+                                                                        for (Int32 pic = 0; pic <= @ViewBag.TotaldvpicProd - 1; pic++)
+                                                                        {
+                                                                            if (pic % picBreak == 0)
+                                                                            {
+                                                                                @Html.Raw("</tr><tr>")
+                                                                            }
+                                                                            if (pic == 0)
+                                                                            {
+                                                                                @Html.Raw("<td id=\"IDpic" + pic + "\" style=\"padding:3px\" class=\"BG_red\" onclick=\"fixward(this.id," + picTotal + ",'" + @ViewBag.dvpicProd[pic].IMG_Path_URL + "')\"><img  align=\"absmiddle\" border=\"0\" src=\"https://pictures.tripmasters.com" + @ViewBag.dvpicProd[pic].IMG_Path_URL + "\" width=\"40\" height=\"40\"></td>")
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                @Html.Raw("<td id=\"IDpic" + pic + "\" style=\"padding:3px\" class=\"\" onclick=\"fixward(this.id," + picTotal + ",'" + @ViewBag.dvpicProd[pic].IMG_Path_URL + "')\"><img  align=\"absmiddle\" border=\"0\" src=\"https://pictures.tripmasters.com" + @ViewBag.dvpicProd[pic].IMG_Path_URL + "\" width=\"40\" height=\"40\"></td>")
+                                                                            }
+                                                                        }
+                                                                    }
+
+
+
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top" style="padding-left:15px; "><div id="closex" style="float:right" class="closex" onClick="jHide()"><font color="#999999">close [x]</font></span></div></td>
+                                                </tr>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+

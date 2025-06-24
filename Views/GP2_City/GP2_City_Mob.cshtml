@@ -1,0 +1,401 @@
+﻿@model MVC_TMED.Models.ViewModels.GP2_CityViewModel
+@using Microsoft.Extensions.Options
+@using MVC_TMED.Infrastructure
+@inject IOptions<AppSettings> _appsettings
+@{
+    ViewData["Title"] = "GP2_City_Mob";
+}
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+}
+
+@section Styles{
+    <environment include="Development">
+        <link href="~/css/gpgp2_m/mb.style.gp2page.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/cms/css.CMS_HTMLOptimized.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/cms/css.CMS_htmlEditor.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/gpgp2_m/mb.style.gp2page.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/cms/css.CMS_HTMLOptimized.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/css/cms/css.CMS_htmlEditor.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+}
+
+@{
+
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(Model.Score, 1);
+    w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    Decimal lowP = 500;
+    Decimal highP = 9000;
+    List<Int64> offerPrices = new List<Int64>();
+    List<String> offerUrl = new List<string>();
+    string pack3Ids = "";
+    var pkC = 0;
+
+    if (Model.listFeatItin.Take(1).Count() > 0)
+    {
+        foreach (var z in Model.listFeatItin.Take(1))
+        {
+            if (z.STP_Save != 9999)
+            {
+                offerPrices.Add((Int32)z.STP_Save_);
+            }
+            offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", _appsettings.Value.ApplicationSettings.SiteName, z.CountryName.Replace(" ", "_").ToLower(), z.PDL_Title.Replace(" ", "_").ToLower(), z.PDLID));
+            pack3Ids = pack3Ids + z.PDLID + ", ";
+        }
+        if (Model.listFeatItin.Skip(1).Take(4).Count() > 0)
+        {
+            foreach (var o in Model.listFeatItin.Skip(1).Take(4))
+            {
+                if (o.STP_Save != 9999)
+                {
+                    offerPrices.Add((Int32)o.STP_Save_);
+                }
+                offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", _appsettings.Value.ApplicationSettings.SiteName, o.CountryName.Replace(" ", "_").ToLower(), o.PDL_Title.Replace(" ", "_").ToLower(), o.PDLID));
+                if (pkC == 0) { pack3Ids = pack3Ids + o.PDLID + ", "; };
+                if (pkC == 1) { pack3Ids = pack3Ids + o.PDLID; };
+                pkC++;
+            }
+        }
+        if (offerPrices.Count > 0)
+        {
+            lowP = offerPrices.Min();
+            highP = offerPrices.Max();
+        }
+    }
+    if (Model.packFeedCountC <= 0)
+    {
+        Model.packFeedCountC = 1;
+    }
+
+
+    <script type="application/ld+json">
+        {
+        "@@context" : "https://schema.org",
+        "@@type" : "Product",
+        "name" : "@Model.placeInfo.FirstOrDefault().STR_PlaceTitle Vacation",
+        "sku":"@Model.placeInfo.FirstOrDefault().STR_PlaceTitle-mob",
+        "mpn":"@Model.placeInfo.FirstOrDefault().STR_PlaceTitle-vac-mob",
+        "brand" : {
+        "@@type" : "Brand",
+        "name": "Tripmasters Europe",
+        @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/vacations\",", Model.placeInfo.FirstOrDefault().STR_PlaceTitle.Replace(" ","_").ToLower()))
+        "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+        },
+        "image":"https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+        "review":{
+        "@@type":"Review",
+        "name":"@Model.packFeedCountC",
+        "author":{
+        "@@type":"Organization",
+        "name":"Tripmasters"
+        }
+        },
+        "offers": {
+        "@@type": "AggregateOffer",
+        "priceCurrency":"USD",
+        "highPrice": "@highP",
+        "lowPrice": "@lowP",
+        "offerCount": "4",
+        "offers" : [
+        @foreach (var u in @offerUrl)
+        {@Html.Raw("{")
+        @Html.Raw('"'+"@type"+'"' + ":" + '"'+"Offer"+'"'+"," +
+         '"'+"url"+'"'+ ":" +'"'+ @u +'"');
+        @Html.Raw("}")
+        if (u != @offerUrl.Last())
+        {
+            @Html.Raw(",");
+        }
+    }
+        ]
+        },
+        "description" : "@Model.pageDescriptionC",
+        "additionalProperty" : "@Model.pageBannerText",
+        "aggregateRating": {
+        "@@type": "aggregateRating",
+        "ratingValue": "@overAllAvg",
+        "reviewCount": "@Model.packFeedCountC"
+        },
+        "sameAs":[
+        "https://twitter.com/tripmasters",
+        "https://www.facebook.com/Tripmasters",
+        "https://www.pinterest.com/tripmasters/",
+        "https://www.instagram.com/tripmasterstravel/",
+        "https://www.linkedin.com/company/tripmasters",
+        "https://en.everybodywiki.com/Tripmasters",
+        "https://www.youtube.com/tripmasters"
+        ]
+        }
+    </script>
+
+
+}
+<input type="hidden" id="plcID" value="@Model.placeInfo.FirstOrDefault().STR_PlaceID" />
+
+<div class="row bg-white">
+    <div class="col-12 font-weight-bold pt-2 pb-2 dvPlaceTitle">@Model.placeInfo.FirstOrDefault().STR_PlaceTitle Vacations</div>
+    @{
+        if (Model.allTopDisplay.Count > 0)
+        {
+            foreach (var top in Model.allTopDisplay)
+            {
+                if (top.SDP_DisplayTitle != "none")
+                {
+                    <div class="col-12 font-weight-bold pt-2 pb-2 dvCmsTitle">@top.SDP_DisplayTitle</div>
+                }
+                else
+                {
+                    <div class="col-12 dvCenterBoxTitle">@top.STX_Title</div>
+                }
+                <div class="col-12 pt-2 pb-2">@Html.Raw(top.CMS_Content.Replace("http:", "https:"))</div>
+            }
+        }
+    }
+
+</div>
+<div class="row bg-white">
+    <div class="col-12 text-capitalize pt-2 pb-2  border-top font-weight-bold dvFeatTitle">Best @Model.placeInfo.FirstOrDefault().STR_PlaceTitle Vacation Packages:</div>
+    <div class="col-12 w-100 pl-0 pr-0">
+        @{
+            Int32 kt = 0;
+            foreach (var oth in Model.listFeatItin)
+            {
+                if (kt == 3)
+                {
+                    @Html.Raw("</div>");
+                    @Html.Raw("<div class='collapse col-12 w-100 pl-0 pr-0 ' id='dvSuggItinHide'>");
+                }
+                <div class="row dvEachSuggest m-0 pb-2 pt-2 border-bottom">
+                    <div class="col-5 pr-2">
+                        <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(oth.IMG_Path_URL)" title="@oth.PDL_Title" alt="@oth.PDL_Title" />
+                    </div>
+                    <div class="col-7 pl-0 pr-2 dvSuggItinInfo collapsed btn" data-toggle="collapse" data-target="#dvSugg@(oth.PDLID)" role="button" aria-expanded="false">
+                        <span class="spSuggItinTtl d-inline-block font-weight-bold">@oth.PDL_Title</span>
+                        <span class="spNoOfNights d-inline-block">@oth.PDL_Duration nights from <b>@string.Format("{0:c}", oth.STP_Save_)</b></span>
+                        <span class="spCustRev d-inline-block">@oth.NoOfFeed Customer Reviews</span>
+                    </div>
+                    <div class="collapse col" id="dvSugg@(oth.PDLID)">
+                        <div class="col-12 dvMbSuggItinDesc pl-0 pr-0 pt-4">@Html.Raw(oth.SPD_Description)</div>
+                        <div class="col-12 pl-0 pr-0 dvMbSuggItinIncl">
+                            <p><b>Included:</b></p>
+                            <ul class="p-0 pl-3">
+                                @{
+                                    string[] includelist = oth.PDL_Content.Split("\r\n");
+                                    foreach (var i in includelist)
+                                    {
+                                        <li>@Html.Raw(i)</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                        <div class="btn btn-block dvFeatViewIt"> <a asp-controller="Package" asp-action="Index" asp-route-id="@oth.PDLID" asp-route-Country=@String.Format("{0}",oth.CountryName.Replace(" ", "_").ToLower()) asp-route-name="@oth.PDL_Title.Replace(" ", "_").ToLower()" style="color:black">View it</a></div>
+                    </div>
+                </div>
+
+                ++kt;
+            }
+
+
+        }
+    </div>
+    @if (kt > 3)
+    {
+        <div class=" mx-auto mt-3" style="display: unset;">
+            <div class="col-12 text-center" style="padding:10px 0;">
+                <button class="btn btn-block dvFeatViewIt" style="width:115%" data-toggle="collapse" data-target="#dvSuggItinHide" aria-expanded="false" aria-controls="dvSuggItinHide">See all Featured Itineraries</button>
+            </div>
+        </div>
+    }
+</div>
+<div class="row bg-white">
+    @{
+        foreach (var bx in Model.leftDisplay)
+        {
+            switch (bx.SDP_GroupProdKindID)
+            {
+                case 2032:
+                    <div class="col-12 border border-right-0 border-left-0">
+                        <div class="col-12 pl-0 pr-0 pt-1 pb-2 dvBoxTabMapTitle">@bx.SDP_DisplayTitle</div>
+                        <div class="dvBoxMapLink">
+                            <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com/siteassets/d/map_icon.png", _appsettings.Value.ApplicationSettings.SiteName) />
+                            <span class="col-10 pl-0 pt-1">Map of Point of Interest</span>
+                        </div>
+
+                    </div>
+                    break;
+                case 1621:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @foreach (var item in Model.boxContent)
+                            {
+                                if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                {
+                                    <a class="list-group-item list-group-item-action aLinkBox" href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,@item.STX_URL.ToLower())>@item.STX_Title</a>
+                                }
+
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1880:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="col-12 collapse pt-2 pb-2" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var cms in Model.leftCMS)
+                                {
+                                    <a class="d-block pl-3 pt-1 pb-1 aCms" href=@String.Format("/cms/{0}",@cms.CMSID) title="@cms.CMSW_Title">@cms.CMSW_Title</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1622:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="col-12 collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var item in Model.boxContent)
+                                {
+                                    if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                    {
+                                        <a class="d-block pl-3 pt-1 pb-1 aCms" href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,@item.STX_URL.ToLower()) title="@item.STX_Title">@item.STX_Title</a>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1623:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var item in Model.boxContent)
+                                {
+                                    if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                    {
+                                        <a class="border-bottom aRegion" href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,@item.STX_URL.ToLower())>
+                                            <div class="row pt-2 pb-2 pl-3 pr-3">
+                                                <div class="col-3">
+                                                    <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@item.STX_PictureURL.Replace("http:", "https:").ToLower()" />
+                                                </div>
+                                                <div class="col-9 pt-3 pb-3 pl-0">@item.STX_Title</div>
+                                            </div>
+                                        </a>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1619:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var item in Model.boxContent)
+                                {
+                                    if (bx.SDP_GroupProdKindID == item.STX_ProdKindID)
+                                    {
+                                        <a href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,@item.STX_URL.ToLower())>
+                                            <div class="row pt-2 pb-2 mx-auto dvMoreExplo">
+                                                <div class="col-12 text-left font-weight-bold pt-2 pb-2">@item.STX_Title</div>
+                                                <div class="col-5">
+                                                    <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@item.STX_PictureURL.Replace("http:", "https:").ToLower()" />
+                                                </div>
+                                                <div class="col-7 d-inline-block dvText12 text-dark">@Html.Raw(item.STX_Description)</div>
+                                            </div>
+                                        </a>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                case 1883:
+                    <div class="col-12 pt-1 pb-1  pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" id="btnTab" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-controls="dvShow@(bx.SDP_GroupProdKindID)" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                Int32 k = 0;
+                                foreach (var cty in Model.citesOnCountry)
+                                {
+                                    if (k == 7)
+                                    {
+                                        @Html.Raw("<button type='button' class='list-group-item list-group-item-action' id='btnMore' data-target='#dvSecondShow" + bx.SDP_GroupProdKindID + "' data-toggle='collapse' aria-expanded='false'>More Cities >></button>")
+                                        @Html.Raw("</div>");
+                                        @Html.Raw("<div class='list-group list-group-flush collapse' id='dvSecondShow" + bx.SDP_GroupProdKindID + "'>");
+                                    }
+                                    <button type="button" class="list-group-item list-group-item-action btnCty" id="btnCty@(cty.STR_PlaceID)" data-target="#dvCtyInfo@(cty.STR_PlaceID)" data-toggle="collapse" aria-expanded="false">@cty.STR_PlaceTitle</button>
+                                    <div class="row mx-auto collapse" id="dvCtyInfo@(cty.STR_PlaceID)">
+                                        <div class="col-12 text-right pt-3 pb-3">
+                                            <a class="font-weight-bold aCtyInfo" href=@String.Format("{0}/{1}/vacations", _appsettings.Value.ApplicationSettings.SiteName,@cty.STR_PlaceTitle.Replace(" ","_").ToLower() )>View @cty.STR_PlaceTitle</a>
+                                        </div>
+                                        <div class="col-12">@Html.Raw(cty.STR_PlaceShortInfo)</div>
+                                    </div>
+                                    k++;
+                                }
+
+                            }
+                            <button type="button" class="list-group-item list-group-item-action" id="btnClsMore" data-target="#dvSecondShow@(bx.SDP_GroupProdKindID)" data-toggle='collapse' aria-expanded='false'> Close More Cities >></button>
+                        </div>
+
+                    </div>
+
+                    break;
+                case 1884:
+                    <div class="col-12 pl-0 pr-0 border border-right-0 border-left-0 border-bottom-0">
+                        <button type="button" class="btn btn-outline-light btn-block text-left pt-2 pb-2 border-0 font-weight-bold btnTabs collapsed" data-target="#dvShow@(bx.SDP_GroupProdKindID)" data-toggle="collapse" aria-expanded="false">@bx.SDP_DisplayTitle</button>
+                        <div class="list-group list-group-flush collapse" id="dvShow@(bx.SDP_GroupProdKindID)">
+                            @{
+                                foreach (var item in Model.arrpCombCountry.Where(x => x.CouNA != Model.placeInfo.FirstOrDefault().CountryNA).OrderBy(x => x.CouNA).Select(x => x.CouNA).Distinct())
+                                {
+                                    <a class="list-group-item list-group-item-action" href=@String.Format("{0}/{1}_-_{2}/combine", _appsettings.Value.ApplicationSettings.SiteName, @Model.placeInfo.FirstOrDefault().CountryNA.Replace(" ", "_").ToLower(), @item.Replace(" ", "_").ToLower()) title="Combine @Model.placeInfo.FirstOrDefault().CountryNA with @item">@item</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+</div>
+<div class="row bg-white">
+    <div class="col-12 pl-0 pr-0 border border-left-0 border-right-0">
+        <a href="https://www.tripmasters.com/build_your_own_vacation" class="btn btn-outline-light btn-block text-left text-dark aCustItin border-0">Customize your Itinerary</a>
+        <a href="https://www.tripmasters.com/build_your_own_vacation" class="pl-2 border-0"><img class="img-fluid pb-3 delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/m/BYO.jpg" /></a>
+    </div>
+</div>
+<div class="row bg-white">
+
+    <div class="col-12 text-uppercase font-weight-bold pt-2 pb-0 customerRev">customer reviews</div>
+    <div class="col-12 pMtab">
+        <div class="emptyStars mt-1"></div>
+        <div class="fullStars mt-1" style="width:@(w)px"></div>
+        <div class="darkText col">@overAllAvg out of 5 stars</div>
+        <div class="col-12 pl-1" style="font-weight: 700;font-size:12px;top:12px">@Model.packFeedCountC Reviews</div>
+    </div>
+</div>
+<div class="row bg-white">
+    <a role="button" class="btn btn-outline-light btn-block border-0 text-left font-weight-bold pt-3 pb-3 btnFeed" href=@String.Format("{0}/{1}/trips_taken_by_travelers", _appsettings.Value.ApplicationSettings.SiteName, Model.placeInfo.FirstOrDefault().STR_PlaceTitle.Replace(" ", "_").ToLower())>Feedback from our Travelers - @Model.placeInfo.FirstOrDefault().STR_PlaceTitle</a>
+</div>
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/gpgp2_m/mb.java.gp2page.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/gpgp2_m/mb.java.gp2page.min.js"></script>
+    </environment>
+
+}
+

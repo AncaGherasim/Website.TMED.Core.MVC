@@ -1,0 +1,1037 @@
+﻿@using Microsoft.Extensions.Options
+@using MVC_TMED.Infrastructure;
+@inject IOptions<AppSettings> _appsettings
+
+<style>
+    /* **** NEW CALENDAR *** */
+    .dvSpin {
+        display: flex;
+        justify-content: center;
+        height: 300px;
+    }
+
+    .dvSpin img {
+        margin: auto;
+    }
+    .select-css {
+        display: block;
+        font-size: 11px;
+        font-family: arial;
+        line-height: 1.21;
+        padding: 4px 3px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 10px 0 0 0;
+        border: 1px solid #999;
+        border-radius: .5em;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #fff;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'), linear-gradient(to bottom, #fff 0%,#fff 0%);
+        background-repeat: no-repeat, repeat;
+        background-position: right .7em top 50%, 0 0;
+        background-size: .65em auto, 100%;
+    }
+
+        .select-css::-ms-expand {
+            display: none;
+        }
+
+        .select-css:hover {
+            border-color: #888;
+        }
+
+        .select-css:focus {
+            border-color: #aaa;
+            box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+            box-shadow: 0 0 0 3px -moz-mac-focusring;
+            color: #222;
+            outline: none;
+        }
+
+        .select-css option {
+            font-weight: normal;
+        }
+
+    .select-css-stay {
+        margin: 0 !important
+    }
+
+    .select-css-child {
+        width: 15% !important
+    }
+
+    .select-css-stayT {
+        margin: -31px 0 0 0 !important
+    }
+
+    div.dvTransportation {
+        position: relative;
+        margin: 0 auto;
+        z-index: 910;
+        display: none;
+        width: 980px; 
+    }
+
+    div.dvtranspLoad {
+        background: #fff none repeat scroll 0 0;
+        border: 1px solid #648ad1;
+        border-radius: 6px;
+        box-shadow: 0 0 10px #648ad1 inset;
+        height: auto;
+        margin: 0 auto;
+        max-width: 900px;
+        min-width: 900px;
+        padding: 15px 25px;
+        text-align: left
+    }
+
+    .spRemoveCity {
+        padding: 0 !important;
+        position: relative;
+        top: 10px;
+        background: none !important;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 12px
+    }
+
+        .spRemoveCity:hover {
+            color: red
+        }
+
+    .dvtranspMainContainer {
+        max-width: 900px;
+        min-width: 900px;
+        margin: 0 auto;
+        height: auto;
+        padding: 15px 25px;
+        border: 1px solid #648AD1;
+        text-align: left;
+        border-radius: 6px;
+        -webkit-box-shadow: inset 0 0 10px #648AD1;
+        -moz-box-shadow: inset 0 0 10px #648AD1;
+        box-shadow: inset 0 0 10px #648AD1;
+        background: #FFF
+    }
+
+    .dvtranspTitle {
+        border-bottom: 1px solid #36F;
+        padding: 5px
+    }
+
+        .dvtranspTitle span:nth-child(1) {
+            float: left;
+            text-transform: uppercase;
+            font-size: 18px
+        }
+
+        .dvtranspTitle span:nth-child(2) {
+            float: right;
+            font-size: 11px;
+            cursor: pointer
+        }
+
+    .dvtranspChooseReg {
+        position: relative;
+        margin: 25px 0
+    }
+
+        .dvtranspChooseReg span {
+            color: #fff;
+            padding: 0 40px;
+            background: #999;
+            border-radius: 5px;
+            line-height: 35px;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer
+        }
+
+            .dvtranspChooseReg span.spselect {
+                background: #0065b8
+            }
+
+            .dvtranspChooseReg span font {
+                color: #F90;
+                margin: 0 3px;
+                font-weight: 700;
+                font-size: 14px;
+                position: absolute;
+                left: 15px
+            }
+
+    .dvtranspByoCalTools {
+        position: relative;
+        margin-bottom: 30px;
+        display: none;
+    }
+
+    .dvtranspIntlFly span {
+        background: #999;
+        color: #fff;
+        padding: 10px 15px;
+        cursor: pointer
+    }
+
+        .dvtranspIntlFly span.spselect {
+            background: #0065b8
+        }
+
+    .dvtranspByoCalTools span:nth-child(3) {
+        background: none;
+        color: #000
+    }
+
+    .dvtranspIntlFly {
+        position: relative;
+        margin: 25px 0
+    }
+
+    .dvtranspAirParam {
+        position: relative;
+        margin-bottom: 25px
+    }
+
+        .dvtranspAirParam div {
+            float: left
+        }
+
+            .dvtranspAirParam div:nth-child(1) {
+                width: 36%;
+                margin-right: 30px
+            }
+
+            .dvtranspAirParam div:nth-child(2) {
+                width: 20%
+            }
+
+        .dvtranspAirParam label {
+            float: left;
+            width: 100%;
+            margin-bottom: 5px;
+            color: #000;
+            font-size: 14px
+        }
+
+        .dvtranspAirParam input[type="text"] {
+            width: 100%;
+            padding: 5px 0;
+            border: none;
+            font-weight: 700;
+            font-size: 14px;
+            color: #333;
+            font-family: Arial,Helvetica,sans-serif
+        }
+
+        .dvtranspAirParam select {
+            width: 160px;
+            padding: 5px 8px;
+            border: 1px solid #ccc
+        }
+
+            .dvtranspAirParam select option {
+                font-size: 14px
+            }
+
+    .dvtranspLabels {
+        font-size: 14px;
+        margin: -5px 0 5px;
+        padding: 10px 0 0 5px
+    }
+
+    .dvtranspCityList {
+        border-radius: 6px;
+        margin-bottom: 2px;
+        height: auto;
+        line-height: 40px;
+        padding: 0 0 0 5px;
+        font-size: 14px
+    }
+
+        .dvtranspCityList:nth-child(odd) {
+            background-color: #F9FBFD
+        }
+
+        .dvtranspCityList:nth-child(even) {
+            background-color: #E3E9F5
+        }
+
+        .dvtranspCityList div span {
+            background: none !important;
+            color: #333
+        }
+
+            .dvtranspCityList div span b {
+                font-size: 14px
+            }
+
+        .dvtranspCityList div select {
+            width: 100px;
+            padding: 5px 8px;
+            border: 1px solid #ccc
+        }
+
+    .sptranspRemoveCity {
+        font-size: 12px;
+        cursor: pointer;
+        color: blue
+    }
+
+        .sptranspRemoveCity:hover {
+            color: red;
+            text-decoration: underline
+        }
+
+    .dvtranspLabels div:nth-child(1), .dvtranspCityList div:nth-child(1) {
+        width: 28%;
+        float: left
+    }
+
+    .dvtranspLabels div:nth-child(2), .dvtranspCityList div:nth-child(2) {
+        width: 14%;
+        float: left
+    }
+
+    .dvtranspLabels div:nth-child(3), .dvtranspCityList div:nth-child(3) {
+        width: 14%;
+        float: left;
+        height: 10px
+    }
+
+    .dvtranspLabels div:nth-child(4), .dvtranspCityList div:nth-child(4) {
+        width: 43%;
+        float: left
+    }
+
+    .dvtranspCityList div:nth-child(2) span {
+        padding: 10px 2px
+    }
+
+    .dvtranspCityList div:nth-child(3) span {
+        padding: 10px 5px
+    }
+
+    .ptranspCheck {
+        margin: 3px 0 0;
+        padding: 0 0 0 5px;
+        display: none
+    }
+
+    .ptranspSelAct {
+        display: block;
+        line-height: 35px;
+        margin: 3px 0 0;
+        width: 395px;
+        padding: 0 0 0 5px;
+        float: left
+    }
+
+    .ptranspSelNoAct {
+        display: none;
+        line-height: 35px;
+        margin: 3px 0 0;
+        width: 395px;
+        padding: 0 0 0 5px;
+        float: left
+    }
+
+        .ptranspSelAct span, .ptranspSelNoAct span {
+            float: left;
+            padding: 0;
+            margin: 0
+        }
+
+            .ptranspSelAct span:nth-child(1) {
+                width: 300px
+            }
+
+    a.atranspRemoveCity {
+        font-size: 12px;
+        color: #00F;
+        text-decoration: underline
+    }
+
+    .buttontranspChange {
+        background: #ccc linear-gradient(to bottom,#fff 35%,#ccc 95%) repeat scroll 0 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        color: #00F;
+        cursor: pointer;
+        padding: 2px 5px;
+        width: 60px;
+        font-size: 12px;
+        margin: 0 10px;
+        text-align: center
+    }
+
+        .buttontranspChange:hover {
+            background: #ccc linear-gradient(to top,#fff 35%,#ccc 95%) repeat scroll 0 0
+        }
+
+    span.dvCarOpt {
+        margin: 1px 0 3px;
+        float: left;
+        padding: 0 !important;
+        display: none
+    }
+
+        span.dvCarOpt span {
+            margin-top: 1px;
+            float: left;
+            padding: 9px 0 !important
+        }
+
+    .dvCarOpt input[type="text"] {
+        background-color: #fff;
+        background-image: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif);
+        background-position: right center;
+        background-repeat: no-repeat;
+        border: 1px solid #666;
+        border-radius: 6px;
+        color: #333;
+        font-size: 12px;
+        height: 17px;
+        outline: 0 none;
+        padding: 0 0 0 5px;
+        width: 25%
+    }
+
+    .dvCarUpOff {
+        text-align: left;
+        padding: 3px 0;
+        font-size: 11px;
+        font-family: Arial,Helvetica,sans-serif;
+        color: #000;
+        line-height: 8px;
+        margin: 0;
+        display: block
+    }
+
+        .dvCarUpOff span {
+            display: block;
+            padding-top: 4px;
+            width: 45px;
+            margin-right: 2px;
+            float: left
+        }
+
+        .dvCarUpOff select {
+            margin-right: 2px;
+            float: left;
+            width: auto !important;
+            min-width: 100px;
+        }
+
+            .dvCarUpOff select option {
+                font-size: 12px
+            }
+
+    div.dvtranspRooms {
+        font-size: 14px
+    }
+
+        div.dvtranspRooms p {
+            margin: 20px 0 10px;
+            width: 265px;
+            display: inline-block
+        }
+
+            div.dvtranspRooms p select {
+                padding: 3px 8px;
+                width: 264px;
+                font-size: 12px;
+                margin: 5px 0 0
+            }
+
+                div.dvtranspRooms p select option {
+                    font-size: 12px;
+                    padding: 3px 0
+                }
+
+                    div.dvtranspRooms p select option.hrDots {
+                        border: none;
+                        border-top: 1px dotted #666;
+                        color: #fff;
+                        height: 1px;
+                        width: 90%;
+                        background: none;
+                        margin: 7px auto
+                    }
+
+    hr.hrDots {
+        border: none;
+        border-top: 1px dotted #666;
+        color: #fff;
+        height: 1px;
+        width: 90%;
+        background: none;
+        margin: 7px auto
+    }
+
+    div.dvtranspAdultChild {
+        padding: 5px 0;
+        font-size: 11px;
+        display: none
+    }
+
+        div.dvtranspAdultChild p {
+            margin: 0 0 5px;
+            font-size: 11px;
+            display: none
+        }
+
+            div.dvtranspAdultChild p span {
+                background: #FFF;
+                float: left;
+                color: #000;
+                padding: 0 5px;
+                line-height: 40px;
+                width: 35%;
+            }
+
+                div.dvtranspAdultChild p span:nth-child(1), div.dvtranspAdultChild p span:nth-child(2), div.dvtranspAdultChild p span:nth-child(3) {
+                    width: 55px
+                }
+
+            div.dvtranspAdultChild p select {
+                padding: 3px 8px;
+                font-size: 11px;
+                margin: 5px 0 0
+            }
+
+                div.dvtranspAdultChild p select option {
+                    font-size: 12px;
+                    padding: 3px 0
+                }
+
+            div.dvtranspAdultChild p span:nth-child(4), div.dvtranspAdultChild p span:nth-child(4) select, div.dvtranspAdultChild p span:nth-child(4) label {
+                display: none
+            }
+
+                div.dvtranspAdultChild p span:nth-child(4) label {
+                    margin: 0 3px 0 5px
+                }
+
+    div.dvContinueButton {
+        padding: 0 20px 0 0;
+        text-align: right
+    }
+
+        div.dvContinueButton span.btnContinue {
+            background: #2c3c9c linear-gradient(to bottom,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0;
+            border: 1px solid #1b2560;
+            border-radius: 5px;
+            color: #fff;
+            padding: 10px 75px;
+            width: auto;
+            font-size: 14px;
+            cursor: pointer
+        }
+
+            div.dvContinueButton span.btnContinue:hover {
+                background: #2c3c9c linear-gradient(to top,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0
+            }
+
+    .moreViewed {
+        background: #fffecd linear-gradient(to bottom,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0;
+        border: 1px solid #d9a300;
+        cursor: pointer;
+        max-width: 260px;
+        margin: 30px auto;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px
+    }
+
+        .moreViewed:hover {
+            background: #fffecd linear-gradient(to top,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0
+        }
+
+        .moreViewed span {
+            float: right;
+            font-size: 28px;
+            position: relative;
+            top: -12px
+        }
+
+    div.moreButton {
+        background: #fffecd linear-gradient(to bottom, #fffecd 18%, #fffecd 4%, #ffd968 50%, #ffd968 100%) repeat scroll 0 0;
+        border: 1px solid #d9a300;
+        color: #000;
+        cursor: pointer;
+        font-size: 14px !important;
+        margin: 0 auto;
+        max-width: 240px;
+        padding: 10px 15px 10px 20px;
+        width: auto;
+    }
+
+        div.moreButton:hover {
+            background: #fffecd linear-gradient(to top,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0
+        }
+
+        div.moreButton span {
+            float: right;
+            font-size: 28px;
+            position: relative;
+            top: -6px;
+            transform: rotate(90deg)
+        }
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+
+    .byocombo {
+        background-color: #fff;
+        border: 1px solid #999;
+        border-radius: 5px;
+        color: #333;
+        font-size: 11px;
+        outline: 0 none;
+        padding: 5px 0 4px 5px;
+    }
+
+    .ngtscombo {
+        background-color: #fff;
+        background-position: right center;
+        background-repeat: no-repeat;
+        border: 1px solid #999;
+        border-radius: 5px;
+        color: #333;
+        font-size: 11px;
+        outline: 0 none;
+        padding: 5px 0 3px 1px;
+        width: 97%;
+    }
+
+    .errorClass {
+        border: 2px solid red !important;
+        color: red;
+    }
+</style>
+
+<!-- MAIN CALENDAR CONTAINER -->
+<div class="dvMask"></div>
+<div class="dvMcompList">
+    <form id="formToBooking" name="formToBooking" method="post"  target="_blank">
+        <input type="hidden" name="iRoom" id="iRoom" value="" />
+        <input type="hidden" name="Rooms" id="Rooms" value="" />
+        <!-- *** Standard Control *** -->
+        <input type="hidden" name="SystemID" id="SystemID" value="">
+        <input type="hidden" name="GeneralLoc" id="GeneralLoc" value="@_appsettings.Value.ApplicationSettings.GeneralLoc" />
+        <input type="hidden" name="bFirst" id="bFirst" value="@_appsettings.Value.ApplicationSettings.bFirst" />
+        <input type="hidden" name="PkgId" id="PkgId" value="">
+        <!-- **** NEW PARAMETER FROM WEB SERVISE RESPONSE -->
+        <input type="hidden" name="PackageComponentList" id="PackageComponentList" value="" />
+        <!-- VALUES = "" TO RESOLVE ON ASP -->
+        <input type="hidden" name="sortFlag" id="sortFlag" value="P" />
+        <input type="hidden" name="MinStay" id="MinStay" value="4" />
+        <input type="hidden" name="MaxStay" id="MaxStay">
+        <input type="hidden" name="ByStayNite" id="ByStayNite" value="" />
+        <input type="hidden" name="GetNextDay" id="GetNextDay" value="" />
+        <!-- API(s) FOR SS, TIC and Transfer -->
+        <input type="hidden" name="SSVendorAPI" id="SSVendorAPI" value="" />
+        <input type="hidden" name="TransferVendorAPI" id="TransferVendorAPI" value="" />
+        <input type="hidden" name="PickUpTime" id="PickUpTime">
+        <input type="hidden" name="DropOffTime" id="DropOffTime">
+        <input type="hidden" name="PickUpTime2" id="PickUpTime2">
+        <input type="hidden" name="DropOffTime2" id="DropOffTime2">
+        <!-- CAR -->
+        <input type="hidden" name="CarVendorAPI" id="CarVendorAPI" value="" />
+        <input type="hidden" name="addCar" id="addCar" value="True" />
+        <!-- TRAIN INPUT name=TICVendorAPI type=hidden value="TX1" -->
+        <input type="hidden" name="TICVendorAPI" id="TICVendorAPI" value="" />
+        <!--TX1-->
+        <!-- *** Air Parameter  -->
+        <input type="hidden" name="addFlight" id="addFlight" value="" />
+        <input type="hidden" name="AirVendorAPI" id="AirVendorAPI" value="" />
+        <input type="hidden" name="Cabin" id="Cabin" value="" />
+        <input type="hidden" name="iAirPref" id="iAirPref" />
+        <input type="hidden" name="iDepCity" id="iDepCity" value="" />
+        <input type="hidden" name="iRetCity" id="iRetCity" value="" />
+        <!-- Air Transfer Point2Point -->
+        <input type="hidden" name="AirP2PVendorAPI" id="AirP2PVendorAPI" value="" />
+        <input type="hidden" name="iOutTime" id="iOutTime" value="@_appsettings.Value.ApplicationSettings.iOutTime" />
+        <input type="hidden" name="iInTime" id="iInTime" value="@_appsettings.Value.ApplicationSettings.iInTime" />
+        <input type="hidden" name="addTransfer_IC" id="addTransfer_IC" value="True" />
+        <!-- City S and E -->
+        <input type="hidden" name="StayCityS" id="StayCityS" value="">
+        <input type="hidden" name="StayCityS_Name" id="StayCityS_Name" value="" />
+        <input type="hidden" name="StayCityE" id="StayCityE" value="" />
+        <input type="hidden" name="StayCityE_Name" id="StayCityE_Name" value="" />
+        <!-- GENERAL -->
+        <input type="hidden" name="PkgInstance" id="PkgInstance" value="0" />
+        <input name="utm_campaign" type="hidden" id="utm_campaign" value="" />
+        <input type="hidden" id="goingDep" name="goingDep" value="" />
+        <!-- PAX INFO -->
+        <input type="hidden" name="iRoomsAndPax" id="iRoomsAndPax" value="" />
+        <input type="hidden" name="iAdults" id="iAdults" value="">
+        <input type="hidden" name="iChildren" id="iChildren" value="" />
+        <input type="hidden" name="iChild1" id="iChild1" value="">
+        <input type="hidden" name="iChild2" id="iChild2" value="">
+        <input type="hidden" name="iChild3" id="iChild3" value="">
+        <input type="hidden" name="iChild4" id="iChild4" value="">
+        <input type="hidden" name="Room2_iAdults" id="Room2_iAdults" value="" />
+        <input type="hidden" name="Room2_iChildren" id="Room2_iChildren" value="">
+        <input type="hidden" name="Room2_iChild1" id="Room2_iChild1" value="">
+        <input type="hidden" name="Room2_iChild2" id="Room2_iChild2" value="">
+        <input type="hidden" name="Room2_iChild3" id="Room2_iChild3" value="">
+        <input type="hidden" name="Room2_iChild4" id="Room2_iChild4" value="">
+        <input type="hidden" name="Room3_iAdults" id="Room3_iAdults" value="" />
+        <input type="hidden" name="Room3_iChildren" id="Room3_iChildren" value="">
+        <input type="hidden" name="Room3_iChild1" id="Room3_iChild1" value="">
+        <input type="hidden" name="Room3_iChild2" id="Room3_iChild2" value="">
+        <input type="hidden" name="Room3_iChild3" id="Room3_iChild3" value="">
+        <input type="hidden" name="Room3_iChild4" id="Room3_iChild4" value="">
+        <!-- GIVendorAPI -->
+        <input type="hidden" id="GIVendorAPI" name="GIVendorAPI" value="@_appsettings.Value.ApplicationSettings.GIVendorAPI" />
+    </form>
+</div>
+<div id="dvTransOptResp">
+    <div id="dvOptions"></div>
+</div>
+
+<div id="myModal" class="modal">
+</div>
+
+<div class="dvTransportation">
+    <div id="dvTranspError" class="dvtranspMainContainer" style="display: none">
+        <div class="dvtranspTitle">
+            <span style="color: #F00">Error</span> <span class="goToStartAgain">
+                <u>Start again</u>
+                <img src="https://pictures.tripmasters.com/siteassets/d/startover.gif" width="29" height="27" align="absmiddle" alt="" />
+            </span>
+            <br style="clear: both" />
+        </div>
+        <div class="dvtranspByoCalTools">
+            <p>We can not build an itinerary with:</p>
+            <ul id="sptrancities">
+            </ul>
+            <p>please try another combination.</p>
+        </div>
+    </div>
+    <div id="dvWaitGlobe"></div>
+
+    <!--- START - Transp Option --->
+    <div class="dvtranspMainContainer">
+        <!-- Calendar Title  -->
+        <div class="dvtranspTitle">
+            <span>Multiple Cities</span> <span class="goToStartAgain">
+                <u>Start again</u>
+                <img src="https://pictures.tripmasters.com/siteassets/d/startover.gif" width="29" height="27" align="absmiddle" alt="" />
+            </span>
+            <br style="clear: both" />
+        </div>
+        <div class="dvSpin">
+            <img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" />
+        </div>
+        <!-- Calendar Air parameters  -->
+        <div class="dvtranspByoCalTools">
+            <form id="frmTransp" method="post" name="frmTransp">
+                <input type="hidden" id="xgoingID" name="xgoingID" value="" />
+                <div class="dvtranspIntlFly">
+                    <span class="goToStartAgain">With Air *</span> <span class="goToStartAgain">Without Air *</span> <span>* from U.S.A / Canada</span>
+                    <input name="xaddFlight" type="hidden" id="xaddFlight" value="True" />
+                    <input name="xLeaveCO" type="hidden" id="xLeaveCO" value="" />
+                </div>
+                <div class="dvtranspAirParam">
+                    <div>
+                        <label for="xtxtLeavingFrom">Leaving from:</label>
+                        <input id="xtxtLeavingFrom" type="text" value="" name="xtxtLeavingFrom" />
+                        <input name="xidLeavingFrom" type="hidden" id="xidLeavingFrom" value="" />
+                    </div>
+                    <div>
+                        <label for="xCabin">Cabin Class:</label>
+                        <select id="xCabin" name="xCabin" class="select-css">
+                            <option value="Y">Economy</option>
+                            <option value="W">Premium Economy</option>
+                            <option value="C">Business</option>
+                            <option value="F">First Class</option>
+                        </select>
+                        <input name="xtxtBYArriving" id="xtxtBYArriving" style="text-align: center" value="" type="hidden">
+                    </div>
+                    <br style="clear: both" />
+                </div>
+                <!-- Cities list titles -->
+                <div class="dvtranspLabels">
+                    <div>Going to:</div>
+                    <div>Arriving on:</div>
+                    <div>Staying for:</div>
+                    <div><b>Travel by:</b></div>
+                    <br style="clear: both;" />
+                </div>
+                <!-- PAX Rooms parameters -->
+                <div class="dvtranspRooms">
+                    <input type="hidden" name="xiRoom" id="xiRoom" value="1">
+                    <input type="hidden" name="xRooms" id="xRooms" value="1">
+                    <p>
+                        <label for="xiRoomsAndPax">Guest:</label>
+                        <select name="xiRoomsAndPax" id="xiRoomsAndPax" onchange="selectRoomPax(this.value)" class="select-css">
+                            <option value="1|1">1 room for 1 adult</option>
+                            <option value="1|2" selected>1 room for 2 adults</option>
+                            <option value="1|3">1 room for 3 adults</option>
+                            <option value="1|Other">1 room with children or other options</option>
+                            <option value="-1" class="hrDots" disabled></option>
+                            <option value="2|2-2">2 rooms for (2 adults + 2 adults)</option>
+                            <option value="2|3-3">2 rooms for (3 adults + 3 adults)</option>
+                            <option value="2|Other">2 rooms with children or other options</option>
+                            <option value="-1" class="hrDots" disabled></option>
+                            <option value="3|2-2-2">3 rooms for (2 adults + 2 adults + 2 adults)</option>
+                            <option value="3|Other">3 rooms with children or other options</option>
+                        </select>
+                    </p>
+                </div>
+                @{
+                    string paxAdults = "";
+                    for (Int32 p = 0; p <= 6; p++)
+                    {
+                        if (p == 0)
+                        {
+                            paxAdults = paxAdults + "<option value=\"" + p + "\" selected>" + p + "</option>";
+                        }
+                        if (p != 0)
+                        {
+                            paxAdults = paxAdults + "<option value=\"" + p + "\">" + p + "</option>";
+                        }
+                    }
+                    string paxChild = "";
+                    for (Int32 d = 0; d <= 2; d++)
+                    {
+                        if (d == 0)
+                        {
+                            paxChild = paxChild + "<option value=\"" + d + "\" selected>" + d + "</option>";
+                        }
+                        if (d > 0)
+                        {
+                            paxChild = paxChild + "<option value=\"" + d + "\">" + d + "</option>";
+                        }
+                    }
+                    string childAge = "";
+                    for (Int32 c = 1; c <= 11; c++)
+                    {
+                        if (c == 1)
+                        {
+                            childAge = childAge + "<option value=\"-1\" selected></option>";
+                        }
+                        if (c == 2)
+                        {
+                            childAge = childAge + "<option value=\"" + c + "\">" + c + "</option>";
+                        }
+                        if (c > 2)
+                        {
+                            childAge = childAge + "<option value=\"" + c + "\">" + c + "</option>";
+                        }
+                    }
+                }
+                <div class="dvtranspAdultChild">
+                    <p id="pPaxLabels">
+                        <span>&nbsp;</span> <span>Adults:</span> <span>Children:</span> <span id="pChildAges">Child Ages:</span>
+                        <br style="clear: both;" />
+                    </p>
+                    <p id="pRoom1">
+                        <span>Room1:</span> <span>
+                            <select name="xiAdults" id="xiAdults" onchange="changeAdults(this)" class="select-css">
+                                @Html.Raw(@paxAdults)
+                            </select>
+                        </span><span>
+                                   <select name="xiChildren" id="xiChildren" onchange="childAge(this)" class="select-css">
+                                       @Html.Raw(@paxChild)
+                                   </select>
+                        </span><span id="pChildAges1">
+                            <label for="xiChild1">Child age 1:</label>
+                            <select name="xiChild1" id="xiChild1" class="select-css select-css-child">
+                                @Html.Raw(@childAge)
+                            </select>
+                            <label for="xiChild2">Child age 2:</label>
+                            <select name="xiChild2" id="xiChild2" class="select-css select-css-child">
+                                @Html.Raw(@childAge)
+                            </select>
+                        </span>
+                        <br style="clear: both;" />
+                    </p>
+                    <p id="pRoom2">
+                        <span>Room2:</span> <span>
+                                                <select name="xRoom2_iAdults" id="xRoom2_iAdults" onchange="changeAdults(this)" class="select-css">
+                                                    @Html.Raw(@paxAdults)
+                                                </select>
+                        </span><span>
+                                   <select name="xRoom2_iChildren" id="xRoom2_iChildren" onchange="childAge(this)" class="select-css">
+                                       @Html.Raw(@paxChild)
+                                   </select>
+                        </span><span id="pChildAges2">
+                            <label for="xRoom2_iChild1">Child age 1:</label>
+                            <select name="xRoom2_iChild1" id="xRoom2_iChild1" class="select-css select-css-child">
+                                @Html.Raw(@childAge)
+                            </select>
+                            <label for="xRoom2_iChild2">Child age 2:</label>
+                            <select name="xRoom2_iChild2" id="xRoom2_iChild2" class="select-css select-css-child">
+                                @Html.Raw(@childAge)
+                            </select>
+                        </span>
+                        <br style="clear: both;" />
+                    </p>
+                    <p id="pRoom3">
+                        <span>Room3:</span> <span>
+                                                <select name="xRoom3_iAdults" id="xRoom3_iAdults" onchange="changeAdults(this)" class="select-css">
+                                                    @Html.Raw(@paxAdults)
+                                                </select>
+                        </span><span>
+                                   <select name="xRoom3_iChildren" id="xRoom3_iChildren" onchange="childAge(this)" class="select-css">
+                                       @Html.Raw(@paxChild)
+                                   </select>
+                        </span><span id="pChildAges3">
+                            <label for="xRoom3_iChild1">Child age 1:</label>
+                            <select name="xRoom3_iChild1" id="xRoom3_iChild1" class="select-css select-css-child">
+                                @Html.Raw(@childAge)
+                            </select>
+                            <label for="xRoom3_iChild2">Child age 2:</label>
+                            <select name="xRoom3_iChild2" id="xRoom3_iChild2" class="select-css select-css-child">
+                                @Html.Raw(@childAge)
+                            </select>
+                        </span>
+                        <br style="clear: both;" />
+                    </p>
+                </div>
+                <div class="dvWording">Please contact us for any special arrangements such as more than three rooms and partial stays.</div>
+                <div class="dvContinueButton"><span class="btnContinue">Continue</span></div>
+                <input name="xutm_campaign" type="hidden" id="xutm_campaign" value="" />
+            </form>
+        </div>
+    </div>
+
+    <!--- END - Transp Option --->
+
+</div>
+
+
+<div id="dvMainCont" class="dvBoxFullBlue">
+    <p>Book Your Own Itinerary</p>
+    <!-- ALL CALENDAR CONTAINER -->
+    <div class="dvBoxFullLightBlue">
+        <!-- CALENDAR BYOTOOLS -->
+        <div class="dvbCalSmallTool" id="dvbCalByoTools">
+            <form id="formBYO" name="formBYO" method="post">
+                <!-- AIR Choise -->
+                <div class="dvbCalSmallConteiner">
+                    <span id="spWout">
+                        <input type="radio" id="qWair" name="qWair" value="False" />
+                        Without Air
+                    </span> <span id="spWair" style="margin-left:45px;">
+                        <input type="radio" id="qWair" name="qWair" value="True" checked="checked" />
+                        With Air
+                    </span>
+                </div>
+                <!-- End AIR Choise -->
+                <!-- AIR Param -->
+                <div id="AirParam" class="dvbCalSmallConteiner">
+                    <div>
+                        <label for="qLeaveNA">Leaving from:</label>
+                        <input id="qLeaveNA" type="text" name="qLeaveNA" value="US city airport">
+                        <input name="qLeaveID" type="hidden" id="qLeaveID" value="-1">
+                        <input name="qLeaveCO" type="hidden" id="qLeaveCO" value="-1" />
+                    </div>
+                    <div>
+                        <label for="qCabinTxt">Cabin Class:</label>
+                        <select class="select-css" id="qCabinOpt" name="qCabinOpt">
+                            <option value="Y" selected="selected">Economy</option>
+                            <option value="W">Premium Economy</option>
+                            <option value="C">Business</option>
+                            <option value="F">First Class</option>
+                        </select>
+                    </div>
+                    <br style="clear:both" />
+                </div>
+                <!-- End AIR Param -->
+                <!-- city 1 -->
+                <div class="dvbCalSmallConteiner" id="dvCity1">
+                    <div>
+                        <label for="qNACity1">Going To:</label>
+                        <input id="qNACity1" type="text" name="qNACity1" value="City or airport" />
+                        <input type="hidden" name="qIDCity1" id="qIDCity1" value="-1" />
+                        <input name="qCOCity1" type="hidden" id="qCOCity1" value="" />
+                        <input name="qAPICity1" type="hidden" id="qAPICity1" value="" />
+                    </div>
+                    <div>
+                        @{ 
+                            string dateVal = "mm/dd/yyyy";
+                            dateVal = DateTime.Today.AddDays(90).ToShortDateString();
+                        }
+                        <label for="qArrDate">Arriving on:</label>
+                        <input type="text" name="qArrDate" id="qArrDate" value="@dateVal" readonly lang="dvDomy" />
+                    </div>
+                    <div>
+                        <label for="qSTCity1">Staying for:</label>
+                        <select class="select-css" name="qSTCity1" id="qSTCity1">
+                            @{
+                                string optSel = "";
+                                for (Int32 d = 1; d <= 14; d++)
+                                {
+                                    if (d == 3)
+                                    {
+                                        optSel = "Selected";
+                                    }
+                                    else
+                                    {
+                                        optSel = "";
+                                    }
+                                        @Html.Raw(String.Format("<option value=\"{0}\" {1}>{2} nights</option>", d, optSel, d));
+                                }
+                            }
+                        </select>
+                    </div>
+                    <br style="clear:both" />
+                </div>
+                <!-- end city 1 -->
+                <input id="qgoingID" type="hidden" name="qgoingID" value="" />
+                <input name="qutm_campaign" type="hidden" id="qutm_campaign" value="" />
+            </form>
+        </div>
+        <!-- END CALENDAR BYOTOOLS -->
+        <!-- CALANDAR FIND TOOLS dvbCalByoTool-->
+        <div class="dvbCalFindTool" id="dvbCalFindTools">
+            <form id="FormFIND" name="FormFIND" method="post">
+                <!-- city 1 -->
+                <div class="dvbCalSmallConteiner" id="dvFCity1">
+                    <div>
+                        <label for="qFNACity1">Going To:</label>
+                        <input type="hidden" id="goingFID" value="TMLD" />
+                        <input type="text" name="qFNACity1" id="qFNACity1" value="type city name here" />
+                        <input name="qFIDCity1" type="hidden" id="qFIDCity1" value="-1" />
+                    </div>
+                    <br style="clear:both" />
+                </div>
+                <!-- end city 1 -->
+                <input type="hidden" id="allID" value="">
+                <input type="hidden" id="allNA" value="">
+            </form>
+        </div>
+        <!-- END CALANDAR FIND TOOLS -->
+        <!-- BUTTONS -->
+        <div class="dvCalSmallButtons">
+            <span>
+                <input type="button" class="inpAddCty" id="1,2" value="Add City" />
+            </span><span>OR</span> <span>
+                <input type="button" id="inpNoMore" value="No more Cities. Continue" />
+            </span> <br style="clear:both" />
+        </div>
+        <!-- END BUTTONS -->
+    </div>
+    <!-- END ALL CALENDAR CONTAINER -->
+</div>
+<!-- END MAIN CALENDAR CONTAINER -->

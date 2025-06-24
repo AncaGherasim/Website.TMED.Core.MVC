@@ -1,0 +1,331 @@
+﻿.dvMBody {
+    background-color: #e7e7e7;
+    padding: 10px 15px;
+}
+.dvMpageContent{
+    background-color:#fff;
+    border-top:1px solid #ccc;
+}
+.dvMCalContainer {
+    border: 1px solid #FFDE73;
+    background: -webkit-linear-gradient(bottom,#FFF5B9 35%,#FFFFA5 100%);
+    background: -moz-linear-gradient(bottom,#FFF5B9 35%,#FFFFA5 100%);
+    background: -ms-linear-gradient(bottom,#FFF5B9 35%,#FFFFA5 100%);
+    background: -o-linear-gradient(bottom,#FFF5B9 35%,#FFFFA5 100%)
+}
+
+.dvMCalBook {
+    color: #006;
+    font-size: 16px;
+    height: 45px;
+    text-align: center;
+    font-weight: 700;
+    line-height: 45px;
+    background: -webkit-linear-gradient(bottom,#FFDE73 35%,#FFF09E 100%);
+    background: -moz-linear-gradient(bottom,#FFDE73 35%,#FFF09E 100%);
+    background: -ms-linear-gradient(bottom,#FFDE73 35%,#FFF09E 100%);
+    background: -o-linear-gradient(bottom,#FFDE73 35%,#FFF09E 100%)
+}
+.dvMFlyBtn {
+    width: 46%;
+    padding: 13px;font-size:14px
+}
+.dvMByoImg{
+    background-color:#fff;
+}
+.pMtab{
+    background-color: transparent !important;
+}
+.dvEachSimItin{
+    font-size:16px;
+}
+.dvMpriceIt {
+    cursor: pointer;
+    border-radius:30px;
+    color: #fff;
+    font-size: 18px;
+    height: 45px;
+    width: 100%;
+    margin: 0 auto;
+    background: -webkit-linear-gradient(bottom,#17224d 35%,#2c4091 100%);
+    background: -moz-linear-gradient(bottom,#17224d 35%,#2c4091 100%);
+    background: -ms-linear-gradient(bottom,#17224d 35%,#2c4091 100%);
+    background: -o-linear-gradient(bottom,#17224d 35%,#2c4091 100%);
+    width: 90%;
+}
+.btnWait {
+    border-radius: 30px;
+    width: 90%;
+    display: none;
+    margin: 0 auto;
+}
+.dvMcities {
+    border-top: 1px solid #fad105;
+    border-bottom: 1px solid #fad105;
+    font-family: Arial,Helvetica,sans-serif;
+    margin: 15px auto;
+}
+.dvMcities:after {
+    content: "\203A";
+    color: #12174d;
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    margin: 2px 0px 0 0;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+}
+.dvMcities.collapsed:after {
+    content: "\203A";
+    color: #12174d;
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    margin: 2px 0px 0 0;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+}
+.hotelNameIn::before {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    color: #000;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.dvHotelInfo{
+    border-bottom:1px solid #ccc;padding:10px 0;
+}
+.dvHotelInfo:last-of-type{
+    border:none;
+}
+.dvEachSimItin p:nth-child(1) {
+    color: #12174d;
+    font-size: 16px;
+}
+.dvEachSimItin p:nth-child(2){
+    color:#666;
+    font-size:14px;
+}
+.dvEachSimItin b{
+    color:#f60;
+}
+.dvEachSimItin p:nth-child(1)::after {
+    content: "\203A";
+    font-size:26px;
+    float:right;
+    color:#f60;
+}
+.btnDisMod {
+    font-size: 12px;
+    color: #12174d;
+}
+.btnDisMod:before {
+    content: "\2039";
+    font-size: 17px;
+    transform: rotate(270deg);padding-right:10px;
+}
+.dvEachCustFeed p:nth-child(1)::after {
+    content: "\203A";
+    font-size: 26px;
+    float: right;
+    color: #f60;
+}
+.dvEachCustFeed p:nth-child(1) {
+    color: #12174d;
+    font-size: 16px;
+}
+.dvEachCustFeed p:nth-child(2) {
+    color: #666;
+    font-size: 14px;
+}
+.dropArrow::after {
+    content: "\203A";
+    font-size:26px;
+    color:#bbb;
+    float:right;
+    margin-right:5px;
+    position:relative;
+    top:-5px;
+    transform:rotate(90deg);
+}
+.dvMPkInf1 {
+    font-size: 18px;
+    color: #12174d;font-weight:600;
+}
+.dvMPkInf2{
+    font-size:14px;
+    color:#666;padding-bottom:10px;
+}
+.dvMPkInf2 span{color:#f60}
+.dvMPkInf3{
+    font-size:12px;
+    color:#666;
+}
+.btnTabs {
+    color: #1b1560!important;
+    font-size:14px;
+}
+.btnTabs.collapsed:after{
+    transform:rotate(90deg);
+    margin-right:0px;
+}
+.btnTabs:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    color: #ccc;
+    font-weight:500;
+    margin-right:6px;
+}
+.dvMLink::after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    color: #faa819;
+    font-weight: 500;
+    margin-right: 5px;
+}
+.form-control:disabled, .form-control[readonly] {
+    background-color: white!important
+
+}
+.pMtab{height:40px!important}
+.border-secondary {
+    border-color: #ccc !important;
+}
+#dvMIncludeList{font-size:12px;}
+#dvShowItin{font-size:12px;}
+div.dvItinTitle {
+    padding: 10px 0 20px 5px;
+    font-size: 14px;
+    text-align: left;
+    color: #f60;
+}
+.dvCtyHead span {
+    color: #12174d;
+    font-size: 14px;
+}
+.dvCtyHead {
+    padding: 5px 10px;
+    background-color: #eaf2ff;
+}
+span.spDayNo {
+    color: #f60;
+}
+.titleCouinfo {
+    font-size: 14px;
+    color: #12174d;
+}
+.btFlight {
+    border: 1px solid #ccc;
+    padding: 10px 5px;
+}
+.form-control{border-radius:unset}
+.btn-primary{border-color:unset!important}
+.dvcheangeCities {
+    font-size: 14px;
+    padding: 0 0 10px;
+    background: #fffce7;
+}
+.custom-select {
+    border-radius: unset;
+    padding-left: 3px;
+    transition:unset;
+}
+.btn:focus, .btn.focus {
+    box-shadow:unset!important;
+}
+.nameCity {
+    color: #304482;
+}
+.dvGoingTo{color: #666;}
+#aChgNts{font-size:14px;}
+#aChgNts::after{color:black!important;padding-top:7px}
+.rowGoingTo {
+    border-top: 1px solid rgba(250,209,5,.39);
+}
+.aReorderCities {
+    color: #304482;
+    border-top: 1px dotted #666;
+}
+.aReorderCities a{
+    color: #304482;text-decoration:underline
+}
+.spArrows{
+    color: #faa819;
+    font-size: 22px;padding-left:15px;
+}
+.btnAdvance {
+    border: 1px solid #212d6e;
+    border-radius: 30px;
+    color: #1b2560;
+}
+.aCustItin {
+    font-size: 14px;
+    color: #12174d;
+    font-weight: 700;
+    text-decoration: underline;
+}
+.aCustItin::after {
+    content: "\203A";
+    font-size: 26px;
+    line-height: 20px;
+    color: #faa819;
+    font-weight: 500;
+    margin-right: 5px;
+    float: right;
+}
+.dvbuild {
+    border-bottom: 1px solid #ccc;
+}
+.dvSimilar {
+    border-top: 1px solid #ccc;
+}
+.modal-header{padding:unset;background-color:#ccc;}
+.rowSimilar{border-bottom:1px solid #999}
+input.inpAdult{width:20px!important}
+input.inpChildren{width:20px!important}
+.btnCollapse:after {
+    content: "\203A";
+    color: #12174d;
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    margin: 2px 0px 0 0;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+}
+.btnCollapse.collapsed:after {
+    content: "\203A";
+    color: #12174d;
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    margin: 2px 0px 0 0;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+}
+.packInfo{
+    list-style: none;
+    padding: 0;
+}
+.packInclude{
+    list-style:inside;
+    padding: 0;
+}
+.secPackImage, .secPackDetails {
+    background-color: #fff;
+}

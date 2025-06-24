@@ -1,0 +1,964 @@
+﻿@model MVC_TMED.Models.ViewModels.GP2AreaViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/gpgp2/dt.style.gp2page.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/gpgp2/dt.style.gp2page.min.css" asp-append-version="true" />
+    </environment>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+
+    Decimal overAllAvg = 0;
+    Decimal defw = 120;
+    Decimal w = 0;
+    overAllAvg = Decimal.Round(Model.Score, 1);
+    w = Decimal.Round((overAllAvg * defw) / 5, 1);
+    Decimal lowP = 500;
+    Decimal highP = 9000;
+    List<Int64> offerPrices = new List<Int64>();
+    List<String> offerUrl = new List<string>();
+    string pack3Ids = "";
+    var pkC = 0;
+
+
+    if (Model.listFeatured.Count > 0)
+    {
+        foreach (var z in Model.listFeatured)
+        {
+            if (z.STP_Save != 9999)
+            {
+                offerPrices.Add((Int32)z.STP_Save_);
+            }
+            offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", Model.countryNA.Replace(" ", "_").ToLower(), z.PDL_Title.Replace(" ", "_").ToLower(), z.PDLID));
+            pack3Ids = pack3Ids + z.PDLID + ", ";
+        }
+        if (Model.otherFeatured.Count > 0)
+        {
+            foreach (var o in Model.otherFeatured)
+            {
+                if (o.STP_Save != 9999)
+                {
+                    offerPrices.Add((Int32)o.STP_Save_);
+                }
+                offerUrl.Add(String.Format("https://www.tripmasters.com/europe/{0}/{1}/package-{2}", Model.countryNA.Replace(" ", "_").ToLower(), o.PDL_Title.Replace(" ", "_").ToLower(), o.PDLID));
+                if (pkC == 0) { pack3Ids = pack3Ids + o.PDLID + ", "; };
+                if (pkC == 1) { pack3Ids = pack3Ids + o.PDLID; };
+                pkC++;
+            }
+        }
+
+        if (offerPrices.Count > 0)
+        {
+            lowP = offerPrices.Min();
+            highP = offerPrices.Max();
+        }
+    }
+    if (Model.packFeedCountCity <= 0)
+    {
+        Model.packFeedCountCity = 1;
+    }
+
+<script type="application/ld+json">
+        {
+        "@@context" : "https://schema.org",
+        "@@type" : "Product",
+        "name" : "@Model.areaNA Vacation",
+        "sku":"@Model.areaNA",
+        "mpn":"@Model.areaNA-vac",
+        "brand" : {
+        "@@type" : "Brand",
+        "name": "Tripmasters Europe",
+        @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/area/vacations\",", Model.areaNA.Replace(" ","_").ToLower()))
+        "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+        },
+        "image":"https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png",
+        "review":{
+        "@@type":"Review",
+        "name":"@Model.packFeedCountCity",
+        "author":{
+        "@@type":"Organization",
+        "name":"Tripmasters"
+        }
+        },
+        "offers": {
+        "@@type": "AggregateOffer",
+        "priceCurrency":"USD",
+        "highPrice": "@highP",
+        "lowPrice": "@lowP",
+        "offerCount": "4",
+        "offers" : [
+        @foreach (var u in @offerUrl)
+        {
+            @Html.Raw("{")
+            @Html.Raw('"'+"@type"+'"' + ":" + '"'+"Offer"+'"'+"," +
+                '"'+"url"+'"'+ ":" +'"'+ @u +'"');
+            @Html.Raw("}")
+            if (u != @offerUrl.Last())
+            {
+                @Html.Raw(",");
+            }
+        }
+        ]
+        },
+        "description" : "@Model.pageDescriptionCity",
+        "additionalProperty" : "@Model.pageBannerText",
+        "aggregateRating": {
+        "@@type": "aggregateRating",
+        "ratingValue": "@overAllAvg",
+        "reviewCount": "@Model.packFeedCountCity"
+        },
+        "sameAs":[
+        "https://twitter.com/tripmasters",
+        "https://www.facebook.com/Tripmasters",
+        "https://www.pinterest.com/tripmasters/",
+        "https://www.instagram.com/tripmasterstravel/",
+        "https://www.linkedin.com/company/tripmasters",
+        "https://en.everybodywiki.com/Tripmasters",
+        "https://www.youtube.com/tripmasters"
+
+        ]
+        }
+</script>
+    <script type="text/javascript">
+            dataLayer.push({
+                'packagesIDs': '@pack3Ids'
+            });
+    </script>
+}
+
+
+<div id="dvMask"></div>
+<div id="dvTransOptResp">
+    <div id="dvOptions"></div>
+</div>
+<input type="hidden" id="jplcNA" value="@Model.areaNA" />
+<input type="hidden" id="jplcID" value="@Model.areaID" />
+<input type="hidden" id="jplcTYPE" value="area" />
+<div id="dvShowMap" class="dvShowMap">
+    <div>
+        <div class="dvmapTitle">@Model.areaNA: Point of Interest Map</div>
+        <div class="dvmapClose"><span>Close [X]</span></div>
+        <div style="clear:both"></div>
+    </div>
+    <div id="dvGoogleMap" style="width:100%; height:95%; border-radius:7px; margin-bottom:10px;"></div>
+    <div id="dvHotelMap" style="position:relative; z-index:9100;"></div>
+</div>
+@{
+    string dvFea, dvAll, bann1 = "", bann2 = "";
+    Int32 foN = 0;
+    var showAllPack = 0;
+    if (showAllPack == 0)
+    {
+        dvFea = "block";
+        dvAll = "none";
+    }
+    else
+    {
+        dvFea = "none";
+        dvAll = "block";
+    }
+    if (Model.bannerOnPage.Count > 0)
+    {
+        for (Int32 i = 0; i < Model.bannerOnPage.Count; i++)
+        {
+            string imgSRC = Model.bannerOnPage[i].STX_PictureURL.Replace("http:", "https:");
+            if (i == 0)
+            {
+                bann1 = "<a href='" + @String.Format("{0}", _appsettings.CurrentValue.ApplicationSettings.SiteName) + Model.bannerOnPage[i].STX_URL.Replace("/europe", "").Replace(" ", "_").ToLower() + "'><img src='" + imgSRC.ToLower() + "' border = '0' style = 'padding: 2px 0px 2px 0px' title='" + Model.bannerOnPage[i].STX_Title + "'></img></a>";
+            }
+            if (i == 1)
+            {
+                bann2 = "<a href='" + @String.Format("{0}", _appsettings.CurrentValue.ApplicationSettings.SiteName) + Model.bannerOnPage[i].STX_URL.Replace("/europe", "").Replace(" ", "_").ToLower() + "'><img src='" + imgSRC.ToLower() + "' border = '0' style = 'padding: 2px 0px 2px 0px' title='" + Model.bannerOnPage[i].STX_Title + "'></img></a>";
+            }
+        }
+    }
+}
+
+<div id="CObgshow" style="display: none; position: absolute; top: 0px; left: 0px;
+        filter: alpha(opacity=65); -moz-opacity: .65; opacity: .65; background-color: #CCCCCC;
+        z-index: 1010;">
+</div>
+<div id="navDest" class="dvBg_navDestinos">
+    <div id="destVal">
+    </div>
+    <div style="padding-right: 10px;" align="right" class="Text_11">
+        <a href="/europe/_Vacations" onclick="javascript:$('#navDest').slideUp(); return false;"> close [-] </a>
+    </div>
+</div>
+<div class="dvmainContenedor">
+    <div class="dvBGpageTitle">
+        <div class="dvPageTitleWhite">@Model.pageHeaderText</div>
+        <div id="dvlinkHeader">
+            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/nav_barDivis.jpg" width="1" height="36" border="0" align="absmiddle" style="padding-top:5px;" alt="" />
+            <a asp-controller="Home" asp-action="Index">
+                Home
+            </a>
+            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/nav_barDivis.jpg" width="1" height="36" border="0" align="absmiddle" style="padding-top:5px;" alt="" />
+            <a href="" onclick="countryDest(0); return false;">
+                Europe
+                <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/nav_Down.gif" border="0" style="margin-left:5px;" alt="" />
+            </a>
+        </div>
+        <div style="clear: both">
+        </div>
+    </div>
+    <br />
+    <!-- start div left col -->
+    <div id="dvLeft">
+        @await Component.InvokeAsync("GP2UCLeft", new { plcNA = @Model.areaNA, plcIDs = @Model.areaIDs, plcID = @Model.areaID, plcTY = "Cty", counID = @Model.countryID, counNA = @Model.countryNA, leftDisplay = @Model.leftDisplay, boxContent = @Model.boxContent, placesOnWeight = @Model.placesOnWeight, pgtype = "PlcH", strPlcsIDs = @Model.strPlcsIDs, countryCities = @Model.citesOnCountry })
+    </div>
+    <!-- end div left col -->
+    <!-- start div center col -->
+    <div id="dvCenter">
+        @{
+            if (Model.allTopDisplay.Count > 0)
+            {
+                <div style="padding: 0px;">
+                    @{
+                        string topTitle = "";
+                        foreach (var top in Model.allTopDisplay)
+                        {
+                            string imgSRC = top.STX_PictureURL.Replace("http:", "https:");
+                            if (top.SDP_DisplayTitle != "none")
+                            {
+                                topTitle = top.SDP_DisplayTitle;
+                            }
+                            else
+                            {
+                                topTitle = top.STX_Title;
+                            }
+                            <div class="dvOrangeTitle_20">@topTitle.ToUpper()</div>
+                            if (top.STX_CMSID > 0)
+                            {
+                                @Html.Raw(top.CMS_Content.Replace("http:", "https:"));
+                            }
+                            else
+                            {
+                                var imgH = top.STX_PictureHeightpx;
+                                var cimgH = "0";
+                                var imgW = top.STX_PictureWidthpx;
+                                var cimgW = "0";
+                                if (imgH == 0)
+                                {
+                                    cimgH = "auto";
+                                }
+                                if (imgW == 0)
+                                {
+                                    cimgW = "100%";
+                                }
+                                <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@imgSRC.ToLower()" width="@cimgW" height="@cimgH" align="left" style="margin: 0px 5px 5px 0px;" />
+                                <span class="Text_Arial12">@top.STX_Description</span>
+                            }
+                            <div align="center">
+                                <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" />
+                            </div>
+                        }
+                    }
+                </div>
+                <div style="clear: both">
+                </div>
+                <div class="dvOrangeTitle_16"> FEATURED ITINERARIES:</div>
+            }
+            @if (Model.allTopDisplay.Count == 0)
+            {
+                string infoLns = Model.boxFeaturPacks[foN].ToString();
+                string[] infoLn = infoLns.Split("|");
+                foN = 1;
+                <div style="clear: both">
+                </div>
+                <div class="dvOrangeTitle_20">
+                    FEATURED ITINERARY:
+                </div>
+                <div id="dvNoTop">
+                    <input name="featItin" type="hidden" id="featItin" value="@infoLn[0]" />
+                    <div id="dvfeatPics" style="margin-top: 10px; border-top: solid 1px #36F; padding-top: 3px;
+                        cursor: pointer;" onclick=@String.Format("window:location='/{0}/Package/{1}/{2}'", Model.countryNA.Replace(" ", "_"), infoLn[0], infoLn[1].Replace(" ", "_"))>
+                    </div>
+                    <div id="dvfeatInfo" class="dvBGfeatuItin">
+                        <div id="dvfeatPckTitle">
+                            <a asp-controller="Package" asp-action="Index" asp-route-id="@infoLn[0]" asp-route-Country="@Model.countryNA.Replace(" ","_")" asp-route-name="@infoLn[1].Replace(" ","_").Replace(" ","_")">
+                                @infoLn[1]
+                            </a>
+                        </div>
+                        @{
+                            string lnGuiNo = "none";
+                            if (infoLn[7].Contains("1784:."))
+                            { lnGuiNo = "Guided"; }
+                            else
+                            {
+                                if (infoLn[7].Contains("1785:."))
+                                { lnGuiNo = "Partially Guided"; }
+                            }
+                            if (lnGuiNo != "none")
+                            {
+                                <div id=@String.Format("{0}|{1}|F", lnGuiNo, infoLn[0]) class="dvpkGuidedTxt" onmouseover="showPopUp(this.id)"
+                                     onmouseout="hidePopUp(this.id)">
+                                    @lnGuiNo
+                                </div>
+                            }
+                            <div id="dvpackDescription">
+                                @infoLn[2]
+                            </div>
+                            <div class="BGpriceButtom" style="float: left; width: 147px; height: 110px; padding-top: 20px;"
+                                 align="center">
+                                @if (infoLn[4] != "9999")
+                                {
+                                    <div style="padding: 3px 0px">
+                                        <span class="Text_Arial11_Light">
+                                            @infoLn[3]
+                                            nights from
+                                        </span>
+                                        <span class="Orange-Arial12NB">
+                                            <b>
+                                                @Html.Raw(Decimal.Parse(infoLn[4]).ToString("C0", System.Globalization.CultureInfo.CurrentCulture))*
+                                            </b>
+                                        </span>
+                                    </div>
+                                }
+                                <div style="padding: 3px 0px">
+                                    <a asp-controller="Package" asp-action="Index" asp-route-id="@infoLn[0]" asp-route-Country="@Model.countryNA.Replace(" ","_").ToLower()" asp-route-name="@infoLn[1].Replace(" ","_").ToLower()">
+                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/BOT-Customize.gif" width="120" height="28" border="0" />
+                                    </a>
+                                </div>
+                                @if (Int32.Parse(infoLn[6]) > 0)
+                                {
+                                    <div class="Text_Arial12_Blue" style="padding: 3px 0px">
+                                        <a asp-route="Feedback_Route" asp-route-country="@Model.countryNA.Replace(" ","_")" asp-route-pack="@infoLn[1].Replace(" ","_")" asp-route-id="@infoLn[0]">
+                                            Customer feedback (@infoLn[6])
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                            <div style="clear: both">
+                            </div>
+                        }
+                    </div>
+                    <div id=@String.Format("dvWait{0}", infoLn[0]) style="display: none; padding: 20px;" align="center">
+                    </div>
+                    <div id=@String.Format("pkInf{0}", infoLn[0]) style="padding: 5px 10px 10px 10px; display: none;"
+                         align="left" class="Text_Arial12">
+                        <b>Included:</b>
+                        <div style="padding-left: 15px;">
+                            @{
+                                string[] contFParts = infoLn[5].Split("\r\n");
+                                foreach (var fpr in contFParts)
+                                {
+                                    @Html.Raw("<li>" + fpr + "</li>")
+                                }
+                            }
+                        </div>
+                        <div style="clear: both">
+                        </div>
+                        <hr class="hrDotedLine" />
+                        <form name=@String.Format("frm{0}", infoLn[0]) id=@String.Format("frm{0}", infoLn[0]) method="post">
+                            <div class="Text_Arial11" id=@String.Format("dvComF{0}", infoLn[0]) style="display: block; padding: 5px 5px;">
+                                <center>
+                                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" />
+                                </center>
+                            </div>
+                            <div class="Text_Arial12_LightBold" style="padding: 5px 3px 15px 3px;" align="center">
+                                <a style="cursor: pointer;" onclick=@String.Format("findPackst4('frm{0}'); return false", infoLn[0])>
+                                    &gt;&gt;
+                                    Find similar package
+                                </a>
+                            </div>
+                            <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                            <input type="hidden" name="allID" id="allID" value="" />
+                            <input type="hidden" name="allNA" id="allNA" value="" />
+                        </form>
+                        <hr class="DotedLine" />
+                    </div>
+                    <div align="left" class="dvMoreDetail">
+                        <span style="cursor: pointer" onclick=@String.Format("openDivInfFNw({0},0)", infoLn[0])>
+                            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Plus.jpg" name=@String.Format("pic{0}", infoLn[0]) width="9" height="9" align="absmiddle" id="pic<%=infoLn(0)%>" />&nbsp;&nbsp;
+                            <u id=@String.Format("moreTx{0}", infoLn[0])>
+                                More
+                                details
+                            </u>
+                        </span>
+                    </div>
+                </div>
+                <div align="center">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" />
+                </div>
+                <div class="Text_Arial16_OrangeBold" align="left" style="padding: 10px 5px 10px 5px;">
+                    OTHER FEATURED ITINERARIES:
+                </div>
+            }
+            <div id="otherFeat">
+                @{
+                    string otherLns;
+                    string[] otherLn;
+                    string dvStyle = "";
+                    Int32 lastPack = Model.boxFeaturPacks.Count - 1;
+                    Int32 othC = 1;
+
+                    for (Int32 fo = foN; fo <= lastPack; fo++)
+                    {
+                        otherLns = Model.boxFeaturPacks[fo].ToString();
+                        otherLn = otherLns.Split("|");
+                        if (fo > foN)
+                        {
+                            dvStyle = "<div class='BGother'>&nbsp;</div>";
+                        }
+
+                        <div class="BGotherFeatu" align="left">
+                            @Html.Raw(dvStyle)
+                            <div style="height: 200px">
+                                <div style="padding-left: 12px;">
+                                    <a asp-controller="Package" asp-action="Index" asp-route-id="@otherLn[0]" asp-route-Country="@Model.countryNA.Replace(" ","_")" asp-route-name="@otherLn[1].Replace(" ","_")">
+                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com{0}", otherLn[8].ToLower()) width="120" height="120" border="0" />
+                                    </a>
+                                </div>
+                                <div align="left" class="Text_Arial12_LightBold" style="padding: 0px 10px;">
+                                    <a asp-controller="Package" asp-action="Index" asp-route-id="@otherLn[0]" asp-route-Country="@Model.countryNA.Replace(" ","_")" asp-route-name="@otherLn[1].Replace(" ","_")">
+                                        @otherLn[1]
+                                    </a>
+                                </div>
+                                @{
+                                    string lnGuiNo = "none";
+                                    if (otherLn[7].Contains("1784:."))
+                                    {
+                                        lnGuiNo = "Guided";
+                                    }
+                                    else
+                                    {
+                                        if (otherLn[7].Contains("1785:."))
+                                        {
+                                            lnGuiNo = "Partially Guided";
+                                        }
+                                    }
+                                    if (lnGuiNo != "none")
+                                    {
+                                        <div align="left" id=@String.Format("{0}|{1}|F", lnGuiNo, otherLn[0]) class="Text_12_Gray" style="cursor: pointer;
+                                        width: 100px; padding: 0px 10px;" onmouseover="showPopUp(this.id)" onmouseout="hidePopUp(this.id)">
+                                            @lnGuiNo
+                                        </div>
+                                    }
+                                    if (otherLn[4] != "9999")
+                                    {
+                                        <div align="left" style="padding: 3px 10px;">
+                                            <span class="Text_Arial11_Light">
+                                                @otherLn[3]
+                                                nights from
+                                            </span>
+                                            <span class="Orange-Arial12NB">
+                                                <b>
+                                                    @Html.Raw(Decimal.Parse(otherLn[4]).ToString("C0", System.Globalization.CultureInfo.CurrentCulture))*
+                                                </b>
+                                            </span>
+                                        </div>
+                                    }
+                                    if (Int32.Parse(otherLn[6]) > 0)
+                                    {
+                                        <div class="Text_Arial11_Blue" align="left" style="padding: 3px 5px 3px 10px;">
+                                            <a asp-route="Feedback_Route" asp-route-country="@Model.countryNA.Replace(" ","_")" asp-route-pack="@otherLn[1].Replace(" ","_")" asp-route-id="@otherLn[0]">
+                                                Customer feedback (@otherLn[6])
+                                            </a>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div id=@String.Format("dvMrTxt{0}", otherLn[0]) align="left" class="dvMoreDetail">
+                                <span style="cursor: pointer" onclick=@String.Format("openDivInfF({0},1)", otherLn[0])>
+                                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Plus.jpg" name=@String.Format("pic{0}", otherLn[0]) width="9" height="9"
+                                         align="absmiddle" id=@String.Format("pic{0}", otherLn[0]) />&nbsp;&nbsp;<u id=@String.Format("moreTx{0}", otherLn[0])>
+                                        More
+                                        details
+                                    </u>
+                                </span>
+                            </div>
+                            <div id=@String.Format("dvMrPic{0}", otherLn[0]) class="BGDown" style="display: none;">
+                                &nbsp;
+                            </div>
+                        </div>
+
+                        othC = othC + 1;
+                        if (othC == 4)
+                        {
+                            fo = lastPack;
+                        }
+                    }
+
+                }
+                <div class="dvClear">
+                </div>
+
+            </div>
+            <div id="otherMr" style="display: none">
+                @{
+                    othC = 1;
+                    for (Int32 fo = foN; fo <= lastPack; fo++)
+                    {
+                        otherLns = Model.boxFeaturPacks[fo].ToString();
+                        otherLn = otherLns.Split("|");
+                        <div id=@String.Format("pkInf{0}", otherLn[0]) style="padding: 10px 0px 5px 0px; display: none;" align="left">
+                            <div align="left" class="Text_Arial11" style="float: left; width: 275px; padding: 5px 0px 0px 5px;">
+                                @Html.Raw(otherLn[2]);
+                                <div style="padding: 5px 10px 10px 10px;" align="left">
+                                    <div>
+                                        <b>Included:</b>
+                                    </div>
+                                    <div style="padding-left: 15px;">
+                                        @{
+                                            string[] contFParts = otherLn[5].Split("\r\n");
+                                            foreach (var fpr in contFParts)
+                                            {
+                                                @Html.Raw("<li>" + fpr + "</li>");
+                                            }
+                                        }
+                                    </div>
+                                    <div style="clear: both">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="BGpriceButtom" style="float: left; width: 147px; height: 110px; padding-top: 20px;" align="center">
+                                @if (otherLn[4] != "9999")
+                                {
+                                    <div style="padding: 3px 0px;">
+                                        <span class="Text_Arial11_Light">
+                                            @otherLn[3]
+                                            nights from
+                                        </span> <span class="Orange-Arial12NB">
+                                            <b>
+                                                @Html.Raw(Decimal.Parse(otherLn[4]).ToString("C0", System.Globalization.CultureInfo.CurrentCulture))*
+                                            </b>
+                                        </span>
+                                    </div>
+                                }
+                                <div style="padding: 3px 0px;">
+                                    <a asp-controller="Package" asp-action="Index" asp-route-id="@otherLn[0]" asp-route-Country="@Model.countryNA.Replace(" ","_")" asp-route-name="@otherLn[1].Replace(" ","_")">
+                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/BOT-Customize.gif" width="120" height="28" border="0" />
+                                    </a>
+                                </div>
+                                @if (Int32.Parse(otherLn[6]) > 0)
+                                {
+                                    <div class="Text_Arial12_Blue" style="padding: 3px 0px;">
+                                        <a asp-route="Feedback_Route" asp-route-country="@Model.countryNA.Replace(" ","_")" asp-route-pack="@otherLn[1].Replace(" ","_")" asp-route-id="@otherLn[0]">
+                                            Customer feedback (@otherLn[6])
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                            <div style="clear: both">
+                            </div>
+                            <div id=@String.Format("dvajx{0}", otherLn[0]) style="display: none;">
+                                <hr class="DotedLine" />
+                                <div class="Text_Arial11" id=@String.Format("dvRelF{0}", otherLn[0]) style="display: block; padding: 5px 2px 10px 10px;">
+                                    <center>
+                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" />
+                                    </center>
+                                </div>
+                                <hr class="DotedLine" />
+                                <form name=@String.Format("frm{0}", otherLn[0]) id=@String.Format("frm{0}", otherLn[0]) method="post">
+                                    <div class="Text_Arial11" id=@String.Format("dvComF{0}", otherLn[0]) style="display: block; padding: 5px 5px;">
+                                        <center>
+                                            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" />
+                                        </center>
+                                    </div>
+                                    <div class="Text_Arial12_LightBold" style="padding: 5px 3px 15px 3px;" align="center">
+                                        <a style="cursor: pointer;" onclick=@String.Format("findPacks('frm{0}'); return false", otherLn[0])>
+                                            &gt;&gt; Find similar package
+                                        </a>
+                                    </div>
+                                    <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                                    <input type="hidden" name="allID" id="allID" value="" />
+                                    <input type="hidden" name="allNA" id="allNA" value="" />
+                                </form>
+                                <hr class="DotedLine" />
+                            </div>
+                            <div align="left" class="dvMoreDetail">
+                                <span style="cursor: pointer" onclick=@String.Format("openDivInfF({0},2)", otherLn[0])>
+                                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/minus.jpg" width="9" height="9" align="absmiddle" />&nbsp;&nbsp;<u>
+                                        Close
+                                        more details
+                                    </u>
+                                </span>
+                            </div>
+                        </div>
+                        othC = othC + 1;
+                        if (othC == 4)
+                        {
+                            foN = fo + 1;
+                            fo = lastPack;
+                        }
+                    }
+                }
+            </div>
+            <div style="clear: both">
+            </div>
+            <div id="featuredItin" style="display: block">
+                @if (lastPack > 3)
+                {
+                    <div align="center">
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" />
+                    </div>
+                    <div class="Text_Arial16_OrangeBold" align="left" style="padding: 10px 5px 2px 5px;">
+                        SUGGESTED ITINERARIES:
+                    </div>
+                    {
+                        othC = 1;
+                        Int32 bnn = 0;
+                        string margT;
+                        string bg = "";
+                        @if ((lastPack - foN) + 1 > 6)
+                        {
+                            bnn = 6;
+                        }
+                        else
+                        {
+                            bnn = lastPack;
+                        }
+                        @for (Int32 fo = foN; fo <= lastPack; fo++)
+                        {
+                            otherLns = Model.boxFeaturPacks[fo].ToString();
+                            otherLn = otherLns.Split("|");
+                            if (othC == 1)
+                            {
+                                margT = "10px";
+                            }
+                            else
+                            {
+                                margT = "5px";
+                            }
+                            if (othC % 2 == 0)
+                            { bg = "#EAF2FF"; }
+                            if (othC % 2 == 1)
+                            { bg = "white"; }
+                            <div style=@String.Format("padding:5px;background-color:{0};", bg) align="left" class="dveachSuggest">
+                                <div style="padding: 3px 5px 2px 0px; float: left;" align="center">
+                                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Plus.jpg" name=@String.Format("picF{0}", otherLn[0]) width="9" height="9" align="absmiddle" id=@String.Format("picF{0}", otherLn[0]) style="cursor: pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", otherLn[0], Model.areaNA.Replace(" ", "_"), otherLn[1].Replace(" ", "_")) />
+                                </div>
+                                <div class="Text_Arial12_Blue" style="width: 272px; padding: 2px 0px 2px 0px; float: left;">
+                                    <span style="cursor: pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", @otherLn[0], @Model.areaNA.Replace(" ", "_"), otherLn[1].Replace(" ", "_"))>
+                                        @otherLn[1]
+                                    </span>
+                                </div>
+                                @if (otherLn[4] != "9999")
+                                {
+                                    <div class="Text_10_GrayBold" style="padding: 2px 0px 2px 0px; float: right; width: 125px;"
+                                         align="right">
+                                        <span style="cursor: pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", @otherLn[0], @Model.areaNA.Replace(" ", "_"), otherLn[1].Replace(" ", "_"))>
+                                            @otherLn[3]
+                                            nights from
+                                            <b class="Orange-Arial12NB">
+                                                @Html.Raw(Decimal.Parse(otherLn[4]).ToString("C0", System.Globalization.CultureInfo.CurrentCulture))*
+                                            </b>
+                                        </span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="Text_10_GrayBold" style="padding: 2px 0px 2px 0px; float: right; width: 125px;"
+                                         align="right">
+                                        <span id=@String.Format("mrDtls{0}", otherLn[0]) style="cursor: pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", @otherLn[0], @Model.areaNA.Replace(" ", "_"), otherLn[1].Replace(" ", "_"))>
+                                            More details
+                                        </span>
+                                    </div>
+                                }
+                                <div style="clear: both">
+                                </div>
+                                @{
+                                    string lnGuiNo = "none";
+                                    @if (otherLn[7].Contains("1784:."))
+                                    {
+                                        lnGuiNo = "Guided";
+                                    }
+                                    else
+                                    {
+                                        if (otherLn[7].Contains("1785:."))
+                                        {
+                                            lnGuiNo = "Partially Guided";
+                                        }
+                                    }
+                                    if (lnGuiNo != "none")
+                                    {
+                                        <div align="left" id=@String.Format("{0}|{1}|F", lnGuiNo, otherLn[0]) class="Text_12_Gray" style="cursor: pointer;
+                                    width: 100px; padding: 0px 15px;" onmouseover="showPopUp(this.id)" onmouseout="hidePopUp(this.id)">
+                                            @lnGuiNo
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div id=@String.Format("dvWaitF{0}", otherLn[0]) style="padding: 30px; display: none" align="center">
+                            </div>
+                            <div id=@String.Format("dvInfF{0}", otherLn[0]) class="Text_Arial12" style="padding: 5px 5px 5px 20px; display: none" align="left">
+                                <div id=@String.Format("dvTxtF{0}", otherLn[0]) class="text_12" style="padding: 3px 0px;">
+                                    @Html.Raw(otherLn[2])
+                                </div>
+                                <div style="padding: 5px 0px;">
+                                    <b>Included:</b>
+                                </div>
+                                <div style="padding-left: 15px;">
+                                    @{
+                                        string[] contFParts = @otherLn[5].Split("\r\n");
+                                        foreach (var fpr in contFParts)
+                                        {
+                                            @Html.Raw("<li>" + fpr + "</li>");
+                                        }
+                                    }
+                                </div>
+                                @if (Int32.Parse(otherLn[6]) > 0)
+                                {
+                                    <div class="Text_Arial11" id=@String.Format("dvFeedF{0}", otherLn[0]) style="display: block; padding: 5px 5px;">
+
+                                        <a asp-route="Feedback_Route" asp-route-country="@Model.countryNA.Replace(" ","_")" asp-route-pack="@otherLn[1].Replace(" ","_")" asp-route-id="@otherLn[0]">
+                                            Customer feedback (@otherLn[6])
+                                            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/CustFeed_Mini.jpg" width="21" height="16" border="0" />
+                                        </a>
+                                    </div>
+                                }
+                                <div id="butt<%=otherLn(0)%>" style="padding: 15px 35px 5px 35px;" align="right">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a asp-controller="Package" asp-action="Index" asp-route-id="@otherLn[0]" asp-route-Country="@Model.countryNA.Replace(" ","_")" asp-route-name="@otherLn[1].Replace(" ","_")">
+                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/BOT-Customize.gif" border="0" />
+                                    </a>
+                                </div>
+                                <hr class="DotedLine" />
+                                <div class="Text_Arial11" id=@String.Format("dvRelF{0}", otherLn[0]) style="display: none; padding: 5px 5px;">
+                                </div>
+                                <hr class="DotedLine" />
+
+                                <form name=@String.Format("frm{0}", otherLn[0]) id=@String.Format("frm{0}", otherLn[0]) method="post">
+                                    <div class="Text_Arial11" id=@String.Format("dvComF{0}", otherLn[0]) style="display: none; padding: 5px 5px;">
+                                    </div>
+                                    <div class="Text_Arial12_LightBold" style="padding: 5px 3px 15px 3px;" align="center">
+                                        <a style="cursor: pointer;" onclick=@String.Format("findPackst4('frm{0}'); return false", otherLn[0])>
+                                            &gt;&gt; Find similar package
+                                        </a>
+                                    </div>
+                                    <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                                    <input type="hidden" name="allID" id="allID" value="" />
+                                    <input type="hidden" name="allNA" id="allNA" value="" />
+                                </form>
+                                <div align="center">
+                                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" />
+                                </div>
+                            </div>
+                            @if (othC == bnn)
+                            {
+                                if (bann1 != "")
+                                {
+                                    <div style="padding: 15px 0px 15px 0px; display: block;" align="center"> @Html.Raw(bann1) </div>
+                                }
+                            }
+                            {
+                                othC = othC + 1;
+                            }
+                        }
+                        @if (bann2 != "")
+                        {
+                            <div style="padding: 15px 0px 15px 0px; display: block;" align="center"> @Html.Raw(bann2) </div>
+                        }
+                    }
+                }
+            </div>
+        }
+    </div>
+
+    <div id="dvRight" class="dvOtherRight">
+        <!-- calendar -->
+        <div style="padding-bottom: 5px;">
+            @await Component.InvokeAsync("UC_TM_SmallCalendar")
+        </div>
+        <div id="divQE_AJAXListContainer" style="display: none" class="QE_AJAXListContainer_div">
+            Loading...Please wait
+        </div>
+        <div id="divPopUpContainer" style="display: none" class="QE_PopupContainer_div">
+        </div>
+        <div id="divCount" style="display: none">
+        </div>
+        <!-- end calendar -->
+        <!-- start find suggested -->
+        @if (Model.citesOnWeight.Count > 0)
+        {
+            <div class="dvRoundBoxesComb">
+                <div class="bxTitleWhite30" align="left">
+                    Find Suggested Itineraries
+                </div>
+                <div class="dvwitheRound">
+                    <div class="Text_Arial14_BlueBold" style="margin:10px 0px 5px 5px; ">Combine cities within @Model.countryNA</div>
+                    <form name="frmFindPack" id="frmFindPack" method="post">
+                        <div class="dvCityList">
+                            @{
+                                decimal halfTotal = ((decimal)Model.citesOnWeight.Count) / ((decimal)2);
+                                Int32 ifDec;
+                                Int64 roundUp;
+                                ifDec = halfTotal.ToString().IndexOf(".");
+                                if (ifDec > 0)
+                                {
+                                    roundUp = long.Parse(halfTotal.ToString().Substring(0, ifDec)) + 1;
+                                }
+                                else
+                                {
+                                    roundUp = (Int64)halfTotal;
+                                }
+                                Int32 ctyC = 0;
+                                foreach (var cty in Model.citesOnWeight)
+                                {
+                                    if (ctyC == roundUp)
+                                    {
+                                        @Html.Raw("</div><div class='dvCityList'>")
+                                    }
+
+                                    <div style="padding: 2px 2px 2px 2px;">
+                                        <a href=@String.Format("#dot{0}", cty.STR_PlaceID) class="falsecheck" id=@String.Format("falsedot{0}", cty.STR_PlaceID)> @cty.STR_PlaceTitle </a>
+                                        <input type="checkbox" name=@String.Format("dot{0}", cty.STR_PlaceID) id=@String.Format("dot{0}", cty.STR_PlaceID) style="display: none" value=@String.Format("{0}|{1}", cty.STR_PlaceID.ToString().Trim(), cty.STR_PlaceTitle.Replace(" ","_")) />
+                                    </div>
+
+                                    ctyC += 1;
+                                }
+                            }
+                        </div>
+                        <div style="clear: both">
+                        </div>
+                        @if (Model.citesnotOnWeight.Count > 0)
+                        {
+                            <div class="Text_Arial14_BlueBold" style="margin:10px 0px 5px 5px; ">and/or cities in other countries</div>
+                            <div class="dvCityList">
+                                @{
+                                    halfTotal = Model.citesnotOnWeight.Count / 2;
+                                    ifDec = halfTotal.ToString().IndexOf(".");
+                                    if (ifDec > 0)
+                                    {
+                                        roundUp = long.Parse(halfTotal.ToString().Substring(0, ifDec)) + 1;
+                                    }
+                                    else
+                                    {
+                                        roundUp = (Int64)halfTotal;
+                                    }
+                                    ctyC = 0;
+                                    foreach (var cty in Model.citesnotOnWeight)
+                                    {
+                                        if (ctyC == roundUp)
+                                        {
+                                            @Html.Raw("</div><div class='dvCityList'>")
+                                        }
+                                        <div style="padding: 2px 2px 2px 2px;">
+                                            <a href=@String.Format("#dot{0}", cty.STR_PlaceID) class="falsecheck" id=@String.Format("falsedot{0}", cty.STR_PlaceID)>@cty.STR_PlaceTitle</a>
+                                            <input type="checkbox" name=@String.Format("dot{0}", cty.STR_PlaceID) id=@String.Format("dot{0}", cty.STR_PlaceID) style="display: none" value=@String.Format("{0}|{1}", cty.STR_PlaceID.ToString().Trim(), cty.STR_PlaceTitle.Trim()) />
+                                        </div>
+                                        ctyC += 1;
+                                    }
+                                }
+                            </div>
+                        }
+                        <input type="hidden" name="allID" id="allID" value="" />
+                        <input type="hidden" name="allNA" id="allNA" value="" />
+                    </form>
+                    <div align="center" style="padding: 10px 5px;">
+                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/Botton_FindPacks.jpg" width="181" height="25" border="0" align="absmiddle" onclick="findPacks('frmFindPack')" />
+                    </div>
+                </div>
+            </div>
+        }
+        <!-- end find suggested -->
+        <!-- start feedback -->
+        @if (Model.boxCustomFeed.Count > 1)
+        {
+            <div class="dvRoundBoxes">
+                <div class="dvBGboxTitle">
+                    <span>Feedback from our travelers</span>
+                </div>
+                <div id="TopOverAllFeeds" style=" height: 28px; padding: 0 6px 0;">
+                    <div style="position: relative; margin: 0px 0px 0px -4px;">
+                        <div class="emptyStars" style=@String.Format("width:{0}px;left:10px;", defw)></div>
+                        <div id="dvTopStarsOverAll" class="fullStars" style=@String.Format("width:{0}px;left:10px;", w)></div>
+                        <div id="dvTopStarsOverAllStr" class="darkText" style="float: left; position: absolute; left: 136px; width: 150px; top: 5px;font-size:12px; ">@overAllAvg out of 5 stars</div>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                <p style="padding: 0 18px 5px;font-weight: 700;margin: 0 0 10px 0;border-bottom: 1px dotted #ccc; text-align:left;">@Model.packFeedCountCity Reviews</p>
+
+                <div style="padding: 0px 0px 10px 0px; width: auto;" align="left">
+                    @{
+                        string col = "";
+                        Int32 tresShow = Model.boxCustomFeed.Count;
+                        string[] feedLineParts;
+                        if (tresShow > 3)
+                        {
+                            tresShow = 3;
+                        }
+                        for (Int32 fdd = 0; fdd <= tresShow - 1; fdd++)
+                        {
+                            feedLineParts = Model.boxCustomFeed[fdd].Split("|");
+                            if (fdd % 2 == 0)
+                            { col = "#EAF2FF"; }
+                            if (fdd % 2 == 1)
+                            { col = "white"; }
+
+                            <div style="padding: 10px; background-color: @col;" class="dvFeedLink">
+                                <div class="comment" style="word-wrap: break-word;"> @Html.Raw(feedLineParts[0]) </div>
+                                <div style="padding: 5px 5px 1px 0px;">
+                                    <a asp-route="Feedback_Route" asp-route-country="@Model.countryNA.Replace(" ","_")" asp-route-pack="@feedLineParts[5].Replace(" ","_")" asp-route-id="@feedLineParts[4]">
+                                        Read more - See this traveler's itinerary
+                                    </a>
+                                </div>
+                                <div style="padding: 1px 5px 5px 0px;">
+                                    Traveled on:
+                                    @String.Format("{0: MMMM yy}", @feedLineParts[2].ToString())
+
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div align="center">
+                    <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg" />
+                </div>
+                <div align="left" style="padding: 10px 15px;" class="Text_12">
+                    <a href=@String.Format("{0}/{1}/trips_taken_by_travelers",_appsettings.CurrentValue.ApplicationSettings.SiteName,@Model.areaNA.Replace(" ", "_").ToLower())>
+                        Browse feedback
+                        -
+                        @Model.areaNA
+                    </a>
+                </div>
+            </div>
+        }
+        <!-- end feedback -->
+        <div class="dvRoundBoxes">
+            <div style="padding: 3px 10px 3px 10px;">
+                <div class="BG_need">
+                    <div class="Blue-Arial14" align="right" style="padding: 10px 20px 5px 3px;">
+                        Need booking assistance?
+                    </div>
+                    <div align="right" class="Text_12" style="padding: 5px 15px 5px 3px;line-height:17px;">
+                        <b>We're glad to help:</b><br />
+                        Call Us <b>7</b>  days a week<br />
+                        from 8AM to Midnight ET<br />
+                        <span class="Text_Arial16_navy"><b>1-800-430-0484</b></span>
+                    </div>
+                    <div align="right" class="Text_12" style="padding: 5px 15px 5px 3px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end div right -->
+</div>
+
+<div style="clear: both"></div>
+<a name="discla"></a>
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/js/gpgp2/dt.java.gp2page.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/smallcalendar/dt.java.TM.Calendar.js" asp-append-version="true"></script>
+        <script src="~/js/smallcalendar/dt.java.TM.CommonFunctions.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/gpgp2/dt.java.gp2page.min.js" asp-append-version="true"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+        <script src="~/js/smallcalendar/smallcalendar.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

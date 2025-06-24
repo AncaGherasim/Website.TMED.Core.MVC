@@ -1,0 +1,1549 @@
+﻿.dvmainContenedor {
+    width: 980px;
+    margin: 0 auto;
+}
+.dvPageTitle {
+        text-align: center; letter-spacing: 0;
+        color: #638BD1;
+        opacity: 1;
+        margin: 22px 0 10px;
+        font-size: 45px;
+        font-weight: 700;
+    }
+.cmsContainer {
+    width: 980px;
+    height: auto;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 3px 4px 8px #00000080;
+    border: 1px solid #DDDDDD;
+    opacity: 1;
+}
+.dvCMSContainerWBorder {
+    height: auto;
+    width: auto;
+    max-width: 980px;
+     border: none!important; 
+    padding: 0px!important;
+    text-align: left;
+    margin: 5px auto 0 auto;display:inline-block!important;
+}
+
+.dvCMSContainerWBorder:nth-child(2) {
+        padding: 20px 36px 20px 26px!important;
+        font-size: 14px;
+        text-align: justify;
+        line-height: 18px;
+    }
+.dvCMSContainerWBorder p {
+        font-size: 14px;
+        text-align: justify;
+        line-height: 18px;
+    }
+    .dvCMSThreeImages {
+        margin: 0 auto;
+        text-align: center;
+        width: auto;
+        max-width: 980px!important;padding-top:30px;width:980px!important
+    }
+.dvCMSThreeImages span {
+            float: left;
+            width: 33%;
+ }
+.dvCMSThreeImages span img {
+    max-width: 200px;
+    max-height: 200px;
+    width: 100%;
+    border: 2px solid #ccc;box-shadow: 6px 5px 5px #ccc;
+}
+.divPackName {
+    padding: 5px 12px 5px 20px;
+    font-size: 18px;
+    font-weight: 100;
+    height: 0;
+    color: white;
+    display: flex;
+    align-items: end;
+}
+.dvPoiLink{word-wrap:break-word; float:left; padding:43px 15px;line-height:15px; cursor:pointer;font-size:18px;font-weight:100}
+.liHotel {
+    margin: 3px 5px 30px 35px;
+    display: block;
+    width: 160px;
+    height: 24px;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/cm_orange.png);
+    background-repeat: no-repeat;
+}
+.divHotel{word-wrap:break-word; float:left;width:140px;height:auto;font-size:18px;color:#1B2560;padding: 0 31px;}
+.liHotel2{margin:3px 5px 30px 35px; display:block;width: 18px;height: 18px;border: 4px solid #FBA919;}
+.dvregion{display:block;width:270px;float:left;padding-top:30px;list-style: none;height:auto;}
+.moreExplore:nth-child(2) {margin: 0 80px;}
+.moreExplore:nth-child(5) {margin: 0 80px;}
+.moreExplore:nth-child(8) {margin: 0 80px;}
+section.region{width:980px;margin:0 auto;}
+.region li:nth-child(2){margin:0 85px}
+.dvEachHide {display: none;list-style:none!important;padding:0px;width:980px;margin:0 auto}
+.dvEachHide li:nth-child(2).dvregion{margin:0 85px}
+.dvEachHide li:nth-child(5).dvregion{margin:0 85px}
+.dvEachHide li:nth-child(8).dvregion{margin:0 85px}
+.dvEachHide li:nth-child(12).dvregion{margin:0 85px}
+.sectionDescription {
+    margin: 3px 5px 10px 5px;
+    display: block;
+    padding-top: 5px;
+    border-bottom: 1px solid #3366FF;
+    padding-bottom: 46px;margin:0 auto; width:980px;
+}
+.imgBestvac {
+    width: 326px;
+    height: 326px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 3px 4px 8px #00000080;
+    border: 1px solid #DDDDDD;
+    opacity: 1;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.descriptionBest {
+    text-align: justify;
+    line-height: 24px;
+}
+.titleDescription {
+    display: table-cell;
+    padding-left: 35px;
+   vertical-align:middle
+}
+.ulReviews{padding: 10px 0px 10px 0px; width: auto;list-style: none;}
+.darkText {
+    color: #666;
+    display: table-cell;
+    padding-left: 10px;
+    vertical-align:top;
+    padding-top: 2px;
+    font-size: 14px;
+}
+.BGpageTitle{background-image:url(https://pictures.tripmasters.com/siteassets/d/BG_PgTitle.jpg);background-repeat:no-repeat;background-position:left top;height:45px}
+.dvBGpageTitle{height:46px;background:#336AC5;-moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;margin-top:15px; max-width:980px}
+.BGboxTitle{margin:0 0 10px;padding:9px 0 0 10px;font-weight:100;font-size:28px;color:#1B2560}
+.BGboxTitle span{font-size:28px;color:#1B2560;font-family:Arial, Helvetica, sans-serif;text-align:left;display:inline}
+.BGboxTitleLft{height:20px;background:#638bd1;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;margin:0 0 10px;padding:4px 0 0 10px}
+.BGboxTitleLft span{color:#FFF;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-align:left;display:inline}
+.bg_navDestinos{background-color:#FFF;width:auto;height:auto;padding:10px;display:none;border:solid 2px #999;-moz-border-radius:32px;-webkit-border-radius:32px;border-radius:10px;behavior:url(border-radius.htc)}
+#dvlinkHeader{font-size:12px;color:#FFF;margin-right:15px;height:45px;float:right}
+#dvlinkHeader a{text-decoration:none;color:#FFF;padding:12px 8px 19px}
+#dvlinkHeader a:hover{color:#FFF;background-image:url(https://pictures.tripmasters.com/siteassets/d/nav_bgOver.jpg);background-repeat:repeat-x;text-decoration:underline}
+.dvBg_navDestinos{background-color:#FFF;width:auto;height:auto;padding:10px;display:none;border:solid 2px #999;-moz-border-radius:32px;-webkit-border-radius:32px;border-radius:10px}
+.bxTitleWhite30{font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#FFF;padding:5px 15px}
+.dvwitheRound{-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;background-color:#FFF}
+.dvCityList{padding:10px;float:left;width:40%;text-align:left}
+.packTitle_15{font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#333;font-weight:700}
+.dvOrangeTitle_16{font-family:Arial;font-size:16px;color:#F60;text-align:left;padding-bottom:5px;padding-top:10px;font-weight:700}
+#dvfeatPics{margin-top:10px;border-top:solid 1px #36F;padding-top:3px;cursor:pointer}
+#dvfeatInfo{margin-top:3px;text-align:left}
+.dvBGfeatuItin{background-image:url(https://pictures.tripmasters.com/siteassets/d/BG_featureItin.jpg);background-repeat:no-repeat;background-position:top}
+#dvfeatPckTitle{font-size:16px;color:#333;font-weight:700;padding:10px 5px;text-align:left}
+#dvpackDescription{font-size:12px;color:#666;cursor:pointer;width:auto;text-align:left;float:left;width:275px;padding:0 7px 0 5px;}
+#dvpackDescription p {padding-top:0px; margin-top:0px;}
+.dvpackDescription{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#666;text-align:left}
+.dvMoreDetail {
+    font-family: Arial;
+    font-size: 14px;
+    color: #000;
+    padding: 8px 15px;
+    margin-top: 70px;
+    height: 28px;
+    background: transparent linear-gradient(180deg,#fff 0%,#cfcfcf 100%) 0% 0% no-repeat padding-box;
+    border: 1px solid #e4e4e4;
+}
+.moreDetails{font-size:15px;padding-top:5px;}
+.moreDetails span {
+    float: right;
+    font-size: 22px;
+    position: relative;
+    transform: rotate(90deg);
+}
+.hrDotedLine {
+    border-bottom: 1px #112b77 dotted;
+    border-style: none none dotted;
+    color: #fff;
+    background-color: #fff;
+    width: 90%
+}
+.dvFeedLink {
+    padding:10px 20px;text-align:justify;
+    font-size: 12px}
+.dvFeedLink:nth-child(even){background-color:#FFF}
+.dvFeedLink:nth-child(odd){background-color:#EAF2FF}
+.emptyStars {background: transparent url(https://pictures.tripmasters.com/siteassets/d/stars_empty.png) no-repeat scroll 0 0;height: 23px; float: left; position: absolute;top: 0px;}
+.fullStars {background: transparent url(https://pictures.tripmasters.com/siteassets/d/stars_full.png) no-repeat scroll 0 0;height: 23px;float: left;position: absolute;top: 0px;}
+#linkHeader{font-size:12px;color:#FFF;margin-right:15px;height:45px}
+#linkHeader a{text-decoration:none;color:#FFF;padding:12px 8px 19px}
+#linkHeader a:hover{color:#fff;background-image:url(https://pictures.tripmasters.com/siteassets/d/nav_bgOver.jpg);background-repeat:repeat-x;text-decoration:underline}
+#eachDST{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:navy;padding:3px 0 3px 5px;margin-bottom:5px}
+#eachDST:hover{background-color:#CBDCED;cursor:pointer;text-decoration:underline}
+.orangeTitle_20{font-family:Arial;font-size:2em;color:#F60;text-align:left;font-weight:400}
+.BestCity {
+    font-size: 18px;
+    color: #f60;
+    margin-top:57px;
+    margin-bottom:40px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.TopOverAllFeeds{ height: 28px; padding: 0 6px 0;border-bottom: 1px dotted #ccc;font-size:14px;padding-bottom:5px}
+.BlueArrow{color:#638BD1;font-size:16px;display: table-cell;
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-bottom: 23px;}
+.NoReviews {
+    padding: 0px 7px 22px;
+    font-weight: 700;
+    display: table-cell;
+    vertical-align: middle;
+}
+.BGfeatuItin {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/BG_featureItin.jpg);
+    background-repeat: no-repeat;
+    background-position: top
+}
+.BGfeatuItin{background-image:url(https://pictures.tripmasters.com/siteassets/d/BG_featureItin.jpg);background-repeat:no-repeat;background-position:top}
+.BGotherFeatu {
+    float: left;
+    padding-top: 10px;
+    width: 224px;
+    height: auto;
+    border: 1px solid #E4E4E4;
+}
+.BGotherFeatu:nth-child(2){margin:0 25px}
+.BGotherFeatu:nth-child(3){margin-right:25px}
+.BGotherFeatuMr{width:143px;height:auto;float:left;margin:1px}
+.BGother{float:left}
+.packageName:hover{text-decoration:underline;}
+.BGotherDwn {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/BG_VerticalSeparator.gif);
+    background-repeat: repeat-x;
+    background-position: center bottom;
+    width: 1px;
+    height: auto;
+    float: left;
+}
+.BGpriceButtom {
+    background: #ebf1ff none repeat scroll 0 0;
+    border-radius: 10px;
+    display: table-cell;
+    height: auto;
+    padding: 20px 10px 20px;
+    text-align: center;
+    vertical-align: middle;
+    width: 200px;
+    float: right;margin-top:20px;
+}
+.BGDown {
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 0 1px;
+    height: 20px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+ .BGDown div {
+        background: #fff url(https://pictures.tripmasters.com/siteassets/d/BG_Down.jpg) no-repeat scroll center top;
+        display: inline-block;
+        height: 22px;
+        position: relative;
+        /*top: 4px;*/
+        width: 100%;
+        z-index: 5;margin-top:0px;
+    }
+.infoText {
+    padding: 5px 0px 0px 5px;
+    color: #666;
+    font-size: 12px;
+    text-align: justify;
+    line-height: 20px
+}
+.infoText p {font-size:12px; line-height:20px;margin:0px;}
+.dvMoreDetailClose {
+    margin: 23px 0;
+    font-size: 14px;
+    font-weight: 700;
+}
+.featMoreDetails {
+    padding: 0px 0px 2px 0px;
+    float: left;
+    font-size: 14px;
+    font-weight: 100;
+    color: #666;
+    width: 21%;
+}
+#otherMr {
+    border: 1px solid #ccc;
+    height: auto;
+    padding: 15px;
+    position: relative;
+    margin-top:-1px;width:947px
+}
+.listOverview {
+    word-wrap: break-word;
+    padding: 5px 0px 0px 0px;
+    height: 25px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+}
+.listOverview span{width: 8px;height: 8px;background: #FF6600 0% 0% no-repeat padding-box;display: inline-block;margin-right: 10px;}
+.listOverview a{font-size:14px;color:#1B2560!important;text-decoration:none;cursor:pointer}
+.listOverviewa:hover{color:red;text-decoration:underline}
+.liwhatToExpect{word-wrap:break-word; float:left; height:auto;font-size:14px;color:#1B2560!important;height:25px}
+.spanliWhatToExpect{width: 8px;height: 8px;background: #FF6600 0% 0% no-repeat padding-box;display: inline-block;margin-right: 10px;}
+.mapHotelsActivities{background: #F5F5F5 0% 0% no-repeat padding-box;border-radius: 6px; display:block; width: auto; margin:52px 0 17px;height:250px}
+.map{width:46%;float:left;margin:30px 14px 30px 25px;background: #FFFFFF 0% 0% no-repeat padding-box;border-radius: 10px;height:183px;padding: unset}
+.map__name {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.hotelActivities{width:46%;float:right;margin:30px 25px 30px 14px; background: #FFFFFF 0% 0% no-repeat padding-box;border-radius: 10px;height:183px;padding: unset;}
+.title{text-align: left;margin: 0px;font-weight: 100;font-size:18px;letter-spacing: 0;color: #638BD1;opacity: 1; padding: 21px 33px;text-transform:uppercase}
+#dvPoiMap {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/map_icon2.png);
+    background-repeat: no-repeat;
+    float: left;
+    width: 90px;
+    cursor: pointer;
+    margin-left: 30px;
+    border: 1px solid #638bd1;border-radius:6px;height:100px
+}
+.titleRegion {
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 18px !important;
+    letter-spacing: 0;
+    color: #1B2560;
+    opacity: 1;
+    padding-top: 30px;
+    font-weight: 600;padding-bottom:30px;
+}
+.dvEachHideExpl{display:none; width: 980px;margin: 0 auto;}
+.dvEachHideExpl li:nth-child(2).dvregion{margin:0 85px}
+.dvEachHideExpl li:nth-child(5).dvregion{margin:0 85px}
+.dvEachHideExpl li:nth-child(8).dvregion{margin:0 85px}
+.dvEachHideExpl li:nth-child(11).dvregion{margin:0 85px}
+.dvEachHideExpl li:nth-child(14).dvregion{margin:0 85px}
+.dvEachHideExpl li:nth-child(17).dvregion{margin:0 85px}
+.dvEachHideExpl.ulVisible{
+    display:flex !important;
+    flex-wrap: wrap;
+}
+.moreButton {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #212D6E;
+    border-radius: 23px;
+    color: #212D6E;
+    cursor: pointer;
+    font-size: 13px !important;
+    margin: 0 auto;
+    max-width: 340px;
+    padding: 10px 0px;
+    margin-top: 33px;
+    text-align: center;
+    font-weight: 700;
+}
+.divdvregion {
+    border: 1px solid #D0D0D0;
+    width: 270px;
+    height: 270px;
+    margin: 0 auto;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.divTilteRegion {
+    word-wrap: break-word;
+    height: auto;
+    font-size: 22px;
+    padding-top: 20px;
+    width: 270px;
+    display:table
+}
+    .divTilteRegion span {
+        color: #1b2560;
+        font-size: 22px;
+        word-wrap: break-word;
+        font-weight: 200;
+        display: table-cell;
+        vertical-align: middle;
+    }
+.divTilteRegion1623 {
+    word-wrap: break-word;
+    height: auto;
+    font-size: 22px;
+    padding-top: 20px;
+    width: 270px;text-align:center
+}
+.moreButton span {
+    float: right;
+    font-size: 28px;
+    position: relative;
+    top: -6px;
+    transform: rotate(90deg);
+}
+.moreButtonExpl {
+    background: #fff 0% 0% no-repeat padding-box;
+    border: 1px solid #212d6e;
+    border-radius: 23px;
+    color: #212d6e;
+    cursor: pointer;
+    font-size: 13px !important;
+    margin: 0 auto;
+    margin-top: 0px;
+    max-width: 340px;
+    padding: 10px 0px;
+    width: auto;
+    margin-top: 33px;
+    text-align: center;
+    font-weight: 700;
+}
+.moreButtonExpl:hover {
+    background: #fff 0% 0% no-repeat padding-box;
+    border: 1px solid #212d6e;
+    border-radius: 23px;
+    color: #212d6e;
+}
+
+.arrowMore:hover {
+    text-decoration: none !important;
+    color: black !important
+}
+.ulinterests{list-style:none!important;padding:0px;margin:0}
+.liInterest{padding:20px 0;margin:0px!important}
+.imgInterests {
+    width: 150px;
+    height: 150px;
+    background: #fff 0% 0% no-repeat padding-box;
+    box-shadow: 3px 4px 8px #00000080;
+    border: 1px solid #ddd;
+    opacity: 1;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.imgInterests img{width:130px; height:130px; margin: 0 auto;max-height:130px;max-width:130px}
+.titleMore{font-size:18px;color:#1B2560;padding-bottom:15px;text-transform:uppercase;font-weight:700;padding-top:10px;}
+.ulMore{list-style:none!important;padding:0px;margin:0}
+.moreDescription {
+    margin-bottom: 10px;
+    float: left;
+    width: 273px;
+    color: #666666;
+    font-size: 13px;
+    line-height: 23px;
+}
+.titlesuggestion {
+    padding: 30px 5px 15px 5px;
+    color: #f60;
+    font-size: 18px;
+    font-weight: 700;text-transform:uppercase;
+}
+.packageName {
+    font-size: 16px;
+    position: relative;
+    top: -12px;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+    .packageName a {
+        color: white !important;
+        font-size: 1rem;
+        text-decoration: unset !important;
+        font-weight: 700;
+    }
+.packageNameSuggested {
+    width: 76%;
+    float: left;
+    padding: 0px 0px 0px 20px;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 14px;
+    color: #1B2560
+}
+.packageNameSuggested span:hover{color:red;text-decoration:underline}
+.packagesPrice{font-size:14px;font-weight:100;color:#666;float:left;width:20%;}
+.priceGrey {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+}
+.liSuggested {
+    padding: 15px 0px 0px;
+    height: 35px;
+   margin-top:10px;
+}
+.liSuggested:nth-child(odd){background-color:#EAF2FF}
+.liSuggested:nth-child(even){background-color:white}
+
+.pMoreDescription{
+    font-size: 13px!important;
+    color: #666!important;
+}
+.packageNameSuggested span:hover {
+    color: red;
+    text-decoration: underline
+}
+.liSuggested:hover .arrow {
+    color: red!important
+}
+.divarrow {
+    padding-right: 15px;
+    float: right;
+    width: 5%;
+}
+span.arrow {
+    transform: rotate(90deg);
+    font-style: normal;
+    font-weight: 100;
+    margin-left: 60px;
+    font-size: 36px;
+    float: right;
+    position: relative;
+    top: -30px;
+    cursor: pointer;
+}
+span.arrow:hover{color:red}
+.dvsuggInfo {
+    line-height: 20px;
+    padding: 20px 20px 40px 20px;
+    border: 1px solid #ccc;
+    color: #666;
+    font-size: 12px;
+    display: none;
+    text-align: justify;
+    width:95.7%;
+}
+.ulHideSuggest {
+    padding-left: 15px;
+    font-size: 12px;
+    list-style: disc;
+}
+.dvSuggCustomIt {
+    background: #1b2560 none repeat scroll 0 0;
+    border: 1px solid #ccc !important;
+    display: table-cell !important;
+    float: right;
+    padding: 5px 18px 5px 0;
+    text-align: center;
+    width: 178px;
+    border-radius: 20px
+}
+.buttonFindSimilar{
+    float: right;
+    border: none;
+    background: white;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: 700;}
+.dvSuggCustomIt a:hover{color:white;text-decoration:none!important}
+.spanSuggCustomIt:hover{color:white;}
+.DotedLine{width:100%!important;padding-top: 15px;}
+.dvSuggCustomIt a{color:white;font-size:18px;}
+.dvShowMap{display:none;position:absolute;width:850px;height:650px;margin:0 auto;left:50%;margin-left:-440px;padding:20px;border-radius:10px;background:#fff;z-index:50;border:1px solid #638bd1;box-shadow:inset 0 0 15px #638bd1}
+.dvGoogleMap{border:1px solid #CCC}
+.dvmapTitle{float:left;width:60%;padding:5px 15px;line-height:16px;font-family:Arial,Helvetica,sans-serif;font-size:18px;color:#036;font-weight:700;margin:3px 0}
+.dvmapClose{float:right;width:30%;margin:3px 0;padding:5px 25px;text-align:right;font-weight:700}
+.dvmapClose span{color:#F60}
+.dvmapClose span:hover{cursor:pointer;text-decoration:underline}
+.labels{color:red;background-color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;text-align:center;border:1px solid #000;white-space:nowrap}
+.bubble{padding:2px 5px 2px 20px;position:relative;border:1px solid #CCC;background-color:#FFF;top:5px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;width:auto;max-width:220px;height:auto;text-align:left;overflow:visible;color:#036;font-size:12px;font-weight:700;box-shadow:5px 5px 5px #CCC}
+.bubbleH{padding:2px 5px;position:relative;background-color:#FFF;top:5px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;width:auto;max-width:140px;height:auto;text-align:left;overflow:visible;color:#006;font-size:11px;font-weight:700;box-shadow:5px 5px 5px #CCC}
+.dvBublleStyle{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#333;padding:5px;width:auto;max-width:300px;min-width:100px;text-align:left}
+.dvBublleStyle img{margin:0 10px 10px 0;width:100px;height:100px;padding:1px;border:1px solid #CCC}
+.dvBublleStyle div{font-weight:700;margin:5px 0;color:#036}
+.dvBublleStyle span{display:inline-block;margin:5px 0;color:#036;cursor:pointer;text-decoration:underline; float:right}
+.dvBublleStyle span:hover{color:red;text-decoration:underline}
+.dvHotBubble{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#333;padding:5px;width:auto;max-width:300px;min-width:100px;text-align:left}
+.dvimgHot{float:left}
+.dvimgHot img{margin:0 10px 10px 0;width:100px;height:100px;padding:1px;border:1px solid #CCC}
+.dvaddHot{float:left;padding:20px 5px 5px;text-align:left}
+.dvaddHot span{font-weight:700;color:#003}
+.dvaddHot p{color:#333;margin:5px 0 0!important}
+.dvdescHot{clear:both}
+.dvBublleStyle div img{width:auto!important;height:auto!important;border:none!important;margin:0!important}
+.dvBublleStyle div p{font-size:11px;font-weight:400;margin:3px 0}
+.browseButton {
+    background: #ffecb2 linear-gradient(to bottom,#ffecb2 18%,#ffecb2 4%,#ffc515 50%,#ffc515 100%) no-repeat scroll 0 0;
+    border: 1px solid #ffc001;
+    border-radius: 20px;
+    color: #000!important;
+    cursor: pointer;
+    display: inline;
+    font-size: 14px !important;
+    font-weight: bolder !important;
+    padding: 10px 18px;
+    width: 300px;
+}
+.browseButton::after {
+    content: " ›";
+    font-size: 28px;
+    position: relative;
+    top: 3px;
+    left: 8px;
+}
+.buildButton {
+    background: #2c3c9c linear-gradient(to bottom,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0;
+    border: 1px solid #1b2560;
+    border-radius:20px;
+    color: #fff;
+    cursor: pointer;
+    display: inline;
+    font-size: 14px !important;
+    font-weight: bolder !important;
+    padding: 11px 48px;
+    text-decoration: none;
+    width: 300px;
+}
+.buildButton::after {
+    content: " ›";
+    font-size: 28px;
+    position: relative;
+    top: 4px;
+    left: 36px;
+    color: #fff;
+}
+.buildButton:hover{ color: #fff!important;text-decoration:none!important}
+.falsecheck {
+    font: 11px Arial,Tahoma,Helvetica,sans-serif;
+    text-decoration: none;
+    outline: none;
+    background: url(https://pictures.tripmasters.com/siteassets/d/checkboxN.gif) no-repeat;
+    min-height: 17px;
+    display: block;
+    padding: 1px 0 0 20px;
+    color: #666
+}
+
+    .falsecheck:hover {
+        background-color: #8698f1;
+        color: #fff;
+        text-decoration: none
+    }
+
+.falsechecked {
+    background-position: left -25px;
+    background-color: #8698f1;
+    color: #fff
+}
+.sectionWhatTo {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    width: 42%;
+    float: right;
+    margin: 30px 0;
+    flex:1 auto;max-width:42%;
+    padding: 5px 30px;margin-left:10px
+}
+.ulWhatTo{padding:0px}
+.sectionOverview {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    width: 42%;
+    float: left;
+    padding: 5px 30px;
+    margin: 30px 0;
+   flex:1 auto;margin-right:10px;max-width:42%;
+}
+.ulOverview {list-style: none;padding: 0px;}
+.titleH1Blue {
+    font-size: 18px;
+    color: #638BD1;
+    text-transform: uppercase;
+    font-weight: 100
+}
+.sectionCities {
+    width: 49%;
+    float: left;
+    padding-bottom: 30px;
+    margin-top: 5px;
+    flex: 1 auto;
+}
+.titleSectionCities {
+    color: #1B2560;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 18px;
+    text-transform: uppercase;font-weight:700;margin-top:40px;padding-left:30px;
+}
+.ulCities {
+    display: block;
+    list-style: none;
+    padding-left: 30px;
+}
+.listCities {
+    margin: 4px 0px;
+    padding: 0px;
+    display: block;
+    font-size: 12px;
+    height: 22px;
+    font-weight: 100;
+}
+.listCities a {color:#666666;font-weight:100}
+.Text_12_li {
+    font-size: 12px;
+    color: #666;
+    margin: 4px 0px;
+    padding: 15px 10px 0px 0px;
+    display: block;
+}
+.titleCombine {
+    font-size: 18px;
+    color: #1B2560;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 40px;
+    padding-left: 40px;
+}
+.listCombine a:hover{color:red}
+.sectionCombine {
+    width: 49%;
+    float: left;
+    margin-top: 5px;
+    border-left: 1px dashed #E4E4E4;
+    flex: 1 auto;
+}
+.ulCombine{list-style: none; padding-left: 40px;}
+.listCombine {
+    margin: 4px 0px;
+    padding: 0px;
+    font-size: 12px;
+    height: 22px;font-weight:100;
+}
+.listCombine a{color:#666666!important}
+.dvPageTitleWhite {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 26px;
+    font-weight: 100;
+    color: #fff;
+    padding: 15px 25px;
+    background: #638bd1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 15px;
+    max-width: 980px;text-transform:capitalize;
+}
+.bestTitle {
+    text-align: left;
+    letter-spacing: 0px;
+    color: #FF6600;
+    opacity: 1;
+    font-size: 18px;
+    font-weight: 700;
+    padding-bottom: 27px;
+    padding-top: 27px;
+    margin: 0;
+}
+.otherTitle {
+    text-align: left;
+    font-size: 18px;
+    letter-spacing: 0px;
+    color: #FF6600;
+    font-weight: 700;
+    padding-bottom: 24px;
+}
+div.dvFeatContenedor {
+    height: auto;
+    padding: 0 0 10px;
+    background: #e1e7f3 linear-gradient(to bottom,#e1e7f3 5%,#fff 100%) repeat scroll 0 0;
+    border-bottom: 1px solid #36f;
+}
+div.dvFeatPictures {
+    width: 290px;
+    float: left;
+    padding: 10px;
+}
+#dvImgContOv {
+    display: inline-block;
+    text-align: center;
+}
+#dvImgContOv img {
+        border: solid 1px #ccc;
+        padding: 1px;
+        margin-top: 0px;max-height:290px;max-width:290px;}
+#dvallTHU {
+    padding: 5px 0px 4px 14px;
+    width: 296px !important;
+    border: 1px solid #ccc;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+#prev {
+    background-position: 0 0;
+    left: 10px;
+}
+#next {
+    background-position: -18px 0;
+    right: 10px;}
+
+#prev, #next {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/carousel_control_1.png) no-repeat scroll 0 0;
+    display: block;
+    height: 21px;
+    margin-top: 8px;
+    text-indent: -999em;
+    width: 15px;
+}
+
+#thumbs span {
+    color: #666;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    text-align: center;
+}
+.moreImgButt_T4 {
+    background: 0 0 !important;
+    color: #1b2560;
+    cursor: pointer;
+    font-size: 12px;
+    height: 22px;
+    margin-top: 5px;
+    padding-bottom: 0;
+    padding-top: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px !important;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+div.dvFeatInfo {
+    width: 630px;
+    float: left;
+    padding: 10px;}
+span.spfeatTitle {
+    font-size: 20px;
+    color: #1b2650;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+span.spfeatTitle a {text-decoration: none !important;}
+span.spfeatNight {
+    font-size: 14px;
+    color: #666;
+    padding: 4px 0 0;
+    margin: 0;
+    font-weight: 400;
+}
+span.spfeatNight span {
+        color: #ff7f00;
+        font-weight: 700;}
+p.pfeatFeed {
+    font-size: 12px;
+    color: #00008c;
+    padding: 5px 0 0;
+    margin: 0;
+}
+p.pfeatFeed a {text-decoration: none !important;}
+p.pfeatDesc {
+    font-size: 12px;
+    color: #666;
+    line-height: 18px;
+}
+p.pfeatIncld {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+.dvCustomIt {
+    float: right;
+    border-color: #1b2650;
+    width: 326px;
+    border-radius: 23px;
+    height: 45px;
+    border: 1px solid #212d6e;
+    background-color: #fff;
+}
+.dvCustomIt tr td {
+    font-size: 15px;
+    color: #1b2560;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 3px;
+}
+p.pfeatNight {
+    font-size: 14px;
+    color: #666;
+    padding: 4px 0 0;
+    margin: 0;
+}
+p.pfeatNight font {
+        color: #ff7f00;
+        font-weight: 700;}
+
+.ulPopularVacation {
+    list-style: none;
+    padding: 0px
+}
+.grad {
+    border-bottom-color: rgba(163, 163, 163, 0.2);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    background: transparent linear-gradient(180deg, #FFFFFF 0%, #E9F2FE 100%) 0% 0% no-repeat padding-box;
+    width: 32%;
+    float: left;
+    height: 350px;
+}
+.grad:nth-child(2) {margin: 0 19px}
+.licountries {
+    margin: 4px 0px;
+    padding: 0px 0px 20px 0px;
+    display: flex;
+    border-bottom: 1px solid #D2D2D2;
+    height: auto
+}
+.dvFeatViewIt {
+    width: 120px;
+    height: 27px;
+    background: #fff 0% 0% no-repeat padding-box;
+    border: 1px solid #212d6e;
+    border-radius: 15px;
+    margin: 0 auto;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    display: block;
+    margin-top: 15px;
+    color: #212d6e;
+}
+.commentPackage {
+    float: left;
+    min-height: 45px;
+    font-family: Arial;
+    font-size: 12px;
+    margin: 10px 0px 0px 10px;
+    width: 170px;
+    line-height: 17px
+}
+.titlePopular {
+    padding: 5px 5px 5px 10px;
+    text-align: left;
+    font-size: 1.8em;
+    color: navy;
+    font-weight: 400;text-transform:capitalize
+}
+.ImgPopPackage {float: right;padding-right: 10px}
+.readPopPackage {
+    padding: 31px 5px 1px 0px;
+    margin-left: 10px;
+    text-align: left;
+    clear: both;
+}
+.readPopPackage {
+    color: #0033FF;
+    font-size: 12px;
+    font-family: Arial;
+}
+.travelPopPackage {
+    padding: 0px 5px 5px 10px;
+    text-align: left;
+    clear: both;
+    color: #666666
+}
+.titlePopPackage {
+    font-family: Arial;
+    font-size: 14px;
+    color: #000080;
+    text-align: left;
+    margin: 32px 0 1px 8px;
+    height: 70px;
+    font-weight: 700;
+}
+.noNights {
+    padding: 2px 3px 2px 0px;
+    width: 145px;
+    text-align: left;
+    margin-left: 10px;
+    margin-top: 1px;
+    color: #666666;
+    font-size: 12px
+}
+.spSuggestPrice {
+    font-size: 12px;
+    color: #FF6600;font-weight:700;
+}
+.buildBrowse {
+    text-align: center;
+    margin: 37px 0 0px 0;
+    border-bottom: 1px solid #36F;
+    padding-bottom: 70px;
+}
+.guided {
+    cursor: pointer;
+    width: 100px;
+    padding: 0px 10px;
+}
+.divdvregion img {
+    max-height: 200px;
+    max-width: 200px;
+    height: 200px;
+    width: 200px
+}
+.titleMoreExpl {
+    padding: 28px 0px 0;
+    float: left;
+    width: 273px
+}
+.titleMoreExpl span {
+        color: #1B2560;
+        font-size: 18px;
+        word-wrap: break-word;
+    }
+#next {
+    background-position: -18px 0;
+    right: 10px;
+}
+#dvFstPic {
+    margin-bottom: 5px;
+}
+.dvClose {
+    text-align: right;
+    padding: 10px 15px;
+}
+.dvClose span {
+        font-size: 11px;
+        color: #03c;
+        cursor: pointer;
+    }
+#dvmcR {
+    float: right;
+    margin-right: 0;
+    width: 41%;
+}
+#dvThuPic {
+    cursor: pointer;
+}
+.dvMPV {
+    font-size: 12px;
+    color: #666;
+    font-weight: 700;
+    text-align: left;
+    padding: 5px 10px;
+    margin: 5px auto;
+    width: 400px;
+}
+NSel {
+    border: 1px #999 solid;
+    margin: 1px;
+}
+#dvmediaContent {
+    margin: 5px 8px 20px;
+}
+#dvmcL {
+    float: left;
+    margin-left: 0;
+    width: 58%;
+}
+.dvFeatInfo li{list-style:none;}
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+li{font-size:12px;}
+.pfeatIncld b{color:#666}
+.pfeatIncld{margin-left:0px}
+.p1LiCountries {
+    width: 280px;
+    height: 100px;
+    background: #638BD1 0% 0% no-repeat padding-box;
+    border: 1px solid #D2D2D2;
+    float: left;
+    margin: 0px;
+    display: table;margin-top:10px;
+}
+.p1LiCountries a{margin: 37px 0 37px 10px;display: flex;font-size: 22px;color: white;float:left;text-decoration: unset!important;word-wrap: break-word;}
+.p2LiCountries {
+        padding: 10px;
+        text-align: justify;
+        width: 100%;
+        letter-spacing: 0px;
+        color: #707070;
+        margin: 0px
+    }
+.browseTrips{margin: 15px 10px 0px 15px;font-size:18px;font-weight:700;color: navy;text-align:center;}
+.imgBrowse{margin:5px 0px 5px 0px ;text-align:center;padding-bottom:20px}
+.divBrowseTrips {
+    background: url(https://pictures.tripmasters.com/siteassets/d/TripsTakenByOthers_Small.jpg) no-repeat right top;
+    height: 130px;
+    margin-right: 320px;
+    text-align: left;
+}
+.divSelect{width:238px;text-align:left; padding:15px 0px 5px 335px;}
+.backgroudDivSelect{background-color:#e7eef9; padding:5px;}
+.cmbCountry{width:216px; margin:2px 0px 2px 5px;}
+.sectionBrowseTrips {margin-top: 30px;border-top: 1px solid #36f;padding-top: 15px;}
+.divarrow{padding-right:15px}
+.dvEachHideInterest {display: none;list-style:none!important;padding:0px;width:980px!important;margin:0 auto!important;}
+.dvEachHideAttractions{display: none;list-style:none!important;padding:0px;width:980px!important;margin:0 auto!important;}
+.dvEachHideInterest li:nth-child(2).dvregion {
+    margin: 0 85px
+}
+.dvEachHideInterest li:nth-child(5).dvregion{margin:0 85px}
+.dvEachHideInterest li:nth-child(8).dvregion{margin:0 85px}
+.dvEachHideInterest li:nth-child(11).dvregion{margin:0 85px}
+.dvEachHideInterest li:nth-child(14).dvregion{margin:0 85px}
+.moreButtonInt, .moreButtonExplore, .moreButtonAttractions {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #212D6E;
+    border-radius: 23px;
+    color: #212D6E;
+    cursor: pointer;
+    font-size: 13px !important;
+    margin: 0 auto;
+    max-width: 340px;
+    padding: 10px 0px;
+    margin-top: 33px;
+    text-align: center;
+    font-weight: 700;
+}
+.dvregion:nth-child(2){margin:0 85px;}
+.dvregion:nth-child(5){margin:0 85px;}
+.dvregion:nth-child(8){margin:0 85px;}
+.dvregion:nth-child(12){margin:0 85px;}
+.blueLineBottom{border-bottom: 1px solid #3366FF;padding-bottom:54px;}
+.blueLineTop {border-top: 1px solid #3366FF; padding-top: 54px;padding-bottom:20px}
+td p{margin:0 auto;text-align:center;}
+td p span{font-size:14px!important;}
+.dvRoundBoxes {
+     margin: 10px 0; 
+     border: 1px solid white!important; 
+     box-shadow: inset 0 0 15px white!important; 
+     padding: 20px; 
+}
+td p img {
+    max-width: 200px!important;
+    max-height: 200px!important;
+    width: 200px!important;
+    height:200px;
+    border: 2px solid #ccc;
+    box-shadow: 6px 5px 5px #ccc;
+}
+td div{text-align:center;}
+td div img {
+    max-width: 200px !important;
+    max-height: 200px !important;
+    width: 200px !important;
+    height: 200px;
+    border: 2px solid #ccc;
+    box-shadow: 6px 5px 5px #ccc;
+}
+.Text_Arial20_Blue {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 20px;
+    color: #036;
+    font-weight: 100;
+}
+tr td span{font-size:14px!important}
+tr td {padding-top:15px ;}
+.dvEachHideAttractions, .dvEachHideCountries, .dvEachHideCities{display: none;list-style:none!important;padding:0px;width:980px!important;margin:0 auto!important;}
+.dvEachHideAttractions li:nth-child(2).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(5).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(8).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(11).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(14).dvregion{margin:0 85px}
+.moreButtonAttractions, .moreButtonCountries, .moreButtonCities, .moreButtonTravel {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #212D6E;
+    border-radius: 23px;
+    color: #212D6E;
+    cursor: pointer;
+    font-size: 13px !important;
+    margin: 0 auto;
+    max-width: 340px;
+    padding: 10px 0px;
+    margin-top: 33px;
+    text-align: center;
+    font-weight: 700;
+}
+.dvFeatInfo p {
+    font-size: 12px;
+    color: #666;
+    line-height: 18px;
+}
+.ap1Li {
+    float: right!important;
+    margin: 37px -7px!important;
+    font-size: 24px!important;
+    color: white!important;
+    text-decoration: unset !important;width:10%!important;
+}
+.p1LiCities {
+    width: 324px;
+    height: 100px;
+    background: #638BD1 0% 0% no-repeat padding-box;
+    border: 1px solid #D2D2D2;
+    float: left;
+    margin: 10px 0;
+    display: block
+}
+ .p1LiCities a {
+        margin: 37px 0 37px 10px;
+        display: flex;
+        font-size: 22px;
+        color: white;
+        float: left;
+        text-decoration: unset !important;
+        word-wrap: break-word;
+ }
+.p1LiCities a:hover, .p1LiCountries a:hover { color: red}
+.ap1Li:hover{color:red}
+.divCities p{padding:10px;}
+.divCities, .divCountries{width:97%}
+.sectionOrientation{padding-top:40px}
+.divCms{margin-top:80px;}
+.picNSel{border:1px #999 solid;margin:1px}
+.picNSel:hover{border:1px red solid;margin:1px}
+.picSel{border:1px red solid;margin:1px}
+#dvshowPIC:hover{cursor:pointer}
+.dvhighlight3 {
+    display: block;
+    width: 230px;
+    padding-top: 30px;
+    list-style: none;
+    height: 95px;
+    float: left
+}
+.highlight3div {
+    border: 1px solid #d0d0d0;
+    width: 230px;
+    height: 95px;
+    margin: 0 auto;display:table;
+}
+.highlight3div img {
+        max-height: 75px;
+        max-width: 75px;
+        width: 75px;
+        height: 75px;
+        vertical-align: middle;
+        padding: 10px;
+    }
+.divTilteHighlight3 {
+    word-wrap: break-word;
+    height: auto;
+    font-size: 18px;
+    display: table-cell;
+    vertical-align: middle;font-weight:200;width:60%;
+}
+.regionHighlight {
+    width: 980px;
+    margin: 0 auto;
+}
+.dvhighlight3:not(:nth-child(4n+1)){
+    margin: 0 0 0 20px !important;
+}
+.moreExplore {
+    width: 273px;
+    float: left;
+    list-style: none;
+    height: auto;
+}
+.dvEachHide li:nth-child(8).dvregion{margin:0 85px}
+.dvEachHide li:nth-child(11).dvregion{margin:0 85px}
+.dvEachHide li:nth-child(14).dvregion{margin:0 85px}
+.dvEachHide li:nth-child(17).dvregion{margin:0 85px}
+.imgBestvac {
+    width: 326px;
+    height: 326px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 3px 4px 8px #00000080;
+    border: 1px solid #DDDDDD;
+    opacity: 1;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.descriptionBest {
+    text-align: justify;
+    line-height: 24px;
+}
+.titleDescription {
+    display: table-cell;
+    padding-left: 35px;
+   vertical-align:middle
+}
+.moreButtonAttractions, .moreButtonCountries, .moreButtonCities, .moreButtonTravel {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #212D6E;
+    border-radius: 23px;
+    color: #212D6E;
+    cursor: pointer;
+    font-size: 13px !important;
+    margin: 0 auto;
+    max-width: 340px;
+    padding: 10px 0px;
+    margin-top: 33px;
+    text-align: center;
+    font-weight: 700;
+}
+.dvEachHideAttractions, .dvEachHideCountries, .dvEachHideCities, .dvEachHideTravel {display: none;list-style:none!important;padding:0px;width:980px!important;margin:0 auto!important;}
+.dvEachHideAttractions li:nth-child(2).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(5).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(8).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(11).dvregion{margin:0 85px}
+.dvEachHideAttractions li:nth-child(14).dvregion{margin:0 85px}
+.moreButtonInt, .moreButtonReg {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #212D6E;
+    border-radius: 23px;
+    color: #212D6E;
+    cursor: pointer;
+    font-size: 13px !important;
+    margin: 0 auto;
+    max-width: 340px;
+    padding: 10px 0px;
+    margin-top: 33px;
+    text-align: center;
+    font-weight: 700;
+}
+.blueLineBottom {
+    border-bottom: 1px solid #36f;
+    padding-bottom: 54px;
+}
+.ulHideSuggest li{margin:0px!important}
+.cmsContainerA {
+    width: 979px;
+    height: auto;
+    background: #fff 0% 0% no-repeat padding-box;
+    box-shadow: 3px 4px 8px #00000080;
+    border: 1px solid #ddd;
+    opacity: 1;
+}
+.divTilteReg {
+    word-wrap: break-word;
+    height: auto;
+    font-size: 22px;
+    padding-top: 20px;
+    width: 270px;
+    display: table;
+}
+.divTilteReg span {
+    color: #1b2560;
+    font-size: 22px;
+    word-wrap: break-word;
+    font-weight: 200;  display: table-cell;
+        vertical-align: middle;
+}
+.sectionReviews{padding-top:25px}
+:root {
+    --star-size: 30px;
+    --star-color: #fff;
+    --star-background: #fc0;
+}
+.Stars {
+    --percent: calc(var(--rating) / 5 * 100%);
+    display:table-cell;
+    font-size: var(--star-size);
+    line-height: 1px;
+    padding: 10px 0 0 4px;
+}
+    .Stars::after {
+        content: '★★★★★';
+        letter-spacing: 1px;
+        background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent)) no-repeat;
+        -webkit-text-fill-color: #0000001a;
+        -webkit-background-clip: text;
+    }
+.Orange-Arial15NB {
+    font-family: Arial;
+    font-size: 15px;
+    color: #f60;
+}
+.includedList {
+    color: #666;
+    list-style: none;
+}
+.Orange-Arial12NB {
+    font-size: 14px;
+    color: #FF6600;
+    font-weight: 600;
+}
+.imgPopPack{width:100px;height:100px;}
+.imgBestvac img{width:282px; height:282px;}
+.customButton {
+    border: 1px solid #212d6e !important;
+    border-radius: 20px;
+    color: #212d6e;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 10px auto;
+    max-width: 140px;
+    padding: 8px 0;
+    width: auto;
+    min-width: 140px;
+    display: inline-block;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #fff;
+}
+div.dvLargerView {
+    padding: 8px 0;
+    color: #666;
+    font-size: 11px;
+}
+
+.divTHU {
+    width: 300px;
+    padding-left: 6px;
+}
+span.arrowBest {
+    transform: rotate(90deg);
+    font-style: normal;
+    font-weight: 100;
+    margin-left: 60px;
+    font-size: 36px;
+    float: right;
+    position: relative;
+    top: -11px;
+    cursor: pointer;
+}
+.featMoreDetailsBest {
+    padding: 0px 0px 2px 0px;
+    float: left;
+    font-size: 14px;
+    font-weight: 100;
+    color: #666;
+    width: 14%;
+    font-size: 14px;
+    font-weight: 100;
+    color: #666;
+}
+.table {
+    display: table;
+    margin: 0 auto;
+}
+
+.tr {
+    display: table-row;
+}
+
+.trgroup {
+    display: table-row-group;
+}
+
+.td {
+    display: table-cell;
+}
+.tdPrice {
+    display: inline !important;
+}
+.tdgroup {
+    display: table-row;
+}
+
+.th {
+    display: table-cell;
+}
+.secFeaturePack {
+    background-color: #e1e7f3;
+    height: auto;
+    margin-top: 40px;
+    padding-bottom: 15px;
+    box-shadow: 3px 4px 8px #00000080;
+    border: 1px solid #DDDDDD;
+}
+
+    .secFeaturePack div[class="td"]:first-child {
+        width: auto;
+    }
+
+        .secFeaturePack div[class="td"]:first-child img {
+            margin: 40px;
+            width: 300px;
+        }
+
+    .secFeaturePack div[class="td"]:last-child {
+        vertical-align: top;
+        padding: 40px 30px 0 0;font-size:13px; line-height:20px
+    }
+
+    .secFeaturePack h2 {
+        margin: 0;
+        padding: 0;
+    }
+
+        .secFeaturePack h2 a {
+            font-size: 24px;
+            color: #1b2650 !important;
+            font-weight: 700;
+        }
+
+    .secFeaturePack div[class="td"]:last-child h3 {
+        font-size: 16px;
+        color: #666;
+        padding: 10px 0;
+        margin: 0;
+        font-weight: 500;display:table
+    }
+
+        .secFeaturePack div[class="td"]:last-child h3 span {
+            color: #ff7f00;padding-left:5px;
+        }
+
+    .secFeaturePack div[class="td"]:last-child p {
+        font-size: 13px;
+    }
+.buttomYellowPackage {
+    background: #fffecd linear-gradient(to bottom,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0;
+    border: 1px solid #d9a300 !important;
+    border-radius: 20px;
+    color: #000080 !important;
+    cursor: pointer;
+    font-size: 16px;
+    max-width: 277px;
+    padding: 6px 0;
+    width: auto;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    margin-top: 20px;
+    text-decoration: none !important;
+}
+.hero {
+    margin-top: 15px;
+    position: relative;
+    height: 150px;
+}
+.hero img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.hero h1 {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    text-shadow: 2px 2px 3px #0000008c;
+    color: #fff;
+}
+.hero__shadow {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(transparent 40%, rgba(0, 0, 0, .85));
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.hero__description {
+    margin: 15px 0;
+    line-height: 1.4;
+    font-size: 15px;
+}

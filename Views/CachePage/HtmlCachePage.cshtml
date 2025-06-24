@@ -1,0 +1,159 @@
+﻿@model string
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@using MVC_TMED.Infrastructure;
+@inject DapperWrap _dapperWrap;
+@{
+    Layout = null;
+}
+
+@{
+    Int32 i0 = -1;
+    Int32 i1 = -1;
+    string vdHtmlCachedPage = @Model;
+    string _HtmlCachedPage = System.Text.Encoding.Default.GetString(Convert.FromBase64String(vdHtmlCachedPage));
+
+    //**** Cookie for marketing Compaign
+    string strURL = HttpContextAccessor.HttpContext.Request.Path;
+    string sCampaignCode = "";
+    if (HttpContextAccessor.HttpContext.Request.Query["utm_campaign"].ToString() != "")
+    {
+        sCampaignCode = HttpContextAccessor.HttpContext.Request.Query["utm_campaign"];
+    }
+    else
+    {
+        if (strURL.Contains("utm_campaign"))
+        {
+            sCampaignCode = strURL.Replace(strURL.Substring(1, strURL.IndexOf("utm_campaign=") - 1), "");
+            sCampaignCode = sCampaignCode.Replace("utm_campaign=", "");
+            if (sCampaignCode.Contains("&"))
+            {
+                string[] strParts = sCampaignCode.Split("&");
+                sCampaignCode = strParts[0];
+            }
+        }
+    }
+    if (sCampaignCode == "")
+    {
+        if (HttpContextAccessor.HttpContext.Request.Cookies["utmcampaign"] != null)
+        {
+            sCampaignCode = HttpContextAccessor.HttpContext.Request.Cookies["utmcampaign"];
+            CookieOptions destroyUtmCampaign = new CookieOptions();
+            destroyUtmCampaign.Domain = ".tripmasters.com";
+            destroyUtmCampaign.IsEssential = true;
+            destroyUtmCampaign.Expires = DateTime.Now.AddDays(-10);
+            HttpContextAccessor.HttpContext.Response.Cookies.Append("utmcampaign", "", destroyUtmCampaign);
+        }
+        else if (HttpContextAccessor.HttpContext.Request.Cookies["utm_campaign"] != null)
+        {
+            sCampaignCode = HttpContextAccessor.HttpContext.Request.Cookies["utm_campaign"];
+        }
+        else
+        {
+            sCampaignCode = "Direct";
+        }
+    }
+    if (sCampaignCode.StartsWith("a="))
+    {
+        sCampaignCode = sCampaignCode.Substring(2, sCampaignCode.Length - 2);
+    }
+    sCampaignCode = HtmlEncoder.Encode(sCampaignCode);
+    CookieOptions optionUtmCampaign = new CookieOptions();
+    optionUtmCampaign.Domain = ".tripmasters.com";
+    optionUtmCampaign.IsEssential = true;
+    optionUtmCampaign.Expires = DateTime.Now.AddDays(365);
+    HttpContextAccessor.HttpContext.Response.Cookies.Append("utm_campaign", sCampaignCode, optionUtmCampaign);
+
+    //utEmail
+    string utEmail = String.Empty;
+    System.Text.RegularExpressions.Regex emailRegex = new System.Text.RegularExpressions.Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+    if (HttpContextAccessor.HttpContext.Request.Query["utEmail"].ToString() != "")
+    {
+        utEmail = HttpContextAccessor.HttpContext.Request.Query["utEmail"];
+    }
+    else if (System.Text.RegularExpressions.Regex.IsMatch(strURL, "utEmail", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+    {
+        utEmail = strURL.Replace(strURL.Substring(1, strURL.IndexOf("utEmail=") - 1), "");
+        utEmail = utEmail.Replace("utEmail=", "");
+        if (utEmail.Contains("&"))
+        {
+            string[] strParts = utEmail.Split("&");
+            utEmail = strParts[0];
+        }
+    }
+    else if (HttpContextAccessor.HttpContext.Request.Cookies["utEmail"] != null)
+    {
+        utEmail = HttpContextAccessor.HttpContext.Request.Cookies["utEmail"];
+    }
+    System.Text.RegularExpressions.Match match = emailRegex.Match(utEmail);
+    if (!match.Success) { utEmail = ""; }
+    CookieOptions utemailoption = new CookieOptions();
+    utemailoption.IsEssential = true;
+    utemailoption.Secure = true;
+    utemailoption.Expires = DateTime.Now.AddDays(365);
+    HttpContextAccessor.HttpContext.Response.Cookies.Append("utEmail", utEmail, utemailoption);
+    //End utEmail
+
+    i0 = _HtmlCachedPage.IndexOf("var _utInputString =");
+    if (i0 > -1)
+    {
+        i1 = _HtmlCachedPage.IndexOf("@@", i0);
+        if (i1 > -1)
+        {
+            Int32 i2 = _HtmlCachedPage.IndexOf("@@", i1 + 2);
+            Int32 i3 = _HtmlCachedPage.IndexOf("@@", i2 + 2);
+            string oldInputString1 = _HtmlCachedPage.Substring(i0, i2 - i0 + 1);
+            string oldInputString2 = _HtmlCachedPage.Substring(i0, i3 - i0 + 1);
+            _HtmlCachedPage = _HtmlCachedPage.Replace(oldInputString2, oldInputString1 + "@" + sCampaignCode + "@");
+        }
+    }
+
+    //var utmValue =
+    i0 = _HtmlCachedPage.IndexOf("var utmValue =");
+    if (i0 > -1)
+    {
+        i1 = _HtmlCachedPage.IndexOf("\";", i0);
+        if (i1 > -1)
+        {
+            string oldutmValue = _HtmlCachedPage.Substring(i0, i1 - i0 + 1);
+            string newutmValue = "var utmValue = \"" + sCampaignCode + "\"";
+            _HtmlCachedPage = _HtmlCachedPage.Replace(oldutmValue, newutmValue);
+        }
+    }
+
+    //var _utEmail =
+    i0 = _HtmlCachedPage.IndexOf("var _utEmail =");
+    if (i0 > -1)
+    {
+        i1 = _HtmlCachedPage.IndexOf("\";", i0);
+        if (i1 > -1)
+        {
+            string oldutEmail = _HtmlCachedPage.Substring(i0, i1 - i0 + 1);
+            string newutEmail = "var _utEmail = \"" + utEmail + "\"";
+            _HtmlCachedPage = _HtmlCachedPage.Replace(oldutEmail, newutEmail);
+        }
+    }
+
+    //add _utdivUsrName1 div
+    string utdivUsrName2 = "<div id=\"_utdivUsrName2\" class=\"Text_Arial12_OrangeBoldNew txtR\"></div>";
+    i0 = _HtmlCachedPage.IndexOf(utdivUsrName2.ToString());
+    if (i0 > -1)
+    {
+        _HtmlCachedPage = _HtmlCachedPage.Replace(utdivUsrName2, "<div id = \"_utdivUsrName1\" Class=\"Text_Arial12_OrangeBoldNew\" style=\"float: left\"></div>" + utdivUsrName2);
+    }
+
+    //change _ut2Functions.push function
+    string utDisplayMessage = "var _utDisplayMessage = \"Agent: \" + _ut2UsrName + \"<br/>Source: \" + _utCookie;";
+    i1 = _HtmlCachedPage.IndexOf(utDisplayMessage);
+    if (i1 > -1)
+    {
+        string newutDisplayMessage = "$(\"#_utdivUsrName1\").html(\"Cache page\"); var _utDisplayMessage = \"Agent: \" + _ut2UsrName + \"<br/>Source: " + sCampaignCode + "\";";
+        _HtmlCachedPage = _HtmlCachedPage.Replace(utDisplayMessage, newutDisplayMessage);
+    }
+
+}
+
+@Html.Raw(_HtmlCachedPage)
+
+
+<input type="hidden" name="FromCache" />

@@ -1,0 +1,40 @@
+﻿/*.dvSubscriptionBox{margin-bottom:5px;border:1px solid #638bd1;box-shadow:inset 0 0 10px #638bd1;border-radius:10px;padding:10px;background-color:#FFF}
+.subscriptionpopup{display:none;position:absolute;_position:absolute;z-index:2000;font-size:14px;width:750px;height:450px;color:blue;padding:5px}*/
+.subscription{font-size:22px}
+#subscriptionpopupClose{font-size:11px;color:#CCC;line-height:14px;font-weight:700;display:block;width:100%}
+.subscribeTop{background-color: #799bc6; border-radius: 5px;color: #fff;font-size: 16px;line-height: 22px;padding: 10px;text-align: center; font-weight:700}
+.Text_12_Blue{color:#036;font-family:Arial,Helvetica,sans-serif;font-size:12px}
+.subscriptionUpdated{font-size:16px;color:#000; text-align:center; line-height: 1.6;}
+.subscriptionMainTable{background-color:#FFF;font-size:14px;font-family:Arial,Helvetica,sans-serif}
+.boldLetters{font-weight:700}
+.BG_suscribe {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Email_BG.gif);
+    background-repeat: no-repeat;
+    background-position: 10px 10px
+}
+.SubscribeEmailBG {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Suscribe.jpg);
+    background-repeat: no-repeat;
+    background-position: bottom left
+}
+.subscriptionpopupClose{float:right}
+.Text_Arial12_Blue{color:#013299;font-family:Arial,Helvetica,sans-serif;font-size:12px}
+.Text_Arial11{font-family:Arial,Helvetica,sans-serif;font-size:11px}
+.subsImageHolder{padding:0}
+.subscribedEmail{width:200px}
+.Dot-Gray {
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/Dot_Gray.gif);
+    background-position: center center;
+    background-repeat: repeat-x;
+    height: 4px;
+    margin: 10px 3px
+}
+.mainSubsDiv{border:1px solid #638bd1;box-shadow:inset 0 0 10px #638bd1;border-radius:10px 10px 10px 10px;width:980px;padding:15px;margin:0 auto}
+.subsNav{padding-right:10px;width:980px;margin:0 auto 5px;font-size:11px;text-align:right}
+.subsTitles{background:#638AD6;color:#FFF;font-size:14px;font-weight:700;font-family:Arial,Helvetica,sans-serif;border-radius:6px;padding:6px 10px;margin-bottom:15px}
+.eachSuscriber{padding:15px; font-size:14px}
+.eachSuscribL{ width:80%; float:left}
+.eachSuscribM{ width:40%; float:left; text-align:left}
+.eachSuscribR{ float:right; padding: 14px 0; text-align: right;  width: 20%;}
+.imgsuscribtNoWrap {float: left; margin: 0 10px 0 0;}
+.psuscribNoWrap{margin: 0; padding: 0; overflow:hidden; font-size:12px; word-wrap:break-word; height:55px; display:table-cell; vertical-align:middle;color:#036;}

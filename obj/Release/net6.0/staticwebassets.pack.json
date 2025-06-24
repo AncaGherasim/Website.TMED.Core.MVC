@@ -1,0 +1,1233 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\activities\\dm.style.activities.css",
+      "PackagePath": "staticwebassets\\css\\activities\\dm.style.activities.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\activities\\dm.style.activities.min.css",
+      "PackagePath": "staticwebassets\\css\\activities\\dm.style.activities.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\activities\\dt.style.activities.css",
+      "PackagePath": "staticwebassets\\css\\activities\\dt.style.activities.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\activities\\dt.style.activities.min.css",
+      "PackagePath": "staticwebassets\\css\\activities\\dt.style.activities.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\activities_m\\mb.style.activities.css",
+      "PackagePath": "staticwebassets\\css\\activities_m\\mb.style.activities.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\activities_m\\mb.style.activities.min.css",
+      "PackagePath": "staticwebassets\\css\\activities_m\\mb.style.activities.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\allcountpacks\\dt.style.countryallpacks.css",
+      "PackagePath": "staticwebassets\\css\\allcountpacks\\dt.style.countryallpacks.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\allcountpacks\\dt.style.countryallpacks.min.css",
+      "PackagePath": "staticwebassets\\css\\allcountpacks\\dt.style.countryallpacks.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\allpacks\\mb.style.allpacks.css",
+      "PackagePath": "staticwebassets\\css\\allpacks\\mb.style.allpacks.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\allpacks\\mb.style.allpacks.min.css",
+      "PackagePath": "staticwebassets\\css\\allpacks\\mb.style.allpacks.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\bestVacations\\dt.style.bestVacations.css",
+      "PackagePath": "staticwebassets\\css\\bestVacations\\dt.style.bestVacations.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\bestVacations\\dt.style.bestVacations.min.css",
+      "PackagePath": "staticwebassets\\css\\bestVacations\\dt.style.bestVacations.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\byo\\B.css_byoItinerary.css",
+      "PackagePath": "staticwebassets\\css\\byo\\B.css_byoItinerary.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\byo\\B.css_byoItinerary.min.css",
+      "PackagePath": "staticwebassets\\css\\byo\\B.css_byoItinerary.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\byo_m\\mb.style.byo.css",
+      "PackagePath": "staticwebassets\\css\\byo_m\\mb.style.byo.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\byo_m\\mb.style.byo.min.css",
+      "PackagePath": "staticwebassets\\css\\byo_m\\mb.style.byo.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cfb_m\\mb.style.cfb.css",
+      "PackagePath": "staticwebassets\\css\\cfb_m\\mb.style.cfb.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cfb_m\\mb.style.cfb.min.css",
+      "PackagePath": "staticwebassets\\css\\cfb_m\\mb.style.cfb.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\checkbook\\dt.style.checkbookreview.css",
+      "PackagePath": "staticwebassets\\css\\checkbook\\dt.style.checkbookreview.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\checkbook\\dt.style.checkbookreview.min.css",
+      "PackagePath": "staticwebassets\\css\\checkbook\\dt.style.checkbookreview.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cms\\cms.min.css",
+      "PackagePath": "staticwebassets\\css\\cms\\cms.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cms\\css.CMS_HTMLOptimized.css",
+      "PackagePath": "staticwebassets\\css\\cms\\css.CMS_HTMLOptimized.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cms\\css.CMS_htmlEditor.css",
+      "PackagePath": "staticwebassets\\css\\cms\\css.CMS_htmlEditor.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\contactUs\\dt.style.contactUs.css",
+      "PackagePath": "staticwebassets\\css\\contactUs\\dt.style.contactUs.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\contactUs\\dt.style.contactUs.min.css",
+      "PackagePath": "staticwebassets\\css\\contactUs\\dt.style.contactUs.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cruise\\dt.style.cruise.css",
+      "PackagePath": "staticwebassets\\css\\cruise\\dt.style.cruise.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\cruise\\dt.style.cruise.min.css",
+      "PackagePath": "staticwebassets\\css\\cruise\\dt.style.cruise.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\ct4\\dt.style.T4Country.css",
+      "PackagePath": "staticwebassets\\css\\ct4\\dt.style.T4Country.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\ct4\\dt.style.T4Country.min.css",
+      "PackagePath": "staticwebassets\\css\\ct4\\dt.style.T4Country.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\ct4_m\\mb.style.countryt4.css",
+      "PackagePath": "staticwebassets\\css\\ct4_m\\mb.style.countryt4.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\ct4_m\\mb.style.countryt4.min.css",
+      "PackagePath": "staticwebassets\\css\\ct4_m\\mb.style.countryt4.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\custfeeds\\dt.style.custfeeds.css",
+      "PackagePath": "staticwebassets\\css\\custfeeds\\dt.style.custfeeds.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\custfeeds\\dt.style.custfeeds.min.css",
+      "PackagePath": "staticwebassets\\css\\custfeeds\\dt.style.custfeeds.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\dt.style.tmsite.css",
+      "PackagePath": "staticwebassets\\css\\dt.style.tmsite.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\dt.style.tmsite.min.css",
+      "PackagePath": "staticwebassets\\css\\dt.style.tmsite.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3Area_m\\mb.style.tmedGP3Area.css",
+      "PackagePath": "staticwebassets\\css\\gp3Area_m\\mb.style.tmedGP3Area.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3Area_m\\mb.style.tmedGP3Area.min.css",
+      "PackagePath": "staticwebassets\\css\\gp3Area_m\\mb.style.tmedGP3Area.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3BestVacations_m\\mb.style.gp3BestVacations_Mob.css",
+      "PackagePath": "staticwebassets\\css\\gp3BestVacations_m\\mb.style.gp3BestVacations_Mob.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3BestVacations_m\\mb.style.gp3BestVacations_Mob.min.css",
+      "PackagePath": "staticwebassets\\css\\gp3BestVacations_m\\mb.style.gp3BestVacations_Mob.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3City_m\\mb.style.tmedGP3City.css",
+      "PackagePath": "staticwebassets\\css\\gp3City_m\\mb.style.tmedGP3City.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3City_m\\mb.style.tmedGP3City.min.css",
+      "PackagePath": "staticwebassets\\css\\gp3City_m\\mb.style.tmedGP3City.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3\\dt.style.tmedGP3_City.css",
+      "PackagePath": "staticwebassets\\css\\gp3\\dt.style.tmedGP3_City.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gp3\\dt.style.tmedGP3_City.min.css",
+      "PackagePath": "staticwebassets\\css\\gp3\\dt.style.tmedGP3_City.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gpgp2\\dt.style.gp2page.css",
+      "PackagePath": "staticwebassets\\css\\gpgp2\\dt.style.gp2page.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gpgp2\\dt.style.gp2page.min.css",
+      "PackagePath": "staticwebassets\\css\\gpgp2\\dt.style.gp2page.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gpgp2_m\\mb.style.gp2page.css",
+      "PackagePath": "staticwebassets\\css\\gpgp2_m\\mb.style.gp2page.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\gpgp2_m\\mb.style.gp2page.min.css",
+      "PackagePath": "staticwebassets\\css\\gpgp2_m\\mb.style.gp2page.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\holidays\\dm.style.Holidays.css",
+      "PackagePath": "staticwebassets\\css\\holidays\\dm.style.Holidays.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\holidays\\dm.style.Holidays.min.css",
+      "PackagePath": "staticwebassets\\css\\holidays\\dm.style.Holidays.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\home\\dt.style.tmedHomePage.css",
+      "PackagePath": "staticwebassets\\css\\home\\dt.style.tmedHomePage.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\home\\home.min.css",
+      "PackagePath": "staticwebassets\\css\\home\\home.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\home_m\\mb.style.tmedSite.css",
+      "PackagePath": "staticwebassets\\css\\home_m\\mb.style.tmedSite.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\home_m\\mb.style.tmedSite.min.css",
+      "PackagePath": "staticwebassets\\css\\home_m\\mb.style.tmedSite.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\home_m\\mb.style.ui-autocomplete.css",
+      "PackagePath": "staticwebassets\\css\\home_m\\mb.style.ui-autocomplete.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\home_m\\mb.style.ui-autocomplete.min.css",
+      "PackagePath": "staticwebassets\\css\\home_m\\mb.style.ui-autocomplete.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotel\\dt.style.hotelPage.css",
+      "PackagePath": "staticwebassets\\css\\hotel\\dt.style.hotelPage.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotel\\dt.style.hotelPage.min.css",
+      "PackagePath": "staticwebassets\\css\\hotel\\dt.style.hotelPage.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelist\\dt.style.hotelsoncity.css",
+      "PackagePath": "staticwebassets\\css\\hotelist\\dt.style.hotelsoncity.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelist\\dt.style.hotelsoncity.min.css",
+      "PackagePath": "staticwebassets\\css\\hotelist\\dt.style.hotelsoncity.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelist\\jquery.paginate.css",
+      "PackagePath": "staticwebassets\\css\\hotelist\\jquery.paginate.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelist\\jquery.paginate.min.css",
+      "PackagePath": "staticwebassets\\css\\hotelist\\jquery.paginate.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelist_m\\mb.style.hotelist.css",
+      "PackagePath": "staticwebassets\\css\\hotelist_m\\mb.style.hotelist.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelist_m\\mb.style.hotelist.min.css",
+      "PackagePath": "staticwebassets\\css\\hotelist_m\\mb.style.hotelist.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelreview\\dt.style.hotelreview.css",
+      "PackagePath": "staticwebassets\\css\\hotelreview\\dt.style.hotelreview.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelreview\\dt.style.hotelreview.min.css",
+      "PackagePath": "staticwebassets\\css\\hotelreview\\dt.style.hotelreview.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelreview_m\\mb.style.hotelreview.css",
+      "PackagePath": "staticwebassets\\css\\hotelreview_m\\mb.style.hotelreview.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\hotelreview_m\\mb.style.hotelreview.min.css",
+      "PackagePath": "staticwebassets\\css\\hotelreview_m\\mb.style.hotelreview.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\images\\carousel_control_1.png",
+      "PackagePath": "staticwebassets\\css\\images\\carousel_control_1.png"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\images\\ui-icons_ffffff_256x240.png",
+      "PackagePath": "staticwebassets\\css\\images\\ui-icons_ffffff_256x240.png"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\jquery-ui.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\jquery-ui.min.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\jquery-ui.structure.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.structure.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\jquery-ui.structure.min.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.structure.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\jquery-ui.theme.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.theme.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\jquery-ui.theme.min.css",
+      "PackagePath": "staticwebassets\\css\\jquery-ui.theme.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\reponsive\\dtmb.style.ResponsiveStyle.css",
+      "PackagePath": "staticwebassets\\css\\reponsive\\dtmb.style.ResponsiveStyle.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\reponsive\\dtmb.style.ResponsiveStyle.min.css",
+      "PackagePath": "staticwebassets\\css\\reponsive\\dtmb.style.ResponsiveStyle.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.BYO_2014.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.BYO_2014.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.Calendar.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.Calendar.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.Calendar_carrousel.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.Calendar_carrousel.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.Style.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.Style.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.TM-ui-autocomplete.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.TM-ui-autocomplete.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.TM_SiteStyle.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.TM_SiteStyle.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.Texts.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.Texts.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.jquery.alerts.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.jquery.alerts.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.prettyPhoto.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.prettyPhoto.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.scrollable.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.scrollable.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.simplepagination.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.simplepagination.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\dt.style.subscription.css",
+      "PackagePath": "staticwebassets\\css\\site\\dt.style.subscription.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site\\site.min.css",
+      "PackagePath": "staticwebassets\\css\\site\\site.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site_responsive\\dm.site.responsive.css",
+      "PackagePath": "staticwebassets\\css\\site_responsive\\dm.site.responsive.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\site_responsive\\site_responsive.min.css",
+      "PackagePath": "staticwebassets\\css\\site_responsive\\site_responsive.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t21\\dt.style.t21.css",
+      "PackagePath": "staticwebassets\\css\\t21\\dt.style.t21.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t21\\dt.style.t21.min.css",
+      "PackagePath": "staticwebassets\\css\\t21\\dt.style.t21.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t21_m\\mb.style.t21.css",
+      "PackagePath": "staticwebassets\\css\\t21_m\\mb.style.t21.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t21_m\\mb.style.t21.min.css",
+      "PackagePath": "staticwebassets\\css\\t21_m\\mb.style.t21.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t24-26\\dt.style.t24-26.css",
+      "PackagePath": "staticwebassets\\css\\t24-26\\dt.style.t24-26.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t24-26\\dt.style.t24-26.min.css",
+      "PackagePath": "staticwebassets\\css\\t24-26\\dt.style.t24-26.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t24-26_m\\mb.style.t24-26.css",
+      "PackagePath": "staticwebassets\\css\\t24-26_m\\mb.style.t24-26.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\t24-26_m\\mb.style.t24-26.min.css",
+      "PackagePath": "staticwebassets\\css\\t24-26_m\\mb.style.t24-26.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tmedsite.css",
+      "PackagePath": "staticwebassets\\css\\tmedsite.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tmedsite.min.css",
+      "PackagePath": "staticwebassets\\css\\tmedsite.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tours\\dm.style.tours.css",
+      "PackagePath": "staticwebassets\\css\\tours\\dm.style.tours.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tours\\dm.style.tours.min.css",
+      "PackagePath": "staticwebassets\\css\\tours\\dm.style.tours.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\travel\\dm.style.travel.css",
+      "PackagePath": "staticwebassets\\css\\travel\\dm.style.travel.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\travel\\dm.style.travel.min.css",
+      "PackagePath": "staticwebassets\\css\\travel\\dm.style.travel.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\trips\\dm.style.trips.css",
+      "PackagePath": "staticwebassets\\css\\trips\\dm.style.trips.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\trips\\dm.style.trips.min.css",
+      "PackagePath": "staticwebassets\\css\\trips\\dm.style.trips.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tripstaken\\dt.style.tripstaken.css",
+      "PackagePath": "staticwebassets\\css\\tripstaken\\dt.style.tripstaken.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tripstaken\\dt.style.tripstaken.min.css",
+      "PackagePath": "staticwebassets\\css\\tripstaken\\dt.style.tripstaken.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tripstaken_m\\mb.style.tripstaken.css",
+      "PackagePath": "staticwebassets\\css\\tripstaken_m\\mb.style.tripstaken.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\tripstaken_m\\mb.style.tripstaken.min.css",
+      "PackagePath": "staticwebassets\\css\\tripstaken_m\\mb.style.tripstaken.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\visit\\dt.style.tmas.visit.css",
+      "PackagePath": "staticwebassets\\css\\visit\\dt.style.tmas.visit.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\css\\visit\\dt.style.tmas.visit.min.css",
+      "PackagePath": "staticwebassets\\css\\visit\\dt.style.tmas.visit.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\healthchecks.html",
+      "PackagePath": "staticwebassets\\healthchecks.html"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities\\dm.java.activities.js",
+      "PackagePath": "staticwebassets\\js\\activities\\dm.java.activities.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities\\dm.java.activities.min.js",
+      "PackagePath": "staticwebassets\\js\\activities\\dm.java.activities.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities\\dt.java.citySS.js",
+      "PackagePath": "staticwebassets\\js\\activities\\dt.java.citySS.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities\\dt.java.citySS.min.js",
+      "PackagePath": "staticwebassets\\js\\activities\\dt.java.citySS.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities\\java.POI-MarkeLabel.min.js",
+      "PackagePath": "staticwebassets\\js\\activities\\java.POI-MarkeLabel.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities_m\\java.POI-MarkeLabel.min.js",
+      "PackagePath": "staticwebassets\\js\\activities_m\\java.POI-MarkeLabel.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities_m\\mb.java.activities.js",
+      "PackagePath": "staticwebassets\\js\\activities_m\\mb.java.activities.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\activities_m\\mb.java.activities.min.js",
+      "PackagePath": "staticwebassets\\js\\activities_m\\mb.java.activities.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\allcountpacks\\dt.java.countryAllPacks.js",
+      "PackagePath": "staticwebassets\\js\\allcountpacks\\dt.java.countryAllPacks.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\allcountpacks\\dt.java.countryAllPacks.min.js",
+      "PackagePath": "staticwebassets\\js\\allcountpacks\\dt.java.countryAllPacks.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\allpacks\\mb.java.allpacks.js",
+      "PackagePath": "staticwebassets\\js\\allpacks\\mb.java.allpacks.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\allpacks\\mb.java.allpacks.min.js",
+      "PackagePath": "staticwebassets\\js\\allpacks\\mb.java.allpacks.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\byo\\B.java.byoItinerary.js",
+      "PackagePath": "staticwebassets\\js\\byo\\B.java.byoItinerary.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\byo\\B.java.byoItinerary.min.js",
+      "PackagePath": "staticwebassets\\js\\byo\\B.java.byoItinerary.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\byo\\jquery.skroller.min.js",
+      "PackagePath": "staticwebassets\\js\\byo\\jquery.skroller.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\byo_m\\mb.java.byoitinerary.js",
+      "PackagePath": "staticwebassets\\js\\byo_m\\mb.java.byoitinerary.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\byo_m\\mb.java.byoitinerary.min.js",
+      "PackagePath": "staticwebassets\\js\\byo_m\\mb.java.byoitinerary.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cfb_m\\mb.java.cfb.js",
+      "PackagePath": "staticwebassets\\js\\cfb_m\\mb.java.cfb.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cfb_m\\mb.java.cfb.min.js",
+      "PackagePath": "staticwebassets\\js\\cfb_m\\mb.java.cfb.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\checkbook\\dt.java.CheckBookingForReview.js",
+      "PackagePath": "staticwebassets\\js\\checkbook\\dt.java.CheckBookingForReview.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\checkbook\\dt.java.CheckBookingForReview.min.js",
+      "PackagePath": "staticwebassets\\js\\checkbook\\dt.java.CheckBookingForReview.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cms\\cms.min.js",
+      "PackagePath": "staticwebassets\\js\\cms\\cms.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cms\\java.CMS_javaScriptLinks.js",
+      "PackagePath": "staticwebassets\\js\\cms\\java.CMS_javaScriptLinks.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cms\\java.CMS_javaScript_Optimized.js",
+      "PackagePath": "staticwebassets\\js\\cms\\java.CMS_javaScript_Optimized.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\combinecou\\dt.java.CombineCou.js",
+      "PackagePath": "staticwebassets\\js\\combinecou\\dt.java.CombineCou.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\combinecou\\dt.java.CombineCou.min.js",
+      "PackagePath": "staticwebassets\\js\\combinecou\\dt.java.CombineCou.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\combinecou_m\\mb.java.combine.js",
+      "PackagePath": "staticwebassets\\js\\combinecou_m\\mb.java.combine.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\combinecou_m\\mb.java.combine.min.js",
+      "PackagePath": "staticwebassets\\js\\combinecou_m\\mb.java.combine.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\contactUs\\dt.script.contactUs.js",
+      "PackagePath": "staticwebassets\\js\\contactUs\\dt.script.contactUs.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\contactUs\\dt.script.contactUs.min.js",
+      "PackagePath": "staticwebassets\\js\\contactUs\\dt.script.contactUs.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cruise\\dt.java.cruise.js",
+      "PackagePath": "staticwebassets\\js\\cruise\\dt.java.cruise.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\cruise\\dt.java.cruise.min.js",
+      "PackagePath": "staticwebassets\\js\\cruise\\dt.java.cruise.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\ct4\\dt.java.t4countrypage.js",
+      "PackagePath": "staticwebassets\\js\\ct4\\dt.java.t4countrypage.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\ct4\\dt.java.t4countrypage.min.js",
+      "PackagePath": "staticwebassets\\js\\ct4\\dt.java.t4countrypage.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\ct4_m\\mb.java.countryt4.js",
+      "PackagePath": "staticwebassets\\js\\ct4_m\\mb.java.countryt4.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\custfeeds\\dt.java.customerfeeds.js",
+      "PackagePath": "staticwebassets\\js\\custfeeds\\dt.java.customerfeeds.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\custfeeds\\dt.java.customerfeeds.min.js",
+      "PackagePath": "staticwebassets\\js\\custfeeds\\dt.java.customerfeeds.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\dest\\dt.java.destinations.js",
+      "PackagePath": "staticwebassets\\js\\dest\\dt.java.destinations.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\dest\\dt.java.destinations.min.js",
+      "PackagePath": "staticwebassets\\js\\dest\\dt.java.destinations.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\dest_m\\mb.java.dest.js",
+      "PackagePath": "staticwebassets\\js\\dest_m\\mb.java.dest.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\dest_m\\mb.java.dest.min.js",
+      "PackagePath": "staticwebassets\\js\\dest_m\\mb.java.dest.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\findcuspack\\dt.java.findcuspack.js",
+      "PackagePath": "staticwebassets\\js\\findcuspack\\dt.java.findcuspack.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\findcuspack\\dt.java.findcuspack.min.js",
+      "PackagePath": "staticwebassets\\js\\findcuspack\\dt.java.findcuspack.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\findcuspack_m\\mb.java.findcuspack.js",
+      "PackagePath": "staticwebassets\\js\\findcuspack_m\\mb.java.findcuspack.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\findcuspack_m\\mb.java.findcuspack.min.js",
+      "PackagePath": "staticwebassets\\js\\findcuspack_m\\mb.java.findcuspack.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-BestVacations\\dt.java.tmedGP3_BestVacations.js",
+      "PackagePath": "staticwebassets\\js\\gp3-BestVacations\\dt.java.tmedGP3_BestVacations.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-BestVacations\\dt.java.tmedGP3_BestVacations.min.js",
+      "PackagePath": "staticwebassets\\js\\gp3-BestVacations\\dt.java.tmedGP3_BestVacations.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-BestVacations_m\\mb.java.gp3BestVacationsMob.js",
+      "PackagePath": "staticwebassets\\js\\gp3-BestVacations_m\\mb.java.gp3BestVacationsMob.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-BestVacations_m\\mb.java.gp3BestVacationsMob.min.js",
+      "PackagePath": "staticwebassets\\js\\gp3-BestVacations_m\\mb.java.gp3BestVacationsMob.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-City\\dt.java.tmedGP3City.js",
+      "PackagePath": "staticwebassets\\js\\gp3-City\\dt.java.tmedGP3City.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-City\\dt.java.tmedGP3City.min.js",
+      "PackagePath": "staticwebassets\\js\\gp3-City\\dt.java.tmedGP3City.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-City_m\\mb.java.gp3city.js",
+      "PackagePath": "staticwebassets\\js\\gp3-City_m\\mb.java.gp3city.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gp3-City_m\\mb.java.gp3city.min.js",
+      "PackagePath": "staticwebassets\\js\\gp3-City_m\\mb.java.gp3city.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gpgp2\\dt.java.gp2page.js",
+      "PackagePath": "staticwebassets\\js\\gpgp2\\dt.java.gp2page.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gpgp2\\dt.java.gp2page.min.js",
+      "PackagePath": "staticwebassets\\js\\gpgp2\\dt.java.gp2page.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gpgp2_m\\mb.java.gp2page.js",
+      "PackagePath": "staticwebassets\\js\\gpgp2_m\\mb.java.gp2page.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\gpgp2_m\\mb.java.gp2page.min.js",
+      "PackagePath": "staticwebassets\\js\\gpgp2_m\\mb.java.gp2page.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\holidays\\dt.java.Holidays.js",
+      "PackagePath": "staticwebassets\\js\\holidays\\dt.java.Holidays.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\holidays\\dt.java.Holidays.min.js",
+      "PackagePath": "staticwebassets\\js\\holidays\\dt.java.Holidays.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\holidays\\dt.java.tmasHolidays.js",
+      "PackagePath": "staticwebassets\\js\\holidays\\dt.java.tmasHolidays.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\holidays\\dt.java.tmasHolidays.min.js",
+      "PackagePath": "staticwebassets\\js\\holidays\\dt.java.tmasHolidays.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\holidays_m\\mb.java.HolidaysMob.js",
+      "PackagePath": "staticwebassets\\js\\holidays_m\\mb.java.HolidaysMob.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\holidays_m\\mb.java.HolidaysMob.min.js",
+      "PackagePath": "staticwebassets\\js\\holidays_m\\mb.java.HolidaysMob.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\home\\dt.java.HomePage.js",
+      "PackagePath": "staticwebassets\\js\\home\\dt.java.HomePage.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\home\\dt.java.HomePage.min.js",
+      "PackagePath": "staticwebassets\\js\\home\\dt.java.HomePage.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\home_m\\mb.java.tmedHome.js",
+      "PackagePath": "staticwebassets\\js\\home_m\\mb.java.tmedHome.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\home_m\\mb.java.tmedHome.min.js",
+      "PackagePath": "staticwebassets\\js\\home_m\\mb.java.tmedHome.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotel\\dt.java.pgwslider.js",
+      "PackagePath": "staticwebassets\\js\\hotel\\dt.java.pgwslider.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotel\\dt.java_hotelpage.js",
+      "PackagePath": "staticwebassets\\js\\hotel\\dt.java_hotelpage.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotel\\dt.java_hotelpage.min.js",
+      "PackagePath": "staticwebassets\\js\\hotel\\dt.java_hotelpage.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotel\\hotel.min.js",
+      "PackagePath": "staticwebassets\\js\\hotel\\hotel.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelist\\dt.java.hotelsoncity.js",
+      "PackagePath": "staticwebassets\\js\\hotelist\\dt.java.hotelsoncity.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelist\\dt.java.hotelsoncity.min.js",
+      "PackagePath": "staticwebassets\\js\\hotelist\\dt.java.hotelsoncity.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelist\\saws.scc",
+      "PackagePath": "staticwebassets\\js\\hotelist\\saws.scc"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelist_m\\mb.java.hotelist.js",
+      "PackagePath": "staticwebassets\\js\\hotelist_m\\mb.java.hotelist.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelist_m\\mb.java.hotelist.min.js",
+      "PackagePath": "staticwebassets\\js\\hotelist_m\\mb.java.hotelist.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelsmap\\dt.java.poi-labelmarke.min.js",
+      "PackagePath": "staticwebassets\\js\\hotelsmap\\dt.java.poi-labelmarke.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelsmap\\dt.java.poi-mapgoogle.js",
+      "PackagePath": "staticwebassets\\js\\hotelsmap\\dt.java.poi-mapgoogle.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelsmap\\dt.java.poi-mapgoogle.min.js",
+      "PackagePath": "staticwebassets\\js\\hotelsmap\\dt.java.poi-mapgoogle.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelsmap\\jquery.nicescroll.js",
+      "PackagePath": "staticwebassets\\js\\hotelsmap\\jquery.nicescroll.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\hotelsmap\\jquery.nicescroll.min.js",
+      "PackagePath": "staticwebassets\\js\\hotelsmap\\jquery.nicescroll.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\interest\\interest.js",
+      "PackagePath": "staticwebassets\\js\\interest\\interest.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\interest\\interest.min.js",
+      "PackagePath": "staticwebassets\\js\\interest\\interest.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jq_second.min.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jq_second.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.BubblePopup-1.1.src.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.BubblePopup-1.1.src.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.cookie.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.cookie.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.extjasoncookie-0.2.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.extjasoncookie-0.2.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.form.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.form.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.form.min.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.form.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.json-2.2.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.json-2.2.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.nicescroll.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.nicescroll.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.popupWindow.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.popupWindow.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.prettyPhoto.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.prettyPhoto.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\jq_second\\jquery.skroller.js",
+      "PackagePath": "staticwebassets\\js\\jq_second\\jquery.skroller.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\mb.java.searchhead.js",
+      "PackagePath": "staticwebassets\\js\\mb.java.searchhead.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\mb.java.searchhead.min.js",
+      "PackagePath": "staticwebassets\\js\\mb.java.searchhead.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\Base.js",
+      "PackagePath": "staticwebassets\\js\\site\\Base.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\deskTopLayout.js",
+      "PackagePath": "staticwebassets\\js\\site\\deskTopLayout.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\dt.java.CommonFunctions.js",
+      "PackagePath": "staticwebassets\\js\\site\\dt.java.CommonFunctions.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\dt.java.MrktEmailSubscriber.js",
+      "PackagePath": "staticwebassets\\js\\site\\dt.java.MrktEmailSubscriber.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\dt.java.date.format.js",
+      "PackagePath": "staticwebassets\\js\\site\\dt.java.date.format.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\dt.java.scrollable.js",
+      "PackagePath": "staticwebassets\\js\\site\\dt.java.scrollable.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\dt.java.simplepagination.js",
+      "PackagePath": "staticwebassets\\js\\site\\dt.java.simplepagination.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\java_utInit.js",
+      "PackagePath": "staticwebassets\\js\\site\\java_utInit.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\java_utInit.min.js",
+      "PackagePath": "staticwebassets\\js\\site\\java_utInit.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\moment.js",
+      "PackagePath": "staticwebassets\\js\\site\\moment.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site\\site.min.js",
+      "PackagePath": "staticwebassets\\js\\site\\site.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site_m\\mb.java.searchhead.js",
+      "PackagePath": "staticwebassets\\js\\site_m\\mb.java.searchhead.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\site_m\\mb.java.searchhead.min.js",
+      "PackagePath": "staticwebassets\\js\\site_m\\mb.java.searchhead.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\smallcalendar\\dt.java.TM.Calendar.js",
+      "PackagePath": "staticwebassets\\js\\smallcalendar\\dt.java.TM.Calendar.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\smallcalendar\\dt.java.TM.CommonFunctions.js",
+      "PackagePath": "staticwebassets\\js\\smallcalendar\\dt.java.TM.CommonFunctions.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\smallcalendar\\smallcalendar.min.js",
+      "PackagePath": "staticwebassets\\js\\smallcalendar\\smallcalendar.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\snippetScripts.js",
+      "PackagePath": "staticwebassets\\js\\snippetScripts.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21-29\\dt.java.1.tabpriceguide.support.min.js",
+      "PackagePath": "staticwebassets\\js\\t21-29\\dt.java.1.tabpriceguide.support.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21-29\\dt.java.1.tabpriceguide.support.min.min.js",
+      "PackagePath": "staticwebassets\\js\\t21-29\\dt.java.1.tabpriceguide.support.min.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21-29\\dt.java.2.tabpriceguide.js",
+      "PackagePath": "staticwebassets\\js\\t21-29\\dt.java.2.tabpriceguide.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21-29\\dt.java.2.tabpriceguide.min.js",
+      "PackagePath": "staticwebassets\\js\\t21-29\\dt.java.2.tabpriceguide.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21-29\\t21_29.min.js",
+      "PackagePath": "staticwebassets\\js\\t21-29\\t21_29.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21\\dt.java.template21.js",
+      "PackagePath": "staticwebassets\\js\\t21\\dt.java.template21.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21\\dt.java.template21.min.js",
+      "PackagePath": "staticwebassets\\js\\t21\\dt.java.template21.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21_m\\mb.script.t21.js",
+      "PackagePath": "staticwebassets\\js\\t21_m\\mb.script.t21.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t21_m\\mb.script.t21.min.js",
+      "PackagePath": "staticwebassets\\js\\t21_m\\mb.script.t21.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t24-26\\dt.java.template24_26.js",
+      "PackagePath": "staticwebassets\\js\\t24-26\\dt.java.template24_26.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t24-26\\dt.java.template24_26.min.js",
+      "PackagePath": "staticwebassets\\js\\t24-26\\dt.java.template24_26.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t24-26_m\\mb.java.t24-26.js",
+      "PackagePath": "staticwebassets\\js\\t24-26_m\\mb.java.t24-26.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\t24-26_m\\mb.java.t24-26.min.js",
+      "PackagePath": "staticwebassets\\js\\t24-26_m\\mb.java.t24-26.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tours\\dt.java.tours.js",
+      "PackagePath": "staticwebassets\\js\\tours\\dt.java.tours.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tours\\dt.java.tours.min.js",
+      "PackagePath": "staticwebassets\\js\\tours\\dt.java.tours.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tours_m\\mb.java.toursMob.js",
+      "PackagePath": "staticwebassets\\js\\tours_m\\mb.java.toursMob.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tours_m\\mb.java.toursMob.min.js",
+      "PackagePath": "staticwebassets\\js\\tours_m\\mb.java.toursMob.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\travel\\dt.java.travel.js",
+      "PackagePath": "staticwebassets\\js\\travel\\dt.java.travel.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\travel\\dt.java.travel.min.js",
+      "PackagePath": "staticwebassets\\js\\travel\\dt.java.travel.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\travel_m\\mb.java.travel_Mob.js",
+      "PackagePath": "staticwebassets\\js\\travel_m\\mb.java.travel_Mob.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\travel_m\\mb.java.travel_Mob.min.js",
+      "PackagePath": "staticwebassets\\js\\travel_m\\mb.java.travel_Mob.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\trips\\dt.java.trips.js",
+      "PackagePath": "staticwebassets\\js\\trips\\dt.java.trips.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\trips\\dt.java.trips.min.js",
+      "PackagePath": "staticwebassets\\js\\trips\\dt.java.trips.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\trips_m\\mb.java.tripsMob.js",
+      "PackagePath": "staticwebassets\\js\\trips_m\\mb.java.tripsMob.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\trips_m\\mb.java.tripsMob.min.js",
+      "PackagePath": "staticwebassets\\js\\trips_m\\mb.java.tripsMob.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tripstaken\\java.TripsTaken.js",
+      "PackagePath": "staticwebassets\\js\\tripstaken\\java.TripsTaken.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tripstaken\\java.TripsTaken.min.js",
+      "PackagePath": "staticwebassets\\js\\tripstaken\\java.TripsTaken.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tripstaken_m\\mb.java.tripstaken.js",
+      "PackagePath": "staticwebassets\\js\\tripstaken_m\\mb.java.tripstaken.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\tripstaken_m\\mb.java.tripstaken.min.js",
+      "PackagePath": "staticwebassets\\js\\tripstaken_m\\mb.java.tripstaken.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\visit\\dm.java.visit.js",
+      "PackagePath": "staticwebassets\\js\\visit\\dm.java.visit.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\js\\visit\\dm.java.visit.min.js",
+      "PackagePath": "staticwebassets\\js\\visit\\dm.java.visit.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap2.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap2.css"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\jquery-1.11.3.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery-1.11.3.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\jquery-ui.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery-ui.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\jquery-ui.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery-ui.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\js.cookie.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\js.cookie.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\jquery\\dist\\js.cookie.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\js.cookie.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\lib\\lazysizes.min.js",
+      "PackagePath": "staticwebassets\\lib\\lazysizes.min.js"
+    },
+    {
+      "Id": "D:\\Profesional\\MVC_Websites\\Website.TMED.Core.MVC\\wwwroot\\receiver.html",
+      "PackagePath": "staticwebassets\\receiver.html"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.MVC_TMED.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.build.MVC_TMED.props",
+      "PackagePath": "build\\MVC_TMED.props"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.MVC_TMED.props",
+      "PackagePath": "buildMultiTargeting\\MVC_TMED.props"
+    },
+    {
+      "Id": "obj\\Release\\net6.0\\staticwebassets\\msbuild.buildTransitive.MVC_TMED.props",
+      "PackagePath": "buildTransitive\\MVC_TMED.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

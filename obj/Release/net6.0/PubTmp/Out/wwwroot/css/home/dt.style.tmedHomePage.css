@@ -1,0 +1,796 @@
+﻿/*CSS Document*/
+.dvByoCalContainer {
+    margin: 0 auto;
+    padding: 0;
+    background: url("https://pictures.tripmasters.com/siteassets/d/tmed_home-min.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 400px;
+    max-width: 1600px;
+    min-width: 980px;
+    background-position: right;
+}
+.dvImgContainer{margin:0 auto;padding:20px 0;max-width:980px;height:auto;}
+.dvContainer a {
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000080;
+}
+div.dvLeftByoContainer{background-color:rgba(0,0,0,0.7);float:left;width:620px;padding:30px 50px; border-radius:10px;}
+.dvChooseReg{position:relative;margin-bottom:25px;}
+.dvChooseReg span{color:#fff;padding:0 40px;background:rgba(102,102,102,0.6);border-radius:5px; line-height:35px; display:inline-block; text-align:center; cursor:pointer; font-size:14px}
+.dvChooseReg span.spselect{background:#0065b8}
+.dvChooseReg span font{color:#F90; margin:0 3px; font-weight:900; font-size:14px; position:absolute; left:15px}
+.dvByoCalTools{position:relative;margin-bottom:20px;}
+.dvByoCalTools span{background:rgba(102,102,102,0.6);color:#fff;padding:10px 15px; cursor:pointer; font-size:14px}
+.dvByoCalTools span.spselect{background:#0065b8;}
+.dvByoCalTools span:nth-child(3){background:none;}
+.dvIntlFly{position:relative;margin-bottom:25px;}
+.dvAirParam{position:relative;margin-bottom:15px;}
+.dvAirParam div{float:left;}
+.dvAirParam div:nth-child(1){width:35%;margin-right:30px;}
+.dvAirParam div:nth-child(2){width:20%;}
+.dvAirParam label{float:left;width:100%;margin-bottom:5px;color:#fff;font-size:14px;}
+.dvAirParam input[type="text"]{width:100%;padding:5px 8px;}
+.dvAirParam select{width:140%;padding:5px 8px;}
+.dvAirParam select option{ font-size:14px;}
+.dvByoCalCity{position:relative}
+.dvByoCalCity div{float:left}
+.dvByoCalCity div:nth-child(1){width:35%;margin-right:30px;}
+.dvByoCalCity div:nth-child(2){width:17%;margin-right:30px;}
+.dvByoCalCity div:nth-child(3){width:17%}
+.dvByoCalCity label{float:left;width:100%;margin-bottom:5px;color:#fff;font-size:14px;}
+.dvByoCalCity input[type="text"]{width:100%;padding:5px 8px;}
+.dvByoCalCity select{width:100%;padding:5px 8px;}
+.dvByoCalCity select option{ font-size:14px;}
+.dvByoCalTitle {color: #fff;text-align: center; border-bottom: 1px solid #fff;margin-bottom: 20px;}
+.dvByoCalTitle h1 {margin: 0;font-size: 33px;font-weight: 500;}
+.dvByoCalButtons{margin-bottom:20px;}
+.dvByoCalButtons span:nth-child(1){padding:10px 25px !important;}
+.dvByoCalButtons span:nth-child(odd){background:#fffecd linear-gradient(to bottom, #fffecd 18%, #fffecd 4%, #ffd968 50%, #ffd968 100%) repeat scroll 0 0;border-radius:2px;padding:10px 15px;cursor:pointer;}
+.dvByoCalButtons span:nth-child(odd):hover{background:#fffecd linear-gradient(to top,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0}
+.btnAddCty{margin-left:30%;margin-bottom:15px;cursor:pointer;width:30%;}
+.btnAddCty img{vertical-align:middle}
+.btnAddCty span{font-size:14px;color:#fff;margin-left:5px;vertical-align:middle;}
+.btnNoMore {
+    border-radius: 30px;
+    font-size: 15px;
+    display: inline-block;
+    padding: 10px;
+    width: 55%;
+    text-align: center;
+    margin-left: 12%;
+    cursor: pointer;
+    background: #1b2560;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+}
+.dvRightByoContainer{ width:230px;float:right;height:240px;}
+.dvCustComment{background-color:#fff;border-radius:10px;height:220px;}
+.dvCustComment div:nth-child(1){text-align:center;color:#19255F;padding:30px 0 10px; font-size:18px;font-weight:700;}
+.dvCustComment div:nth-child(2){text-align:center;font-size:16px;font-weight:700;margin-top:10px;}
+.dvStars{position:relative;display:inline-block;margin:10px 0 5px 20px;height:31px;}
+.darkText{text-align:center;color:#666;padding-bottom:20px;font-size:12px;}
+.emptyStars {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/starsempty.png) no-repeat scroll 0 0;
+    height: 31px;
+    float: left;
+    position: absolute;
+    top: 0
+}
+.fullStars {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/starsfull.png) no-repeat scroll 0 0;
+    height: 31px;
+    float: left;
+    position: absolute;
+    top: 0;
+    width: 156px;
+}
+.btnRevMore {
+    margin: 0 10px;
+    border-radius: 5px;
+    background: #2c3c9c linear-gradient(to bottom,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0;
+    border: 1px solid #1b2560;
+    cursor: pointer;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.btnRevMore a{color:#fff !important;text-decoration:none !important}
+.btnRevMore a:hover{text-decoration:none !important;}
+.btnRevMore:hover{background:#2c3c9c linear-gradient(to top,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0}
+.dvMContainer{height:auto;margin:0 auto;max-width:980px;min-width:980px;width:100%;}
+.dvHightAttrac{padding:20px 0;text-transform:uppercase;margin-bottom:15px;font-size: 18px !important;color:#1b2560;}
+.endHighlight{border-bottom:1px dotted #ccc;padding:0 0 20px;text-align:center;}
+.dvFeatureItin{border-bottom:1px solid #36f;color:#ff7f00;font-size:18px !important;font-weight:700;margin-bottom:15px;padding:20px 0;text-transform:uppercase;}
+.moreButton{
+    text-align: center;
+    display: block;
+    background: #fff;
+    border: 1px solid #212d6e !important;
+    border-radius: 35px !important;
+    padding: 11px 43px;
+    margin: 25px auto 0 auto;
+    font-size: 13px;
+    color: #212d6e !important;
+    font-family: arial,regular;
+    text-transform: uppercase;
+    font-weight: 600;
+    width: 250px;
+}
+    .moreButton:hover {
+        cursor: pointer;
+    }
+
+div.moreButtonT4:hover {
+    background: #fff;
+    border: 1px solid #212d6e !important;
+    cursor: pointer;
+}
+.dvFeaturedCont{background:#e1e7f3 linear-gradient(to bottom, #e1e7f3 5%, #fff 100%) repeat scroll 0 0;border-bottom:1px solid #36f;height:auto;padding:0 0 10px;}
+.dvFeaturedPic{float:left;padding:10px;width:290px;}
+.dvFeaturedInfo{float:left;padding:10px;width:630px;}
+.pfeatTitle{font-size:20px;color:#1B2650;margin:0;padding:0;font-weight:400;}
+.pfeatTitle a{text-decoration:none!important;    color: #000080}
+.pfeatTitle a:hover{color:red;text-decoration:underline!important}
+.pfeatNight{font-size:14px;color:#666;padding:4px 0 0;margin:0;font-weight:400;}
+.pfeatNight font{color:#ff7f00;font-weight:700}
+.pfeatFeed{font-size:12px;padding:5px 0 0;margin:0}
+.pfeatFeed a {text-decoration: none !important;color:#00008c}
+.pfeatFeed a:hover{text-decoration:underline!important;color:red}
+.pfeatDesc{font-size:12px;color:#666;line-height:18px}
+.pfeatIncld{font-size:12px;color:#666;margin:0}
+ .dvContainer ul{color:#666;margin:3px 0 0;padding:0 10px;line-height:18px;font-size:12px}
+.dvCustomIt {
+    float: right;
+    border-color: #1B2650;
+    width: 326px;
+    border-radius: 23px;
+    height: 45px;
+    border: 1px solid #212D6E;
+    border-radius: 23px;background-color:white;
+}
+.dvCustomIt tr td {
+    font-size: 17px;
+    color: #1B2560;
+    font-weight:700;text-transform:uppercase;text-align:center;
+}
+.dvCustomIt:hover{cursor:pointer}
+.dvCustomIt:hover tr td:nth-child(2){text-decoration:none;background:#03C}
+.dvCustomIt:hover tr td:nth-child(2) font{display:inline-block;font-weight:700!important;animation:bounceH 2s infinite}
+.dvOtherFeatCont{border-bottom: 0 solid #36f;height:auto;padding:25px 0 10px;}
+.dvOtherFeatLeft{float:left;margin:0 15px 0 0; min-height:400px;width:640px;}
+.dvOtherFeatRight{float:left;min-height:400px;padding:0;width:325px;}
+.dvOtherFeatured{color:#ff7f00;font-size:18px !important;font-weight:700;padding:0 0 20px;text-transform:uppercase;}
+.dvEachOther{border-color:#ccc;border-style:solid;border-width:1px;padding:10px 0 0; width:200px;float:left;margin-right:10px;}
+.dvEachOtherImg{margin:0 auto;width:180px;}
+.dvEachOtherImg img{width:100%;}
+.dvEachOtherTitle{color:#1a255f;font-size:12px;font-weight:700;height:96px;padding:10px 10px 5px;}
+div.dvEachOtherPrice{color:#666;font-size:12px;padding:5px 0 5px 10px;}
+div.dvEachOtherPrice font{color:#ff6600}
+div.dvOtherPrice{color:#666;float:left;font-size:12px;margin:0;}
+div.dvOtherPrice font{color:#ff6600}
+.dvEachOtherReview{color:#1a255f;font-size:12px;padding:10px 10px 5px;}
+.dvEachOtherReview a{border: 0;cursor: pointer; text-decoration: none;color: #000080;}
+.dvEachOtherMore {
+    cursor: pointer;
+    font-size: 14px !important;
+    margin: 0 auto;
+    max-width: 200px;
+    padding: 0px 15px 0px 12px;
+    width: auto
+}
+.dvEachOtherMore span {
+    float: right;
+    font-size: 22px;
+    position: relative;
+    top: -21px;
+    transform: rotate(90deg);
+    color: #1B2560;
+}
+.dvEachOtherArrow{border-color:#ccc;border-style:solid;border-width:0 1px;display:none;height:12px;width:199px;position:relative;top:26px}
+    .dvEachOtherArrow div {
+        background: #fff url("https://pictures.tripmasters.com/siteassets/d/BG_Down.jpg") no-repeat scroll center top;
+        display: inline-block;
+        height: 25px;
+        position: relative;
+        top: -17px;
+        width: 100%;
+        z-index: 5;
+    }
+.dvOtherInfo{border:1px solid #ccc;display:none;height:auto;padding:15px;position:relative;margin-right:14px;top:11px;}
+.dvOtherClose{padding:15px 10px;}
+.dvOtherClose span{color:#666;cursor:pointer;display:inline-block;float:right;}
+.pOtherDesc{color:#666;font-size:12px;line-height:18px;}
+.dvOtherIncld{color:#666;float:left;font-size:12px;margin:0;width:390px;}
+.dvOtherIncld p{margin:0;}
+.dvOtherPriceBox{background:#ebf1ff none repeat scroll 0 0;border-radius:10px;display:table-cell;padding:15px 0;text-align:center;vertical-align:middle;width:200px;}
+.dvEachOtherPrice{color:#666;font-size:12px;padding:5px 0 5px 10px;}
+.customButton {
+    border: 1px solid #212d6e !important;
+    border-radius: 20px;
+    color: #212d6e;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 10px auto;
+    max-width: 140px;
+    padding: 8px 0;
+    width: auto;
+    min-width: 140px;
+    display: inline-block;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #fff;
+}
+.dvSuggestedItin{border-top:1px solid #36f;color:#ff7f00;font-size:18px !important;font-weight:700;margin:15px 0 10px;padding:20px 0 0;text-transform:uppercase;}
+.dvEachSuggest:hover .dveachSuggest2ndCol{font-weight:700;color:red;cursor:pointer}
+.dvEachSuggestt:nth-child(odd){background-color:#FFF}
+.dvEachSuggest:nth-child(even){background-color:#ECF1FF}
+.dvEachSuggest1stCol{float:left;padding:10px 0 5px 10px;vertical-align:middle;width:595px;}
+.dvEachSuggest2ndCol{float:left;font-size:28px;padding:12px 0;text-align:center;transform:rotate(90deg);cursor:pointer;}
+.dvEachSuggest2ndCol:hover{font-weight:700;color:red;cursor:pointer}
+.dvSuggestTitle{font-size:14px;color:#1B2560}
+.dvSuggestTitle a:hover{color:red!important}
+.dvSuggestPrice{color:#666;font-size:12px;padding:5px 0}
+.spSuggestPrice{color:#ff8000;font-weight:700}
+.spSuggestFeed{margin:0 0 0 15px;font-size:11px;color:#666!important}
+.spSuggestFeed a{color:#666!important}
+.spSuggestFeed a:hover{color:red!important}
+.dvSuggInfo{background:#fff none repeat scroll 0 0; border:1px solid #ccc;display:none;height:auto;padding:10px 15px; position:relative;}
+.dvSuggCustomIt {
+    border: 1px solid #212d6e !important;
+    border-radius: 20px;
+    color: #212d6e;
+    cursor: pointer;
+    font-size: 12px;
+    margin: 10px auto;
+    max-width: 140px;
+    padding: 8px 0;
+    width: auto;
+    min-width: 140px;
+    display: inline-block;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #fff;float:right;text-align:center
+}
+.dvSuggCustomIt:hover {
+    border: 1px solid #212d6e !important;
+    border-radius: 20px!important;
+    color: #212d6e!important;
+    cursor: pointer!important;  
+}
+.dvSuggCustomIt span{color:#212d6e;font-size:12px;text-align:center}
+.dvSuggCustomIt span:hover{color:#212d6e!important;font-size:12px;text-align:center}
+span.moreSuggButton {
+    color: #212d6e;
+    cursor: pointer;
+    font-size: 14px !important;
+    font-weight: bolder !important;
+    padding: 10px 33px;
+    background: #fff 0% 0% no-repeat padding-box;
+    border: 1px solid #212d6e;
+    border-radius: 23px;
+    text-transform: uppercase;
+}
+    span.moreSuggButton:after {
+        content: attr(data-go-to);
+        font-size: 28px;
+        position: relative;
+        top: 8px;
+        left: 8px;
+        transform: rotate(90deg);
+        display: inline-block;
+        margin-left: 15px
+    }
+    span.moreSuggButton:hover {
+        background: #fff 0% 0% no-repeat padding-box;
+        border: 1px solid #212d6e;
+        border-radius: 23px;
+    }
+span.moreSuggButtonRot {
+    color: #212d6e;
+    cursor: pointer;
+    font-size: 14px !important;
+    font-weight: bolder !important;
+    padding: 10px 28px;
+    background: #fff 0% 0% no-repeat padding-box;
+    border: 1px solid #212d6e;
+    border-radius: 23px;
+    text-transform: uppercase;
+}
+    span.moreSuggButtonRot:after {
+        content: attr(data-go-to);
+        font-size: 28px;
+        position: relative;
+        top: 8px;
+        left: 8px;
+        transform: rotate(270deg);
+        display: inline-block;
+        margin-left: 15px
+    }
+    span.moreSuggButtonRot:hover {
+        background: #fff 0% 0% no-repeat padding-box;
+        border: 1px solid #212d6e;
+        border-radius: 23px;
+    }
+.moreSuggButton b{font-size:20px;font-weight:700;display:block;margin-left:10px}
+div.dvImgContOv{display:inline-block;text-align:center}
+div.dvImgContOv img{border:solid 1px #ccc;padding:1px}
+#dvallTHU {
+    padding: 5px 5px 0 17px;
+    width: 277px !important;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+}
+.divTHU{width:300px;}
+#prev{background-position:0 0;left:10px}
+#prev, #next {
+    background: transparent url(https://pictures.tripmasters.com/siteassets/d/carousel_control_1.png) no-repeat scroll 0 0;
+    display: block;
+    height: 21px;
+    margin-top: 8px;
+    text-indent: -999em;
+    width: 15px
+}
+#thumbs span{color:#666;font-family:Arial,Helvetica,sans-serif;font-size:11px;text-align:center}
+#thumbs img{cursor:pointer;margin:0 2px;padding:1px;width:30px;height:30px}
+.picNSel{border:1px solid #999;margin:1px}
+#next{background-position:-18px 0;right:10px}
+.moreImgButt {
+    background: none !important;
+    color: #1b2560;
+    cursor: pointer;
+    font-size: 12px;
+    height: 22px;
+    margin-top: 5px;
+    padding-bottom: 0;
+    padding-top: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px !important;
+    font-weight: bold;
+    text-transform: uppercase
+}
+.buildButton{background:#2c3c9c linear-gradient(to bottom,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0;border:1px solid #1b2560;border-radius:20px;color:#fff;cursor:pointer;display:inline;font-size:14px!important;font-weight:bolder!important;padding:10px 60px;text-decoration:none;width:300px}
+.buildButton:hover{background:#2c3c9c linear-gradient(to top,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0}
+.buildButton b{font-size:20px;font-weight:700;display:block;margin-left:10px}
+.dvbCalSmallTool{display:none !important;}
+.dvbCalFindTool{display:block !important;}
+.dvMostPopItinContainer {
+    background: transparent linear-gradient(180deg, #FFFFFF00 0%, #FCFDFF 42%, #ECF1FF 100%) 0% 0% no-repeat padding-box;
+    background-repeat: repeat-x;
+    height: auto;
+    margin: 0 0px 13px 0px;
+    background-position: bottom;
+    width: 325px;
+}
+.dvMostPopItinContainer:nth-child(1){ margin: 51px 8px 8px 8px;
+}
+.dvMostPopItinTitle {
+    padding: 7px 11px;
+    color: #638BD1;
+    margin: 10px 0px;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: capitalize
+}.dvMostPopItinComment{float:left;min-height:45px;text-align:left;font-family:Arial, Helvetica, sans-serif;font-size:12px;margin:10px 0 0 10px;width:200px;}
+.dvMostPopItinImg{float:right;padding-top:10px}
+.dvMostPopItinImg a{color:#013299;text-decoration:none;}
+.dvMostPopItinImg img{border-style:none;height:60px;margin-right:7px;margin-top:1px;width:60px;}
+.dvMostPopItinMore{clear:both;margin-left:10px;padding:0 5px 1px 0;text-align:left}
+.dvMostPopItinMore a{color:#0033ff;font-family:Arial, Helvetica, sans-serif;font-size:12px;}
+.dvMostPopItinDate{clear:both;padding:0 5px 5px 10px;text-align:left;font-size:12px;}
+.dvMostPopItinPkTitle{margin:3px 0 0 10px;color:navy;font-size:12px;font-weight:700;text-align:left;}
+.dvMostPopItinNts{float:left;margin-left:10px;margin-top:1px;padding:2px 3px 2px 0;width:154px;font-size:12px;}
+.dvMostPopItinBookIt {
+    width: 77px;
+    height: 30px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #212D6E;
+    border-radius: 23px;
+    opacity: 1;
+    text-align: center;
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    line-height:30px;
+}
+    .dvMostPopItinBookIt a {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+.dvMostPopItinBookIt a:hover {
+    text-decoration: none !important;
+    color: #000080 !important
+}
+.dvMostPopItinBookIt a:hover{text-decoration:none !important;color:navy !important;}
+.dvBookAssist{border:1px solid #638bd1;border-radius:10px;box-shadow:0 0 10px #638bd1 inset;margin-top:10px;padding:3px 10px 3px 10px;font-size:12px;}
+.dvSpotLight{border-top:1px solid #36f;padding-bottom:30px}
+.dvSpotLightTitle{font-size:18px;font-weight:700;padding:20px 0 10px;text-transform:uppercase;color:#1b2560;}
+.dvRecentlyViewed{border-top:1px solid #36f;}
+.dvRecentlyTitle {
+    font-size: 18px;
+    font-weight: 700;
+    padding: 20px 0 10px;
+    text-transform: uppercase;
+    color: #1b2560;
+    display: table
+}
+
+    .dvRecentlyTitle span {
+        color: #638bd1;
+        text-align: center;
+        vertical-align: top;
+        font-weight: 500;
+    }.dvViewedBox{float:left; text-align:center; width:160px}
+.dvEachVSeparator{padding:1px;float:left;width:43px;}
+.dvViewedImg{width:auto;height:auto;}
+.dvViewedImg img{padding:2px;width:150px;height:150px; border: 1px solid #ccc;}
+.dvViewedInfo {font-size:12px;text-align:center;height:35px;padding-top:7px;}
+.dvViewed{font-size:12px;text-align:center;line-height:18px;}
+.dvEachVis{margin-top:15px;}
+div.dvEachSpotLight{float:left; width:310px;}
+.dvsptLightBann{margin-bottom:10px;}
+div.dvEachSpotPk:nth-child(odd){background-color:#fff;}
+div.dvEachSpotPk:nth-child(even){background-color:#ECF1FF;}
+div.dvSpotLightPk{padding:5px 0 5px 8px;line-height:18px;}
+div.dvSpotLightPk a{font-size:12px;}
+div.spotSeparator{border-left:2px dotted #ccc;float:left;margin:0 9px;height:280px;}
+.dvEacHighhHide{display:none;padding:unset}
+.dvSpotCty{text-align:center;margin-top:20px;}
+.dvSpotCty a{font-size:12px}
+.dvSpotCty span{margin:0 2px;}
+.dvSpotPkPrice{color:#666;font-size:12px;}
+.spSpotPkPrice{color:#ff8000;font-weight:700;}
+.dvLinkCountry{text-align:center;margin-top:10px;}
+.dvLinkCountry a{font-size:12px}
+.dvLinkCountry a::after{content:attr(lang);font-size:16px;margin-left:3px;}
+.moreViewed{background:#fffecd linear-gradient(to bottom, #fffecd 18%, #fffecd 4%, #ffd968 50%, #ffd968 100%) repeat scroll 0 0;border:1px solid #d9a300;cursor:pointer;max-width:260px;margin:30px auto;padding:10px;text-align:center;font-size:14px}
+.moreViewed:hover{background:#fffecd linear-gradient(to top,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0}
+.moreViewed span{float:right;font-size:28px;position:relative;top:-12px;}
+.dvExplore{border-top:1px solid #36f;}
+.dvExploreTitle{font-size:18px;font-weight:700;padding:20px 0 20px;text-transform:uppercase;color:#1b2560;display:table}
+.dvEachCountry{display:table;min-height:30px;padding:5px 7px 5px 2px;vertical-align:middle;border-bottom:2px solid #dee6f5;width:100%;line-height:22px;}
+.dvCountryTitle, .dvCity, .dvEmptyCty, .dvMoreCtys{display:table-cell;height:100%;padding-left:1px;vertical-align:middle;list-style:none}
+.dvCountryTitle:hover, .dvCity:hover, .dvEmptyCty:hover, .dvMoreCtys:hover{background-color:#dce3f3}
+.dvCountryTitle {width:225px;padding-left:5px;font-weight:700;}
+.dvCountryTitle a{color:#19255f;font-size:12px;font-weight:bold;text-decoration:none !important;}
+.dvCity{width:225px;padding-left:5px;}
+.dvCity a{color:#4a4a4a !important;text-decoration:none !important;font-size:12px;}
+.dvEmptyCty{width:225px;padding-left:5px;}
+.dvMoreCtys{width:60px;}
+.dvMoreCtys a{color:#747474 !important;font-size:11px;font-style:italic;text-decoration:none !important;}
+.dvClose{text-align:right;padding:10px 15px}
+.dvClose span{font-size:11px;color:#03c;cursor:pointer}
+.dvClose span:hover{text-decoration:underline}
+#dvmediaContent{margin:5px 8px 20px}
+#dvmcL{float:left;margin-left:0;width:58%}
+#dvmcR{float:right;margin-right:0;width:41%}
+div.dvMPV{font-size:12px;color:#666;font-weight:700;text-align:left;padding:5px 10px;margin:5px auto;width:400px}
+div.dvFstPic{margin-bottom:5px}
+#dvThuPic{cursor:pointer}
+.picNSel:hover{border:1px red solid;margin:1px}
+.picSel{border:1px red solid;margin:1px}
+div.dvshowPIC:hover{cursor:pointer}
+div.dvshowPIC img{ width:290px; height:290px}
+.dvMoreDest{text-align:center;margin-top:10px;}
+.dvMoreDest span{color:#666;font-size:12px;}
+.dvMoreDest div{border-style:solid none solid none;border-width:1px;border-color:#d9a300;padding:7px;margin-top:5px}
+.dvMoreDest div span:nth-child(1){border-style:none solid none none;border-width:1px;border-color:navy;margin-right:8px;padding-right:10px;}
+.spRemoveCity{ padding:0 0!important; position:relative; top:10px; background:none!important; text-decoration:underline; cursor:pointer; font-size:12px}
+.spRemoveCity:hover{color:red}
+.errorClass{border:2px solid red!important; color:red;}
+div.dvMask{ width:100%; height:100%; background:rgba(204, 204, 204, 0.5); position:absolute; top:0; left:0; z-index:900; display:none}
+div.dvTransportation{margin:0 auto; z-index:910; top:50px; display:none; left:50%; margin-left:-472px;}
+div.dvtranspLoad {background: #fff none repeat scroll 0 0; border: 1px solid #648ad1; border-radius: 6px; box-shadow: 0 0 10px #648ad1 inset; height: auto; margin: 0 auto; max-width: 900px; min-width: 900px; padding: 15px 25px; text-align: left;}
+div.dvBlackBox {background: #000 none repeat scroll 0 0; color: #fff; font-size: 22px; height: 46px; line-height: 44px; margin: 0 auto;  max-width: 1600px; min-width: 980px; text-align: center; vertical-align: middle; display:none;}
+div.dvBlackBox b{margin:0 25px;}
+div.dvmediaPopUp{display:none; position:absolute; z-index:9999; width:1010px; left:50%; margin-left:-505px; top:300px; height:auto; background-color:#FFF;}
+div.dvLargerView{padding: 8px 0px; color: #666; font-size: 11px;}
+/* SMALL CALENDAR */
+.BG_need {
+    background: url(https://pictures.tripmasters.com/siteassets/d/NeedAssistance_W.gif) no-repeat left center;
+}
+.dvSuggInfo p{color: #666;
+    font-size: 12px;
+    line-height: 18px;}
+/* **** NEW CALENDAR *** */
+.dvSpin {display:flex;justify-content:center;height:300px;}
+.dvSpin img{margin:auto;}
+div.dvTransportation{margin:0 auto;z-index:910;top:50px;display:none;left:50%;margin-left:-472px}
+div.dvtranspLoad{background:#fff none repeat scroll 0 0;border:1px solid #648ad1;border-radius:6px;box-shadow:0 0 10px #648ad1 inset;height:auto;margin:0 auto;max-width:900px;min-width:900px;padding:15px 25px;text-align:left}
+.spRemoveCity{padding:0!important;position:relative;top:10px;background:none!important;text-decoration:underline;cursor:pointer;font-size:12px}
+.spRemoveCity:hover{color:red}
+.dvtranspMainContainer{max-width:900px;min-width:900px;margin:0 auto;height:auto;padding:15px 25px;border:1px solid #648AD1;text-align:left;border-radius:6px;-webkit-box-shadow:inset 0 0 10px #648AD1;-moz-box-shadow:inset 0 0 10px #648AD1;box-shadow:inset 0 0 10px #648AD1;background:#FFF}
+.dvtranspTitle{border-bottom:1px solid #36F;padding:5px}
+.dvtranspTitle span:nth-child(1){float:left;text-transform:uppercase;font-size:18px}
+.dvtranspTitle span:nth-child(2){float:right;font-size:11px;cursor:pointer}
+.dvtranspByoCalTools{position:relative;margin-bottom:30px;display:none;}
+.dvtranspIntlFly span{background:#999;color:#fff;padding:10px 15px;cursor:pointer}
+.dvtranspIntlFly span.spselect{background:#0065b8}
+.dvtranspByoCalTools span:nth-child(3){background:none;color:#000}
+.dvtranspIntlFly{position:relative;margin:25px 0}
+.dvtranspAirParam{position:relative;margin-bottom:25px}
+.dvtranspAirParam div{float:left}
+.dvtranspAirParam div:nth-child(1){width:36%;margin-right:30px}
+.dvtranspAirParam div:nth-child(2){width:20%}
+.dvtranspAirParam label{float:left;width:100%;margin-bottom:5px;color:#000;font-size:14px}
+.dvtranspAirParam input[type="text"]{width:100%;padding:5px 0;border:none;font-weight:700;font-size:14px;color:#333;font-family:Arial,Helvetica,sans-serif}
+.dvtranspAirParam select{width:160px;padding:5px 8px;border:1px solid #ccc}
+.dvtranspAirParam select option{font-size:14px}
+.dvtranspLabels{font-size:14px;margin:-5px 0 5px;padding:10px 0 0 5px}
+.dvtranspCityList{border-radius:6px;margin-bottom:2px;height:auto;line-height:40px;padding:0 0 0 5px;font-size:14px}
+.dvtranspCityList:nth-child(odd){background-color:#F9FBFD}
+.dvtranspCityList:nth-child(even){background-color:#E3E9F5}
+.dvtranspCityList div span{background:none!important;color:#333}
+.dvtranspCityList div span b{font-size:14px}
+.dvtranspCityList div select{width:100px;padding:5px 8px;border:1px solid #ccc}
+.sptranspRemoveCity{font-size:12px;cursor:pointer;color:blue}
+.sptranspRemoveCity:hover{color:red;text-decoration:underline}
+.dvtranspLabels div:nth-child(1),.dvtranspCityList div:nth-child(1){width:28%;float:left}
+.dvtranspLabels div:nth-child(2),.dvtranspCityList div:nth-child(2){width:14%;float:left}
+.dvtranspLabels div:nth-child(3),.dvtranspCityList div:nth-child(3){width:14%;float:left;height:10px}
+.dvtranspLabels div:nth-child(4),.dvtranspCityList div:nth-child(4){width:43%;float:left}
+.dvtranspCityList div:nth-child(2) span{padding:10px 2px}
+.dvtranspCityList div:nth-child(3) span{padding:10px 5px}
+.ptranspCheck{margin:3px 0 0;padding:0 0 0 5px;display:none}
+.ptranspSelAct{display:block;line-height:35px;margin:3px 0 0;width:395px;padding:0 0 0 5px;float:left}
+.ptranspSelNoAct{display:none;line-height:35px;margin:3px 0 0;width:395px;padding:0 0 0 5px;float:left}
+.ptranspSelAct span,.ptranspSelNoAct span{float:left;padding:0;margin:0}
+.ptranspSelAct span:nth-child(1){width:300px}
+.buttontranspChange{background:#ccc linear-gradient(to bottom,#fff 35%,#ccc 95%) repeat scroll 0 0;border:1px solid #ccc;border-radius:3px;color:#00F;cursor:pointer;padding:2px 5px;width:60px;font-size:12px;margin:0 10px;text-align:center}
+.buttontranspChange:hover{background:#ccc linear-gradient(to top,#fff 35%,#ccc 95%) repeat scroll 0 0}
+span.dvCarOpt{margin:1px 0 3px;float:left;padding:0!important;display:none}
+span.dvCarOpt span{margin-top:1px;float:left;padding:9px 0!important}
+.dvCarOpt input[type="text"] {
+    background-color: #fff;
+    background-image: url(https://pictures.tripmasters.com/siteassets/d/select_Down.gif);
+    background-position: right center;
+    background-repeat: no-repeat;
+    border: 1px solid #666;
+    border-radius: 6px;
+    color: #333;
+    font-size: 12px;
+    height: 17px;
+    outline: 0 none;
+    padding: 0 0 0 5px;
+    width: 25%
+}
+.dvCarUpOff{text-align:left;padding:3px 0;font-size:11px;font-family:Arial,Helvetica,sans-serif;color:#000;line-height:8px;margin:0;display:block}
+.dvCarUpOff span{display:block;padding-top:4px;width:45px;margin-right:2px;float:left}
+.dvCarUpOff select{margin-right:2px;float:left;width:auto!important}
+.dvCarUpOff select option{font-size:12px}
+div.dvtranspRooms{font-size:14px}
+div.dvtranspRooms p{margin:20px 0 10px;width:265px;display:inline-block}
+div.dvtranspRooms p select{padding:3px 8px;width:264px;font-size:12px;margin:5px 0 0}
+div.dvtranspRooms p select option{font-size:12px;padding:3px 0}
+div.dvtranspRooms p select option.hrDots{border:none;border-top:1px dotted #666;color:#fff;height:1px;width:90%;background:none;margin:7px auto}
+hr.hrDots{border:none;border-top:1px dotted #666;color:#fff;height:1px;width:90%;background:none;margin:7px auto}
+div.dvtranspAdultChild{padding:5px 0;font-size:11px;display:none}
+div.dvtranspAdultChild p{margin:0 0 5px;font-size:11px;display:none}
+div.dvtranspAdultChild p span{background:#FFF;float:left;color:#000;padding:0 5px;line-height:40px}
+div.dvtranspAdultChild p span:nth-child(1),div.dvtranspAdultChild p span:nth-child(2),div.dvtranspAdultChild p span:nth-child(3){width:55px}
+div.dvtranspAdultChild p select{padding:3px 8px;font-size:11px;margin:5px 0 0}
+div.dvtranspAdultChild p select option{font-size:12px;padding:3px 0}
+div.dvtranspAdultChild p span:nth-child(4),div.dvtranspAdultChild p span:nth-child(4) select,div.dvtranspAdultChild p span:nth-child(4) label{display:none}
+div.dvtranspAdultChild p span:nth-child(4) label{margin:0 3px 0 5px}
+div.dvContinueButton{padding:0 20px 0 0;text-align:right}
+div.dvContinueButton span.btnContinue{background:#2c3c9c linear-gradient(to bottom,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0;border:1px solid #1b2560;border-radius:5px;color:#fff;padding:10px 75px;width:auto;font-size:14px;cursor:pointer}
+div.dvContinueButton span.btnContinue:hover{background:#2c3c9c linear-gradient(to top,#2c3c9c 18%,#2c3c9c 4%,#1b2560 50%,#1b2560 100%) repeat scroll 0 0}
+.moreViewed{background:#fffecd linear-gradient(to bottom,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0;border:1px solid #d9a300;cursor:pointer;max-width:260px;margin:30px auto;padding:10px;text-align:center;font-size:14px}
+.moreViewed:hover{background:#fffecd linear-gradient(to top,#fffecd 18%,#fffecd 4%,#ffd968 50%,#ffd968 100%) repeat scroll 0 0}
+.moreViewed span{float:right;font-size:28px;position:relative;top:-12px}
+.Blue-Arial14 {
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: 700;
+    color: #036;
+}
+.pfeatNight font {
+    color: #ff7f00;
+    font-weight: 700;
+}
+.font {
+    color: #ff8000;
+    font-weight: 700;
+}
+.Advanced {
+    color: #fff !important;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 27px;
+    width:84%;
+    line-height: 18px;
+}
+.Advanced a, .Advanced a:link, .Advanced a:visited, .Advanced a:hover, .Advanced a:active {
+    color: #fff !important;
+    text-decoration: underline;
+    background-color: transparent;
+}
+.Advanced span {
+    color: #fff;
+    font-size: 11px;
+}
+.allRecViewBtn {
+    text-align: center;
+    display: block;
+    background: #fff;
+    border: 1px solid #212d6e !important;
+    border-radius: 35px;
+    padding: 10px 5px;
+    font-size: 12px;
+    color: #212d6e;
+    font-weight: 600;
+    font-family: arial,regular;
+    text-transform: uppercase;
+    width: 85%;
+    margin: 0 auto;
+}
+/* Highlights */
+.ulgrid4 {
+    display: grid;
+    grid-template-columns: repeat(4,25%);
+    list-style: none;
+    width: 100%;
+    grid-gap: 8px;
+    padding: 0;
+}
+    .ulgrid4 img {
+        width:220px;
+    }
+    .ulgrid4 p {
+        margin: 0;
+        text-align: center;
+        max-width: 220px;
+        position: relative;
+        top: -35px;
+        height: 30px;
+        max-height: 80px;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        line-height: 30px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .ulgrid4 a:hover{
+        text-decoration:none !important;
+    }
+        .ulgrid4 a:hover img {
+            filter: drop-shadow(0 0 3px #666666);
+        }
+        .ulgrid4 a:hover p {
+            text-decoration:underline;
+            color:white;
+        }
+
+/* ----- New Recently Viewed ----- */
+ul.ullist {
+    color: transparent;
+    margin: 180px 0 0 20px;
+    font-size: 11px;
+    position: absolute;
+}
+
+.template-RecentlyViewed {
+    width: 100%;
+    margin: 0 auto;
+    padding: 35px 0;
+    border-top: 1px solid #36f;
+}
+
+    .template-RecentlyViewed .ul-Flex {
+        padding: 0;
+        margin: 0 auto;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: start;
+        max-width: unset;
+    }
+
+        .template-RecentlyViewed .ul-Flex li {
+            padding: 0;
+            margin: 0;
+            color: #fff;
+            width: auto;
+        }
+
+    .template-RecentlyViewed ul.ul-Flex li div.div-ContainerFlex {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .template-RecentlyViewed ul.ul-Flex li div.wrapper {
+        position: relative;
+        height: 180px;
+        width: 180px;
+        border-radius: 10px 10px 0 0;
+        overflow: hidden;
+        line-height: 22px;
+    }
+
+        .template-RecentlyViewed ul.ul-Flex li div.wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .template-RecentlyViewed ul.ul-Flex li div.wrapper > div {
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            display: flex;
+            align-items: flex-end;
+            background-image: linear-gradient(transparent 40%,rgba(0,0,0,.85));
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: left;
+        }
+
+        .template-RecentlyViewed ul.ul-Flex li div.wrapper h5 {
+            height: auto;
+            font-size: 0.85rem;
+            text-align: start;
+            padding: 0 10px;
+            margin: 0;
+        }
+
+            .template-RecentlyViewed ul.ul-Flex li div.wrapper h5 a {
+                color: #fff !important;
+                font-family: sans-serif;
+                font-size: 0.95rem;
+                font-weight: 600;
+            }
+
+    .template-RecentlyViewed ul.ul-Flex li div.div-ContainerFlex .div-UnderImg {
+        height: auto;
+        background: #efefef;
+        width: 180px;
+        max-width: 180px;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .template-RecentlyViewed .allRecViewBtn {
+        text-align: center;
+        display: block;
+        background: #fff;
+        border: 1px solid #212d6e !important;
+        border-radius: 35px;
+        padding: 5px 5px;
+        font-size: 12px;
+        color: #212d6e;
+        font-weight: 600;
+        font-family: arial,regular;
+        text-transform: uppercase;
+        width: 85%;
+        margin: 10px auto;
+    }
+
+.p-under1 {
+    color: #666;
+    font-size: 0.75rem;
+    font-weight: 300;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+}
+
+.hr1 {
+    border: none;
+    display: block;
+    margin: 10px;
+    height: 1px;
+    background-image: linear-gradient(180deg,white,transparent);
+}

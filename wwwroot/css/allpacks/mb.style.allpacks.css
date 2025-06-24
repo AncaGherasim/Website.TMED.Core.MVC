@@ -1,0 +1,28 @@
+﻿.pgTitle {
+    background-color: #608ED5;
+}
+.dvArrToggle:after {
+    content: "\203A";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+    transform: rotate(270deg);
+    color: #f60;
+    font-weight: 500;
+    margin-right: 6px;
+    position: relative;
+}
+
+.dvArrToggle.collapsed:after {
+    transform: rotate(90deg);
+    margin-right: 0px;
+}
+.btnctylst::after {
+    content: "\25b4";
+    float: right;
+    font-size: 30px;
+    line-height: 20px;
+}
+.btnctylst.collapsed::after {
+    content: "\25be";
+}

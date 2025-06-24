@@ -1,0 +1,447 @@
+﻿@model MVC_TMED.Models.ViewModels.InterestViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+@{
+    if (ViewBag.Mobile == 0)
+    {
+        <environment include="Development">
+            <link rel="stylesheet" href="~/css/bestVacations/dt.style.bestVacations.css" asp-append-version="true" />
+            <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />  
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="~/css/bestVacations/dt.style.bestVacations.min.css" asp-append-version="true" />
+            <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        </environment>
+    }
+    else
+    {
+        <environment include="Development">
+            <link rel="stylesheet" href="~/css/bestVacations/dt.style.bestVacations.css" />
+            <link rel="stylesheet" href="~/css/site/site.min.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/css/dt.style.tmsite.min.css" asp-append-version="true" />
+            <script src="~/js/jq_second/jquery.form.min.js" asp-append-version="true"></script>
+
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="~/css/bestVacations/dt.style.bestVacations.min.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/css/site/site.min.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/css/dt.style.tmsite.min.css" asp-append-version="true" />
+            <script src="~/js/jq_second/jquery.form.min.js" asp-append-version="true"></script>
+
+        </environment>
+    }
+}
+
+@{<style>
+    .dvhCallus{width:46%!important}
+    .dvhChat{width:30%!important}
+    .dvhBBB {width:180px;}
+    .sweepsBG {width:20px;}
+    .dvhSearch input[type=text] {height: 22px!important}
+
+    .table {
+        width: 980px !important;
+        margin-bottom: unset !important;
+    }
+
+    .secTopHeader {
+        height: 140px !important;
+    }
+
+    .destLinks {
+        position: relative !important;
+        top: 9px !important;
+    }
+
+    .searchBox input[type="text"] {
+        width: 87% !important
+    }
+
+    .dvContainer {
+        width: 980px;
+        margin: 0 auto;
+        padding-bottom: 20px;
+    }
+    </style>
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+    string lnTitle = "";
+    string lnURL = "";
+    string lnSrc = "";
+    Int32 lnID = -1;
+}
+
+<div class="container dvConnt">
+    <div class="row-fluid title">
+        <div class="dvBGpageTitle" >
+            <div style="float:left; padding:5px 15px; vertical-align:text-top" class="Page-TitleWhite">@Model.intNA Itineraries</div>
+            <div id="dvlinkHeader" class="dvlinkHeader" style="float:right; padding:15px;"><a href="http://www.tripmasters.com/europe">Home</a> | <a href=@String.Format("/{0}/Vacations", @Model.plcNA)>@Model.plcNA</a></div>
+        </div>
+    </div>
+    <div class="row descriptionAInt" style="margin:0 auto;" >
+        <div class="row mr-0 ml-0 dvRoundBoxes dvDescription" >
+            <div class="col-sm-8 Text_12"style="padding:5px">           
+                @Html.Raw(@Model.intDES)
+            </div>
+            <div class="col-sm-4 dvBG_BrowseTrip">
+                <div class="Text_Arial14_BlueBold" >
+                    Browse trips others have<br />taken to @Model.plcNA:&nbsp;
+                    <img src="https://pictures.tripmasters.com/siteassets/d/AreaSubscribebtn.gif" border="0" align="absmiddle" style="cursor:pointer;" onclick=@String.Format("window.location='/europe/tkby{0}_Trips_Taken_to_{1}'", Model.plcID, Model.plcNA.Replace(" ", "_")) />
+                </div>
+            </div>
+          
+        </div>
+    </div>
+    <!-- end top of page -->
+
+    <div class="row ml-auto mr-auto packAInt" >
+
+        @if (Model.placesInterest.Count > 0)
+        {
+            <div class="col-sm-3 pl-0 pr-0">
+                <div class="dvRoundBoxes" style="padding: 10px 10px 10px 10px" align="left">
+                    @{
+                        string plcIMG = "";
+                        string shortComment = "";
+                        foreach (var cty_ in Model.placesInterest)
+                        {
+                            plcIMG = "https://pictures.tripmasters.com/images/web/as/places/" + @cty_.STR_PlaceTitle + ".jpg";
+                            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("<[^<>]+>");
+                            shortComment = @cty_.STR_PlaceShortInfo;
+                            if (regex.IsMatch(@shortComment))
+                            {
+                                shortComment = regex.Replace(shortComment, "");
+                            }
+                            <div style="margin:5px 0px; padding:5px;">
+                                <div class="Text_Arial12_BlueBold">
+                                    <a href=@String.Format("/{0}/Vacations", cty_.STR_PlaceTitle.Replace(" ", "_"))>
+                                        @cty_.STR_PlaceTitle
+                                    </a>
+                                </div>
+                                <div align="center" style="margin-bottom:10px"><img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg"></div>
+                                <div class="Text_12" style="margin-right:5px;">
+                                    @if (System.IO.File.Exists(plcIMG))
+                                    {
+                                        <img src=@String.Format("https://pictures.tripmasters.com/images/web/as/places/{0}.jpg", cty_.STR_PlaceTitle.ToLower()) width="70" height="70" border="2" align="left" style="border:solid 2px #CCC; margin:0px 10px 10px 0px;" />
+                                    }
+                                    <span id=@String.Format("plus{0}", cty_.STR_PlaceID)>@Utilities.ShortComment(@shortComment)</span>
+                                    <span id=@String.Format("minus{0}", cty_.STR_PlaceID) style="display:none;">@shortComment</span>
+                                </div>
+                                <div align="right" class="Text_11_Blue"><img id=@String.Format("img{0}", cty_.STR_PlaceID) src="https://pictures.tripmasters.com/siteassets/d/plus.gif" border="0" align="absmiddle" onclick=@String.Format("moreCtyDes(this.src,{0})", cty_.STR_PlaceID) style="cursor:pointer;">&nbsp; <span id=@String.Format("spMore{0}",cty_.STR_PlaceID) onclick=@String.Format("moreCtyDes('',{0})", cty_.STR_PlaceID) style="cursor:pointer;"><u>more info...</u></span></div>
+                            </div>
+
+
+                        }
+                    }
+
+                </div>
+
+                <!-- end div Bx_CR -->
+                <div style="margin-top:5px">&nbsp;</div>
+
+            </div>
+        }
+        else
+        { <div class="col-sm-3 pr-0 pl-0">
+                <div>
+                    <!-- start div left col -->
+                    @if (@Model.objPlaceExt.FindAll(x => x.STX_ProdKindID == 1623 && x.STX_STRID == Model.plcIDs).Count > 0)
+                    {
+
+                        <div class="dvRoundBoxes" style="padding: 10px 10px 10px 10px" align="left">
+                            <div class="Text_Arial14_BlueBold" style="padding:5px">Highlights & Attractions</div>
+                            <div align="center" style="margin-bottom:10px"><img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg"></div>
+                            @{
+                                lnTitle = "";
+                                lnURL = "";
+                                lnSrc = "";
+                                foreach (var objPlace in @Model.objPlaceExt.FindAll(x => x.STX_ProdKindID == 1623 && x.STX_STRID == Model.plcIDs))
+                                {
+                                    lnTitle = objPlace.STX_Title;
+                                    lnURL = objPlace.STX_URL;
+                                    if (lnURL.StartsWith("/"))
+                                    {
+                                        lnURL = lnURL.Substring(1, lnURL.Length - 1);
+                                    }
+                                    lnSrc = objPlace.STX_PictureURL;
+                                    if (lnSrc.Trim() == "")
+                                    {
+                                        lnSrc = "https://pictures.tripmasters.com/siteassets/d/NoPhoto.gif";
+                                    }
+                                    else
+                                    {
+                                        lnSrc = lnSrc.Trim();
+                                    }
+
+                                    <div style="margin:2px 0px;">
+                                        <div style=" float:left; margin-right:5px;">
+                                            <img src=@String.Format("{0}", lnSrc.ToLower().Replace("http","https")) width="50" height="50" />
+                                        </div>
+                                        <div style="word-wrap:break-word; float:left; width:120px; height:auto; padding-top:15px" class="Text_12">
+                                            <a href=@String.Format("/{0}", lnURL)>
+                                                @lnTitle
+                                            </a>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                    <div> </div>
+                                }
+                            }
+                        </div>
+
+                        <!-- end div Bx_CR -->
+                        <div style="margin-top:5px">&nbsp;</div>
+                    }
+
+                    @if (@Model.objPlaceExt.FindAll(x => x.STX_ProdKindID == 1620).Count > 0)
+                    {
+                        <div class="dvRoundBoxes" style="padding: 10px 10px 10px 10px" align="left">
+                            <div class="Text_Arial14_BlueBold" style="padding:5px">Interests</div>
+                            <div align="center" style="margin-bottom:10px"><img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg"></div>
+                            @{
+                                foreach (var objPlace in @Model.objPlaceExt.FindAll(x => x.STX_ProdKindID == 1620))
+                                {
+                                    lnTitle = objPlace.STX_Title;
+                                    lnURL = objPlace.STX_URL;
+                                    if (lnURL.StartsWith("/"))
+                                    {
+                                        lnURL = lnURL.Substring(1, lnURL.Length - 1);
+                                    }
+                                    <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px">
+                                        <a href=@String.Format("/{0}", lnURL)>
+                                            @lnTitle
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <!-- end div Bx_CR -->
+                        <div style="margin-top:5px">&nbsp;</div>
+                    }
+                    <div class="dvRoundBoxes" style="padding: 10px 10px 10px 10px" align="left">
+                        <div class="Text_Arial14_BlueBold" style="padding:5px">Cities in @Model.plcNA</div>
+                        <div align="center" style="margin-bottom:10px"><img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg"></div>
+                        @{
+                            lnTitle = "";
+                            lnID = -1;
+                            string lnInfo = "";
+                            foreach (var objPlace in @Model.listCitiesOn)
+                            {
+                                lnTitle = objPlace.STR_PlaceTitle;
+                                lnID = objPlace.STR_PlaceID;
+                                lnInfo = objPlace.STR_PlaceShortInfo;
+
+                                <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px">
+                                    <a href=@String.Format("{0}/vacations", lnTitle.Replace(" ", "_").ToLower())>
+                                        <u>@lnTitle</u>
+                                    </a>&nbsp;&nbsp;
+                                    <img id=@String.Format("pic{0}", lnID) src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="9" height="9" align="absmiddle" onclick=@String.Format("dvOpenMain('{0}');", lnID) style="cursor:pointer;" />
+                                </div>
+                                <div id=@String.Format("dv{0}", lnID) style="display:none; border:1px solid black; padding:5px; background-color:#FFF; width:300px; position:absolute;">
+                                    <div align="right" class="Text_12_Gray" style="padding:3px 10px">
+                                        <span style="cursor:pointer" onclick=@String.Format("dvCloseMain('dv{0}')", lnID)>close X</span>
+                                    </div>
+                                    <div class="Text_Arial11_BlueBold" style="padding: 3px 10px 3px 10px">@lnTitle</div>
+                                    <div style="padding:10px">@lnInfo</div>
+                                </div>
+                            }
+                        }
+                        <div class="Text_12" style="padding:2px 5px;">
+                            <a href=@String.Format("{0}/destinations", @Model.plcNA.Replace(" ", "_"))>
+                                >> <u>see all cities</u>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- end div Bx_CR -->
+                    <div style="margin-top:5px">&nbsp;</div>
+
+                    <div class="Bx_CR" style="display:none">
+                        <div class="dvRoundBoxes" style="padding: 10px 10px 10px 10px" align="left">
+                            <div class="Text_Arial14_BlueBold" style="padding:5px">Combine @Model.plcNA with:</div>
+                            <div align="center" style="margin-bottom:10px"><img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <!-- center div -->
+        <div class="col-sm-5 pr-0 pl-0">
+            <div style=" height:auto; padding:0px 5px 0px 10px;">
+                <div class="dvRoundBoxes" style="padding: 10px 10px 10px 10px" align="left">
+                    <div id="dvWeiPacks" style="height:auto;">
+                        @{
+                            string[] intTitleP = @Model.intNA.Split("-");
+                            string intTitle = intTitleP[1].Trim();
+                        }
+
+                        <div class="Text_Arial16_BlueBold" style=" padding:6px 5px;">Most Popular @intTitle Itineraries:</div>
+                        <div align="center" style="margin-bottom:10px;"><img src="https://pictures.tripmasters.com/siteassets/d/LineBlueCruise.jpg" height="1" style="width:200px" /></div>
+                        <div id="dvPacksWait" align="center" class="Package_Description" style="padding:100px"><img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" width="50" height="50" /><br /><br /> loading ...</div>
+                        <div id="dvPacksW" style="padding:5px; display:none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- right div -->
+        <div class="col-sm-4 pr-0 pl-0">
+            <div>
+                <div class="dvRoundBoxes" style="background: #7799d8 linear-gradient(to top, white 75%, #7799d8 100%) repeat scroll 0 0;">
+                    <div class="Ttl_Bx_White30" align="left">Customize Suggested Itineraries</div>
+                    <div style="padding-left:15px;" class="Text_Arial14_BlueBold" align="left">Combine cities within @Model.plcNA</div>
+                    <div style="padding:10px 10px;" align="left">
+                        <form name="frmFindPack" id="frmFindPack" method="post" style="margin:0px">
+                            <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td width="50%" valign="top">
+
+                                        @{
+                                            double halfTotal = ((double)(Model.listCitiesOn.Count)) / (double)(2);
+                                            Int32 ifDec;
+                                            Int64 roundUp;
+                                            ifDec = halfTotal.ToString().IndexOf(".");
+                                            if (ifDec > 0)
+                                            {
+                                                roundUp = long.Parse(halfTotal.ToString().Substring(0, ifDec)) + 1;
+                                            }
+                                            else
+                                            {
+                                                roundUp = (Int64)halfTotal + 1;
+                                            }
+                                            lnID = -1;
+                                            string lnVAL = "";
+                                            long cty = 0;
+                                            foreach (var objPlace in @Model.listCitiesOn)
+                                            {
+                                                lnTitle = objPlace.STR_PlaceTitle;
+                                                lnID = objPlace.STR_PlaceID;
+                                                lnVAL = objPlace.STR_PlaceID + "|" + objPlace.STR_PlaceTitle;
+
+                                                if (cty == roundUp)
+                                                {
+                                                    @Html.Raw("</td><td valign='top'>");
+                                                }
+
+                                                <div style="padding:2px 2px 2px 2px; margin:4px 0px 4px 0px">
+                                                    <a href=@String.Format("#dot{0}", lnID) class="falsecheck" id=@String.Format("falsedot{0}",lnID)>
+                                                        @lnTitle
+                                                    </a>
+                                                    <input type="checkbox" name=@String.Format("dot{0}", lnID) id=@String.Format("dot{0}", lnID) style="display:none" value=@String.Format("{0}", lnVAL) />
+                                                </div>
+
+                                                cty += 1;
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                            <div align="center" class="Description_Bold" style="margin:5px 0px;">
+                                <a href="#" onclick="$('#moreCities').show(); return false;">
+                                    <u>other cities</u>&nbsp;<img src="https://pictures.tripmasters.com/siteassets/d/Select_Box_Arrow.gif" border="0" align="absmiddle">
+                                </a>
+                            </div>
+                            <div id="moreCities" style="display:none;">
+                                <table width="99%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td width="50%" valign="top">
+                                    <tr>
+                                        <td>
+                                            @{
+                                                decimal halfMTotal = Model.listCitiesMore.Count / 2;
+                                                Int32 ifMDec;
+                                                Int64 roundMUp;
+                                                ifMDec = halfMTotal.ToString().IndexOf(".");
+                                                if (ifMDec > 0)
+                                                {
+                                                    roundMUp = long.Parse(halfMTotal.ToString().Substring(0, ifMDec)) + 1;
+                                                }
+                                                else
+                                                {
+                                                    roundMUp = (Int64)halfMTotal;
+                                                }
+
+                                                lnID = -1;
+                                                lnVAL = "";
+                                                cty = 0;
+                                                foreach (var objPlace in @Model.listCitiesMore)
+                                                {
+                                                    lnTitle = objPlace.STR_PlaceTitle;
+                                                    lnID = objPlace.STR_PlaceID;
+                                                    lnVAL = objPlace.STR_PlaceID + "|" + objPlace.STR_PlaceTitle;
+
+                                                    if (cty == roundMUp)
+                                                    {
+                                                        @Html.Raw("</td><td valign='top'>");
+                                                    }
+
+                                                    <div style="padding:2px 2px 2px 2px; margin:4px 0px 4px 0px">
+                                                        <a href=@String.Format("#dot{0}", lnID) class="falsecheck" id=@String.Format("falsedot{0}",lnID)>
+                                                            @lnTitle
+                                                        </a>
+                                                        <input type="checkbox" name=@String.Format("dot{0}", lnID) id=@String.Format("dot{0}", lnID) style="display:none" value=@String.Format("{0}", lnVAL) />
+                                                    </div>
+
+                                                    cty += 1;
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <input type="hidden" name="allID" id="allID" value="" />
+                            <input type="hidden" name="allNA" id="allNA" value="" />
+                        </form>
+                        <div align="center" style="padding:10px 5px; "><img src="https://pictures.tripmasters.com/siteassets/d/Botton_FindPacks.jpg" class="imgFindPack"  align="absmiddle" onClick="findPacks('frmFindPack')"></div>
+                    </div>
+                </div>
+                <!-- end div Comb_CR -->
+                <!-- BYO -->
+                <div style="margin-top:5px;">&nbsp;</div>
+                <div><a href="https://www.tripmasters.com/build_your_own_vacation"><img src="https://pictures.tripmasters.com/siteassets/d/BuildYourOwn.gif" width="325" height="120" border="0"></a></div>
+                <div style="margin-top:5px;">&nbsp;</div>
+                <!-- Suscribe -->
+                <!-- need booking assistnce -->
+                <div style="margin-top:5px">&nbsp;</div>
+                <div class="dvRoundBoxes">
+
+                    <div style="padding:3px 10px 3px 10px;">
+                        <div class="BG_need">
+                            <div class="Blue-Arial14" align="right" style="padding:10px 20px 5px 3px;">Need booking assistance?</div>
+                            <div align="right" class="Text_12" style="padding:5px 15px 5px 3px;line-height:17px;">
+                                <b>We're glad to help:</b><br>
+                                Call Us <b>7</b>  days a week<br />
+                                from 8AM to Midnight ET<br />
+                                <span class="Text_Arial16_navy"><b>1-800-430-0484</b></span>
+                            </div>
+                            <div align="right" class="Text_12" style="padding:5px 15px 5px 3px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- end -->
+
+
+
+
+    </div>
+    <!-- end right div -->
+    <div style="clear:both"></div>
+
+</div>
+<input name="inpWeiPacks" type="hidden" id="inpWeiPacks" value="@Model.strPackOnWeiString" />
+
+@section Scripts
+    {
+<environment include="Development">
+    <script src="~/js/interest/interest.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/interest/interest.min.js" asp-append-version="true"></script>
+</environment>
+}

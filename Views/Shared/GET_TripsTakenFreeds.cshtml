@@ -1,0 +1,99 @@
+﻿@using MVC_TMED.Infrastructure;
+@model List<MVC_TMED.Models.TripsTakenFeedback>
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+
+@{
+    foreach (var t in Model)
+    {
+        <hr class="gradLine" style="margin-top:15px;" />
+        <a style="font-size:18px;color:#19255f;" asp-controller="Package" asp-action="Index" asp-route-id="@t.Package.FirstOrDefault().PDLID" asp-route-country="@t.Package.FirstOrDefault().CountryName.Replace(' ', '_')" asp-route-name="@t.Package.FirstOrDefault().PDL_Title.Replace(' ', '_')">
+            @t.Package.FirstOrDefault().PDL_Title
+        </a>
+        <br />
+        <a style="color:#666!important;text-decoration:underline;" asp-route="Feedback_Route" asp-route-country="@t.Package.FirstOrDefault().CountryName.Replace(" ", "_").ToLower()" asp-route-pack="@t.Package.FirstOrDefault().PDL_Title.Replace(' ', '_').ToLower()" asp-route-id="@t.Package.FirstOrDefault().PDLID">
+            @t.Package.FirstOrDefault().NoOfFeed Travelers reviewed this package
+        </a>
+        <div style="margin:25px 0px 15px 0px;">
+            <span style="color:#f60;">&#9658;</span>
+            @Html.Raw(@Utilities.FormatCustomerComment(@t.PCC_Comment))
+        </div>
+        <div class="FeedDetailContainer">
+            <div class="leftCol">
+                <b>Itinerary Details:<br /></b>
+                @Html.Raw(t.PCC_Itinerary.Replace("\r\n", "<br>"))
+            </div>
+            <div class="rightCol">
+                <b>Places visited on this trip</b>
+                <div style="margin:4px 0px 10px 0px;">
+                    @{
+                        Int32 j = 0;
+                        foreach (var p in @t.Places)
+                        {
+                            if (p.PlaceType == 6)
+                            {
+                                if (j > 0)
+                                {
+                                    Html.Raw(" - ");
+                                }
+                                <a style="color:Gray;" asp-controller="Area" asp-route-name="@p.Name">
+                                    <u>@p.Name</u>
+                                </a>
+                            }
+                            else
+                            {
+                                if (j > 0)
+                                {
+                                    Html.Raw(" - ");
+                                }
+                                <a style="color:Gray;" href="@_appsettings.CurrentValue.ApplicationSettings.SiteName/@p.Name.Replace(' ', '_').ToLower()/vacations">
+                                    <u>@p.Name</u>
+                                </a>
+                            }
+                            j += 1;
+                        }
+                    }
+                </div>
+                <div style="margin-top:20px;">
+                    <b>More choices, combine cities found in this itinerary</b>
+                    <form id=@String.Format("frm{0}", @t.PCCID) name=@String.Format("frm{0}", @t.PCCID) method="post">
+                        @foreach (var p in @t.Places.Where(x => x.PlaceType == 25))
+                        {
+                            <div style="float:left; width:50%;">
+                                <a href=@String.Format("#xdot{0}{1}", @t.PCCID, @p.Id) class="falsecheck_1" id=@String.Format("falsexdot{0}{1}", @t.PCCID, @p.Id)>
+                                    @p.Name
+                                </a>
+                                <input type="checkbox" name=@String.Format("xdot{0}{1}", @t.PCCID, @p.Id) id=@String.Format("xdot{0}{1}", @t.PCCID, @p.Id) style="display:none" value="@p.Id|@p.Name" />
+                            </div>
+                        }
+                        <div style="clear:both;"></div>
+                        <input type="hidden" name="allID" id="allID" value="" />
+                        <input type="hidden" name="allNA" id="allNA" value="" />
+                    </form>
+                    <div onclick=@String.Format("findPacks('frm{0}');", @t.PCCID) style="cursor:pointer;color:Gray;text-align:right; margin:15px 20px 10px 0px;"><u> >> Find similar itinerary</u></div>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+
+        <div class="dvEachPkBottom dvbLighBlueBG" style="margin-top:15px;">
+            <span class="spLinkWRBord">
+                <a  asp-route="Feedback_Route" asp-route-country="@t.Package.FirstOrDefault().CountryName.Replace(" ", "_").ToLower()" asp-route-pack="@t.Package.FirstOrDefault().PDL_Title.Replace(" ", "_").ToLower()" asp-route-id="@t.Package.FirstOrDefault().PDLID">See @t.Package.FirstOrDefault().NoOfFeed ways people customized this itinerary</a>
+            </span>
+            @if  (t.Package.FirstOrDefault().STP_Save != 9999)
+            {
+                <span class="spLinkWRBord" style="color:#666;">
+                    Price for this package starting at 
+                    <span style="color:#f60;">@t.Package.FirstOrDefault().STP_Save.ToString("C0")*</span>
+                </span>
+            }
+            <input type="button" style="float:right;margin:3px 10px 3px 0px;" class="bookItButton" onclick=@String.Format("window.location.href='{0}/{1}/{2}/package-{3}';", _appsettings.CurrentValue.ApplicationSettings.SiteName, t.Package.FirstOrDefault().CountryName.Replace(" ", "_").ToLower(), t.Package.FirstOrDefault().PDL_Title.Replace(" ", "_").ToLower(), t.Package.FirstOrDefault().PDLID) value="Customize it"/>
+            <div style="clear:both;"></div>
+        </div>
+
+    }
+}

@@ -1,0 +1,152 @@
+﻿@using MVC_TMED.Infrastructure;
+@using MVC_TMED.Models.ViewModels;
+@model MVC_TMED.Models.ViewModels.CalendarCompListViewModel;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+@if (Model.FormSubmit == 1)
+{
+    <form id="frmToBook" method="post" runat="server">
+        <!-- *** Standard Control *** -->
+        <input type="hidden" name="SystemID" id="SystemID" value="@_appsettings.CurrentValue.ApplicationSettings.SystemID">
+        <input type="hidden" name="GeneralLoc" id="GeneralLoc" value="@_appsettings.CurrentValue.ApplicationSettings.GeneralLoc">
+        <input type="hidden" name="bFirst" id="bFirst" value="@_appsettings.CurrentValue.ApplicationSettings.bFirst">
+        <input type="hidden" name="PkgId" id="PkgId" value="">
+        <!-- **** NEW PARAMETER FROM WEB SERVISE RESPONSE -->
+        <input type="hidden" name="PackageComponentList" id="PackageComponentList" value="@Model.contenido">
+        <!-- VALUES = "" TO RESOLVE ON ASP -->
+        <input type="hidden" name="sortFlag" id="sortFlag" value="P">
+        <input type="hidden" name="MinStay" id="MinStay" value="4">
+        <input type="hidden" name="MaxStay" id="MaxStay">
+        <input type="hidden" name="ByStayNite" id="ByStayNite" value="@_appsettings.CurrentValue.ApplicationSettings.ByStayNite">
+        <input type="hidden" name="GetNextDay" id="GetNextDay" value="@_appsettings.CurrentValue.ApplicationSettings.GetNextDay">
+        <!-- API(s) FOR SS, TIC and Transfer -->
+        <input type="hidden" name="SSVendorAPI" id="SSVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.SSVendorAPI">
+        <input type="hidden" name="TransferVendorAPI" id="TransferVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.TransferVendorAPI">
+        <!-- CAR -->
+        <input type="hidden" name="PickUpTime" id="PickUpTime">
+        <input type="hidden" name="DropOffTime" id="DropOffTime">
+        <input type="hidden" name="PickUpTime2" id="PickUpTime2">
+        <input type="hidden" name="DropOffTime2" id="DropOffTime2">
+        <input type="hidden" name="CarVendorAPI" id="CarVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.CarVendorAPI">
+        <input type="hidden" name="addCar" id="addCar" value="True">
+        <!-- TRAIN INPUT name=TICVendorAPI type=hidden value="TX1" -->
+        <input type="hidden" name="TICVendorAPI" id="TICVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.TICVendorAPI"> <!--TX1-->
+        <input type="hidden" name="addFlight" id="addFlight" value="@Model.wAir">
+        <input type="hidden" name="AirVendorAPI" id="AirVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.AirVendorAPI">
+        <input type="hidden" name="Cabin" id="Cabin" value="@Model.cabin">
+        <!-- Air Transfer Point2Point -->
+        <input type="hidden" name="AirP2PVendorAPI" id="AirP2PVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.AirP2PVendorAPI">
+        <input type="hidden" name="iOutTime" id="iOutTime" value="@_appsettings.CurrentValue.ApplicationSettings.iOutTime">
+        <input type="hidden" name="iInTime" id="iInTime" value="@_appsettings.CurrentValue.ApplicationSettings.iInTime">
+        <input type="hidden" name="iAirPref" id="iAirPref">
+        <input type="hidden" name="iDepCity" id="iDepCity" value="@Model.idLeavingFrom">
+        <input type="hidden" name="iRetCity" id="iRetCity" value="@Model.idReturningTo">
+        <input type="hidden" name="addTransfer_IC" id="addTransfer_IC" value="True">
+        <!-- GIVendorAPI -->
+        <input type="hidden" id="GIVendorAPI" name="GIVendorAPI" value="@_appsettings.CurrentValue.ApplicationSettings.GIVendorAPI" />
+        <!-- *** City Parameter for Hotel/MiniPackage/Cruises -->
+        <!-- StayCity1-12 ,  StayCity1_Name-12 , APICity1-12 , InDate1 , StayNite1-12 , OverNiteT1-12-->
+        @{
+            string ctySid = "";
+            string ctySna = "";
+            string ctyEid = "";
+            string ctyEna = "";
+            Int32 ctC = 1;
+            string txtCity_ct = "";
+            for (Int32 ct = 0; ct <= Model.noCity.Count - 1; ct++)
+            {
+                txtCity_ct = "";
+                if (Model.noCity[ct] != "")
+                {
+                    <input type="hidden" name="@String.Format("StayCity{0}", ctC)" id="@String.Format("StayCity{0}", ctC)" value="@String.Format("{0}", Model.idCity[ct])">
+                    <input type="hidden" name="@String.Format("StayCity{0}_Name", ctC)" id="@String.Format("StayCity{0}_Name", ctC)" value="@String.Format("{0}", Model.txtCity[ct])">
+                    if (ctC == 1)
+                    {
+                        <input type="hidden" name="@String.Format("InDate{0}", ctC)" id="@String.Format("InDate{0}", ctC)" value="@String.Format("{0}", Model.arrDate)">
+                    }
+                    <input type="hidden" name="@String.Format("APICity{0}", ctC)" id="@String.Format("APICity{0}", ctC)" value="@String.Format("{0}", Model.apiCity[ct])">
+                    <input type="hidden" name="@String.Format("StayNite{0}", ctC)" id="@String.Format("StayNite{0}", ctC)" value="@String.Format("{0}", Model.stayCity[ct])">
+                    <input type="hidden" name="@String.Format("OverNiteT{0}", ctC)" id="@String.Format("OverNiteT{0}", ctC)" value="@String.Format("{0}", Model.overCity[ct])">
+                    if (ct == Model.noCity.Count - 1)
+                    {
+                        if (ctyEid == "")
+                        {
+                            ctyEid = Model.idCity[ct];
+                            ctyEna = Model.txtCity[ct];
+                        }
+                    }
+                }
+                else
+                {
+                    Int32 tc = ctC - 1;
+                    if (ctyEid == "")
+                    {
+                        ctyEid = Model.idCity[tc];
+                        ctyEna = Model.txtCity[tc];
+                    }
+                }
+                ctC += 1;
+            }
+
+            if (Model.idCityS != "")
+            {
+                ctySid = Model.idCityS;
+                ctySna = Model.txtCityS;
+            }
+            else
+            {
+                ctySid = Model.idCity[0];
+                ctySna = Model.txtCity[0];
+            }
+            if (Model.idCityE != "")
+            {
+                ctyEid = Model.idCityE;
+                ctyEna = Model.txtCityE;
+            }
+            <input type="hidden" name="StayCityS" id="StayCityS" value="@ctySid">
+            <input type="hidden" name="StayCityS_Name" id="StayCityS_Name" value="@ctySna">
+            <input type="hidden" name="StayCityE" id="StayCityE" value="@ctyEid">
+            <input type="hidden" name="StayCityE_Name" id="StayCityE_Name" value="@ctyEna">
+            <!-- PAX INFO -->
+            <input type="hidden" name="iRoom" id="iRoom" value="@Model.rooms">
+            <input type="hidden" name="Rooms" id="Rooms" value="@Model.rooms">
+            <input type="hidden" name="iRoomsAndPax" id="iRoomsAndPax" value="@Model.roomsAndpax" />
+            <input type="hidden" name="iAdults" id="iAdults" value="@Model.Adults">
+            <input type="hidden" name="iChildren" id="iChildren" value="@Model.Childs">
+            Int32 chC = 1;
+            for (Int32 ch = 0; ch <= Model.child.Count - 1; ch++)
+            {
+                <input type="hidden" name=@String.Format("iChild{0}", chC) id=@String.Format("iChild{0}", chC) value=@String.Format("{0}", Model.child[ch])>
+                chC += 1;
+            }
+            <input type="hidden" name="Room2_iAdults" id="Room2_iAdults" value="@Model.R2Adults" />
+            <input type="hidden" name="Room2_iChildren" id="Room2_iChildren" value="@Model.R2Childs">
+            chC = 1;
+            for (Int32 ch = 0; ch <= Model.R2child.Count - 1; ch++)
+            {
+                <input type="hidden" name=@String.Format("Room2_iChild{0}", chC) id=@String.Format("Room2_iChild{0}", chC) value=@String.Format("{0}", Model.R2child[ch])>
+                chC += 1;
+            }
+            <input type="hidden" name="Room3_iAdults" id="Room3_iAdults" value="@Model.R3Adults" />
+            <input type="hidden" name="Room3_iChildren" id="Room3_iChildren" value="@Model.R3Childs">
+            chC = 1;
+            for (Int32 ch = 0; ch <= Model.R3child.Count - 1; ch++)
+            {
+                <input type="hidden" name=@String.Format("Room3_iChild{0}", chC) id=@String.Format("Room3_iChild{0}", chC) value=@String.Format("{0}", Model.R3child[ch])>
+                chC += 1;
+            }
+            <INPUT type="hidden" name="PkgInstance" id="PkgInstance" value="0">
+            <input name="utm_campaign" type="hidden" id="utm_campaign" value="@Model.sCampaignCode">
+        }
+    </form>
+    <input name="formSub" type="hidden" id="formSub" value="@Model.FormSubmit">
+//     <input name="formSub" type="text" id="formSub" value="@Model.FormSubmit">
+}
+else
+{
+    <div>Try another itinerary...!!</div>
+}

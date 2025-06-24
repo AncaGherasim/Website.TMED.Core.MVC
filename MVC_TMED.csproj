@@ -1,0 +1,199 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<UserSecretsId>2fc7308f-3455-4691-89f2-72492027bf71</UserSecretsId>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="MyRoot\**" />
+		<Compile Remove="mywwwroot\**" />
+		<Compile Remove="Views\CustomerReview\**" />
+		<Compile Remove="Views\Footer\**" />
+		<Content Remove="MyRoot\**" />
+		<Content Remove="mywwwroot\**" />
+		<Content Remove="Views\CustomerReview\**" />
+		<Content Remove="Views\Footer\**" />
+		<EmbeddedResource Remove="MyRoot\**" />
+		<EmbeddedResource Remove="mywwwroot\**" />
+		<EmbeddedResource Remove="Views\CustomerReview\**" />
+		<EmbeddedResource Remove="Views\Footer\**" />
+		<None Remove="MyRoot\**" />
+		<None Remove="mywwwroot\**" />
+		<None Remove="Views\CustomerReview\**" />
+		<None Remove="Views\Footer\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\CustomerReviewController.cs" />
+		<Compile Remove="Models\ViewModels\CustomerReviewViewModel.cs" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="hosting.json" />
+  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="hosting.json" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\Components\UC_TM_T21Calendar\Index.cshtml" />
+    <None Include="wwwroot\js\activities\java.POI-MarkeLabel.min.js" />
+    <None Include="wwwroot\js\byo\B.java.byoItinerary.js" />
+    <None Include="wwwroot\js\byo\B.java.byoItinerary.min.js" />
+    <None Include="wwwroot\js\byo\jquery.skroller.min.js" />
+    <None Include="wwwroot\js\byo_m\mb.java.byoitinerary.js" />
+    <None Include="wwwroot\js\byo_m\mb.java.byoitinerary.min.js" />
+    <None Include="wwwroot\js\cfb_m\mb.java.cfb.js" />
+    <None Include="wwwroot\js\cfb_m\mb.java.cfb.min.js" />
+    <None Include="wwwroot\js\cms\cms.min.js" />
+    <None Include="wwwroot\js\cms\java.CMS_javaScriptLinks.js" />
+    <None Include="wwwroot\js\cms\java.CMS_javaScript_Optimized.js" />
+    <None Include="wwwroot\js\cruise\dt.java.cruise.js" />
+    <None Include="wwwroot\js\cruise\dt.java.cruise.min.js" />
+    <None Include="wwwroot\js\ct4\dm.java.t4countrypage.js" />
+    <None Include="wwwroot\js\ct4\dm.java.t4countrypage.min.js" />
+    <None Include="wwwroot\js\custfeeds\dt.java.customerfeeds.js" />
+    <None Include="wwwroot\js\custfeeds\dt.java.customerfeeds.min.js" />
+    <None Include="wwwroot\js\gp3-BestVacations\dt.java.tmedGP3_BestVacations.js" />
+    <None Include="wwwroot\js\gp3-BestVacations\dt.java.tmedGP3_BestVacations.min.js" />
+    <None Include="wwwroot\js\gp3-BestVacations_m\mb.java.gp3BestVacationsMob.js" />
+    <None Include="wwwroot\js\gp3-BestVacations_m\mb.java.gp3BestVacationsMob.min.js" />
+    <None Include="wwwroot\js\gp3-City\dt.java.tmedGP3City.js" />
+    <None Include="wwwroot\js\gp3-City\dt.java.tmedGP3City.min.js" />
+    <None Include="wwwroot\js\gp3-City_m\mb.java.gp3city.js" />
+    <None Include="wwwroot\js\gp3-City_m\mb.java.gp3city.min.js" />
+    <None Include="wwwroot\js\gpgp2\dt.java.gp2page.js" />
+    <None Include="wwwroot\js\gpgp2\dt.java.gp2page.min.js" />
+    <None Include="wwwroot\js\gpgp2_m\mb.java.gp2page.js" />
+    <None Include="wwwroot\js\gpgp2_m\mb.java.gp2page.min.js" />
+    <None Include="wwwroot\js\holidays\dt.java.Holidays.js" />
+    <None Include="wwwroot\js\holidays\dt.java.Holidays.min.js" />
+    <None Include="wwwroot\js\home\dt.java.HomePage.js" />
+    <None Include="wwwroot\js\home\dt.java.HomePage.min.js" />
+    <None Include="wwwroot\js\home_m\mb.java.tmedHome.js" />
+    <None Include="wwwroot\js\home_m\mb.java.tmedHome.min.js" />
+    <None Include="wwwroot\js\hotelist\dt.java.hotelsoncity.js" />
+    <None Include="wwwroot\js\hotelist\dt.java.hotelsoncity.min.js" />
+    <None Include="wwwroot\js\hotelsmap\dt.java.poi-labelmarke.min.js" />
+    <None Include="wwwroot\js\hotelsmap\dt.java.poi-mapgoogle.js" />
+    <None Include="wwwroot\js\hotelsmap\dt.java.poi-mapgoogle.min.js" />
+    <None Include="wwwroot\js\hotelsmap\jquery.nicescroll.js" />
+    <None Include="wwwroot\js\hotelsmap\jquery.nicescroll.min.js" />
+    <None Include="wwwroot\js\hotel\dt.java.pgwslider.js" />
+    <None Include="wwwroot\js\hotel\dt.java_hotelpage.js" />
+    <None Include="wwwroot\js\hotel\dt.java_hotelpage.min.js" />
+    <None Include="wwwroot\js\hotel\hotel.min.js" />
+    <None Include="wwwroot\js\interest\interest.js" />
+    <None Include="wwwroot\js\interest\interest.min.js" />
+    <None Include="wwwroot\js\jq_second\jquery.BubblePopup-1.1.src.js" />
+    <None Include="wwwroot\js\jq_second\jquery.cookie.js" />
+    <None Include="wwwroot\js\jq_second\jquery.extjasoncookie-0.2.js" />
+    <None Include="wwwroot\js\jq_second\jquery.form.js" />
+    <None Include="wwwroot\js\jq_second\jquery.form.min.js" />
+    <None Include="wwwroot\js\jq_second\jquery.json-2.2.js" />
+    <None Include="wwwroot\js\jq_second\jquery.nicescroll.js" />
+    <None Include="wwwroot\js\jq_second\jquery.popupWindow.js" />
+    <None Include="wwwroot\js\jq_second\jquery.prettyPhoto.js" />
+    <None Include="wwwroot\js\jq_second\jquery.skroller.js" />
+    <None Include="wwwroot\js\jq_second\jq_second.min.js" />
+    <None Include="wwwroot\js\mb.java.searchhead.js" />
+    <None Include="wwwroot\js\mb.java.searchhead.min.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\site\Base.js" />
+    <None Include="wwwroot\js\site\deskTopLayout.js" />
+    <None Include="wwwroot\js\site\dt.java.CommonFunctions.js" />
+    <None Include="wwwroot\js\site\dt.java.date.format.js" />
+    <None Include="wwwroot\js\site\dt.java.MrktEmailSubscriber.js" />
+    <None Include="wwwroot\js\site\dt.java.scrollable.js" />
+    <None Include="wwwroot\js\site\dt.java.simplepagination.js" />
+    <None Include="wwwroot\js\site\java_utInit.js" />
+    <None Include="wwwroot\js\site\java_utInit.min.js" />
+    <None Include="wwwroot\js\site\moment.js" />
+    <None Include="wwwroot\js\site\site.min.js" />
+    <None Include="wwwroot\js\site_m\mb.java.searchhead.js" />
+    <None Include="wwwroot\js\site_m\mb.java.searchhead.min.js" />
+    <None Include="wwwroot\js\smallcalendar\dm.java.TM.Calendar.js" />
+    <None Include="wwwroot\js\smallcalendar\dt.java.TM.Calendar.js" />
+    <None Include="wwwroot\js\smallcalendar\dt.java.TM.CommonFunctions.js" />
+    <None Include="wwwroot\js\smallcalendar\dm.smallcalendar.min.js" />
+    <None Include="wwwroot\js\smallcalendar\smallcalendar.min.js" />
+    <None Include="wwwroot\js\snippetScripts.js" />
+    <None Include="wwwroot\js\t21-29\dt.java.1.tabpriceguide.support.min.js" />
+    <None Include="wwwroot\js\t21-29\dt.java.1.tabpriceguide.support.min.min.js" />
+    <None Include="wwwroot\js\t21-29\dt.java.2.tabpriceguide.js" />
+    <None Include="wwwroot\js\t21-29\dt.java.2.tabpriceguide.min.js" />
+    <None Include="wwwroot\js\t21-29\t21_29.min.js" />
+    <None Include="wwwroot\js\t21_calendar\t21_calendar.js" />
+    <None Include="wwwroot\js\t21_calendar\t21_calendar.min.js" />
+    <None Include="wwwroot\js\t24-26\dt.java.template24_26.js" />
+    <None Include="wwwroot\js\t24-26\dt.java.template24_26.min.js" />
+    <None Include="wwwroot\js\t24-26_m\mb.java.t24-26.js" />
+    <None Include="wwwroot\js\t24-26_m\mb.java.t24-26.min.js" />
+    <None Include="wwwroot\js\tours\dt.java.tours.js" />
+    <None Include="wwwroot\js\tours\dt.java.tours.min.js" />
+    <None Include="wwwroot\js\travel\dt.java.travel.js" />
+    <None Include="wwwroot\js\travel\dt.java.travel.min.js" />
+    <None Include="wwwroot\js\tripstaken\java.TripsTaken.js" />
+    <None Include="wwwroot\js\tripstaken\java.TripsTaken.min.js" />
+    <None Include="wwwroot\js\tripstaken_m\mb.java.tripstaken.js" />
+    <None Include="wwwroot\js\tripstaken_m\mb.java.tripstaken.min.js" />
+    <None Include="wwwroot\js\trips\dt.java.trips.js" />
+    <None Include="wwwroot\js\trips\dt.java.trips.min.js" />
+    <None Include="wwwroot\js\visit\dm.java.visit.js" />
+    <None Include="wwwroot\js\visit\dm.java.visit.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery-1.11.3.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery-ui.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery-ui.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\lib\jquery\dist\js.cookie.js" />
+    <None Include="wwwroot\lib\jquery\dist\js.cookie.min.js" />
+  </ItemGroup>
+	
+
+	<ItemGroup>
+		<PackageReference Include="Amazon.Extensions.Configuration.SystemsManager" Version="6.0.0" />
+		<PackageReference Include="AWSSDK.Core" Version="3.7.302.2" />
+		<PackageReference Include="AWSSDK.Lambda" Version="3.7.303.38" />
+		<PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.301.38" />
+		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+		<PackageReference Include="Dapper" Version="2.1.28" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.58" />
+		<PackageReference Include="MySql.Data" Version="8.3.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Npgsql" Version="6.0.11" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.1" />
+	</ItemGroup>
+
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties bundleconfig_1json__JsonSchema="" />
+		</VisualStudio>
+	</ProjectExtensions>
+
+</Project>

@@ -1,0 +1,97 @@
+﻿@model MVC_TMED.Models.ViewModels.TripsTakenViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options;
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+
+@{
+    ViewData["Title"] = "TripsTaken_Mob";
+}
+
+@section Styles{
+    <environment include="Development">
+        <link href="~/css/tripstaken_m/mb.style.tripstaken.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="~/css/tripstaken_m/mb.style.tripstaken.min.css" rel="stylesheet" />
+    </environment>
+}
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+}
+
+<div class="row">
+    <div class="col-12 pgTitle text-white font-22 text-center pt-2 pb-2">Trips Taken by Travelers Like You</div>
+</div>
+<div class="row mx-auto bg-white">
+    <div class="col-12 orgClr font12 border border-secondary border-top-0 border-left-0 border-right-0">Each package is fully customizable according to your needs. Price will vary according to your dates, hotels and activities chosen.</div>
+    <div class="col-12 dvTrips"><div class="loader"></div></div>
+    <div class='col-12 pt-3 pb-3 text-center'><button type="button" class="btn btn-outline-info btnMore">Show more trip taken</button></div>
+
+</div>
+<div class="row mx-auto mt-2 mb-2">
+    <div class="col-12 p-2 bg-white border border-secondary border-top-0 border-right-0 border-left-0">
+        <button type="button" class="btn btn-outline-light border-0 bg-white text-dark btn-block text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvMostPop" data-toggle="collapse" aria-expanded="false">@Model.CountryName Most Popular</button>
+        <div class="collapse pl-2 pr2 bg-white clearfix" id="dvMostPop">
+            @{
+                foreach (var pop in Model.topPacks)
+                {
+                    <div class="row pt-2 pb-2 border border-top-0 border-right-0 border-left-0 ">
+                        <div class="col-5">
+                            <img class="img-fluid delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com@(pop.IMG_Path_URL)" title="@pop.PDL_Title" />
+                        </div>
+                        <div class="col-7 pl-0 pr-0">
+                            <span class="d-block font14">@pop.PDL_Title</span>
+                            <span class="d-block font12 greyText">from <b class="orgClr">@String.Format("{0:c}", pop.STP_Save) </b></span>
+                            <a class="btn btn-link font12 pl-0" asp-route="Package_Route" asp-route-Country="@pop.CountryName" asp-route-name="@pop.PDL_Title.Replace(" ", "_")" asp-route-id="@pop.PDLID" >See details</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    @{
+        if (Model.countryHighlights.Count > 0)
+        {
+            <div class="col-12 p-2 bg-white border border-secondary border-top-0 border-right-0 border-left-0">
+                <button type="button" class="btn btn-outline-light border-0 bg-white text-dark btn-block text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvHigh" data-toggle="collapse" aria-expanded="false">@Model.CountryName highlights</button>
+                <div class="collapse pl-2 pr-2 bg-white clearfix" id="dvHigh">
+                    @{
+                        foreach (var high in Model.countryHighlights)
+                        {
+                            <a class="d-block pl-3 pt-1 pb-1 aCms font12" href="@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName, high.STX_URL)" title="@high.STX_Title">@high.STX_Title</a>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+
+    <div class="col-12 p-2 bg-white">
+        <button type="button" class="btn btn-outline-light border-0 bg-white text-dark btn-block text-left pt-2 pb-2 pl-0 pr-0 font16 btnExpand collapsed" data-target="#dvBest" data-toggle="collapse" aria-expanded="false">Europe Best-Sellers</button>
+        <div class="collapse pl-2 pr-2 bg-white clearfix" id="dvBest">
+            @{
+                foreach (var bst in Model.packs)
+                {
+                    <div class="col-12 bestSell pt-2 pb-2 pl-1 pr-1">
+                        <a asp-route="Package_Route" asp-route-Country="@bst.CountryName" asp-route-name="@bst.PDL_Title.Replace(" ", "_")" asp-route-id="@bst.PDLID">
+                            <span class="d-block bCms pl-3 font12">@bst.PDL_Title</span>
+                            <span class="d-block pl-3 font12 text-dark">from <b class="orgClr">@String.Format("{0:c}", bst.STP_Price) </b></span>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<input type="hidden" id="countryId" value="@Model.CountryId" />
+<input type="hidden" id="pg" value="1" />
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/tripstaken_m/mb.java.tripstaken.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/tripstaken_m/mb.java.tripstaken.min.js" asp-append-version="true"></script>
+    </environment>
+}
+

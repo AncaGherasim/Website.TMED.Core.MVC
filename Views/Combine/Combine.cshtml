@@ -1,0 +1,354 @@
+﻿@model MVC_TMED.Models.ViewModels.FindViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+@using System.Text.RegularExpressions
+@{
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/all_packages/all_packages.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/all_packages/all_packages.min.css" />
+    </environment>
+}
+
+@{
+
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName'</script>
+    string[] boxLines;
+    string lnTitle = "";
+    string lnVal = "";
+    var siteName = _appsettings.CurrentValue.ApplicationSettings.SiteName;
+}
+
+<ul class="breadcrumbs first-container">
+    <li><a href="/">Home</a></li>
+    @{
+        string[] arrNames = Model.navLinks.Split('|');
+
+        foreach (var name in arrNames)
+        {
+            <li class="breadcrumbs__arrow">›</li>
+            <li><a href=@String.Format("{0}/{1}/vacations", siteName, name.ToLower().Replace(" ","_"))>@name vacations</a></li>
+        }
+    }
+</ul>
+<h1 class="main-title first-container">Combinations for: @Model.pageTitle <span id="mainTitleCountries"></span></h1>
+
+<div class="main first-container">
+    <div class="filter__backdrop is-hidden" id="filterModal">
+        <div class="filter__mob-modal">
+            <button class="filter__modal-close" type="button"><span>‹</span>Back to packages list</button>
+            <div class="filter">
+                @if (Model.allPackages.cities.Count > 0)
+                {
+                    <span class="filter__title">Select Criteria:</span>
+
+                    <!-- Price filter -->
+                    var priceFilters = new[]
+                    {
+                        Model.allPackages.aggregates.price_filter_1,
+                        Model.allPackages.aggregates.price_filter_2,
+                        Model.allPackages.aggregates.price_filter_3,
+                        Model.allPackages.aggregates.price_filter_4,
+                        Model.allPackages.aggregates.price_filter_5
+                    };
+                    <div class="filter__string"></div>
+                    <span class="filter__name">Price per person (USD)</span>
+                    <button class="filter__clear disable" id="uncheckPrice" type="button" onclick="UncheckOptions('price')">Clear all price options</button>
+                    <ul class="filter__list">
+                        @foreach (var filter in priceFilters)
+                        {
+                            if (filter != null)
+                            {
+                                boxLines = filter.Split("|");
+                                lnTitle = boxLines[0];
+                                lnVal = boxLines[1];
+
+                                <li class="filter__item">
+                                    <label>
+                                        <input type="checkbox" name=@String.Format("dotPrice{0}", lnVal) id=@String.Format("dotPrice{0}", lnVal) value="@lnVal" />
+                                        <span class="filter__checkmark"></span>
+                                        <span class="filter__item-name">@lnTitle</span>
+                                    </label>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <!-- Length filter -->
+                    var nightsFilters = new[]
+                    {
+                        Model.allPackages.aggregates.nights_filter_1,
+                        Model.allPackages.aggregates.nights_filter_2,
+                        Model.allPackages.aggregates.nights_filter_3,
+                        Model.allPackages.aggregates.nights_filter_4
+                    };
+                    <div class="filter__string"></div>
+                    <span class="filter__name">Length of stay:</span>
+                    <button class="filter__clear disable" id="uncheckLength" type="button" onclick="UncheckOptions('length')">Clear all length options</button>
+                    <ul class="filter__list">
+                        @foreach (var filter in nightsFilters)
+                        {
+                            if (filter != null)
+                            {
+                                boxLines = filter.Split("|");
+                                lnTitle = boxLines[0];
+                                lnVal = boxLines[1];
+
+                                <li class="filter__item">
+                                    <label>
+                                        <input type="checkbox" name=@String.Format("dotLen{0}", lnVal) id=@String.Format("dotLen{0}", lnVal) value="@lnVal" />
+                                        <span class="filter__checkmark"></span>
+                                        <span class="filter__item-name">@lnTitle</span>
+                                    </label>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <!-- other country -->
+                    <!-- Cities filter -->
+                    <div class="filter__string"></div>
+                    <span class="filter__name" id="divCities">Combinations for:</span>
+                    <button class="filter__clear disable" id="uncheckCities" type="button" onclick="UncheckOptions('city')">Clear all countries options</button>
+                    <ul class="filter__list">
+                        @foreach (var c in @Model.Countries_)
+                        {
+                            @if (c.isfixed)
+                            {
+                                <li class="filter__item filter__item-disabled">
+                                    <label>
+                                        <input type="checkbox" name="@c.counname" value="@c.counid" checked />
+                                        <span class="filter__checkmark"></span>
+                                        <span class="filter__item-name">@c.counname</span>
+                                    </label>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="filter__item">
+                                    <label>
+                                        <input type="checkbox" name="@c.counname" id="dotCou@(c.counid)" value="@c.counid" />
+                                        <span class="filter__checkmark"></span>
+                                        <span class="filter__item-name">@c.counname</span>
+                                    </label>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <div class="filter__string"></div>
+                }
+                <div class="filter__reset">
+                    <button type="button" id="resetFilter">Reset Filters</button>
+                    <button type="button" id="applyButton">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.allPackages.cities.Count > 0)
+    {
+        <div class="packages">
+            <h2 class="visually-hidden">List of vacation packages</h2>
+            <div id="header" class="packages__header">
+                <div class="packages__header-wrapper">
+                    <span class="packages__header-count" id="idTotalCount">@Model.allPackages.TotalCount Itineraries</span>
+                    <div class="packages__footer-pagination" id="idPages2"></div>
+                    <div class="package__mob-wrapper">
+                        <button class="package__mob-button" type="button">Filter</button>
+                        <label class="packages__header-label" for="idOrderBy">
+                            Order by
+                            <select id="idOrderBy" onchange="getOrderValue()">
+                                <option value="0" selected>Most Popular</option>
+                                <option value="1">Length of Stay</option>
+                                <option value="2">Price: Low to High</option>
+                                <option value="3">Price: High to Low</option>
+                                <option value="4">Package Name</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="dvWaitPacks" style="display: none">
+                <div class="packages__loading">
+                    <img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" />
+                    <span>Loading ...</span>
+                </div>
+            </div>
+            <ul id="dvPackets" class="packages__list">
+                @if (Model.allPackages.packages.Count > 0)
+                {
+                    @for (int j = 0; j <= (@Model.allPackages.TotalCount >= 20 ? 19 : @Model.allPackages.TotalCount - 1); j++)
+                    {
+                        var pack = Model.allPackages.packages[j];
+
+                        string nights = "";
+                        string ntsText = "";
+                        if (pack.duration != 0)
+                        {
+                            if (!pack.spd_internalcomments.Contains("Inflexible package"))
+                            {
+                                long nightsInt = pack.duration;
+                                long calculatedNights = nightsInt + (int)Math.Round(nightsInt / 2.0);
+                                nights = $"{nightsInt} to {calculatedNights}+ nights";
+                                ntsText = "by selecting dates, No. of nights in each city and your departure city.";
+                            }
+                            else
+                            {
+                                nights = $"{pack.duration} nights";
+                                ntsText = "by selecting date, and your departure city.";
+                            }
+                        }
+
+                        string priceFormatted = "";
+                        if (pack.stp_save != 9999)
+                        {
+                            priceFormatted = String.Format("{0:C0}", pack.stp_save);
+                        }
+
+                        var descr = Regex.Replace(pack.spd_description, "<[^>]+>", "");
+                        if (descr.Length > 340)
+                        {
+                            descr = descr.Substring(0, 340) + " ... ";
+                        }
+
+                        var packageUrl = $"{siteName}/{pack.countryname.Replace(" ", "_").ToLower()}/{pack.pdl_title.Replace(" ", "_").ToLower()}/package-{pack.pdlid}";
+
+                        <li class="packages__item">
+                            <a class="packages__img" href="@packageUrl">
+                                <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com{pack.img_path_url}")" alt="View of @pack.pdl_title" />
+                            </a>
+                            <div class="packages__info">
+                                <div class="packages__wrapper">
+                                    <a class="packages__link" href="@packageUrl">
+                                        <h3>
+                                            @pack.pdl_title
+                                            @if (pack.spd_internalcomments.Contains("Partially"))
+                                            {
+                                                <span>
+                                                    <img id="imgGuidedPartially@(pack.pdlid)"
+                                                         src="https://pictures.tripmasters.com/siteassets/d/GuidedPartially.jpg"
+                                                         alt="" />
+                                                </span>
+                                            }
+                                            else if (pack.spd_internalcomments.Contains("Guided"))
+                                            {
+                                                <span>
+                                                    <img id="imgGuided@(pack.pdlid)"
+                                                         src="https://pictures.tripmasters.com/siteassets/d/Guided.jpg"
+                                                         alt="" />
+                                                </span>
+                                            }
+                                        </h3>
+                                    </a>
+                                    @if (pack.duration != 0)
+                                    {
+                                        <div class="packages__price">
+                                            @if (!string.IsNullOrEmpty(priceFormatted))
+                                            {
+                                                <span class="packages__night">
+                                                    @nights from
+                                                </span>
+                                                <div class="packages__tooltip">
+                                                    <p>This packages is recommended for @nights.</p>
+                                                    <p><span>Customize it</span> @ntsText</p>
+                                                </div>
+                                                <span>@priceFormatted*</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="packages__night">
+                                                    @nights
+                                                </span>
+                                                <div class="packages__tooltip">
+                                                    <p>This packages is recommended for @nights.</p>
+                                                    <p><span>Customize it</span> @ntsText</p>
+                                                </div>
+                                            }
+                                            
+                                        </div>
+                                    }
+                                </div>
+                                @if (pack.NoOfFeed != 0)
+                                {
+                                    var feedbackUrl = $"{siteName}/{pack.countryname.Replace(" ", "_").ToLower()}/{pack.pdl_title.Replace(" ", "_").ToLower()}/feedback-{pack.pdlid}";
+                                    <a class="packages__feedback" href="@feedbackUrl" target="_blank" rel="noopener noreferrer"> Customer feedback (@pack.NoOfFeed)</a>
+                                }
+                                <p class="packages__description">@descr</p>
+
+                                <button class="packages__button-includes" type="button" onclick="dvOpenMain('divInfo@(pack.pdlid)');">Package Includes</button>
+                                <div class="packages__includes is-hidden" id="divInfo@(pack.pdlid)">
+                                    <button class="packages__includes-close" type="button" onclick="dvCloseMain('divInfo@(pack.pdlid)')">✖</button>
+                                    <h3 class="packages__includes-title">@pack.pdl_title</h3>
+                                    <div class="packages__includes-price">
+                                        @if (pack.duration != 0)
+                                        {
+                                            <span>@nights</span>
+                                        }
+                                        @if (!string.IsNullOrEmpty(priceFormatted))
+                                        {
+                                            <span>from <span>@priceFormatted</span> w/air, hotel & air taxes*</span>
+                                        }
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(priceFormatted))
+                                    {
+                                        <p class="packages__includes-info">This sample price includes ALL air taxes & fuel surcharges: priced within the past 7 days for arrival on @pack.stp_starttraveldate. Choose your own departure city and dates.</p>
+                                    }
+                                    <p class="packages__includes-list-title">This @pack.duration night sample itinerary includes:</p>
+                                    @{
+                                        var items = pack.pdl_content.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                                    }
+                                    <ul class="packages__includes-list">
+                                        @foreach (var item in items)
+                                        {
+                                            <li>@Html.Raw(item)</li>
+                                        }
+                                    </ul>
+                                    <a class="packages__includes-more" href="@packageUrl">More Details</a>
+                                </div>
+                            </div>
+                        </li>
+                        @if (j == 4)
+                        {
+                            <li class="packages__banner">
+                                <a href="/build_your_own_vacation">
+                                    <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/BuildOnYourOwn_Large.jpg" alt="banner build your own vacation" aria-label="Build your own vacation" />
+                                </a>
+                            </li>
+                        }
+                    }
+                }
+                else
+                {
+                    <li class="packages__no-found"><p>No itineraries found.</p></li>
+                    <li class="packages__banner">
+                        <a href="/build_your_own_vacation">
+                            <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/BuildOnYourOwn_Large.jpg" alt="banner build your own vacation" aria-label="Build your own vacation" />
+                        </a>
+                    </li>
+                }
+            </ul>
+
+            <div class="packages__footer" id="footer">
+                <div class="packages__footer-pagination" id="idPages1"> </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<input name="IDplace" type="hidden" id="IDplace" value="@Model.placeID" />
+<input name="TotalPacks" type="hidden" id="TotalPacks" value="@Model.allPackages.TotalCount" />
+<input name="OrderVal" type="hidden" id="OrderVal" value="0" />
+
+@section Scripts
+{
+    <environment include="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/combine/combine.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/combine/combine.min.js" asp-append-version="true"></script>
+    </environment>
+}

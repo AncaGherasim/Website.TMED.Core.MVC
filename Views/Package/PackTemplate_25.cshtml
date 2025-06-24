@@ -1,0 +1,1385 @@
+﻿@model MVC_TMED.Models.ViewModels.PackTemplate_21ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> _appsettings
+
+@section Styles {
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/t24-26/dt.style.t24-26.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/t24-26/dt.style.t24-26.min.css" asp-append-version="true" />
+    </environment>
+}
+<!-- END CALENDAR -->
+
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+    <script>var blockDates = '@Model.BkDates' </script>
+    <script>var fxDates = '@Model.FxDates'</script>
+    string rpOnPopUp = "";
+    string fixNetDts = Model.fixNetDts;
+    Int32 BkDatesOneYearInterval = 0;
+    string BkDates = Model.BkDates.Trim().Replace("B-", "");
+    Int32 packFeedCount = Model.packFeedCount;
+    if (Model.FxDates != "0")
+    {
+        if (Model.fixNetDts[0].ToString() == ",")
+        {
+            fixNetDts = Model.fixNetDts.Substring(1, Model.fixNetDts.Length - 1);
+        }
+    }
+
+    if (Model.verifySite == 0 && Model.packSamplePrice.Trim() != "")
+    {
+        if (packFeedCount <= 0)
+        {
+            packFeedCount = 1;
+        }
+
+        @section structureData{
+            <script type="application/ld+json">
+                {
+                "@@context" : "https://schema.org",
+                "@@type" : "Product",
+                "name" : " @Model.packNA",
+                "sku":"@Model.PackId",
+                "mpn":"@Model.PackId-vac",
+                "brand" : {
+                "@@type" : "Brand",
+                "name": "Tripmasters Europe",
+                "url": "https://www.tripmasters.com/europe/",
+                "logo" : "https://pictures.tripmasters.com/siteassets/d/tm_header_logo.png"
+                },
+            "description" : "This sample price: @Model.packSamplePrice  for arrival on @Model.packStartTravel.ToLongDateString(). Choose your own arrival dates. ",
+                "offers" : {
+                "@@type" : "Offer",
+                "price" : "@String.Format("{0:0}", Decimal.Parse(@Model.packPrice))" ,
+                "availability": "https://schema.org/OnlineOnly",
+                "priceCurrency"  :"USD",
+                "PriceValidUntil":"@Model.packStartTravel.ToLongDateString()",
+                @Html.Raw(String.Format("\"url\" : \"https://www.tripmasters.com/europe/{0}/{1}/package-{2}\"", @Model.packCountryNA.Replace(" ","_").ToLower(), @Model.packNA.Replace(" ", "_").ToLower(), @Model.PackId))
+                },
+                "aggregateRating": {
+                "@@type": "aggregateRating",
+                "ratingValue": "@Model.overAll out of 5 stars",
+                "reviewCount": "@packFeedCount"
+                },
+                @Html.Raw(String.Format("\"image\" : \"https://pictures.tripmasters.com/images/destination_icons/ed/icons_places/{0}_placephoto.jpg\"", @Model.packCityID) + ",")
+                "review":{
+                "@@type":"Review",
+                "name":"@packFeedCount",
+                "author":{
+                "@@type":"Organization",
+                "name":"Tripmasters"
+                }
+                },
+                "sameAs":[
+                "https://twitter.com/tripmasters",
+                "https://www.facebook.com/Tripmasters",
+                "https://www.pinterest.com/tripmasters/",
+                "https://www.instagram.com/tripmasterstravel/"
+                ]
+                }
+            </script>
+        }
+    }
+}
+<div id="popUpConteiner" class=" dvpopCtner">
+    <div style="padding-bottom: 5px" align="right">
+        <span class="Text_12_Gray" onclick="$('#popUpConteiner').hide(); $('#popUpCMS').html('');" style="cursor:pointer">close X</span>
+    </div>
+    <div id="popUpCMS" class="dvPopCMS"></div>
+</div>
+
+<center class="Text_Arial11">
+    @if (Model.verifySite == 1)
+    {
+        <div style="margin-left:50px; margin-right:50px; margin-bottom:20px;" align="center">
+            <a href="/build_your_own_vacation">
+                <img src="https://pictures.tripmasters.com/siteassets/d/BuildYourOwn.gif" width="300" height="120" border="0">
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="dvRoundContainerT2x_" style="margin-top: 10px; width: 980px;">
+
+
+
+            <!-- main div content -->
+            <div style="padding:15px 15px" align="left">
+                <!-- start div rel itin -->
+                @if (Model.PackRelItins.Count > 0)
+                {
+                    <div id="dvRelItinShow" style="margin-bottom: 10px; display: block">
+                        <div id="relItinArr" style="display: block">
+                            <div class="relIntCont">
+                                <div class="verticalTextS"> &nbsp;</div>
+                                @{Int32 relC = 0; }
+                                @foreach (var x in Model.PackRelItins)
+                                {
+                                    relC += 1;
+                                    @if (x.STP_ProdItemID.ToString() == Model.PackId)
+                                    {
+                                        var _dvRpk = "dvRpk" + @x.STP_ProdItemID.ToString();
+                                        <div id=@_dvRpk class="horizontalRW">
+                                            <a asp-action="Index" asp-route-id="@x.STP_ProdItemID" asp-route-name="@x.PDL_Title.Replace(' ', '_')" onclick="relIntForm(this,@Model.relatedItin); return false"><b>@x.PDL_Title</b></a>
+                                            @if (x.STP_Save != "9999")
+                                            {
+                                                <br />
+                                                <span class="Text_Aria12_Green">from @String.Format("{0:C0}", Decimal.Parse(@x.STP_Save)) </span>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @if (relC <= 5)
+                                        {
+                                            var _dvRpk = "dvRpk" + @x.STP_ProdItemID.ToString();
+                                            <div id=@_dvRpk class="horizontalR">
+                                                <a asp-action="Index" asp-route-id="@x.STP_ProdItemID" asp-route-name="@x.PDL_Title.Replace(' ', '_')" onclick="relIntForm(this,@Model.relatedItin); return false"><b>@x.PDL_Title</b></a>
+                                                @if (x.STP_Save != "9999")
+                                                {
+                                                    <br />
+                                                    <span class="Text_Aria12_Green">from @String.Format("{0:C0}", Decimal.Parse(@x.STP_Save))</span>
+                                                }
+                                            </div>
+                                        }
+                                    }
+
+                                }
+                                <div style="clear: both"> </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- start div pack info -->
+                <div style="clear:both;"></div>
+                <div style="padding:5px 5px;">
+                    <div id="dvPakInf">
+                        <div id="dvPgNav">
+                            <a asp-controller="Home" asp-action="Index">Home</a> |
+                            @if (Model.packCountryNA != "")
+                            {
+                                <a asp-route="Vacations_route" asp-route-placeName="@Model.packCountryNA.Trim().Replace(" ","_").ToLower()">@Model.packCountryNA</a>
+                            }
+                        </div>
+                        <div class="Blue-Arial16" style="padding: 5px 10px 0px 10px; font-size: 22px; font-family:Arial, Helvetica, sans-serif;">@Model.packNA</div>
+                        <div id="TopOverAllFeeds" style=" height: 28px;">
+                            <div style="position: relative; margin: 0px 0px 0px -4px;">
+                                <div class="emptyStars" style="width: 120px; left: 10px;"></div>
+                                <div id="dvTopStarsOverAll" class="fullStars" style="width: 120px; left:10px;"></div>
+                                <div id="dvTopStarsOverAllStr" class="darkText" style="float: left; position: absolute; left: 130px; width: 150px; top: 5px; "></div>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+                        @if (Model.GuiNo != "none")
+                        {
+                            <div id="@Model.GuiNo|@Model.PackId" style="margin-left:10px; cursor:pointer; width:100px; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; color:#999;" onmouseover="showPopUp(this.id)" onmouseout="hidePopUp(this.id)">@Model.GuiNo</div>
+                        }
+                        <div>
+                            <div class="Text_Arial12_Blue" style="padding: 0px 10px; float:left">
+                                @if (@Model.packFeedCount > 0)
+                                {
+                                    <span style="margin-right:20px; cursor:pointer;" onclick="tabBgChange('dvTabFeed','cl')"><u>@Model.packFeedCount Customer Feedbacks</u></span>
+                                }
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+
+                        @if (!(Model.packPrice is null))
+                        {
+                            <div style="padding:10px 10px 3px 10px;" class="Text_Arial15_Orange">
+                                @if (Model.setNts == 0)
+                                {
+                                    <span id="ntsBubble" style="border-bottom:dotted 2px #F90; cursor:pointer;"><b>@Model.ntsString Nights</b></span>
+                                }
+                                else
+                                {
+                                    <span><b>@Model.ntsString Nights</b></span>
+                                }
+                                @if (Model.packPrice != "")
+                                {
+                                    <b>from @String.Format("{0:C0}", Decimal.Parse(@Model.packPrice))*</b>
+                                }
+                            </div>
+                            <div class="Text_Arial11_Light" style="padding: 3px 10px"> <b class="Text_Arial12_Light">This sample price:</b> @Model.packSamplePrice for arrival on @Model.packStartTravel.ToShortDateString(). Choose your own arrival dates. </div>
+                        }
+                    </div>
+                    <div id="dvImgCont">
+                        <div id="dvImgT26"></div>
+                        <div class="moreImgButt_R" onclick="moreMedia();"> See all the images </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <!-- end div pack info -->
+                <!-- start div tabs -->
+
+                <div class="tabsContenedor">
+                    <div id="dvTabView" class="tabSel">Overview</div>
+                    <div id="dvTabItin" class="tabNSel">Itinerary</div>
+                    <div id="dvTabBook" class="tabNSel">Book</div>
+                    @if (Model.traID > 0)
+                    {
+                        <div id="dvTabTran" class="tabNSel">Transportation</div>
+                    }
+                    <div id="dvTabMap" class="tabNSel">Map</div>
+                    <div id="dvTabCou" class="tabNSel">Country Info</div>
+                    @if (Model.faqID > 0)
+                    {<div id="dvTabFAQ" class="tabNSel">FAQ</div>}
+                    @if (@Model.packFeedCount > 0 || Model.packFeedCountC > 0)
+                    {
+                        <div id="dvTabFeed" class="tabNSel">Feedbacks</div>
+                    }
+                    <div style="clear:both"></div>
+                </div>
+                <!-- end div tabs -->
+                <!-- start div Show Content -->
+                <div class="showContenedor">
+                    <!-- start div Overview -->
+                    <div id="dvShwView" class="shwSel" style="padding:2px 0px;">
+                        <div class="selL">
+                            @{
+                                if (!(Model.packIncluded is null))
+                                {
+                                    <div class="dvBgLighBlue dvInPadd15">
+                                        <span class="Text_Arial14_BlueBold">This @Model.packNoNts night sample itinerary includes:</span>
+                                        @{
+                                            string[] a = Model.packIncluded.Split("\r\n");
+                                            for (Int32 i = 0; i < a.Length; i++)
+                                            {
+                                                <dt><b>&bull;</b>&nbsp;&nbsp;@Html.Raw(a[i])</dt>
+                                            }
+                                        }
+                                    </div>
+
+                                }
+                            }
+                            <div align="center" style="margin-top:15px;">
+                                <div class="bg_BookIt_Butt" onclick="tabBgChange('dvTabBook','cl')">Book This Package</div>
+                            </div>
+
+                            @if (Model.PackRelItins.Count > 0)
+                            {
+                                <div class="dvInPadd15">
+                                    <div id="dvItinRel" class="Text_Arial12_LightBold"> Related Itineraries:</div>
+                                    <div id="itinRELA">
+                                        @{
+                                            Int32 rpCount = 0;
+                                            Int32 rpC = 0;
+                                            foreach (var rp in Model.PackRelItins)
+                                            {
+                                                Int32 rpckTP = 0;
+                                                if (rp.SPD_InternalComments.IndexOf("1901:.") > 0)
+                                                {
+                                                    rpckTP = 1;
+                                                }
+                                                if (rp.STP_ProdItemID.ToString() != Model.PackId)
+                                                {
+                                                    if (rpCount < 3)
+                                                    {
+                                                        <a asp-controller="Package" asp-action="Index" asp-route-id="@rp.STP_ProdItemID" asp-route-Country="@Model.packCountryNA.Replace(' ', '_')" asp-route-name="@rp.PDL_Title.Replace(' ', '_')" id="anchR@rp.STP_ProdItemID" onclick="relIntAjax(@rp.STP_ProdItemID, 'dvItinRel');return false">
+                                                            @rp.PDL_Title
+                                                        </a>
+                                                        @Html.Raw("&nbsp; &nbsp;")
+                                                    }
+                                                    if (rpCount == 3)
+                                                    {
+                                                        <span class="Text_Arial12_Light" style="margin-right:3px;"><a id="aMore" href="/" onclick="relItinMore('dvItinRel'); return false;">more</a> >> </span>
+                                                    }
+                                                    rpC += 1;
+                                                    rpCount += 1;
+                                                    if (rpC == 1)
+                                                    {
+                                                        rpOnPopUp = rp.STP_ProdItemID.ToString() + "|" + rp.PDL_Title + "|" + rp.STP_Save + "|" + rp.STP_NumOfNights.ToString() + "|" + rpckTP.ToString();
+                                                    }
+                                                    if (rpC > 1)
+                                                    {
+                                                        rpOnPopUp = rpOnPopUp + "@" + rp.STP_ProdItemID.ToString() + "|" + rp.PDL_Title + "|" + rp.STP_Save + "|" + rp.STP_NumOfNights.ToString() + "|" + rpckTP.ToString();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (@Model.ListRelPacks.Count > 0)
+                            {
+                                <div class="dvInPadd15">
+                                    <div class="Text_Arial12_LightBold"> Related Cities:</div>
+                                    <div class="Text_12_Gray">
+                                        <div id='packRELA' style='padding:3px 0px 3px 0px'>
+                                            @foreach (var pk in @Model.ListRelPacks.Where(x => x.Str_PlaceTypeId == 25 || x.Str_PlaceTypeId == 1))
+                                            {
+                                                <span style="margin-right:3px; width:150px; cursor:pointer" onclick=@String.Format("window.location='{0}/{1}/vacations'", @_appsettings.Value.ApplicationSettings.SiteName, @pk.Str_PlaceTitle.Replace(" ", "_").ToLower())><u>@pk.Str_PlaceTitle</u> (@pk.NoOfPacks)</span>
+                                                @Html.Raw("&nbsp; &nbsp;")
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <br />
+                            <div align="center">
+                                <a href="/build_your_own_vacation">
+                                    <img src="https://pictures.tripmasters.com/siteassets/d/BuildYourOwn.gif" width="325" height="121" border="0">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="selR">
+                            @if (Model.packDescription != "" && Model.packDescription != ".")
+                            {
+                                <div class="dvInPadd15">@Html.Raw(Model.packDescription)</div>
+                            }
+                            <div id="dvOvwSumm">
+                                <div style="padding:0px 10px 10px 10px;" class="Text_Arial14_BlueBold">Trip Summary</div>
+                                <div id="dvsmalMAP" align="center" style="display:none;"></div>
+                                @foreach (CitySquence tcty in Model.citySeq)
+                                {
+                                    <input id=@String.Format("hotNo{0}", tcty.Id) type="hidden" value="@tcty.NoOfHotels" />
+                                    <input id=@String.Format("ssNo{0}", tcty.Id) type="hidden" value="@tcty.NoOfSS" />
+                                    <div style="padding:10px 10px;">
+                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com/images/destination_icons/tmas/icons_places/{0}_placephoto.jpg", tcty.Id) alt="no image" align="left" style="margin-right:10px; margin-bottom:10px;" />
+                                        @if (@tcty.ProdType == "P")
+                                        {
+                                            <span class="Text_Arial14_BlueBold"> @tcty.ProdTitle </span><br />
+                                            <span class="Text_Arial11_Light">departing from @tcty.Name</span><br />
+                                        }
+                                        else
+                                        {
+                                            <span class="Text_Arial14_BlueBold">@tcty.DaysDuration nights in </span>
+                                            @if (tcty.CMSs.Count > 0)
+                                            {
+                                                <span id=@String.Format("aboutOVR{0}", @tcty.Sequence) style="border-bottom: 2px dotted #4E73AB; cursor: pointer; color:#4E73AB"> <b>@tcty.Name</b></span><br />
+                                            }
+                                            else
+                                            {
+                                                <span id=@String.Format("noaboutOVR{0}", @tcty.Sequence)> <b>@tcty.Name</b></span><br />
+                                            }
+                                        }
+                                        <br />
+                                        @Html.Raw(tcty.PlaceShortInfo)
+                                    </div>
+                                }
+                                <!-- end dv overview summary -->
+                            </div>
+                            <center>
+                                <div id="dvOvwImg" style="display:none; " align="center"> </div>
+                            </center>
+                            <div style="margin-top:15px;text-align:center;">
+
+                                <div style="display: inline-block;vertical-align:middle;margin:-4px 0 0 12px;" id="bubbleStaggerO"> <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/t27_staggerBig.jpg" style="cursor:pointer;" /> </div>
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
+                        <div align="center" style="height:2px; margin-top:20px;">
+                            <hr class="t27_greenDotedLine" />
+                        </div>
+                        <div data-tft-embed-slim-carousel style="height:100px;width:auto"></div>
+
+                        <!-- end div Overview -->
+                    </div>
+                    <!-- start div Itinerary -->
+                    <div id="dvShwItin" class="shwNSel">
+                        <div align="right"><div class="bg_BookIt_Butt" onclick="tabBgChange('dvTabBook','cl')">Book This Package</div></div>
+                        <div id="dvContItin">
+                            @if (Model.itiID > 0)
+                            {
+                                <div style="padding:20% 0;" align="center"><img src="ED_BuildYourOwn.jpg/world-globe-animated-ajax-loaders.gif" asp-append-version="true" align="absmiddle" /><br />Loading ...</div>
+                            }
+                            else
+                            {
+                                Int32 dayNo = 1;
+                                <div class="Text_Arial16_OrangeBold" style="padding:5px 15px; margin-bottom:15px;">Flexible Itinerary</div>
+                                @foreach (CitySquence scty in Model.citySeq)
+                                {
+                                    string _aboutPL = "aboutPL" + scty.Sequence.ToString();
+                                    string _CtyHead = "dvCtyHead" + scty.Sequence.ToString();
+                                    <div>
+                                        <div class="divItL" align="center">
+                                            <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com/images/destination_icons/tmas/icons_places/{0}_placephoto.jpg", scty.Id) asp-append-version="true" style="background-color: #fff; padding: 2px; border: 1px solid #ccc; -moz-border-radius: 4px;  -webkit-border-radius: 4px; width: 100px; height: 75px;" />
+                                            <div style="padding: 5px" align="center"> <img id=@_aboutPL src="https://pictures.tripmasters.com/siteassets/d/about_place_button.png" asp-append-version="true" width="101" height="25" style="cursor: pointer" /></div>
+                                        </div>
+                                        <div class="divItR">
+                                            @if (scty.ProdType == "P")
+                                            {
+                                                <div id=@_CtyHead style="background-color: #EAF2FF; height:35px; padding-top:15px; padding-left:15px;"><span class="Text_Arial16_BlueBold"> @scty.ProdTitle </span></div>
+                                            }
+                                            else
+                                            {
+                                                <div id=@_CtyHead style="background-color: #EAF2FF; height:35px; padding-top:15px; padding-left:15px;"> <span class="Text_Arial16_BlueBold">@scty.Name</span> </div>
+                                            }
+                                            <div style="padding:10px;">
+                                                @{
+                                                    string isMinPk = "block";
+                                                    string dvW = "";
+                                                    string dvH = "";
+                                                    string dvD = "none";
+                                                    if (scty.ProdType == "P")
+                                                    {
+                                                        isMinPk = "none";
+                                                        dvW = "width: 650px; border: 1px solid #CCCCCC;";
+                                                        dvH = "height: 200px; width: auto;";
+                                                        dvD = "block";
+                                                        Int32 sumdays = dayNo + Int32.Parse(scty.DaysDuration);
+                                                        string _daystyle = "padding:5px 5px; display:" + @dvD + ";";
+                                                        <div class="Orange-Arial14" style=@_daystyle>
+                                                            Day @dayNo.ToString() to Day @sumdays.ToString()
+                                                        </div>
+                                                        <div style="@dvW padding: 10px 5px 10px 5px; margin: 10px 0px;">
+                                                            <div style="padding: 10px; overflow: auto;">
+                                                                <div id=@String.Format("prodDS{0}", scty.Sequence) class="Text_12" style="@dvH padding: 10px 5px 10px 5px; margin-top: 5px;">
+                                                                    @{
+                                                                        string[] ln;
+                                                                        string[] minPLn = Model.minPackDESc.ToString().Split("@");
+                                                                        for (Int32 p = 0; p < minPLn.Count(); p++)
+                                                                        {
+                                                                            ln = minPLn[p].Split("||");
+                                                                            if (ln[0].Trim() == scty.Id.ToString().Trim())
+                                                                            {
+                                                                                string kk = minPLn[p].Replace(ln[0] + "||", "");
+                                                                                @Html.Raw(kk)
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                                @for (Int32 d = 0; d <= Int32.Parse(scty.DaysDuration); d++)
+                                                {
+                                                    <div style=@String.Format("padding:7px5px;display:{0};", isMinPk)>
+                                                        <span class="Orange-Arial14">Day @dayNo</span><br />
+                                                        @if (d == 0)
+                                                        {
+                                                            @Html.Raw(String.Format("Arrive to {0} <br/>", scty.Name));
+                                                            @for (Int32 tr = 0; tr < Model.strTinTout.Count; tr++)
+                                                            {
+                                                                string[] Trin = Model.strTinTout[tr].Split("^");
+                                                                @if (Trin[0] == scty.Sequence.ToString() && Trin[1] == "1" && Trin[3] == "TIN")
+                                                                {
+                                                                    @Html.Raw(String.Format("{0} <br/>", Trin[2]));
+                                                                }
+                                                            }
+                                                        }
+                                                        @if (d < Int32.Parse(scty.DaysDuration))
+                                                        {
+                                                            @Html.Raw(String.Format("Overnight in {0}", scty.Name));
+                                                            @if (scty.NoOfHotels > 0)
+                                                            {
+                                                                @Html.Raw("&nbsp;&nbsp;");
+                                                                <a id=@String.Format("hotOff{0}{1}", scty.Sequence, dayNo) onclick="recommendedHotels(@scty.Id,@scty.Name,this.id); return false;" style="cursor: pointer">@scty.NoOfHotels hotels offered</a>
+                                                            }
+                                                            @if (scty.NoOfSS > 0)
+                                                            {
+                                                                @Html.Raw("<br/>Optional&nbsp;&nbsp;");
+                                                                <a id=@String.Format("hotOff{0}{1}", scty.Sequence, dayNo) onclick="recommendedSS(@scty.Id,@scty.Name,this.id); return false;" style="cursor: pointer">@scty.NoOfSS Things to do</a>
+                                                            }
+                                                        }
+                                                        @if (d == Int32.Parse(scty.DaysDuration))
+                                                        {
+                                                            @for (Int32 tr = 0; tr < Model.strTinTout.Count; tr++)
+                                                            {
+                                                                string[] Trin = Model.strTinTout[tr].Split("^");
+                                                                @if (Trin[0] == scty.Sequence.ToString() && Int32.Parse(Trin[1]) >= 1 && Trin[3] == "TIN")
+                                                                {
+                                                                    @Html.Raw(String.Format("{0} <br/>", Trin[2]));
+                                                                }
+                                                            }
+                                                            @Html.Raw(String.Format("Departing from {0} <br/>", @scty.Name));
+                                                            @if (scty.Transportation.Trim() != "none")
+                                                            {
+                                                                <b>Transportation to next city by: @scty.Transportation</b>
+                                                            }
+                                                            else
+                                                            {
+                                                                @if (Model.webTIC != "none" && scty.Sequence < Model.howManyCtys)
+                                                                {
+                                                                    <b>Transportation to next city by: @Model.webTIC</b>
+                                                                }
+                                                            }
+                                                        }
+                                                    </div>
+                                                    dayNo += 1;
+                                                }
+                                            </div>
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                    dayNo -= 1;
+
+                                }
+                            }
+                        </div>
+                        <hr class="t27_greenDotedLine" />
+                        <div align="center">
+                            <div class="bg_BookIt_Butt" onclick="tabBgChange('dvTabBook','cl')">Book This Package</div>
+                        </div>
+                        <div align="center" style="height:2px; margin-top:20px;">
+                            <hr class="t27_greenDotedLine" />
+                        </div>
+                        <!-- end div Itinerary -->
+                    </div>
+                    <!-- start div Book -->
+                    <div id="dvShwBook" class="shwNSel">
+                        @{
+                            string dvClass = "class='divItR24' align='center'";
+                            <form id="frmToBook" name="frmToBook" style="margin: 0px;" method="post" asp-antiforgery="true">
+                                <center>
+                                    <div class="divItR24" align="center">
+                                        <div class="t27_cal_Titl_C">
+                                            <div class="t27_cal_Titl_L">
+                                                <div class="t27_cal_Titl_R">Customize and Book</div>
+                                            </div>
+                                        </div>
+
+                                        <div id="upCalendar">
+                                            <div class="T27_CalBg">
+                                                <div class="t27_cal_Bor_L">
+                                                    <div class="t27_cal_Bor_R">
+                                                        <div class="t27_cal_Bor_B">
+                                                            <div class="t27_cal_rond_BL">
+                                                                <div class="t27_cal_rond_BR">
+                                                                    <div id="dvCalConteiner">
+                                                                        <!-- AIR OPTIONS -->
+                                                                        <div id="AirOpt">
+                                                                            <span class="Text_Arial12_BlueBold" id="wair">
+                                                                                <input id="addFlight" name="addFlight" type="radio" value="True" checked="checked" />
+                                                                                With Int'l Flight
+                                                                            </span>
+                                                                            <span class="Text_Arial12_Blue" id="woair">
+                                                                                <input id="addFlight" name="addFlight" type="radio" value="False" />
+                                                                                Without Int'l Flight
+                                                                            </span>
+                                                                            <div style="clear: both"></div>
+                                                                        </div>
+                                                                        <!-- END AIR OPTIONS -->
+                                                                        <!-- AIR PARAM -->
+                                                                        <div id="AirParam">
+                                                                            <div class="Text_Arial12" style=" float:left;">
+                                                                                From:
+                                                                                <input name="sDepCity" id="sDepCity" style="width:240px" value="type here" autocomplete="off" />
+                                                                            </div>
+                                                                            <div class="Text_Arial12" style="float:right;">
+                                                                                Cabin:
+                                                                                <select name="Cabin" id="Cabin" onchange="selCabin(this.id,this.value)" class="Text_Arial12">
+                                                                                    <option value="Y" selected="selected">Economy</option>
+                                                                                    <option value="W">Premium Economy</option>
+                                                                                    <option value="C">Business</option>
+                                                                                    <option value="F">First Class</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div style="clear:both"></div>
+                                                                        </div>
+                                                                        <!-- END AIR PARAM -->
+                                                                        <br />
+                                                                        <!-- DESTINATIONS LIST -->
+                                                                        <!-- Titles Destinations -->
+                                                                        <div id="dvDestTtl" class="Text_Arial12_Blue">
+                                                                            @{
+                                                                                string dstOrPck, bubb, TYpro;
+                                                                                TYpro = "P";
+                                                                                dstOrPck = "Itinerary";
+                                                                                bubb = "bubbleP";
+                                                                                if (TYpro != "P")
+                                                                                {
+                                                                                    dstOrPck = "Destinations";
+                                                                                    bubb = "bubble1";
+                                                                                }
+                                                                            }
+                                                                            <div style="text-align: left; width: 228px; padding-left: 10px; float:left;"> <strong>@dstOrPck </strong> <span id="@bubb"><img src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="10" height="10" border="0" /></span> </div>
+                                                                            <div style="width: 100px; float: left; padding:0px 5px;" align="center"> <strong>Arrival date</strong> <span id="bubble2"><img src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="10" height="10" border="0" /></span> </div>
+                                                                            <div style=" width: 78px; padding:0px 5px 0px 5px; float: right;" align="center"> <span style="text-align:right;"><strong>Stay</strong> </span><span id="bubble3"><img src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="10" height="10" border="0" /></span> </div>
+                                                                            <div style="clear: both"> </div>
+                                                                        </div>
+                                                                        <!-- End Titles Destinations -->
+                                                                        <!-- Dynamic Destinations List -->
+                                                                        @{
+                                                                            string bgCty = "";
+                                                                            string bgMini = "";
+                                                                            Int32 ctyCnt = 0;
+                                                                            Int32 isMiniPack = 0;
+                                                                            Int32 ctyOV = 0;
+                                                                            foreach (CitySquence cty in Model.citySeq)
+                                                                            {
+                                                                                ctyOV = 0;
+                                                                                if (cty.OverNite == "True")
+                                                                                { ctyOV = 1; }
+                                                                                isMiniPack = 0;
+                                                                                if (cty.ProdType == "P")
+                                                                                { isMiniPack = 1; }
+                                                                                if (ctyCnt % 2 == 0)
+                                                                                {
+                                                                                    bgCty = "t27_bg_cty0";
+                                                                                    bgMini = "t27_bg_cty0M";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    bgCty = "t27_bg_cty1";
+                                                                                    bgMini = "t27_bg_cty1M";
+                                                                                }
+                                                                                ctyCnt += 1;
+
+                                                                                @Html.Raw("<div class='" + @bgCty + "'");
+                                                                                if (@cty.Sequence == 1)
+                                                                                {
+                                                                                    @Html.Raw(String.Format("<div style='text-align:left; width: 227px; padding-left: 10px; float: left;'><b>{0}.", @cty.Sequence));
+                                                                                    if (@cty.ProdType == "P")
+                                                                                    {
+                                                                                        @Html.Raw("<span class='Text_Arial12_BlueBold'> Package from " + cty.Name + "</span></b>");
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        @Html.Raw("<span id='aboutCAL" + @cty.Sequence + "' style='border-bottom: 2px dotted #4E73AB; cursor: pointer; color:#4E73AB'>" + @cty.Name + "</span></b> <span class='Text_Arial10_Light'> (" + cty.NoOfHotels + " hotels) </span>");
+                                                                                    }
+                                                                                    @Html.Raw("</div>")
+
+                                                                                    string oClck = "";
+                                                                                    string dateVal = "Select Date";
+                                                                                    string dTdy = "";
+
+                                                                                    if (Model.packStartTravel != null && Model.packStartTravel.Year > 1900)
+                                                                                    {
+                                                                                        dTdy = Model.packStartTravel.ToShortDateString();
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        dTdy = DateTime.Now.AddDays(90).ToShortDateString();
+                                                                                    }
+                                                                                    if (Model.FxDates != "0")
+                                                                                    {
+                                                                                        string[] fxdte = fixNetDts.Split(",");
+                                                                                        foreach (string fx in fxdte)
+                                                                                        {
+                                                                                            if (fx == dTdy)
+                                                                                            { dateVal = fx; }
+                                                                                        }
+                                                                                        oClck = "onclick='bbdates(this.id)'";
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        if (BkDates.Trim() != "-")
+                                                                                        {
+                                                                                            string[] bkD = BkDates.Split("-");
+                                                                                            string[] dtS = bkD[0].Split("*");
+                                                                                            string[] dtE = bkD[1].Split("*");
+                                                                                            for (Int32 d = 0; d < dtS.Length; d++)
+                                                                                            {
+                                                                                                string dS = dtS[d];
+                                                                                                string dE = dtE[d];
+                                                                                                if (DateTime.Parse(dTdy) >= DateTime.Parse(dS) && DateTime.Parse(dTdy) <= DateTime.Parse(dE))
+                                                                                                {
+                                                                                                    dateVal = "Select Date";
+                                                                                                    d = dtS.Length;
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    dateVal = dTdy;
+                                                                                                }
+
+                                                                                                if (dateVal == "Select Date")
+                                                                                                {
+                                                                                                    BkDatesOneYearInterval = 1;
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    if (Math.Abs(DateTime.Parse(dateVal).Year - DateTime.Parse(dS).Year) <= 1 || Math.Abs(DateTime.Parse(dateVal).Year - DateTime.Parse(dE).Year) <= 1)
+                                                                                                    {
+                                                                                                        BkDatesOneYearInterval = 1;
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+
+                                                                                        }
+                                                                                        else { dateVal = dTdy; }
+                                                                                    }
+
+                                                                                    @Html.Raw("<div style='width: 99px; float: left; position: relative; top: -3px;padding:0px 5px;' align='center'>");
+                                                                                    @Html.Raw("<input type='text' name='InDate1' id='InDate1' class='Text_12' value='" + dateVal + "' readonly='readonly' style='width: 75px; text - align:center'" + oClck + " />");
+                                                                                    @Html.Raw("</div>");
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    @Html.Raw("<div style='text-align: left; width: 227px; padding-left: 10px; float: left;'> <b>");
+                                                                                    @Html.Raw(@cty.Sequence + ". ");
+                                                                                    @if (cty.ProdType != "P")
+                                                                                    {
+                                                                                        @Html.Raw("<span id='aboutCAL" + @cty.Sequence + "' style='border-bottom: 2px dotted #4E73AB; cursor: pointer; color:#4E73AB; ' >" + @cty.Name + "</span></b> <span class='Text_Arial10_Light'> (" + @cty.NoOfHotels + " hotels)</span>");
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        @Html.Raw("<span class='Text_Arial12_BlueBold'> Package from " + @cty.Name + "</span></b>");
+                                                                                    }
+                                                                                    @Html.Raw("</div>");
+                                                                                }
+                                                                                <div style="width: 78px; padding:0px 5px 0px 5px; float: right;" align="center">
+                                                                                    @if (@cty.ProdType != "P")
+                                                                                    {
+                                                                                        <select name=@String.Format("StayNite{0}", @cty.Sequence) class="selectO" id=@String.Format("StayNite{0}", @cty.Sequence) style="width: 60px;" onchange="stayChange(this.id,this.value)">
+                                                                                            @{
+                                                                                                Int32 ctyThis = 0;
+                                                                                                string[] days;
+                                                                                                if (cty.NoOfAvailNite.IndexOf("-") > 0)
+                                                                                                {
+                                                                                                    days = cty.NoOfAvailNite.Split("-");
+                                                                                                    string selct1 = "";
+                                                                                                    foreach (string x in days)
+                                                                                                    {
+                                                                                                        if (x == cty.DaysDuration)
+                                                                                                        { selct1 = "selected='selected'"; }
+                                                                                                        if (x != cty.DaysDuration)
+                                                                                                        { selct1 = ""; }
+                                                                                                        @Html.Raw("<option value = '" + x + "' " + selct1 + ">" + x + " nts </option>");
+                                                                                                    }
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    if (Int32.Parse(cty.NoOfAvailNite) > 0)
+                                                                                                    {
+                                                                                                        @Html.Raw("<option value = '" + cty.NoOfAvailNite + "' selected = 'selected'>" + cty.NoOfAvailNite + " nts </option>");
+
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        if (Int32.Parse(cty.NoOfAvailNite) == 0)
+                                                                                                        {
+                                                                                                            string selct = "";
+                                                                                                            for (Int32 n = 1; n <= 14; n++)
+                                                                                                            {
+                                                                                                                if (n == Int32.Parse(cty.DaysDuration)) { selct = "selected='selected'"; }
+                                                                                                                if (n != Int32.Parse(cty.DaysDuration)) { selct = ""; }
+                                                                                                                @Html.Raw("<option value = '" + n + "' " + selct + ">" + n + " nts </option>");
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        </select>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        @Html.Raw(@String.Format("{0} nights", @cty.NoOfAvailNite));
+                                                                                        <input type="hidden" name=@String.Format("StayNite{0}", @cty.Sequence) id=@String.Format("StayNite{0}", @cty.Sequence) value="@cty.NoOfAvailNite" />
+                                                                                    }
+                                                                                </div>
+                                                                                <div style="clear: both"> </div>
+
+                                                                                @if (@cty.ProdType == "P")
+                                                                                {
+                                                                                    Int32 catC = 0;
+                                                                                    string catgDFna = "";
+                                                                                    Int32 catgDFid = -1;
+                                                                                    string catgDV = "";
+                                                                                    foreach (var ctg in @Model.minPackCategories)
+                                                                                    {
+
+                                                                                        if (@cty.Id == ctg.SPD_StatePlaceID)
+                                                                                        {
+                                                                                            if (ctg.PTY_Default == true)
+                                                                                            {
+                                                                                                catgDFna = ctg.PTY_Title;
+                                                                                                catgDFid = ctg.PTYID;
+                                                                                            }
+                                                                                            catgDV = catgDV + "<div onClick=\"newCategory(" + ctg.PTYID.ToString().Trim() + ",'" + ctg.PTY_Title.Trim() + "'," + cty.Sequence.ToString().Trim() + ");\" onmouseover=\"this.className='overSelect'\" onmouseout=\"this.className='outSelect'\" style=\"margin:1px 1px;\"><div style=\"TEXT-DECORATION: underline; padding: 5px 15px 3px 15px;\"><b>" + ctg.PTY_Title + "</b></div>";
+                                                                                            catgDV = catgDV + "<div style=\"padding: 1px 15px 5px 15px\" class=\"Text_Arial11\">" + ctg.PTY_Description + "</div></div>";
+                                                                                        }
+
+                                                                                        catC += 1;
+                                                                                    }
+
+                                                                                    <div align="left" class="@bgMini" style="margin-bottom:1px;">
+                                                                                        <div id=@String.Format("proNA{0}", @cty.Sequence) style="  padding:3px 21px" align="left" class="Text_Arial12_BlueBold">@cty.ProdTitle</div>
+                                                                                        <div id=@String.Format("cat{0}", @cty.Sequence) style="padding:3px 21px;" align="left" class="Text_12_Blue">
+                                                                                            Category
+                                                                                            @if (catC > 1)
+                                                                                            {
+                                                                                                <input name=@String.Format("ecityCatNA{0}", @cty.Sequence) id=@String.Format("ecityCatNA{0}", @cty.Sequence) type="text" value="@catgDFna" class="t20_downSelect" readonly="readonly" />
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <input name=@String.Format("ecityCatNA{0}", @cty.Sequence) id=@String.Format("ecityCatNA{0}", @cty.Sequence) type="hidden" value="@catgDFna" class="t20_downSelect" readonly="readonly" />
+                                                                                                <input name=@String.Format("domyecityCat{0}", @cty.Sequence) id=@String.Format("ecityCatNA{0}", @cty.Sequence) type="text" value="@catgDFna" class="t20_downSelectDom" readonly="readonly" />
+                                                                                            }
+                                                                                            <input type="hidden" id=@String.Format("ecityCat{0}", @cty.Sequence) name=@String.Format("ecityCat{0}", @cty.Sequence) value="@catgDFid" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="Text_Arial12" id=@String.Format("compSeleCat{0}", @cty.Sequence) style="display:none; border: 1px solid #ccc; width: 330px; background: #FFF; position:relative; z-index: 2;">
+                                                                                        <div align="left">@Html.Raw(@catgDV)</div>
+                                                                                        <div class="Text_Arial11_Light" style="padding: 5px 10px; cursor: pointer;" onclick=@String.Format("$('#compSeleCat{0}').hide();", @cty.Sequence) align="right"> <span style="text-decoration: underline">close</span> [X] </div>
+                                                                                    </div>
+
+                                                                                }
+
+
+
+
+
+
+                                                                                @Html.Raw("</select>");
+                                                                                @Html.Raw("<div style='clear: both; '> </div>");
+                                                                                @Html.Raw("<input name='StayCity" + cty.Sequence + "' type='hidden' id='StayCity" + cty.Sequence + "' value='" + @cty.Id + "' />");
+                                                                                @Html.Raw("<input name='StayCity" + cty.Sequence + "Tex' type='hidden' id='StayCity" + cty.Sequence + "Tex' value='" + @cty.Name + "' />");
+                                                                                @Html.Raw("<input name='StayCity" + cty.Sequence + "_Name' type='hidden' id='StayCity" + cty.Sequence + "_Name' value='" + @cty.Name + "' />");
+                                                                                @Html.Raw("<input name='OverNiteT" + cty.Sequence + "' type='hidden' id='OverNiteT" + cty.Sequence + "' value='" + @ctyOV + "' />");
+                                                                                @Html.Raw("<input name='APICity" + cty.Sequence + "' type='hidden' id='APICity" + cty.Sequence + "' value='" + _appsettings.Value.ApplicationSettings.CityHotelVendorAPI + "' />")
+
+                                                                            }
+                                                                        }
+
+                                                                        <!-- End Dynamic Destinations List -->
+                                                                        <!-- END DESTINATIONS LIST -->
+                                                                        <!-- PAX INFO -->
+                                                                        <div id="goMultiroom" style="padding:3px 0; margin-top:10px;">
+                                                                            <div class="Text_Arial11" style="width:120px; padding: 1px 5px;">Guest:</div>
+                                                                            <div style="padding: 0 5px;">
+                                                                                <select name="iRoomsAndPax" id="iRoomsAndPax" class="inputO" onChange="changePaxByRoom(this.value,this.id);">
+                                                                                    <option value="1|1">1 room for 1 adult</option>
+                                                                                    <option value="1|2" selected>1 room for 2 adults</option>
+                                                                                    <option value="1|3">1 room for 3 adults</option>
+                                                                                    <option value="1|4">1 room for 4 adults</option>
+                                                                                    <option value="1|5">1 room/suite for 5 adults</option>
+                                                                                    <option value="1|6">1 room/suite for 6 adults</option>
+                                                                                    <option value="1|Other">1 room with children or other options</option>
+                                                                                    <option value="-1">-------------------------------------------------</option>
+                                                                                    <option value="2|2-2">2 rooms for (2 adults + 2 adults)</option>
+                                                                                    <option value="2|3-3">2 rooms for (3 adults + 3 adults)</option>
+                                                                                    <option value="2|Other">2 rooms with children or other options</option>
+                                                                                    <option value="-1">-------------------------------------------------</option>
+                                                                                    <option value="3|2-2-2">3 rooms for (2 adults + 2 adults + 2 adults)</option>
+                                                                                    <option value="3|Other">3 rooms with children or other options</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div style="padding: 0 5px;"></div>
+                                                                            <div style="padding:8px 5px; display:none;" id="dvPaxLabel">
+                                                                                <div class="dvpaxRoom"><span>&nbsp;</span></div>
+                                                                                <div class="dvpaxRoom" align="left"><span>Adults:</span></div>
+                                                                                <div class="dvpaxRoom" align="left"><span>Children:</span></div>
+                                                                                <div class="dvpaxRoomWide" align="left"><span id="BspChAg">Child Ages:</span></div>
+                                                                                <div class="dvClear"></div>
+                                                                            </div>
+                                                                            <!-- Room 1 -->
+                                                                            <div id="dvRoom1" style="padding:5px 5px; display:none;">
+                                                                                <div class="dvpaxRoom"><span>Room 1:</span></div>
+                                                                                <div id="dvR1adults" class="dvpaxRoom">
+                                                                                    <select name="iAdults" id="iAdults" class="paxRoom">
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2" selected="selected">2</option>
+                                                                                        <option value="3">3</option>
+                                                                                        <option value="4">4</option>
+                                                                                        <option value="5">5</option>
+                                                                                        <option value="6">6</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div id="dvR1children" class="dvpaxRoom">
+                                                                                    <select name="iChildren" id="iChildren" class="paxRoom" onChange="xSelChildren(this.value,1,1,this.id)">
+                                                                                        <option value="0" selected="selected">0</option>
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2">2</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div id="dvR1child1" class="dvpaxRoomChAg">
+                                                                                    <input name="iChild1" type="text" id="iChild1" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR1child2" class="dvpaxRoomChAg">
+                                                                                    <input name="iChild2" type="text" id="iChild2" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR1child3" class="dvpaxRoomChAg">
+                                                                                    <input name="iChild3" type="text" id="iChild3" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR1child4" class="dvpaxRoomChAg">
+                                                                                    <input name="iChild4" type="text" id="iChild4" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div class="dvClear"></div>
+                                                                            </div>
+                                                                            <!-- Room 2 -->
+                                                                            <div id="dvRoom2" style="padding:5px 5px; display:none;">
+                                                                                <div class="dvpaxRoom"><span>Room 2:</span></div>
+                                                                                <div id="dvR2adults" class="dvpaxRoom">
+                                                                                    <select name="Room2_iAdults" id="Room2_iAdults" class="paxRoom">
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2">2</option>
+                                                                                        <option value="3">3</option>
+                                                                                        <option value="4">4</option>
+                                                                                        <option value="5">5</option>
+                                                                                        <option value="6">6</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div id="dvR2children" class="dvpaxRoom">
+                                                                                    <select name="Room2_iChildren" id="Room2_iChildren" class="paxRoom" onChange="xSelChildren(this.value,2,1,this.id)">
+                                                                                        <option value="0" selected="selected">0</option>
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2">2</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div id="dvR2child1" class="dvpaxRoomChAg">
+                                                                                    <input name="Room2_iChild1" type="text" id="Room2_iChild1" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR2child2" class="dvpaxRoomChAg">
+                                                                                    <input name="Room2_iChild2" type="text" id="Room2_iChild2" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR2child3" class="dvpaxRoomChAg">
+                                                                                    <input name="Room2_iChild3" type="text" id="Room2_iChild3" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR2child4" class="dvpaxRoomChAg">
+                                                                                    <input name="Room2_iChild4" type="text" id="Room2_iChild4" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div class="dvClear"></div>
+                                                                            </div>
+                                                                            <!-- Room 3-->
+                                                                            <div id="dvRoom3" style="padding:5px 5px; display:none;">
+                                                                                <div class="dvpaxRoom"><span>Room 3:</span></div>
+                                                                                <div id="dvR3adults" class="dvpaxRoom">
+                                                                                    <select name="Room3_iAdults" id="Room3_iAdults" class="paxRoom">
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2">2</option>
+                                                                                        <option value="3">3</option>
+                                                                                        <option value="4">4</option>
+                                                                                        <option value="5">5</option>
+                                                                                        <option value="6">6</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div id="dvR3children" class="dvpaxRoom">
+                                                                                    <select name="Room3_iChildren" id="Room3_iChildren" class="paxRoom" onChange="xSelChildren(this.value,3,1,this.id)">
+                                                                                        <option value="0" selected="selected">0</option>
+                                                                                        <option value="1">1</option>
+                                                                                        <option value="2">2</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div id="dvR3child1" class="dvpaxRoomChAg">
+                                                                                    <input name="Room3_iChild1" type="text" id="Room3_iChild1" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR3child2" class="dvpaxRoomChAg">
+                                                                                    <input name="Room3_iChild2" type="text" id="Room3_iChild2" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR3child3" class="dvpaxRoomChAg">
+                                                                                    <input name="Room3_iChild3" type="text" id="Room3_iChild3" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div id="dvR3child4" class="dvpaxRoomChAg">
+                                                                                    <input name="Room3_iChild4" type="text" id="Room3_iChild4" class="paxRoomChAg" value="" />
+                                                                                </div>
+                                                                                <div class="dvClear"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="dvWording">Please contact us for any special arrangements such as more than three rooms and partial stays.</div>
+                                                                        <!-- END PAX INFO -->
+                                                                        <!-- ROOMS -->
+                                                                        <input type="hidden" name="iRoom" id="iRoom" value="" />
+                                                                        <input type="hidden" name="Rooms" id="Rooms" value="" />
+                                                                        <div id="dvPriceIt" align="center" style="margin:20px 0px 10px 0px;">
+                                                                            <span class="spnPriceView" id="imgPriceIt1" onclick="submitForm(1)">View Price</span>
+                                                                            <img id="imgLoading1" src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" asp-append-version="true" style="display:none;" alt="" asp-append-version="true" />
+                                                                        </div>
+                                                                        <!-- END Calendar Content -->
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="padding:0px 10px;display:none;">
+                                            <div class="T27_CalBBg">
+                                                <div class="t27_cal_Bor_L">
+                                                    <div class="t27_cal_Bor_R">
+                                                        <div class="t27_cal_Bor_B">
+                                                            <div class="t27_bgBB_L">
+                                                                <div class="t27_bgBB_R">
+                                                                    <div align="center">
+                                                                        <div align="center" style="padding:3px 0;"><span class="Text_Arial10">or</span></div>
+                                                                        <img id="buttReorder" src="https://pictures.tripmasters.com/siteassets/d/T20_butt_Reorder.jpg" style="margin-top:5px; cursor:pointer;" asp-append-version="true" />
+                                                                        <div align="center" style="padding:3px 0;"><span class="Text_Arial10">or</span></div>
+                                                                        <img id="buttAddDel" src="https://pictures.tripmasters.com/siteassets/d/T20_Butt_AddDel.jpg" asp-append-version="true" style="margin-top:5px; cursor:pointer;" />
+                                                                        <div align="center" style="padding:3px 0;"><span class="Text_Arial10">or</span></div>
+                                                                        <img src="https://pictures.tripmasters.com/siteassets/d/t27_cal_yellowLine.jpg" width="249" height="1" asp-append-version="true" /><br />
+                                                                        <br />
+                                                                        <a asp-controller="Home" asp-action="Index"><span class="Text_Arial11_Blue">Build Your Own Itinerary</span></a><br />
+                                                                        <br />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top:10px;">
+                                            <div style="text-align:center" id="bubbleStaggerB"> <img src="https://pictures.tripmasters.com/siteassets/d/t27_staggerBig.jpg" style="margin-left:3px;cursor:pointer; " /> </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                    <input type="hidden" name="iDepCity" id="iDepCity" value="-1" />
+                                    <input type="hidden" name="iRetCity" id="iRetCity" value="-1" />
+                                    <input type="hidden" name="StayCityS" id="StayCityS" value=@Model.packCityID />
+                                    <input type="hidden" name="StayCityS_Name" id="StayCityS_Name" value=@Model.packCityNA />
+                                    <input type="hidden" name="StayCityE" id="StayCityE" value=@Model.packCityEID />
+                                    <input type="hidden" name="StayCityE_Name" id="StayCityE_Name" value=@Model.packCityENA />
+                                    <input type="hidden" name="addTransfer_IC" id="addTransfer_IC" value="True" />
+                                    <input type="hidden" name="SystemID" id="SystemID" value=@_appsettings.Value.ApplicationSettings.SystemID />
+                                    <input type="hidden" name="GeneralLoc" id="GeneralLoc" value=@_appsettings.Value.ApplicationSettings.GeneralLoc />
+                                    <input type="hidden" name="iOutTime" id="iOutTime" value=@_appsettings.Value.ApplicationSettings.iOutTime />
+                                    <input type="hidden" name="iInTime" id="iInTime" value=@_appsettings.Value.ApplicationSettings.iInTime />
+                                    <input type="hidden" name="bFirst" id="bFirst" value=@_appsettings.Value.ApplicationSettings.bFirst />
+                                    <input type="hidden" name="GetNextDay" id="GetNextDay" value=@_appsettings.Value.ApplicationSettings.GetNextDay />
+                                    <input type="hidden" name="AirVendorAPI" id="AirVendorAPI" value=@_appsettings.Value.ApplicationSettings.AirVendorAPI />
+                                    <input type="hidden" name="iAirPref" id="iAirPref" />
+                                    <input type="hidden" name="PkgInstance" id="PkgInstance" value="0" />
+                                    <input type="hidden" name="MinStay" value="4">
+                                    <input type="hidden" id="GIVendorAPI" name="GIVendorAPI" value="@_appsettings.Value.ApplicationSettings.GIVendorAPI" />
+                                    @if (Model.P2P == 1)
+                                    {<input name="AirP2PVendorAPI" type="hidden" id="AirP2PVendorAPI" value=@_appsettings.Value.ApplicationSettings.AirP2PVendorAPI>}
+                                    @if (Model.SelfDrive == 1)
+                                    {<input name="addCar" type="hidden" id="addCar" value="True">}
+                                    @if (Model.FxDates != "0" || (@BkDates != "-" && @BkDatesOneYearInterval == 1))
+                                    {<input name="nDayOptions" type="hidden" id="nDayOptionsr" value="1">}
+                                    <input type="hidden" name="Pkgid" id="Pkgid" value=@Model.PackId />
+                                    @if (Model.packCountryNA == "Mexico")
+                                    {<input type="hidden" name="CarVendorAPI" id="CarVendorAPI" value="X0" /> }
+                                    else
+                                    { <input type="hidden" name="CarVendorAPI" id="CarVendorAPI" value=@_appsettings.Value.ApplicationSettings.CarVendorAPI />}
+                                    @{
+                                        string strPck = "";
+                                        switch (Model.packType)
+                                        {
+                                            case 1266:
+                                            case 495:
+                                                strPck = "TP3";
+                                                break;
+                                            default:
+                                                strPck = "MC";
+                                                break;
+                                        }
+                                    }
+                                    <input type="hidden" name="PickUpTime" id="PickUpTime" />
+                                    <input type="hidden" name="DropOffTime" id="DropOffTime" />
+                                    <input type="hidden" name="PickUpTime2" id="PickUpTime2" />
+                                    <input type="hidden" name="DropOffTime2" id="DropOffTime2" />
+                                    <input name="SSVendorAPI" type="hidden" id="SSVendorAPI" value=@_appsettings.Value.ApplicationSettings.SSVendorAPI />
+                                    <input type="hidden" name="ByStayNite" id="ByStayNite" value=@_appsettings.Value.ApplicationSettings.ByStayNite />
+                                    <input type="hidden" name="sortFlag" id="sortFlag" value=@Model.sortFlag />
+                                    <input type="hidden" name="utm_campaign" id="utm_campaign" value="" />
+                                    <input type="hidden" name="PackType" id="PackType" value=@strPck />
+                                    <input type="hidden" name="nStartDayAllow" id="nStartDayAllow" value=@_appsettings.Value.ApplicationSettings.nStartDayAllow />
+                                    <input type="hidden" name="TransferVendorAPI" id="TransferVendorAPI" value=@_appsettings.Value.ApplicationSettings.TransferVendorAPI />
+                                    <input type="hidden" name="TICVendorAPI" id="TICVendorAPI" value=@_appsettings.Value.ApplicationSettings.TICVendorAPI />
+                                    <input type="hidden" name="MiniPackCat" id="MiniPackCat" value="" />
+                                    <input type="hidden" name="hwMnyCtyfrm" id="hwMnyCtyfrm" value=@Model.howManyCtys />
+                                </center>
+
+
+                            </form>
+                            <!-- end div Book -->
+                        }
+                    </div>
+                    <div id="dvShwAcco" class="shwNSel">
+                        <div id="dvContAcco">
+                            <div style="padding:20% 0;" align="center">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/world-globe-animated-ajax-loaders.gif" align="absmiddle" /><br />
+                                Loading ..
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dvShwActi" class="shwNSel">
+                        <div id="dvContActi">
+                            <div style="padding:20% 0;" align="center">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/world-globe-animated-ajax-loaders.gif" align="absmiddle" /><br />
+                                Loading ..
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dvShwTran" class="shwNSel">
+                        <div id="dvContTran">
+                            <div style="padding:20% 0;" align="center">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/world-globe-animated-ajax-loaders.gif" align="absmiddle" /><br />
+                                Loading ..
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dvShwMap" class="shwNSel"> Package Map Picture </div>
+                    <div id="dvShwCou" class="shwNSel">
+                        @foreach (var p in Model.countriesCMS)
+                        {
+                            <div style="padding:10px 30px;">
+                                <div style="float:left; margin-right:30px; width:200px;"> <img src=@String.Format("https://pictures.tripmasters.com/images/web/ed/places/{0}.jpg", @p.STR_PlaceTitle.Replace(" ", "_").ToLower()) asp-append-version="true" width="150" height="150" /> </div>
+                                <div style="float:left; width:550px"> <span class="Text_Arial16_BlueBold">@p.STR_PlaceTitle</span><br /><br />@Html.Raw(@p.STR_PlaceShortInfo) </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                            <div style="height:auto; padding:5px 10px 15px 200px;">
+                                @if (p.CMSs.Count > 0)
+                                {
+                                    @foreach (var c in p.CMSs)
+                                    {
+                                        if (c.CMSW_Title != "none")
+                                        {
+                                            string cmsName = c.CMS_Description.Replace(" ", "_").ToLower();
+                                            if (c.CMS_Description == "none")
+                                            {
+                                                cmsName = c.CMSW_Title.Replace(" ", "_").ToLower();
+                                            }
+                                            <div class="t27_couInf_Butt_BG">
+                                                <div class="t27_couInf_Butt_L">
+                                                    <div class="t27_couInf_Butt_R"><span class="Text_Arial12"><a class="jxCoInf" id="ajxTrick" href=@String.Format("/{0}/cms?cms={1}&wh=0&wf=0", cmsName, c.CMSW_RelatedCmsID)> @c.CMSW_Title </a></span></div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                <div style="clear:both;"></div>
+                            </div>
+                        }
+                    </div>
+                    @if (Model.faqID > 0)
+                    {
+                        <div id="dvShwFAQ" class="shwNSel"><div id="dvContFAQ"></div></div>
+                    }
+                    <!-- start div Feed -->
+                    @if (@Model.packFeedCount > 0 || Model.CountriesNoOfFeeds.Count > 0)
+                    {
+                        <div id="dvShwFeed" class="shwNSel">
+                            <div id="leftFeedColum">
+                                @if (@Model.packFeedCount > 0)
+                                {
+                                    <input type="hidden" id="PackCustFeedIds" value=@Model.packFeedCount />
+                                    <div id="pFeedTab" class="Tab" onclick="openFeedsContainer('P',@Model.PackId)">
+                                        <div id="pCaptionFeed" class="TabCaption">
+                                            <div id="pCaptionText" class="CaptionText">This package</div>
+                                            <div id="pFeedText" class="CaptionFeedText">@Model.packFeedCount Customer Feedbacks</div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.CountriesNoOfFeeds.Count > 0)
+                                {
+                                    @foreach (var c in Model.CountriesNoOfFeeds)
+                                    {
+                                        if (c.NoOfFeeds > 0)
+                                        {
+                                            <div id=@String.Format("cFeedTab{0}", c.Id) class="Tab" onclick="openFeedsContainer('C',@c.Id)">
+                                                <div id=@String.Format("cCaptionFeed{0}", c.Id) class="TabCaption">
+                                                    <div id=@String.Format("cCaptionText{0}", c.Id) class="CaptionText">@c.Name</div>
+                                                    <div id=@String.Format("cFeedText{0}", c.Id) class="CaptionFeedText"> @c.NoOfFeeds Customer Feedbacks</div>
+                                                </div>
+                                            </div>
+                                            <input id=@String.Format("CoutryFeedIds{0}", c.Id) type="hidden" value=@c.NoOfFeeds />
+                                        }
+
+                                    }
+                                }
+                            </div>
+                            <div id="FeedsContainer">
+                                <div style="float:left;margin:10px 0px 0px 15px;" id="OverAllFeeds">
+                                    <span class="spRTitle"><b>Customer Reviews</b></span><br style="clear:both;" />
+                                    <div style="position:relative;margin:0px 0px 30px -4px;">
+                                        <div class="emptyStars" style="width:120px;"></div>
+                                        <div id="dvStarsOverAll" class="fullStars" style="width:120px;"></div>
+                                        <div id="dvNoOfFeeds" style="float:left;position:absolute;left:130px;width:150px;top:5px;font-weight:bold;font-size:14px"></div>
+                                        <div style="clear:both;"></div>
+                                    </div>
+                                    <div id="dvStarsOverAllStr" class="darkText"></div>
+                                </div>
+                                <div style="float:right;">
+                                    <div style="margin:35px 30px 5px 0;">Share your thoughts with other travelers</div>
+                                    <a href="https://www.tripmasters.com/checkbookingforreview" style="margin-left:10px;"><span class="submitButton" id="submitBotton">Write a Review</span></a>
+                                </div>
+                                <div style="clear:both;"></div>
+                                <div style="padding:0 15px;">
+                                    <div class="dvPagin"> <span class="dvPaginas"></span> </div>
+                                    <div id="dvFeeds"></div>
+                                    <div style="text-align:right;margin-top:20px;padding:0px 10px 10px 0px;"> <span style="padding-right:10px;">Share your thoughts with other travelers</span><a href=""><span class="submitButton">Write a Review</span></a> </div>
+                                    <div class="dvPagin"> <span class="dvPaginas"></span> </div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            @{
+                                decimal W = Decimal.Round((Model.overAll * 120) / 5, 1);
+                            }
+                            <input id=@String.Format("PVal{0}", Model.PackId) type="hidden" value="@Model.packFeedCount|@Model.overAll|@W" />
+                            @foreach (var cou in Model.CountriesNoOfFeeds)
+                            {
+                                Decimal c_overAll = Decimal.Round(cou.OverAll, 1);
+                                W = Decimal.Round((c_overAll * 120) / 5, 1);
+                                <input id=@String.Format("CVal{0}", cou.Id) type="hidden" value="@cou.NoOfFeeds|@c_overAll|@W" />
+                            }
+
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <!-- end div Show Content -->
+            <!-- end main div content -->
+
+        </div>
+        <div id="mask27"></div>
+        <div id="dvmediaPopUp">
+            <div class="dvClose"><span onclick="moreMediaCLS();">Close [x]</span></div>
+            <div id="dvmediaContent">
+                <div id="dvmcL">
+                    <div id="dvFstPic" align="center"></div>
+                    <div id="dvMV" class="dvMPV" align="center">
+                        <div style="float:left; width:11px;"><img id="imgBack" src="https://pictures.tripmasters.com/siteassets/d/T27_back.jpg" asp-append-version="true" width="10" height="12" style="cursor:pointer;" /></div>
+                        <div style="float:left; width:370px; text-align:center;" id="dvPicNa">Photo</div>
+                        <div style="float:right; width:11px;"><img id="imgForw" src="https://pictures.tripmasters.com/siteassets/d/t27_forw.jpg" asp-append-version="true" width="10" height="12" style="cursor:pointer;" /></div>
+                        <div style="clear:both"></div>
+                    </div>
+                </div>
+                <div id="dvmcR">
+                    <div class="Blue-Arial16" align="left" style="padding:5px 10px;">@Model.packNA</div>
+                    <img src="https://pictures.tripmasters.com/siteassets/d/t27_dot_line.jpg" asp-append-version="true" />
+                    <div id="dvThuPic" class="dvMPV">Photos</div>
+                    <div id="dvThMp">
+                        <img src="https://pictures.tripmasters.com/siteassets/d/t27_dot_line.jpg" asp-append-version="true" />
+                        <div id="dvThuMap" class="dvMPV">Map</div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+        <div id="dvcityActions" style="display:none">
+            <div class="dvClose"><span onclick="cityActCLS();">Close [x]</span></div>
+            <div id="dvcityActContent"></div>
+        </div>
+
+        <input type="hidden" id="inpRelItin" name="inpRelItin" value="@rpOnPopUp" />
+        <input type="hidden" id="pakID" value="@Model.PackId" />
+        <input type="hidden" id="prodID" value="@Model.packProdID" />
+        <input type="hidden" id="pakNA" value="@Model.packNA" />
+        <input type="hidden" id="plcNA" value="@Model.packCountryNA" />
+        <input type="hidden" id="pakNTS" value="@Model.ntsString Nights" />
+        <input type="hidden" id="hwMnyCty" value="@Model.howManyCtys" />
+        <input type="hidden" id="tCityIDs" value="@Model.PackId" />
+        <input type="hidden" id="cmsIti" value="@Model.itiID" />
+        <input type="hidden" id="cmsPri" value="@Model.priID" />
+        <input type="hidden" id="cmsAcc" value="@Model.accID" />
+        <input type="hidden" id="cmsAct" value="@Model.actID" />
+        <input type="hidden" id="cmsTra" value="@Model.traID" />
+        <input type="hidden" id="cmsFaq" value="@Model.faqID" />
+        <input type="hidden" id="fxNetDates" value="@fixNetDts" />
+        <div id="divRecomended" style="display:none;font-size:12px;">
+            <div align="right"><img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/close_pop.png" style="cursor:pointer" onclick="closeDiv()" /></div>
+            <div style="background:#FFFFFF;">
+                <div class="dvRoundBoxes">
+                    <div id="divContent" style="height: auto; width: auto; padding: 15px 40px;" align="left"></div>
+                </div>
+            </div>
+        </div>
+        <div id="dvFixDates" onclick="$('#dvFixDates').hide();" style="display: none; border: 1px solid #CCCCCC; padding: 5px; width: 200px; background-color: #FFFFFF" align="left"> </div>
+        <div id="divError" class="ketchup-error-container" style="left: 5px; top: 200px; display: none;">
+            <ol>
+                <li>This field is required.</li>
+                <li>Must be a valid username.</li>
+            </ol>
+        </div>
+        <div id="dvhotInfo" align="left"></div>
+
+    }
+
+    @{
+        foreach (CitySquence sctyI in Model.citySeq)
+        {
+            <div id=@String.Format("aboutDIV{0}", sctyI.Sequence) class="aboutDIV">
+                <div align="right"> <img id=@String.Format("aboutCls{0}", sctyI.Sequence) class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="https://pictures.tripmasters.com/siteassets/d/close_pop.png" alt="no image" style="cursor: pointer" /> </div>
+                <div class="pop_MR">
+                    <div class="pop_BC">
+                        <div class="pop_ML">
+                            <div class="pop_TC">
+                                <div class="pop_BL">
+                                    <div class="pop_BR">
+                                        <div class="pop_TL">
+                                            <div class="pop_TR" style="padding: 20px;">
+                                                <div class="Text_12" style="padding: 10px; background-color: #F4F9FB;">
+                                                    <div style="width: 100px; float: left">
+                                                        <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src=@String.Format("https://pictures.tripmasters.com/images/destination_icons/tmas/icons_places/{0}_placephoto.jpg", sctyI.Id) alt="no image" style="background-color: #fff; padding: 2px; border: 1px solid #ccc; -moz-border-radius: 4px; -webkit-border-radius: 4px; width: 100px; height: 75px;" />
+                                                        <div style="padding: 3px;" align="right"> @sctyI.Name</div>
+                                                    </div>
+                                                    <div style="float: right; width: 600px" align="left"> @Html.Raw(sctyI.PlaceShortInfo)</div>
+                                                    <div style="clear: both"> </div>
+                                                    @if (sctyI.CMSs.Count > 0)
+                                                    {
+                                                        <div align="center" style="padding: 5px 5px 5px 20px;">
+                                                            <div style="height: 5px; width: 750px; border-bottom: 1px solid #390;"></div>
+                                                        </div>
+                                                        <div align="center">
+                                                            @{
+                                                                Int32 tabC = 0;
+                                                                @foreach (CMScountry cms in sctyI.CMSs)
+                                                                {
+                                                                    string cmsName = cms.CMS_Description.Replace(" ", "_").ToLower();
+                                                                    if (cms.CMS_Description == "none")
+                                                                    {
+                                                                        cmsName = cms.CMSW_Title.Replace(" ", "_").ToLower();
+                                                                    }
+                                                                    tabC += 1;
+                                                                    @if (tabC > 1)
+                                                                    {
+                                                                        Html.Raw("|");
+                                                                    }
+
+                                                                    <span class="Green-Arial12" style="padding: 0px 2px; margin-top: 10px;">
+                                                                        <span style="margin: 0px 2px;">
+                                                                            <a class=@String.Format("jxTrick{0}", sctyI.Sequence) id=@String.Format("ajxTrick{0}{1}", sctyI.Sequence, tabC) href=@String.Format("/{0}/cms?cms={1}&wh=0&wf=0", cmsName, cms.CMSW_RelatedCmsID)>
+                                                                                <img class="delay" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif"data-src="https://pictures.tripmasters.com/siteassets/d/lupita.png" alt="no image" width="28" height="27" border="0" align="absmiddle" /><u>@cms.CMSW_Title</u>
+                                                                            </a>
+                                                                        </span>
+                                                                    </span>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</center>
+
+<input type="hidden" id="inpRelItin" name="inpRelItin" value="@rpOnPopUp" />
+<input type="hidden" id="pakID" value="@Model.PackId" />
+<input type="hidden" id="prodID" value="@Model.packProdID" />
+<input type="hidden" id="pakNA" value="@Model.packNA" />
+<input type="hidden" id="plcNA" value="@Model.packCountryNA" />
+<input type="hidden" id="pakNTS" value="@Model.ntsString Nights" />
+<input type="hidden" id="hwMnyCty" value="@Model.howManyCtys" />
+<input type="hidden" id="tCityIDs" value="@Model.PackId" />
+<input type="hidden" id="cmsIti" value="@Model.itiID" />
+<input type="hidden" id="cmsPri" value="@Model.priID" />
+<input type="hidden" id="cmsAcc" value="@Model.accID" />
+<input type="hidden" id="cmsAct" value="@Model.actID" />
+<input type="hidden" id="cmsTra" value="@Model.traID" />
+<input type="hidden" id="cmsFaq" value="@Model.faqID" />
+<input type="hidden" id="fxNetDates" value="@fixNetDts" />
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/js/site/dt.java.simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/jq_second/jquery.extjasoncookie-0.2.js"></script>
+        <script src="~/js/jq_second/jquery.popupWindow.js"></script>
+        <script src="~/js/site/dt.java.scrollable.js"></script>
+        <script src="~/js/site/dt.java.date.format.js"></script>
+        <script src="~/js/site/moment.js"></script>
+        <script src="~/js/t24-26/dt.java.template24_26.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/site/dt.java.simplepagination.js" asp-append-version="true"></script>
+        <script src="~/js/jq_second/jquery.extjasoncookie-0.2.js"></script>
+        <script src="~/js/jq_second/jquery.popupWindow.js"></script>
+        <script src="~/js/site/dt.java.scrollable.js"></script>
+        <script src="~/js/site/dt.java.date.format.js"></script>
+        <script src="~/js/site/moment.js"></script>
+        <script src="~/js/t24-26/dt.java.template24_26.min.js" asp-append-version="true"></script>
+    </environment>
+
+}

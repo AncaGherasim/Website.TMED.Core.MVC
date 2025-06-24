@@ -1,0 +1,82 @@
+[
+  {
+    "Title": "European Best Sellers",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages1/italy/rome-trevifountainview-200.jpg",
+    "UrlPath": "/europe_-_european_bestsellers/best_vacations"
+  },
+  {
+    "Title": "Idyllic Islands of Europe",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages1/croatia/hvar-aerialview-500.jpg",
+    "UrlPath": "/idyllic_islands_of_europe/multicountry/vacations"
+  },
+  {
+    "Title": "Iconic European Road Trips",
+    "ImagePath": "https://pictures.tripmasters.com/images/apkg/1169/ring_of_kerry_-_gap_of_dunloe-3351977-500.jpg",
+    "UrlPath": "/iconic_european_road_trips/multicountry/vacations"
+  },
+  {
+    "Title": "Europe for Foodies",
+    "ImagePath": "https://pictures.tripmasters.com/images/apkg/966/spanish_cuisine_-_wide_selection_of_tapas-3359216-500.jpg",
+    "UrlPath": "/cuisines_of_europe/multicountry/vacations"
+  },
+  {
+    "Title": "Southern Europe",
+    "ImagePath": "https://tripmasters-pictures.s3.amazonaws.com/images/packages1/portugal/estorilcoast-coastlineview-gi3590-500.jpg",
+    "UrlPath": "/southern_europe/multicountry/vacations"
+  },
+  {
+    "Title": "Danube River",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages1/hungary/budapest-danuberiverandcityview-500.jpg",
+    "UrlPath": "/danube_river/multicountry/vacations"
+  },
+  {
+    "Title": "Central Europe",
+    "ImagePath": "https://tripmasters-pictures.s3.amazonaws.com/images/apkg/1730/bad_hofgastein_-_gastein_valley-1612506-500.jpg",
+    "UrlPath": "/central_europe/multicountry/vacations"
+  },
+  {
+    "Title": "The Ring of Kerry",
+    "ImagePath": "https://pictures.tripmasters.com/images/apkg/1169/ring_of_kerry_-_gap_of_dunloe-3351977-500.jpg",
+    "UrlPath": "/ring_of_kerry/area/vacations"
+  },
+  {
+    "Title": "Unesco Sites of Europe",
+    "ImagePath": "https://tripmasters-pictures.s3.amazonaws.com/images/asst/71/rome_-_colosseum_early_morning_-747893-500.jpg",
+    "UrlPath": "/unesco_world_heritage_sites_of_europe/multicountry/vacations"
+  },
+  {
+    "Title": "European Wine Regions",
+    "ImagePath": "https://tripmasters-pictures.s3.amazonaws.com/images/apkg/71/italy_-_food_-_tuscany-4283743-500.jpg",
+    "UrlPath": "/wine_regions_of_europe/multicountry/vacations"
+  },
+  {
+    "Title": "The Mediterranean",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages1/france/nice-frenchriiviera-500.jpg",
+    "UrlPath": "/mediterranean/multicountry/vacations"
+  },
+  {
+    "Title": "Best European Train Trips",
+    "ImagePath": "https://tripmasters-pictures.s3.amazonaws.com/images/apkg/78/st_mortiz_-_bernina_express-1004607-500.jpg",
+    "UrlPath": "/best_european_train_trips/multicountry/vacations"
+  },
+  {
+    "Title": "The Adriatic Sea",
+    "ImagePath": "https://pictures.tripmasters.com/images/apkg/12952/montenegro_coast_-_budva_old_town_beach-1144514-500.jpg",
+    "UrlPath": "/the_adriatic_sea/multicountry/vacations"
+  },
+  {
+    "Title": "London-Paris and Beyond",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages/unitedkingdom/london-housesoftheparliament500.jpg",
+    "UrlPath": "/london_-_paris_and_beyond/multicountry/vacations"
+  },
+  {
+    "Title": "Eastern Europe",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages1/czech_republic/prague-citydayview-500.jpg",
+    "UrlPath": "/eastern_europe/multicountry/vacations"
+  },
+  {
+    "Title": "Northern Europe",
+    "ImagePath": "https://pictures.tripmasters.com/images/packages/norway/oslo-bygdoy200.jpg",
+    "UrlPath": "/northern_europe/multicountry/vacations"
+  }
+]

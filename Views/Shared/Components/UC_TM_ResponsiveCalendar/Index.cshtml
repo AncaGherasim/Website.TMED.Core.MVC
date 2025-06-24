@@ -1,0 +1,443 @@
+﻿@using Microsoft.Extensions.Options
+@using MVC_TMED.Infrastructure;
+@inject IOptions<AppSettings> _appsettings
+
+
+<!-- Calendar -->
+<div class="main-calendar">
+<!-- MAIN CALENDAR CONTAINER -->
+<div class="dvMcompList">
+        <form id="formToBooking" name="formToBooking" method="post">
+        <input type="hidden" name="iRoom" id="iRoom" value="" />
+        <input type="hidden" name="Rooms" id="Rooms" value="" />
+        <!-- *** Standard Control *** -->
+        <input type="hidden" name="SystemID" id="SystemID" value="">
+        <input type="hidden" name="GeneralLoc" id="GeneralLoc" value="@_appsettings.Value.ApplicationSettings.GeneralLoc" />
+        <input type="hidden" name="bFirst" id="bFirst" value="@_appsettings.Value.ApplicationSettings.bFirst" />
+        <input type="hidden" name="PkgId" id="PkgId" value="">
+        <!-- **** NEW PARAMETER FROM WEB SERVISE RESPONSE -->
+        <input type="hidden" name="PackageComponentList" id="PackageComponentList" value="" />
+        <!-- VALUES = "" TO RESOLVE ON ASP -->
+        <input type="hidden" name="sortFlag" id="sortFlag" value="P" />
+        <input type="hidden" name="MinStay" id="MinStay" value="4" />
+        <input type="hidden" name="MaxStay" id="MaxStay">
+        <input type="hidden" name="ByStayNite" id="ByStayNite" value="" />
+        <input type="hidden" name="GetNextDay" id="GetNextDay" value="" />
+        <!-- API(s) FOR SS, TIC and Transfer -->
+        <input type="hidden" name="SSVendorAPI" id="SSVendorAPI" value="" />
+        <input type="hidden" name="TransferVendorAPI" id="TransferVendorAPI" value="" />
+        <input type="hidden" name="PickUpTime" id="PickUpTime">
+        <input type="hidden" name="DropOffTime" id="DropOffTime">
+        <input type="hidden" name="PickUpTime2" id="PickUpTime2">
+        <input type="hidden" name="DropOffTime2" id="DropOffTime2">
+        <!-- CAR -->
+        <input type="hidden" name="CarVendorAPI" id="CarVendorAPI" value="" />
+        <input type="hidden" name="addCar" id="addCar" value="True" />
+        <!-- TRAIN INPUT name=TICVendorAPI type=hidden value="TX1" -->
+        <input type="hidden" name="TICVendorAPI" id="TICVendorAPI" value="" />
+        <!--TX1-->
+        <!-- *** Air Parameter  -->
+        <input type="hidden" name="addFlight" id="addFlight" value="False" />
+        <input type="hidden" name="AirVendorAPI" id="AirVendorAPI" value="" />
+        <input type="hidden" name="Cabin" id="Cabin" value="" />
+        <input type="hidden" name="iAirPref" id="iAirPref" />
+        <input type="hidden" name="iDepCity" id="iDepCity" value="" />
+        <input type="hidden" name="iRetCity" id="iRetCity" value="" />
+        <!-- Air Transfer Point2Point -->
+        <input type="hidden" name="AirP2PVendorAPI" id="AirP2PVendorAPI" value="" />
+        <input type="hidden" name="iOutTime" id="iOutTime" value="@_appsettings.Value.ApplicationSettings.iOutTime" />
+        <input type="hidden" name="iInTime" id="iInTime" value="@_appsettings.Value.ApplicationSettings.iInTime" />
+        <input type="hidden" name="addTransfer_IC" id="addTransfer_IC" value="True" />
+        <!-- City S and E -->
+        <input type="hidden" name="StayCityS" id="StayCityS" value="">
+        <input type="hidden" name="StayCityS_Name" id="StayCityS_Name" value="" />
+        <input type="hidden" name="StayCityE" id="StayCityE" value="" />
+        <input type="hidden" name="StayCityE_Name" id="StayCityE_Name" value="" />
+        <!-- GENERAL -->
+        <input type="hidden" name="PkgInstance" id="PkgInstance" value="0" />
+        <input name="utm_campaign" type="hidden" id="utm_campaign" value="" />
+        <input type="hidden" id="goingDep" name="goingDep" value="" />
+        <!-- PAX INFO -->
+        <input type="hidden" name="iRoomsAndPax" id="iRoomsAndPax" value="" />
+        <input type="hidden" name="iAdults" id="iAdults" value="">
+        <input type="hidden" name="iChildren" id="iChildren" value="" />
+        <input type="hidden" name="iChild1" id="iChild1" value="">
+        <input type="hidden" name="iChild2" id="iChild2" value="">
+        <input type="hidden" name="iChild3" id="iChild3" value="">
+        <input type="hidden" name="iChild4" id="iChild4" value="">
+        <input type="hidden" name="Room2_iAdults" id="Room2_iAdults" value="" />
+        <input type="hidden" name="Room2_iChildren" id="Room2_iChildren" value="">
+        <input type="hidden" name="Room2_iChild1" id="Room2_iChild1" value="">
+        <input type="hidden" name="Room2_iChild2" id="Room2_iChild2" value="">
+        <input type="hidden" name="Room2_iChild3" id="Room2_iChild3" value="">
+        <input type="hidden" name="Room2_iChild4" id="Room2_iChild4" value="">
+        <input type="hidden" name="Room3_iAdults" id="Room3_iAdults" value="" />
+        <input type="hidden" name="Room3_iChildren" id="Room3_iChildren" value="">
+        <input type="hidden" name="Room3_iChild1" id="Room3_iChild1" value="">
+        <input type="hidden" name="Room3_iChild2" id="Room3_iChild2" value="">
+        <input type="hidden" name="Room3_iChild3" id="Room3_iChild3" value="">
+        <input type="hidden" name="Room3_iChild4" id="Room3_iChild4" value="">
+        <!-- GIVendorAPI -->
+        <input type="hidden" id="GIVendorAPI" name="GIVendorAPI" value="@_appsettings.Value.ApplicationSettings.GIVendorAPI" />
+    </form>
+</div>
+<div id="dvTransOptResp">
+    <div id="dvOptions"></div>
+</div>
+
+<div class="backdrop is-hidden" id="transpCalendar">
+    <div class="transportation modal__wrapper">
+    <div id="dvTranspError"  style="display: none">
+        <div>         
+            <button class="goToStartAgain" type="button" >Back</button>
+            <p>Error</p> 
+        </div>
+        <div>
+            <p>We can not build an itinerary with:</p>
+            <ul id="sptrancities">
+            </ul>
+            <p>please try another combination.</p>
+        </div>
+    </div>
+    <!--- START - Transp Option --->
+    <div>
+        <!-- Calendar Title  -->
+        <div class="transportation__title">
+            <div>
+                <button class="goToStartAgain" type="button" >Back</button>
+                <button class="goToStartAgain" type="button">Start again</button>
+            </div>
+            <div>Multiple Cities</div>
+            <div>
+                <button id="btnBackDsk" class="transporation__button-close" type="button"><span>&#10006;</span> Close </button>
+            </div>
+        </div>
+
+        <!-- Calendar Air parameters  -->
+        <div>
+            <form class="transportation__form" id="frmTransp" method="post" name="frmTransp">
+                <div id="dvWaitGlobe">
+                    <div><img src="https://pictures.tripmasters.com/siteassets/d/world-globe-animated-ajax-loaders.gif"/></div>
+                </div>
+                <input type="hidden" id="xgoingID" name="xgoingID" value="" />
+                <div class="transportation__wrapper">
+                    <div class="transportation__info">
+                    <div>
+                        <span>Leaving from:</span>
+                        <span id="xtxtLeavingFromSpan"></span>
+                        <input id="xtxtLeavingFrom" type="hidden" value="" name="xtxtLeavingFrom" readonly/>
+                        <input name="xidLeavingFrom" type="hidden" id="xidLeavingFrom" value="" />
+                        <input name="xaddFlight" type="hidden" id="xaddFlight" value="False" />
+                    </div>
+                    <div>
+                        <span>Cabin Class:</span>
+                        <span id="txtCabin">
+                        </span>
+                        <input type="hidden" name="xCabin" id="xCabin" value="" />
+                        <input name="xtxtBYArriving" id="xtxtBYArriving" style="text-align: center" value="" type="hidden">
+                    </div>
+                    <div>
+                        <span style="font-size: 10px;">Arriving on</span>
+                        <p id="arrivalDate"></p>
+                    </div>
+                    </div>
+                    <!-- Cities list titles -->
+                    <div id="transLabels">
+                        <div class="transportation__desk-list-titles">
+                            <div>
+                                <div>Going to:</div>
+                                <div>Arriving on:</div>
+                                <div>Number of nights:</div>
+                            </div>
+                            <div>Travel by:</div>
+                        </div>
+                        <div class="transportation__mob-list-titles">Going to:</div>
+                    </div>
+                    <!-- PAX Rooms parameters -->
+                    <div class="transportation__rooms">
+                        <input type="hidden" name="xiRoom" id="xiRoom" value="1">
+                        <input type="hidden" name="xRooms" id="xRooms" value="1">
+                        <label for="xiRoomsAndPax">Guest:
+                            <select class="main-calendar__appearance" name="xiRoomsAndPax" id="xiRoomsAndPax" onchange="selectRoomPax(this.value)">
+                                <optgroup label=" ">
+                                    <option value="1|1">1 room for 1 adult</option>
+                                    <option value="1|2" selected>1 room for 2 adults</option>
+                                    <option value="1|3">1 room for 3 adults</option>
+                                    <option value="1|Other">1 room with children or other options</option>
+                                </optgroup>
+                                <optgroup label=" ">
+                                    <option value="2|2-2">2 rooms for (2 adults + 2 adults)</option>
+                                    <option value="2|3-3">2 rooms for (3 adults + 3 adults)</option>
+                                    <option value="2|Other">2 rooms with children or other options</option>
+                                </optgroup>
+                                <optgroup label=" ">
+                                    <option value="3|2-2-2">3 rooms for (2 adults + 2 adults + 2 adults)</option>
+                                    <option value="3|Other">3 rooms with children or other options</option>
+                                </optgroup>
+                            </select>
+                            <div class="main-calendar__arrow">›</div>
+                        </label>
+                    </div>
+                    @{
+                        string paxAdults = "";
+                        for (Int32 p = 0; p <= 6; p++)
+                        {
+                            if (p == 0)
+                            {
+                                paxAdults = paxAdults + "<option value=\"" + p + "\" selected>" + p + "</option>";
+                            }
+                            if (p != 0)
+                            {
+                                paxAdults = paxAdults + "<option value=\"" + p + "\">" + p + "</option>";
+                            }
+                        }
+                        string paxChild = "";
+                        for (Int32 d = 0; d <= 2; d++)
+                        {
+                            if (d == 0)
+                            {
+                                paxChild = paxChild + "<option value=\"" + d + "\" selected>" + d + "</option>";
+                            }
+                            if (d > 0)
+                            {
+                                paxChild = paxChild + "<option value=\"" + d + "\">" + d + "</option>";
+                            }
+                        }
+                        string childAge = "";
+                        for (Int32 c = 1; c <= 11; c++)
+                        {
+                            if (c == 1)
+                            {
+                                childAge = childAge + "<option value=\"-1\" selected></option>";
+                            }
+                            if (c == 2)
+                            {
+                                childAge = childAge + "<option value=\"" + c + "\">" + c + "</option>";
+                            }
+                            if (c > 2)
+                            {
+                                childAge = childAge + "<option value=\"" + c + "\">" + c + "</option>";
+                            }
+                        }
+                    }
+                    <div class="transportation__rooms-settings">
+                        <p id="pPaxLabels">
+                            <span>&nbsp;</span> <span>Adults:</span> <span>Children:</span> <span id="pChildAges">Child Ages:</span>
+                        </p>
+                        <p id="pRoom1">
+                            <span>Room1:</span> <span>
+                                <select name="xiAdults" id="xiAdults" onchange="changeAdults(this)">
+                                    @Html.Raw(@paxAdults)
+                                </select>
+                            </span><span>
+                                       <select name="xiChildren" id="xiChildren" onchange="childAge(this)">
+                                           @Html.Raw(@paxChild)
+                                       </select>
+                            </span><span id="pChildAges1">
+                                <label for="xiChild1">Child age 1:
+                                    <select name="xiChild1" id="xiChild1">
+                                        @Html.Raw(@childAge)
+                                    </select>
+                                </label>
+                                <label for="xiChild2">Child age 2:
+                                    <select name="xiChild2" id="xiChild2">
+                                        @Html.Raw(@childAge)
+                                    </select>
+                                </label>                      
+                            </span>
+                        </p>
+                        <p id="pRoom2">
+                            <span>Room2:</span> <span>
+                                <select name="xRoom2_iAdults" id="xRoom2_iAdults" onchange="changeAdults(this)">
+                                    @Html.Raw(@paxAdults)
+                                </select>
+                            </span><span>
+                                <select name="xRoom2_iChildren" id="xRoom2_iChildren" onchange="childAge(this)">
+                                    @Html.Raw(@paxChild)
+                                </select>
+                            </span><span id="pChildAges2">
+                                <label for="xRoom2_iChild1">Child age 1:
+                                    <select name="xRoom2_iChild1" id="xRoom2_iChild1">
+                                        @Html.Raw(@childAge)
+                                    </select>
+                                </label>
+                                <label for="xRoom2_iChild2">Child age 2:
+                                    <select name="xRoom2_iChild2" id="xRoom2_iChild2">
+                                        @Html.Raw(@childAge)
+                                    </select>
+                                </label>
+                            </span>
+                        </p>
+                        <p id="pRoom3">
+                            <span>Room3:</span> <span>
+                                <select name="xRoom3_iAdults" id="xRoom3_iAdults" onchange="changeAdults(this)">
+                                    @Html.Raw(@paxAdults)
+                                </select>
+                            </span><span>
+                                <select name="xRoom3_iChildren" id="xRoom3_iChildren" onchange="childAge(this)">
+                                    @Html.Raw(@paxChild)
+                                </select>
+                            </span><span id="pChildAges3">
+                                <label for="xRoom3_iChild1">Child age 1:
+                                    <select name="xRoom3_iChild1" id="xRoom3_iChild1">
+                                        @Html.Raw(@childAge)
+                                    </select>
+                                </label>
+                                <label for="xRoom3_iChild2">Child age 2:
+                                    <select name="xRoom3_iChild2" id="xRoom3_iChild2">
+                                        @Html.Raw(@childAge)
+                                    </select>
+                                </label>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="transportation__text">Please contact us for any special arrangements such as more than three rooms and partial stays.</div>
+                </div>
+                <div class="transportation__button-wrapper">
+                    <div class="transportation__button">
+                        <button id="btnContinue" type="button">CONTINUE</button>
+                        <button id="btnEdit" type="button">Edit/Start Again</button>
+                    </div>
+                </div>
+                <div class="transportation__back">
+                    <button id="btnBack" type="button">Back</button>
+                </div>
+                <input name="xutm_campaign" type="hidden" id="xutm_campaign" value="" />
+            </form>
+        </div>
+    </div>
+
+    <!--- END - Transp Option --->
+
+</div>
+</div>
+
+
+<div id="dvMainCont" class="main-calendar__wrapper">
+    <!-- ALL CALENDAR CONTAINER -->
+    <div>
+        <!-- CALENDAR BYOTOOLS -->
+        <div id="dvbCalByoTools">
+            <form id="formBYO" name="formBYO" method="post" class="main-calendar__form">
+                <div class="main-calendar__flights">
+                   <span>Add Outbound & Return Flights</span>
+                   <div>
+                       <label>
+                           <input id="updateFlightToTrue" type="radio" name="flights" value="True" onclick="updateFlight(this)" checked />
+                           Yes
+                       </label>
+                       <label>
+                                <input id="updateFlightToFalse" type="radio" name="flights" value="False" onclick="updateFlight(this)" />
+                           No
+                       </label>
+                   </div>
+                   <input id="qWair" name="qWair" type="hidden" value="True" />
+                </div>
+                <!-- AIR Param -->
+                <div id="AirParam">
+                    <label class="main-calendar__cabin">
+                        <select class="main-calendar__appearance" id="qCabinOpt" name="qCabinOpt">
+                            <option value="Y" selected="selected">Economy</option>
+                            <option value="W">Premium Economy</option>
+                            <option value="C">Business</option>
+                            <option value="F">First Class</option>
+                        </select>
+                        <div class="main-calendar__arrow">›</div>
+                    </label>
+                    <div class="main-calendar__leaving">
+                        <label>
+                            <span>Leaving from</span>
+                            <span class="material-icons material-symbols-outlined">location_on</span>
+                            <input id="qLeaveNA" type="text" name="qLeaveNA" placeholder="City or airport" value="">
+                        </label>
+                        <input name="qLeaveID" type="hidden" id="qLeaveID" value="-1">
+                        <input name="qLeaveCO" type="hidden" id="qLeaveCO" value="-1"/>
+                    </div>            
+                </div>
+                <!-- End AIR Param -->
+                <!-- city 1 -->
+                <div id="dvCity1" class="main-calendar__city-settings">
+                    <div>
+                        <label>
+                            <span class="material-icons material-symbols-outlined">location_on</span>
+                            <input id="qNACity1" type="text" name="qNACity1" value="" placeholder=" "/>
+                            <span>Going to <span>(City name)</span></span>
+                        </label>
+                        <input type="hidden" name="qIDCity1" id="qIDCity1" value="-1" />
+                        <input name="qCOCity1" type="hidden" id="qCOCity1" value="" />
+                        <input name="qAPICity1" type="hidden" id="qAPICity1" value="" />
+                    </div>
+                    <div id="dateWrapper">
+                        @{ 
+                            string dateVal = "mm/dd/yyyy";
+                            dateVal = DateTime.Today.AddDays(90).ToShortDateString();
+                        }
+                        <label>
+                                <span id="dateLabel">Arrival date on your first city</span>
+                            <span class="material-icons material-symbols-outlined">today</span>
+                            <input class="main-calendar__appearance" type="text" name="qArrDate" id="qArrDate" value="@dateVal" readonly lang="dvDomy" />
+                            <div class="main-calendar__arrow">›</div>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <span>No of nights</span>
+                            <span class="material-icons material-symbols-outlined">schedule</span>
+                            <select class="main-calendar__appearance" name="qSTCity1" id="qSTCity1">
+                                <option value="1">1 night</option>
+                                <option value="2">2 nights</option>
+                                <option value="3" selected >3 nights</option>
+                                <option value="4">4 nights</option>
+                                <option value="5">5 nights</option>
+                                <option value="6">6 nights</option>
+                                <option value="7">7 nights</option>
+                                <option value="8">8 nights</option>
+                                <option value="9">9 nights</option>
+                                <option value="10">10 nights</option>
+                                <option value="11">11 nights</option>
+                                <option value="12">12 nights</option>
+                                <option value="13">13 nights</option>
+                                <option value="14">14 nights</option>
+                            </select>
+                            <div class="main-calendar__arrow">›</div>
+                        </label>                      
+                    </div>
+                </div>
+                <!-- end city 1 -->
+                <input id="qgoingID" type="hidden" name="qgoingID" value="" />
+                <input name="qutm_campaign" type="hidden" id="qutm_campaign" value="" />
+            </form>
+        </div>
+        <!-- END CALENDAR BYOTOOLS -->
+        <!-- CALANDAR FIND TOOLS dvbCalByoTool-->
+        <div class="main-calendar__tool" id="dvbCalFindTools">
+            <form id="FormFIND" name="FormFIND" method="post">
+                <!-- city 1 -->
+                <div id="dvFCity1">
+                    <div>
+                        <label for="qFNACity1">Going To:</label>
+                        <input type="hidden" id="goingFID" value="TMLD" />
+                        <input type="text" name="qFNACity1" id="qFNACity1" value="type city name here" />
+                        <input name="qFIDCity1" type="hidden" id="qFIDCity1" value="-1" />
+                    </div>
+                </div>
+                <!-- end city 1 -->
+                <input type="hidden" id="allID" value="">
+                <input type="hidden" id="allNA" value="">
+            </form>
+        </div>
+        <!-- END CALANDAR FIND TOOLS -->
+        <!-- BUTTONS -->
+        <div class="main-calendar__add-dest">
+            <button type="button" class="addCity" id="1,2"><span>+</span>ADD DESTINATION</button>
+        </div>
+        <div class="main-calendar__next">
+            <button type="button" id="inpNoMore">NEXT</button>
+        </div>
+        <!-- END BUTTONS -->
+    </div>
+    <!-- END ALL CALENDAR CONTAINER -->
+</div>
+<!-- END MAIN CALENDAR CONTAINER -->
+        </div>
+        <!-- End Calendar -->

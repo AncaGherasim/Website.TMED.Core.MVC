@@ -1,0 +1,137 @@
+﻿@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+
+@{
+    if (ViewBag.PageType == "1")
+    {
+        string prodCOU = "";
+        string prodTitle = "";
+        string prodInclude = "";
+        string prodDescription = "";
+        string prodPlace = "";
+        Int32 prodcount = 1;
+        Int32 prodID;
+        for (Int32 pak = 0; pak <= ViewBag.TotalPackInfo - 1; pak++)
+        {
+            prodcount = prodcount + 1;
+            prodID = ViewBag.dvPackInfo[pak].PDLID;
+            prodTitle = ViewBag.dvPackInfo[pak].Title;
+            prodInclude = ViewBag.dvPackInfo[pak].Includes;
+            prodDescription = ViewBag.dvPackInfo[pak].PackDescription;
+            prodPlace = ViewBag.dvPackInfo[pak].CityNA;
+
+            <link href="https://146b65acb8258ea88ef1-ab69b9a548641b277c6b57bb3234eade.ssl.cf2.rackcdn.com/TMASLib_Site/css/CSS_TMAS_CountryPg.css?v=01072014" rel="stylesheet" type="text/css">
+
+            <div style="PADDING-LEFT: 15px; FONT-SIZE: 10px; PADDING-BOTTOM: 10px; WIDTH: 400px; PADDING-TOP: 5px;">
+                <table width="98%" border="0" align="center" cellpadding="4" cellspacing="0" class="HOT_BgContent">
+                    <tr>
+                        <td valign="top" class="Text_12">
+                            @Html.Raw(@prodDescription)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" class="Text_12">
+                            <div class="Text_12_Bold">Included:</div>
+                            @{
+                                string[] includedList = prodInclude.Split("\r\n");
+                                for (Int32 incl = 0; incl <= includedList.Length - 1; incl++)
+                                {
+                                    @Html.Raw("<div class=\"Arial11_Black\" style=\"padding:2px 2px;\">&bull;  " + includedList[incl] + "</div>")
+                                }
+                            }
+                        </td>
+
+                    </tr>
+                    <tr align="right">
+                        <td valign="top" class="Text_12"><a href=@String.Format("{0}/{1}/{2}/package-{3}", _appsettings.CurrentValue.ApplicationSettings.SiteName, ViewBag.dvPackInfo[pak].CountryName.Replace(" ", "_"), prodTitle.Replace(" ", "_"), prodID)> <u>More info and Customize it!</u> </a></td>
+                    </tr>
+                </table>
+                <div class="Text_11" align="left" style="PADDING:5px 0px 5px 10px;">
+
+                    @*<a href="/europe/<%=replace(IntCountry," "," _")%>_CFB<%=prodID%>_<%=replace(prodTitle," ","_")%>.aspx"><u>Customer feedback (<%=TotPCustFeed%>)</u> <img src="https://pictures.tripmasters.com/siteassets/d/CustFeed_Mini.jpg" border="0" align="absmiddle"></a>*@
+                </div>
+                <div id = @String.Format("feed{0}", prodID) style = "z-index:101; overflow:visible; display:none; WIDTH:605px; POSITION:absolute; right:380px" >
+
+                <div style = "PADDING-RIGHT:2px; PADDING-LEFT:0px; PADDING-BOTTOM:2px; PADDING-TOP:0px; BACKGROUND-COLOR:#e1e1e1" >
+                <div style = "BORDER-RIGHT:navy 1px solid; BORDER-TOP:navy 1px solid; LEFT:-3px; padding:20px 20px; BORDER-LEFT:navy 1px solid;  BORDER-BOTTOM:navy 1px solid; POSITION:relative; TOP:-3px; BACKGROUND-COLOR:#ffffff" >
+                <div style = "PADDING-RIGHT:5px;" align = "right" > <a HREF = "#" onClick = @String.Format("hidePopup({0});return false;", prodID) > <span class= "Orange-Arial12" > Close X </span > </a> </div>
+                <div id = @String.Format("feedControls{0}", prodID) style = "display:none; padding: 0 0 15px 0;" >
+                <table width = "100" border = "0" align = "center" cellpadding = "0" cellspacing = "0" >
+                <tr>
+                                        <td style="PADDING-RIGHT:5px; PADDING-LEFT:5px; PADDING-BOTTOM:5px; PADDING-TOP:5px"><img src="https://pictures.tripmasters.com/siteassets/d/Back.gif" border="0" align="absMiddle" onClick="Hfeedbackward()"> </td>
+                <td style = "PADDING-RIGHT:5px; PADDING-LEFT:5px; PADDING-BOTTOM:5px; PADDING-TOP:5px" class= "Text_12_Bold" ><div style = "FLOAT:left" align = "right" > <span id = @String.Format("HfeedNo{0}", prodID) > 1 </span>/ <span id = @String.Format("feedTot{0}", prodID) > </span> </div></td>
+                                        <td style="PADDING-RIGHT:5px; PADDING-LEFT:5px; PADDING-BOTTOM:5px; PADDING-TOP:5px"><img src="https://pictures.tripmasters.com/siteassets/d/Forward.gif" border="0" align="absMiddle" onClick="Hfeedforward()"> </td>
+                </tr>
+                </table>
+                </div>
+                <div id = @String.Format("cont{0}", prodID) > </div>
+                </div>
+                </div>
+                </div>
+                <div class= "Text_11" align = "left" style = "PADDING:0px 0px 5px 10px;" >
+                <table width = "98%" border = "0" align = "center" cellpadding = "0" cellspacing = "0" class= "Text_11" >
+                <tr>
+                <td><font color = "#666666" > Related destinations:</font></td>
+                </tr>
+                <tr>
+                <td class= "relPacks" >
+                @{
+                    for (Int32 des = 0; des <= ViewBag.TotRelPack - 1; des++)
+                    {
+                            if (ViewBag.dvRelPack[des].str_placetypeid == 6)
+                {
+                    <a href=@String.Format("{0}/Area/{1}/vacations", _appsettings.CurrentValue.ApplicationSettings.SiteName, ViewBag.dvRelPack[des].PlaceTitle.Replace(" ", "_"))><u> @ViewBag.dvRelPack[des].PlaceTitle (@ViewBag.dvRelPack[des].NoOfPacks)</u></a>@Html.Raw("&nbsp; &nbsp;")
+                }
+                else
+                {
+                        <a href = @String.Format("{0}/{1}/Vacations", _appsettings.CurrentValue.ApplicationSettings.SiteName, ViewBag.dvRelPack[des].PlaceTitle.Replace(" ", "_")) ><u> @ViewBag.dvRelPack[des].PlaceTitle (@ViewBag.dvRelPack[des].NoOfPacks) </u></a> @Html.Raw("&nbsp; &nbsp;")
+
+                        }
+                    }
+                }
+                </td>
+                </tr>
+                </table>
+                    <div style="padding:5px 3px 5px 3px; "><img src="https://pictures.tripmasters.com/siteassets/d/separator_choice.gif"></div>
+            </div>
+            </div>
+
+
+        }
+    }
+    else
+    {
+        Int32 minPackID = 0;
+        string minPackNA = "";
+        string embDates = "";
+        for (Int32 ship = 0; ship <= ViewBag.TotalPackInfo - 1; ship++)
+        {
+            minPackID = ViewBag.dvPackInfo[ship].PDLID;
+            minPackNA = ViewBag.dvPackInfo[ship].Title;
+            minPackNA = minPackNA.Substring(minPackNA.IndexOf("_") + 1);
+            if (ViewBag.dvPackInfo[ship].PackDescription != null)
+            {
+                embDates = ViewBag.dvPackInfo[ship].PackDescription;
+            }
+            else
+            {
+                embDates = "";
+            }
+        }
+        string[] y = embDates.Split(".");
+        <div style="padding:3px 3px 3px 20px; ">@y[0].</div>
+        <div style="padding:3px 3px 1px 20px; ">
+        </div>
+        <div style="padding:5px 3px 1px 20px; ">
+            <a href=@String.Format("{0}/Itinerary_mpk{1}_{2}.aspx", _appsettings.CurrentValue.ApplicationSettings.SiteName, minPackID, minPackNA)>
+                @*<u>see more details</u>*@
+            </a>
+        </div>
+
+    }
+}

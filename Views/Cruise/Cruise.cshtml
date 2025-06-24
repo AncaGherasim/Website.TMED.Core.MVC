@@ -1,0 +1,285 @@
+﻿@model MVC_TMED.Models.ViewModels.CruiseViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options;
+@using System.Globalization;
+@inject IOptionsMonitor<AppSettings> _appsettings
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+@{
+    if (ViewBag.Mobile == 0)
+    {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/cruise/dt.style.cruise.css"/>
+        <link rel="stylesheet" href="~/css/hotel/dt.style.hotelPage.css" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/cruise/dt.style.cruise.css" />
+        <link rel="stylesheet" href="~/css/hotel/dt.style.hotelPage.min.css" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+
+    }
+    else
+    {
+<environment include="Development">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://146b65acb8258ea88ef1-ab69b9a548641b277c6b57bb3234eade.ssl.cf2.rackcdn.com/TMASLib_Site/css/CSS_CruisePage.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/css/hotel/dt.style.hotelPage.css" />
+</environment>
+<environment exclude="Development">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="https://146b65acb8258ea88ef1-ab69b9a548641b277c6b57bb3234eade.ssl.cf2.rackcdn.com/TMASLib_Site/css/CSS_CruisePage.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="~/css/hotel/dt.style.hotelPage.min.css" />
+</environment>
+    }
+}
+
+@section Scripts
+    {
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/cruise/dt.java.cruise.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/cruise/dt.java.cruise.js" asp-append-version="true"></script>
+    </environment>
+
+}
+
+@section Styles {
+
+    <style type="text/css">
+        .table {
+            width: 980px !important;
+            margin-bottom: unset !important;
+        }
+
+        .secTopHeader {
+            height: 140px !important;
+        }
+
+        .destLinks {
+            position: relative !important;
+            top: 9px !important;
+        }
+
+        .searchBox input[type="text"] {
+            width: 87% !important
+        }
+
+        .dvContainer {
+            width: 980px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+
+        .dvMapCanvas {
+            overflow: hidden !important;
+        }
+
+        .table {
+            max-width: 980px !important;
+        }
+
+        .destLinks {
+            top: -20px !important
+        }
+
+        .input.searchBox {
+            height: 38px !important
+        }
+    </style>
+}
+
+@{
+    <script>var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName' </script>
+}
+
+<div class="container-fluid dvpageContainer bg-white pl-0 pr-0">
+    <div class="row mx-auto dvhotelTitle">
+        <span class="col-6 hotelsDetails">@Model.PlaceName.Replace("_", " ") Cruises <font size="3">- Ships and Itineraries</font></span>
+        <span class="col-6 sphotelsNav">
+            <a href="/">Home</a> | @Model.PlaceName.Replace("_", " ") Cruises
+        </span>
+    </div>
+    <div class="row mx-auto pt-4 ">
+        <div class="col-12 pr-0 pl-0">
+            <div class="row mx-auto pl-3 pr-3  dvhotelContainer2">
+                @Html.Raw(Model.intContent.Replace("\r\n", "</br>"))
+            </div>
+            <div class="row mx-auto pt-3 pb-3 dvhotelContainer">
+                <div class="container-fluid pl-0 pr-0">
+                    <div class="col-12 pr-1 pl-1 ">
+                        @{
+                            string shipNaCo = "";
+                            string shipAnchor;
+                            for (int i = 0; i <= Model.TotalAllCruise - 1; i++)
+                            {
+                                if (Model.listAllCruise[i].PDL_SpecialCode != shipNaCo)
+                                {
+                                    shipAnchor = Model.listAllCruise[i].SCD_CodeTitle;
+                                    shipAnchor = shipAnchor.Replace("/", "").Replace(" ", "_");
+
+                                    <div class="row mx-auto AreaItin_Section_2 Bx_Title_C">
+                                        @Model.listAllCruise[i].PDL_SpecialCode
+                                    </div>
+
+                                    <div class="row mx-auto">
+                                        <div class="col">
+                                            <img src=@String.Format("https://pictures.tripmasters.com{0}", @Model.listAllCruise[i].IMG_Path_URL.ToLower()) />
+                                            <div style="margin-top:5px;">
+                                                @{
+                                                    var a = @Model.listAllCruise[i].SCD_CodeTitle;
+                                                    var b = Model.listAllCruise[i].IMG_Path_URL;
+
+                                                    var c = "showPics(this.id, '" + a + "', '" + b + "')";
+
+                                                    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(c);
+                                                    var d = System.Convert.ToBase64String(plainTextBytes);
+                                                }
+                                                <a id=@String.Format("anchor{0}", @Model.listAllCruise[i].PDLID) onClick="@c" href="#" class="Text_Arial12">
+                                                    See all photos
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div style="height:auto;">@Html.Raw(@Model.listAllCruise[i].AAT_Overall)</div>
+                                            @{
+                                                string packDIV = "<div>";
+                                                List<CruisePacks> listPacks = Model.listNoFilterCruise.FindAll(x => x.PDL_SpecialCode.Contains(@Model.listAllCruise[i].PDL_SpecialCode) && x.SPD_StarRatingSysCode != 541);
+                                                if (listPacks.Count > 0)
+                                                {
+                                                    //packsOnShip
+                                                    for (Int32 p = 0; p <= listPacks.Count - 1; p++)
+                                                    {
+                                                        string col;
+                                                        Int32 color = p % 2;
+                                                        if (color == 0)
+                                                        {
+                                                            col = "#EAF2FF";
+                                                        }
+                                                        else
+                                                        {
+                                                            col = "#FFFFFF";
+                                                        }
+                                                        if (p == 4)
+                                                        {
+                                                            packDIV = packDIV + "</div>";
+                                                            packDIV = packDIV + "<div id=\"lmore" + listPacks[p].PDLID + "\" align=\"right\" style=\"padding-right:10px\" class=\"Text_Arial11 myclass\"><span style=\"cursor:hand\" onclick=\"moreOpt('more" + listPacks[p].PDLID + "')\"><u>more options...</u></span></div>";
+                                                            packDIV = packDIV + "<div id=\"more" + listPacks[p].PDLID + "\" style=\"display:none\">";
+                                                        }
+                                                        packDIV = packDIV + "<div style=\"width:95%; padding:4px; background-color:" + col + "; margin-bottom:3px;\">";
+                                                        packDIV = packDIV + "<div style=\"float:left; width:5%; padding-top:3px;\" align=\"center\"><img id=\"pic" + listPacks[p].PDLID + "\" src=\"https://pictures.tripmasters.com/siteassets/d/Plus.jpg\" onClick=\"openInfo(" + listPacks[p].PDLID + ",this.src," + Model.PlaceID + ",1)\"></div>";
+                                                        packDIV = packDIV + "<div style=\"float:left; width:65%\" align=\"left\"><a id=\"anch" + listPacks[p].PDLID + "\" href=\"#\" class=\"Text_Arial12_navy\" onClick=\"openInfo(" + listPacks[p].PDLID + ",''," + Model.PlaceID + ",1);return false;\">" + listPacks[p].PDL_Title + "</a></div>";
+
+                                                        if (listPacks[p].STP_Price != 9999)
+                                                        {
+                                                            packDIV = packDIV + "<span class=\"Text_10_GrayBold\">" + listPacks[p].PDL_Duration + " nights from</span> <span class=\"Orange-Arial12\"><strong> " + @String.Format("{0:C0}", listPacks[p].STP_Save) + " </strong>*</span>";
+                                                        }
+                                                        else
+                                                        {
+                                                            packDIV = packDIV + "&nbsp;";
+                                                        }
+                                                        packDIV = packDIV + "</div>";
+                                                        packDIV = packDIV + "<div style=\"clear:both\"></div>";
+                                                        packDIV = packDIV + "<div id=\"divv" + listPacks[p].PDLID + "\" style=\"PADDING-RIGHT:1px;DISPLAY:none;PADDING-LEFT:10px;PADDING-BOTTOM:5px;PADDING-TOP:5px;margin-bottom:5px;\"></div>";
+
+                                                    }
+                                                    packDIV = packDIV + "</div>";
+
+
+                                                    <div class="Text_Arial14_navy" style="margin-top:10px;padding:3px 2px; "><b>Cruise & Land Vacation Packages</b></div>
+                                                    @Html.Raw(packDIV)
+                                                }
+                                            }
+                                        </div>
+                                        <div class="col">
+                                            <div class="Text_Arial12_navy" style="padding:3px 2px; "><b>Ship Itineraries, departure dates and more:</b></div>
+                                            @*//minisOnShip*@
+                                            @{
+                                                string minisDiv = "";
+                                                List<CruisePacks> listAllMinis = Model.listNoFilterCruise.FindAll(x => x.PDL_SpecialCode.Contains(@Model.listAllCruise[i].PDL_SpecialCode) && x.SPD_StarRatingSysCode == 541);
+                                                if (listAllMinis.Count > 0)
+                                                {
+                                                    for (Int32 m = 0; m <= listAllMinis.Count - 1; m++)
+                                                    {
+                                                        string miniNTs = "";
+                                                        Int32 intMin;
+                                                        string miniNA = listAllMinis[m].PDL_Title;
+                                                        for (Int32 j = 0; j <= miniNA.Length - 1; j++)
+                                                        {
+                                                            if (Int32.TryParse(miniNA.Substring(j, 1), out intMin))
+                                                            {
+
+                                                                miniNTs = miniNTs + intMin;
+                                                            }
+                                                        }
+
+
+                                                        string col;
+                                                        Int32 color = m % 2;
+                                                        if (color == 0)
+                                                        {
+                                                            col = "#EAF2FF";
+                                                        }
+                                                        else
+                                                        {
+                                                            col = "#FFFFFF";
+                                                        }
+                                                        minisDiv = minisDiv + "<div style=\"width:95%; padding:4px; background-color:" + col + "; margin-bottom:3px;\">";
+
+                                                        minisDiv = minisDiv + "<div style=\"float:left; width:5%; padding-top:3px; margin-right:3px;\" align=\"center\"><img id=\"pic" + listAllMinis[m].PDLID + "\" src=\"https://pictures.tripmasters.com/siteassets/d/Plus.jpg\" onClick=\"openInfo(" + listAllMinis[m].PDLID + ",this.src," + Model.PlaceID + ",2\")></div>";
+                                                        minisDiv = minisDiv + "<div style=\"float:left; width:90%\" align=\"left\"><a id=\"anch" + listAllMinis[m].PDLID + "\" href=\"#\" class=\"Text_Arial12_navy\" onClick=\"openInfo(" + listAllMinis[m].PDLID + ",\'\'," + Model.PlaceID + ",2)\")>" + miniNA + "</a></div>";
+                                                        minisDiv = minisDiv + "<div style=\"clear:both\"></div>";
+                                                        minisDiv = minisDiv + "</div>";
+                                                        minisDiv = minisDiv + "<div id=\"divv" + listAllMinis[m].PDLID + "\" style=\"PADDING-RIGHT:1px; DISPLAY:none; PADDING-LEFT:10px; PADDING-BOTTOM:5px; PADDING-TOP:5px; margin-bottom:5px;\"> </div>";
+
+                                                        if (listAllMinis.Count == 1)
+                                                        {
+                                                            minisDiv = minisDiv + "<script type=\"text/javascript\">";
+                                                            minisDiv = minisDiv + "var isOne = 1; ";
+                                                            minisDiv = minisDiv + "</script>";
+                                                        }
+                                                    }
+
+                                                    @Html.Raw(minisDiv)
+                                                }
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row mx-auto">
+                                        <div id=@String.Format("shipOverview{0}", @Model.listAllCruise[i].PDLID) style=" display:none;">
+                                            @{
+                                                if (@Model.listAllCruise[i].PDL_Notes != null)
+                                                {
+                                                    @Model.listAllCruise[i].PDL_Notes.Replace("http:", "https:")
+                                                }
+                                                else
+                                                {
+                                                    @Html.Raw("No Overview available at this time, please try later.")
+                                                                            }
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                shipNaCo = Model.listAllCruise[i].PDL_SpecialCode;
+                            }
+                        }
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div id="divPics" style="position:absolute; display:none;">
+    <div id="content" style="height:300px; width:500px;"><img src="https://pictures.tripmasters.com/siteassets/d/ajax-loader.gif" width="50" height="50"></div>
+</div>

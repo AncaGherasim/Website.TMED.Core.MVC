@@ -1,0 +1,586 @@
+﻿@model MVC_TMED.Views.ViewComponents.GP2_UC_LeftModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> _appsettings
+@{
+    <script>var SiteName = '@_appsettings.Value.ApplicationSettings.SiteName' </script>
+}
+@{
+    string rgxSeoSites = "\bbeach\b.|\blatin\b.|\beurope\b.|\basia\b.";
+    foreach (var bx in Model.leftDisplay)
+    {
+        Int32 boxOn = bx.SDP_GroupProdKindID;
+    <div class="dvRoundBoxes" id="@bx.SDP_GroupProdKindID">
+        @{
+            if (bx.SDP_DisplayTitle.ToLower() != "none")
+            {
+                if (bx.SDP_TitleBGColor.ToLower() == "color")
+                {
+                    @Html.Raw("<div class='dvBGboxTitleLft'><span>" + bx.SDP_DisplayTitle + "</span> </div>")
+                }
+                else
+                {
+                    @Html.Raw("<div class='Text_Arial14_BlueBold' style='padding:5px 0px;'><span class='Text_Arial14_BlueBold' style='padding:5px 0px;'>" + bx.SDP_DisplayTitle + "</span></div>")
+                        @Html.Raw(String.Format("<div align='center' style=margin - bottom:10px; position: relative; left: -5px; '><img src='https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg'></div>", _appsettings.Value.ApplicationSettings.SiteName))
+                }
+            }
+
+            switch (boxOn)
+            {
+                case 1883:
+                    string dvDisplay = "block";
+                    Int32 plC = 0;
+                    Decimal dec = Model.leftCountryCityList.Count / 4;
+                    Decimal mathCeil = Math.Ceiling(dec);
+                    @Html.Raw("<div id='dvmorecty' style='display:block'>")
+
+                    for (Int32 cy = 0; cy <= Model.leftCountryCityList.Count - 1; cy++)
+                    {
+                        if (Model.leftCountryCityList[cy].STR_PlaceTitle != "Popular Cities")
+                        {
+
+                            <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px; display:block">
+                                <a href=@String.Format("{0}/{1}/vacations",_appsettings.Value.ApplicationSettings.SiteName, @Model.leftCountryCityList[cy].STR_PlaceTitle.Replace(" ","_").ToLower())>
+                                    @Model.leftCountryCityList[cy].STR_PlaceTitle
+                                </a>&nbsp;&nbsp;
+                                <img id=@String.Format("{0}", Model.leftCountryCityList[cy].STR_PlaceID) src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="9" height="9" align="absmiddle" onclick=@String.Format("dvOpenMain('{0}');", Model.leftCountryCityList[cy].STR_PlaceID) style="cursor:pointer;" />
+                            </div>
+                            <div id=@String.Format("dv{0}", Model.leftCountryCityList[cy].STR_PlaceID) style="display:none; border:1px solid black; padding:5px; background-color:#FFF; width:300px; position:absolute; z-index:100;">
+                                <div align="right" class="Text_12_Gray" style="padding:3px 10px"><span style="cursor:pointer" onclick=@String.Format("dvCloseMain('dv{0}')", Model.leftCountryCityList[cy].STR_PlaceID)>close X</span></div>
+                                <div class="Text_Arial11_BlueBold" style="padding: 3px 10px 3px 10px"> @Model.leftCountryCityList[cy].STR_PlaceTitle</div>
+                                <div style="padding:10px;font-size:13px">@Html.Raw(Model.leftCountryCityList[cy].STR_PlaceShortInfo)</div>
+                            </div>
+
+                            if (plC == 6)
+                            {
+                                cy = Model.leftCountryCityList.Count - 1;
+                                <div class="Text_12" style="margin:4px 0px; padding:0px 10px 0px 10px; display:block;"><a onclick="dvOpenMore('dvmorecty');">more cities >></a></div>
+                            }
+                            plC = plC + 1;
+                        }
+                    }
+                    @Html.Raw("</div>")
+
+                    if (plC > 6)
+                    {
+                        <div id="dvmoreCities" style="display:none">
+                            <div id="pmoreCty" style="text-align:right; margin:0; font-size:11px; color:#ccc; padding:5px 15px"><a onclick="dvCloseMore('dvmoreCities');" style="color:#999">close [x]</a></div>
+                            @{
+                                Int32 tyC = 0;
+                                Int32 pop = 0;
+                                for (Int32 ty = 0; ty <= Model.leftCountryCityList.Count - 1; ty++)
+                                {
+                                    if (tyC == 0)
+                                    {
+                                        if (ty % mathCeil == 0)
+                                        {
+                                            @Html.Raw("<span style = 'display:block; float:left; width:150px'>")
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ty % mathCeil == 0)
+                                        {
+                                            @Html.Raw("</span><span style='display:block; float:left; width:150px'>")
+                                        }
+                                    }
+
+                                    if (Model.leftCountryCityList[ty].STR_PlaceTitle == "Popular Cities")
+                                    {
+                                        <div class='Text_12' style='margin:4px 0px; padding:0px 0px 0px 10px;'>
+                                            <b>@Model.leftCountryCityList[ty].STR_PlaceTitle</b>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        if (Model.leftCountryCityList[ty].STR_PlaceTitle == "Other Cities")
+                                        {
+                                            <div class='Text_12' style='margin:4px 0px; padding:0px 0px 0px 10px;'>
+                                                <b>@Model.leftCountryCityList[ty].STR_PlaceTitle</b>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px; display:block">
+                                                <a href=@String.Format("{0}/{1}/vacations",_appsettings.Value.ApplicationSettings.SiteName, Model.leftCountryCityList[ty].STR_PlaceTitle.Replace(" ", " _").ToLower())>@Model.leftCountryCityList[ty].STR_PlaceTitle</a>
+                                            </div>
+                                        }
+                                    }
+                                    tyC = tyC + 1;
+                                }
+                            }
+                            @Html.Raw("</span><br style = 'clear:both'/>")
+                        </div>
+                    }
+
+                    break;
+                case 1884:
+                    @if (Model.arrpCombCountry.Count > 0)
+                    {
+                        foreach (var coc in Model.arrpCombCountry)
+                        {
+                            string[] innLn = coc.Split("|");
+                            <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px">
+                                    <a href=@String.Format("{0}/{1}_-_{2}/combine",_appsettings.Value.ApplicationSettings.SiteName, ViewBag.CounNA.Replace(" ","_").ToLower(), @innLn[1].Replace(" ","_").ToLower())>
+                                        @innLn[1].Replace("_", " ")
+                                </a>
+                            </div>
+
+                        }
+                    }
+                    break;
+                case 2032:
+                    <div style="margin:0px 3px;">
+                        <div id="dvPoiMap" style="float:left; width:auto; cursor:pointer;"><img src="https://pictures.tripmasters.com/siteassets/d/map_icon.png" /></div>
+                        <div id="dvPoiLink" class="Blue-Arial11" style="word-wrap:break-word; float:left; padding:6px 5px; width:65%; line-height:15px; cursor:pointer;">Map of Point of interest</div>
+                        <div style="clear:both"></div>
+                    </div>
+
+                    break;
+                case 1880:
+                    @foreach (var cms in Model.leftCMS)
+                    {
+                        string cmsName = cms.CMS_Description.Replace(" ", "_").ToLower();
+                        if (cms.CMS_Description == "none")
+                        {
+                            cmsName = cms.CMSW_Title.Replace(" ", "_").ToLower();
+                        }
+                        <div id="selA" style="word-wrap:break-word; padding:5px 0px 0px 10px" class="Text_12">
+                            <a data-go-to=@String.Format("https://www.tripmasters.com/{0}/cms?cms={1}&wH=0&wF=0", cmsName, @cms.CMSID) onclick=@String.Format("openWinCMS({0},this.getAttribute('data-go-to'))", @cms.CMSID)>
+                                @cms.CMSW_Title
+                            </a>
+                        </div>
+                    }
+
+                    break;
+                case 1621:
+                    @foreach (var at in Model.leftAtractions)
+                    {
+                        Int32 pW = 50;
+                        Int32 pH = 50;
+                        if (at.STX_PictureHeightpx != 0)
+                        {
+                            pH = at.STX_PictureHeightpx;
+                        }
+                        if (at.STX_PictureWidthpx != 0)
+                        {
+                            pW = at.STX_PictureWidthpx;
+                        }
+                        string xURL = at.STX_Title;
+                        if (at.STX_URL != "none")
+                        {
+                            string xpicURL = at.STX_URL;
+                            if (xpicURL[0].ToString() == "/")
+                            {
+                                xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_");
+                            }
+                            if (xpicURL[0].ToString() == "h")
+                            {
+                                if (System.Text.RegularExpressions.Regex.Match(xpicURL, rgxSeoSites, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                {
+
+                                }
+                            }
+                            xURL = "<a href='" + xpicURL.ToLower() + "'>" + at.STX_Title + "</a>";
+                        }
+                        if (at.STX_CMSID == 0)
+                        {
+                            <div style="margin:3px 5px 5px 5px; display:block">
+                                <div style=" float:left; margin-right:5px;">
+                                    @if (at.STX_PictureURL != "none")
+                                    {
+                                        string imgSRC = at.STX_PictureURL.Replace("http:", "https:");
+                                        <img src="@imgSRC.ToLower()" width="@pW" height="@pH" style="float:left; margin-right:7px; margin-bottom:5px;" />
+                                    }
+                                </div>
+
+                                <div style="word-wrap:break-word;height:auto;" class="Text_12">
+                                    <a href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,at.STX_URL.ToLower())>@at.STX_Title</a>
+                                    <span class="Text_11">
+                                        @if (at.STX_Description != "none")
+                                        {
+                                            @Html.Raw("<br/>" + at.STX_Description)
+                                        }
+                                    </span>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin:3px 5px 10px 5px; display:block">
+                                <div style=" overflow:auto">
+                                    @at.CMS_Content.Replace("http:", "https:")
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    break;
+                case 1620:
+                    @foreach (var at in Model.leftInterest)
+                    {
+                        Int32 pW = 50;
+                        Int32 pH = 50;
+                        if (at.STX_PictureHeightpx != 0)
+                        {
+                            pH = at.STX_PictureHeightpx;
+                        }
+                        if (at.STX_PictureWidthpx != 0)
+                        {
+                            pW = at.STX_PictureWidthpx;
+                        }
+                        string xURL = at.STX_Title;
+                        if (at.STX_URL != "none")
+                        {
+                            string xpicURL = at.STX_URL;
+                            if (xpicURL[0].ToString() == "/")
+                            {
+                                xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_");
+                            }
+                            if (xpicURL[0].ToString() == "h")
+                            {
+                                if (System.Text.RegularExpressions.Regex.Match(xpicURL, rgxSeoSites, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                {
+
+                                }
+                            }
+                            xURL = "<a href='" + xpicURL.ToLower() + "'>" + at.STX_Title + "</a>";
+                        }
+                        if (at.STX_CMSID == 0)
+                        {
+                            <div style="margin:3px 5px 5px 5px; display:block">
+                                <div style=" float:left; margin-right:5px;">
+                                    @if (at.STX_PictureURL != "none")
+                                    {
+                                        string imgSRC = at.STX_PictureURL.Replace("http:", "https:");
+                                        <img src="@imgSRC.ToLower()" width="@pW" height="@pH" style="float:left; margin-right:7px; margin-bottom:5px;" />
+                                    }
+                                </div>
+
+                                <div style="word-wrap:break-word;height:auto;" class="Text_12">
+                                    <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,at.STX_URL.ToLower())>@at.STX_Title</a>
+                                    <span class="Text_11">
+                                        @if (at.STX_Description != "none")
+                                        {
+                                            @Html.Raw("<br/>" + at.STX_Description)
+                                        }
+                                    </span>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin:3px 5px 10px 5px; display:block">
+                                <div style=" overflow:auto">
+                                    @at.CMS_Content.Replace("http:", "https:")
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    break;
+                case 1623:
+                    @foreach (var hi in Model.leftHighlight)
+                    {
+                        Int32 pW = 50;
+                        Int32 pH = 50;
+                        if (hi.STX_PictureHeightpx != 0)
+                        {
+                            pH = hi.STX_PictureHeightpx;
+                        }
+                        if (hi.STX_PictureWidthpx != 0)
+                        {
+                            pW = hi.STX_PictureWidthpx;
+                        }
+                        string xURL = hi.STX_Title;
+                        if (hi.STX_URL != "none")
+                        {
+                            string xpicURL = hi.STX_URL;
+                            if (xpicURL[0].ToString() == "/")
+                            {
+                                xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_").Replace("/asia", "");
+                            }
+                            if (xpicURL[0].ToString() == "h")
+                            {
+                                if (System.Text.RegularExpressions.Regex.Match(xpicURL, "\bbeach\b.|\blatin\b.|\beurope\b.|\basia\b.", System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                {
+
+                                }
+                            }
+                            xURL = "<a href='" + xpicURL.ToLower() + "'>" + hi.STX_Title + "</a>";
+                        }
+                        if (hi.STX_CMSID == 0)
+                        {
+                            <div style="margin:3px 5px 5px 5px; display:block">
+                                <div style=" float:left; margin-right:5px;">
+                                    @if (hi.STX_PictureURL != "none")
+                                    {
+                                        string imgSRC = hi.STX_PictureURL.Replace("http:", "https:");
+                                        <img src="@imgSRC.ToLower()" width="@pW" height="@pH" />
+                                    }
+                                </div>
+                                <div style="word-wrap:break-word; height:auto;" class="Text_12">
+                                    <a href=@String.Format("{0}{1}",_appsettings.Value.ApplicationSettings.SiteName,@hi.STX_URL.ToLower())>@hi.STX_Title</a>
+                                    <span class="Text_11">
+                                        @if (hi.STX_Description != "none")
+                                        {
+                                            @Html.Raw("<br/>" + hi.STX_Description)
+                                        }
+                                    </span>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin:3px 5px 10px 5px; display:block">
+                                <div style=" overflow:auto">
+                                    @hi.CMS_Content.Replace("http:", "https:")
+                                </div>
+                            </div>
+                        }
+                    }
+                    break;
+                case 1622:
+                    @foreach (var phi in Model.leftPrortyHigh)
+                    {
+                        Int32 pW = 50;
+                        Int32 pH = 50;
+                        if (phi.STX_PictureHeightpx != 0)
+                        { pH = phi.STX_PictureHeightpx; }
+                        if (phi.STX_PictureWidthpx != 0)
+                        { pW = phi.STX_PictureWidthpx; }
+                        string xURL = phi.STX_Title;
+                        if (phi.STX_URL != "none")
+                        {
+                            if (System.Text.RegularExpressions.Regex.IsMatch(phi.STX_URL, "/cms/", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                            {
+                                string cmsID = System.Text.RegularExpressions.Regex.Match(phi.STX_URL, @"\d+").Value;
+                                xURL = "<a href='" + String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName, phi.STX_URL.ToLower())  + "onclick='windowCMS(" + cmsID + ",800,600)'>" + phi.STX_Title + "</a>";
+                            }
+                            else
+                            {
+                                xURL = "<a href='" + String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName, phi.STX_URL.ToLower()) + "'>" + phi.STX_Title + "</a>";
+                            }
+                        }
+                        if (phi.STX_CMSID == 0)
+                        {
+                            <div style="margin:3px 5px 5px 5px; display:block">
+                                <div style=" float:left; margin-right:5px;">
+                                    @if (phi.STX_PictureURL != "none")
+                                    {
+                                        @Html.Raw(String.Format("<img src='{0}' width='{1}' height='{2}'/>", phi.STX_PictureURL.ToLower().Trim().Replace("http:", "https:"), pW, pH))
+                                    }
+                                </div>
+                                <div style="word-wrap:break-word;height:auto;" class="Text_12">
+                                    @Html.Raw(xURL)
+                                    <span class="Text_11">
+                                        @if (phi.STX_Description != "none")
+                                        {
+                                            @Html.Raw("<br/>" + phi.STX_Description)
+                                        }
+                                    </span>
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin:3px 5px 10px 5px; display:block">
+                                <div style=" overflow:auto">
+                                    @phi.CMS_Content.Replace("http:", "https:")
+                                </div>
+                            </div>
+                        }
+                    }
+                    break;
+                case 1912:
+                    @foreach (var at in Model.leftOrientLong)
+                    {
+                        Int32 pW = 50;
+                        Int32 pH = 50;
+                        if (at.STX_PictureHeightpx != 0)
+                        {
+                            pH = at.STX_PictureHeightpx;
+                        }
+                        if (at.STX_PictureWidthpx != 0)
+                        {
+                            pW = at.STX_PictureWidthpx;
+                        }
+                        string xURL = at.STX_Title;
+                        if (at.STX_URL != "none")
+                        {
+                            string xpicURL = at.STX_URL;
+                            if (xpicURL[0].ToString() == "/")
+                            {
+                                xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_");
+                            }
+                            if (xpicURL[0].ToString() == "h")
+                            {
+                                if (System.Text.RegularExpressions.Regex.Match(xpicURL, rgxSeoSites, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                {
+
+                                }
+                            }
+                            xURL = "<a href='" + xpicURL.ToLower() + "'>" + at.STX_Title + "</a>";
+                        }
+                        if (at.STX_CMSID == 0)
+                        {
+                            <div style="margin:3px 5px 5px 5px; display:block">
+                                <div class="Text_Arial14_BlueBold" style="padding:5px 0px;">
+                                    <span class="Text_Arial14_BlueBold" style="padding:5px 0px;">@at.STX_Title
+                                    </span>
+                                </div>
+                                <div align="center" style="margin-bottom:10px; position:relative; left:-5px;">
+                                    <img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg">
+                                </div>
+                                <div style=" float:left; margin-right:5px;">
+                                    @if (at.STX_PictureURL != "none")
+                                    {
+                                        string imgSRC = at.STX_PictureURL.Replace("http:", "https:");
+                                        <img src="@imgSRC.ToLower()" width="@pW" height="@pH" style="float:left; margin-right:7px; margin-bottom:5px;" />
+                                    }
+                                </div>
+
+                                <div style="word-wrap:break-word; float:left; height:auto;" class="Text_12">
+                                    @if (at.STX_Description != "none")
+                                    {
+                                        @Html.Raw("<br/>" + at.STX_Description)
+                                    }
+                                </div>
+
+
+                                <div style="clear:both"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin:3px 5px 10px 5px; display:block">
+                                <div style=" overflow:auto">
+                                    @at.CMS_Content.Replace("http:", "https:")
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+                    break;
+                case 1619:
+                    @foreach (var at in Model.leftArea)
+                    {
+                        Int32 pW = 50;
+                        Int32 pH = 50;
+                        if (at.STX_PictureHeightpx != 0)
+                        {
+                            pH = at.STX_PictureHeightpx;
+                        }
+                        if (at.STX_PictureWidthpx != 0)
+                        {
+                            pW = at.STX_PictureWidthpx;
+                        }
+                        string xURL = at.STX_Title;
+                        if (at.STX_URL != "none")
+                        {
+                            string xpicURL = at.STX_URL;
+                            if (xpicURL[0].ToString() == "/")
+                            {
+                                xpicURL = @ViewBag.AppBasePath + xpicURL.Replace("%20", "_");
+                            }
+                            if (xpicURL[0].ToString() == "h")
+                            {
+                                if (System.Text.RegularExpressions.Regex.Match(xpicURL, rgxSeoSites, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
+                                {
+
+                                }
+                            }
+                            xURL = "<a href='" + String.Format("{0}", xpicURL.ToLower()) + "'>" + at.STX_Title + "</a>";
+                        }
+                        if (at.STX_CMSID == 0)
+                        {
+                            <div style="margin:3px 0px 10px 0px; display:block">
+                                <div class="Text_Arial14_BlueBold" style="padding:5px 0px;">
+                                    <span class="Text_Arial14_BlueBold" style="padding:5px 0px;">
+                                        <a href=@String.Format("{0}{1}", _appsettings.Value.ApplicationSettings.SiteName,@at.STX_URL.ToLower())>@at.STX_Title</a>
+                                    </span>
+                                </div>
+                                <div align="center" style="margin-bottom:10px; position:relative; left:-5px;">
+                                    <img src="https://pictures.tripmasters.com/siteassets/d/blue-ul-grad.jpg">
+                                </div>
+                                <div style=" float:left; margin-right:5px;">
+                                    @if (at.STX_PictureURL != "none")
+                                    {
+                                        string imgSRC = at.STX_PictureURL.Replace("http:", "https:");
+                                        <img src="@imgSRC.ToLower()" width="@pW" height="@pH" style="float:left; margin-right:7px; margin-bottom:5px;" />
+                                    }
+                                </div>
+
+                                <div style="font-size:12px;">
+                                    @if (at.STX_Description != "none")
+                                    {
+                                        @Html.Raw("<br/>" + at.STX_Description)
+                                    }
+                                </div>
+
+
+                                <div style="clear:both"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin:2px 0px; display:block">
+                                <div style=" overflow:auto">
+                                    @at.CMS_Content.Replace("http:", "https:")
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+                    break;
+                case 1915:
+                    {
+                        foreach (WeightPlace pl in Model.leftCountryCityList.FindAll(n => n.STR_PlaceTypeID == 5))
+                        {
+                            <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px; display:block;">
+                                <a href=@String.Format("{0}/{1}/vacations",_appsettings.Value.ApplicationSettings.SiteName, @pl.STR_PlaceTitle.Replace(" ","_").ToLower())>@pl.STR_PlaceTitle</a>
+                                &nbsp;&nbsp;
+                                <img id=@String.Format("pic{0}", pl.STR_PlaceID) src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="9" height="9" align="absmiddle" onclick=@String.Format("dvOpenMain('{0}');", pl.STR_PlaceID) style="cursor:pointer;" />
+                            </div>
+                            <div id=@String.Format("dv{0}", pl.STR_PlaceID) style="display:none; border:1px solid black; padding:5px; background-color:#FFF; width:300px; position:absolute; z-index:100;">
+                                <div align="right" class="Text_12_Gray" style="padding:3px 10px"><span style="cursor:pointer" onclick=@String.Format("dvCloseMain('dv{0}')", pl.STR_PlaceID)>close X</span></div>
+                                <div class="Text_Arial11_BlueBold" style="padding: 3px 10px 3px 10px">@pl.STR_PlaceTitle</div>
+                                <div style="padding:10px">@Html.Raw(@pl.STR_PlaceShortInfo)</div>
+                            </div>
+                        }
+
+                        break;
+
+                    }
+
+                case 1881:
+                    {
+                        foreach (WeightPlace pl in Model.leftCityList)
+                        {
+                            <div class="Text_12" style="margin:4px 0px; padding:0px 0px 0px 10px; display:block;">
+                                <a href=@String.Format("{0}/{1}/vacations",_appsettings.Value.ApplicationSettings.SiteName, @pl.STR_PlaceTitle.Replace(" ","_").ToLower())>@pl.STR_PlaceTitle</a>
+                                &nbsp;&nbsp;
+                                <img id=@String.Format("pic{0}", pl.STR_PlaceID) src="https://pictures.tripmasters.com/siteassets/d/info.gif" width="9" height="9" align="absmiddle" onclick=@String.Format("dvOpenMain('{0}');", pl.STR_PlaceID) style="cursor:pointer;" />
+                            </div>
+                            <div id=@String.Format("dv{0}", pl.STR_PlaceID) style="display:none; border:1px solid black; padding:5px; background-color:#FFF; width:300px; position:absolute; z-index:100;">
+                                <div align="right" class="Text_12_Gray" style="padding:3px 10px"><span style="cursor:pointer" onclick=@String.Format("dvCloseMain('dv{0}')", pl.STR_PlaceID)>close X</span></div>
+                                <div class="Text_Arial11_BlueBold" style="padding: 3px 10px 3px 10px">@pl.STR_PlaceTitle</div>
+                                <div style="padding:10px">@Html.Raw(@pl.STR_PlaceShortInfo)</div>
+                            </div>
+                        }
+
+                        break;
+
+                    }
+            }
+        }
+    </div>
+    }
+}
+<div id="dvmask"></div>

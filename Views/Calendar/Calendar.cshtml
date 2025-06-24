@@ -1,0 +1,611 @@
+﻿@using MVC_TMED.Infrastructure;
+@using MVC_TMED.Models.ViewModels;
+@model MVC_TMED.Models.ViewModels.CalendarViewModel;
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<AppSettings> _appsettings
+
+@{
+    Layout = null;
+}
+
+{
+<link rel="stylesheet" href="https://146b65acb8258ea88ef1-ab69b9a548641b277c6b57bb3234eade.ssl.cf2.rackcdn.com/TMLib/css/CSS_Get-Transportation.css" />
+<script src="https://146b65acb8258ea88ef1-ab69b9a548641b277c6b57bb3234eade.ssl.cf2.rackcdn.com/TMLib/java/java.GET-Transportation.min.js" asp-append-version="true">
+</script>
+}
+
+<div class="dvPopCalContainer">
+    <!-- Calendar Container Up-->
+    <div class="dvCalContainerOptUp">
+        <!-- Calendar Title  -->
+        <div class="dvCalTitle">
+            <div> <img src="https://pictures.tripmasters.com/siteassets/d/rightPoint.gif" width="23" height="25" align="absmiddle" alt="" /> Multiple Cities </div>
+            <div onClick="hiddenDiv()"> <u>Start again</u> <img src="https://pictures.tripmasters.com/siteassets/d/startOver.gif" width="29" height="27" align="absmiddle" onClick="hiddenDiv()" alt="" /> </div>
+            <br style="clear:both;" />
+            <!-- End Calendar Title  -->
+        </div>
+    </div>
+    @if (Model.citiesTransportOptions.Count == 0)
+    {
+        <div style="padding-top:15px; padding-left:20px;">
+            <div style="font-family:Arial; font-size:14px; font-weight:bold;">
+                We can not build this itinerary.<br />
+                <br />
+                Find a similar suggested itinerary for: @Model.qCities <br />
+                <br />
+            </div>
+            <div align="center">
+                <input type="button" value="GO" onClick=@String.Format("window.location ='Find_Package_to_{0}'", Model.qCities.Replace(" ,", " _")) />
+            </div>
+            <!-- End Can Not Build alret -->
+        </div>
+    }
+    else
+    {
+        <form id="frmTransp" method="post" style="margin:0px;">
+            <div id="WgetTopt" class="dvGetTransp">
+                @{
+                    string styl = "";
+                    string check = "";
+                    string ncheck = "";
+                    switch (Model.wAir)
+                    {
+                        case "True":
+                            {
+                                styl = "block";
+                                check = "checked='checked'";
+                                ncheck = "";
+                                break;
+                            }
+                        case "False":
+                            {
+                                styl = "none";
+                                check = "";
+                                ncheck = "checked='checked'";
+                                break;
+                            }
+                    }
+                }
+                <div id="xdivBYOIAirChoose" style=@String.Format("padding:3px 20px; display:{0}", styl)>
+                    <div id="xtdWOAir" class="txt12_unselected" style="float:left; width:100px;">
+                        <input type="radio" onClick="Check_WAir(this.value,this.id);" id="xrdAWair" name="xrdAWair" value="False" @ncheck />
+                        Without Air
+                    </div>
+                    <div id="xtdWAir" class="txt12_selected" style="float:left; width:100px;">
+                        <input type="radio" onClick="Check_WAir(this.value,this.id);" id="xrdAWair" name="xrdAWair" value="True" @check />
+                        With Air
+                    </div>
+                    <div style="clear:both;" />
+                </div>
+                <div id="xdivBYOIAir" style=@String.Format("padding:8px 20px; display:{0}", styl)>
+                    <div style="width:235px; float:left;">
+                        <div class="txt12_titles" style="padding: 1px 3px 5px 5px">Leaving from:</div>
+                        <div class="roundBox" style="padding-left:5px;">
+                            <input name="xidLeavingFrom" type="hidden" id="xidLeavingFrom" value="@Model.depID" />
+                            @Model.depNA
+                            <input type="hidden" name="xtxtLeavingFrom" id="xtxtLeavingFrom" value="@Model.depNA" />
+                        </div>
+                    </div>
+                    <div class="txt12_unselected" style="float:left;">
+                        <div class="txt12_titles" style="padding: 1px 3px">Cabin Class:</div>
+                        <div style="padding: 3px 0px 0px 3px;">
+                            @{
+                                string cabTXT = "";
+                                string selc = "";
+                                string self = "";
+                                switch (Model.cabTY)
+                                {
+                                    case "Y":
+                                        {
+                                            cabTXT = "Economy";
+                                            break;
+                                        }
+                                    case "W":
+                                        {
+                                            cabTXT = "Premium Economy";
+                                            break;
+                                        }
+                                    case "C":
+                                        {
+                                            cabTXT = "Business";
+                                            break;
+                                        }
+                                    case "F":
+                                        {
+                                            cabTXT = "First Class";
+                                            break;
+                                        }
+                                }
+                            }
+                            <input type="text" name="xCabinTxt" id="xCabinTxt" value="@cabTXT" />
+                            <input name="xCabin" type="hidden" id="xCabin" value="@Model.cabTY" />
+                        </div>
+                    </div>
+                    <div style="clear:both;" />
+                </div>
+                @*<%--Cities list--%>*@
+                <div id="goCitiesR" style="padding:3px 20px;">
+                    <div class="txt12_titles" style=" float:left; width:194px; padding: 1px 5px;">Going to:</div>
+                    <div class="txt12_titles" style=" float:left; width:93px; padding: 1px 1px;">Arriving on:</div>
+                    <div class="txt12_titles" style=" float:left; width:81px; padding: 1px 1px;">Staying for:</div>
+                    <div class="txt12_titles" style=" float:left; padding: 1px 2px;"><b>Travel by:</b></div>
+                    <div style="clear:both;" />
+                </div>
+                <div style="padding:3px 20px;" align="left">
+                    <div style="padding:0px; margin:0px; text-align:left;">
+                        @{
+                            Int32 i = 0;
+                            Boolean isCarSelected = false;
+                            List<TransportOption> FirstOption;
+                            CityTrasnsportOptions cityWithCarOptionFirst = new CityTrasnsportOptions();
+                            cityWithCarOptionFirst.PlaceID = "-1";
+                            cityWithCarOptionFirst.No = "-1";
+                            string cityNoUntilCarIsSelected = "";
+                            Int32 cityIdUntilCarIsSelected = -1;
+                            Int32 visibleRanking = 1;
+                            foreach (var c in Model.citiesTransportOptions)
+                            {
+                                visibleRanking = 1;
+                                if (c.Options.Count > 0)
+                                {
+                                    foreach (var t in c.Options)
+                                    {
+                                        if (t.Ranking == visibleRanking)
+                                        {
+                                            if (t.ProductType == "C" && t.CarDropOff.Count == 0)
+                                            {
+                                                visibleRanking = visibleRanking + 1;
+                                            }
+                                            else
+                                            {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                string col = "";
+                                Int32 color = i % 2;
+                                if (color == 0)
+                                {
+                                    col = "roundPar";
+                                }
+                                else
+                                {
+                                    col = "roundImpar";
+                                }
+                                <div id=@String.Format("City_{0}", c.No) class="dvEachCity">
+                                    <div class=@String.Format("{0}", col)>
+                                        @*<%--height:30px; --%>*@
+                                        <input type="hidden" id=@String.Format("xnoCity{0}", c.No) name=@String.Format("xnoCity{0}", c.No) value=@String.Format("{0}", c.No) />
+                                        <input type="hidden" id=@String.Format("xsCityID{0}", c.No) name=@String.Format("xsCityID{0}", c.No) value=@String.Format("{0}", c.PlaceID) />
+                                        <input type="hidden" id=@String.Format("xsCityNA{0}", c.No) name=@String.Format("xsCityNA{0}", c.No) value=@String.Format("{0}", c.PlaceName) />
+                                        <input type="hidden" id=@String.Format("xsCityAPI{0}", c.No) name=@String.Format("xsCityAPI{0}", c.No) value=@String.Format("{0}", c.PlaceAPI) />
+                                        @*<%--City--%>*@
+                                        @{
+                                            switch (c.No)
+                                            {
+                                                case "S":
+                                                    {
+                                                        <div class="dvEachCtyNA" style="width:275px;">
+                                                            <font size="3">&#8224;</font> Must arrive to
+                                                            <b>@c.PlaceName</b>
+                                                        </div>
+                                                        break;
+                                                    }
+                                                case "E":
+                                                    {
+                                                        <div class="dvEachCtyNA">
+                                                            <font size="3">&#raquo;</font> Must depart from
+                                                            <b>@c.PlaceName</b>
+                                                        </div>
+                                                        break;
+                                                    }
+                                                default:
+                                                    {
+                                                        <div class="dvEachCtyNA">
+                                                            @c.No. @c.PlaceName
+                                                        </div>
+
+                                                        break;
+                                                    }
+                                            }
+                                            @*<%--END City--%>*@
+                                            @*<%--Date/Edit-Remove--%>*@
+                                            switch (c.No)
+                                            {
+                                                case "S":
+                                                    {
+                                                        <div class="dvEachCtyDate" style="width:0px;">
+                                                            <input type="hidden" id=@String.Format("xCityARR{0}", c.No) name=@String.Format("xCityARR{0}", c.No) value=@String.Format("{0}", Model.dateD) />
+                                                        </div>
+                                                        break;
+                                                    }
+                                                case "E":
+                                                    {
+                                                        <div class="dvEachCtyDate" style="width:0px;">&nbsp;</div>
+                                                        break;
+                                                    }
+                                                default:
+                                                    {
+                                                        <div class="dvEachCtyDate">
+                                                            @if (c.No == "1")
+                                                            {
+                                                                <b>@Model.dateD</b>
+                                                                <input type="hidden" name="xtxtBYArriving" id="xtxtBYArriving" class="txt11_input_text" style="text-align:center" value=@String.Format("{0}", Model.dateD) />
+                                                            }
+                                                            @if (c.No != "1" && Model.citiesTransportOptions.Count > 1)
+                                                            {
+                                                                <span><a href="javascript:hiddenDiv();" class="aCityRemoveOut" id=@String.Format("xbutBYOCityRemove{0}", c.No)>Edit/Remove</a></span>
+                                                            }
+                                                        </div>
+                                                        break;
+                                                    }
+                                            }
+                                            @*<%--END Date/Edit - Remove-- %>*@
+                                            @*<% --No of nights--%>*@
+                                            switch (c.No)
+                                            {
+                                                case "S":
+                                                    {
+                                                        <div class="txt12_unselected" style="width:83px; padding-top:3px; float:left; height:25px; vertical-align:middle;">
+                                                            <input type="hidden" id=@String.Format("xselNoOfNts{0}", c.No) name=@String.Format("xselNoOfNts{0}", c.No) value="0" />
+                                                        </div>
+                                                        break;
+                                                    }
+                                                case "E":
+                                                    {
+                                                        <div class="txt12_unselected" style="width:83px; padding-top:3px; float:left; height:25px; vertical-align:middle;">
+                                                            <input type="hidden" id=@String.Format("xselNoOfNts{0}", c.No) name=@String.Format("xselNoOfNts{0}", c.No) value="0" />
+                                                        </div>
+                                                    break;
+                                                }
+                                            default:
+                                                {
+                                                        <div class="txt12_unselected" style="margin:1px 5px 1px 1px; padding-top:1px; float:left; height:25px; vertical-align:middle; width:90px;">
+                                                            <span class="txt12_unselected" style="margin:1px 5px 1px 1px; padding-top:1px; float:left; height:25px; vertical-align:middle; width:78px;">
+                                                                <input type="text" id=@String.Format("xtxtNoOfNts{0}", c.No) value=@String.Format("{0} nights", c.StayNights) />
+                                                                <input name=@String.Format("xselNoOfNts{0}", c.No) type="hidden" id=@String.Format("xselNoOfNts{0}", c.No) value=@String.Format("{0}", c.StayNights) />
+                                                            </span>
+                                                        </div>
+                                                        break;
+                                                    }
+                                            }
+                                            @*<%--END No of nights--%>*@
+                                            @*<%-- Over night field--%>*@
+                                            @if (i < Model.citiesTransportOptions.Count - 1)
+                                            {
+                                                List<TransportOption> overnight = c.Options.Where(x => x.Overnight == 1).ToList();
+                                                if (overnight.Count > 0)
+                                                {
+                                                    <input type="hidden" id=@String.Format("xsoverNTS{0}", c.No) name=@String.Format("xsoverNTS{0}", c.No) value="1" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="hidden" id=@string.Format("xsoverNTS{0}", c.No) name=@String.Format("xsoverNTS{0}", c.No) value="0" />
+                                                }
+                                            }
+                                            @*<%-- Over night field--%>*@
+                                            @*<%--Transport options--%>*@
+                                            @if (c.No == cityNoUntilCarIsSelected && Int32.Parse(c.PlaceID) == cityIdUntilCarIsSelected)
+                                            {
+                                                isCarSelected = false;
+                                            }
+                                            FirstOption = c.Options.Where(x => x.Ranking == visibleRanking).ToList();
+                                            if (FirstOption.Count > 0)
+                                            {
+                                                if (FirstOption[0].ProductType == "C")
+                                                {
+                                                    isCarSelected = true;
+                                                    cityWithCarOptionFirst = c;
+                                                    if (FirstOption[0].CarDropOff.Count > 0)
+                                                    {
+                                                        cityNoUntilCarIsSelected = FirstOption[0].CarDropOff[0].DOPlaceNo;
+                                                        cityIdUntilCarIsSelected = (Int32)FirstOption[0].CarDropOff[0].DOPlaceID;
+                                                    }
+                                                }
+                                            }
+                                            if (c.Options.Count == 0 && c.No != "E" && c.No != "S" && c.NextPlace.Id != -1)
+                                            {
+                                                if (i <= Model.citiesTransportOptions.Count - 1)
+                                                {
+                                                    if (isCarSelected == true)
+                                                    {
+                                                        <div id=@String.Format("rank_{0}_OnYourOwn", c.No) class="txt12_selected" style="display:none; margin-top:6px;">&nbsp;On your own</div>
+                                                        <input type="hidden" id=@String.Format("xrdselTrans{0}", c.No) name=@String.Format("xrdselTrans{0}", c.No) value="W" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <div id=@String.Format("rank_{0}_OnYourOwn", c.No) class="txt12_selected" style="display:block; margin-top:6px;">&nbsp;On your own</div>
+                                                        <input type="hidden" id=@String.Format("xrdselTrans{0}", c.No) name=@String.Format("xrdselTrans{0}", c.No) value="W" />
+                                                    }
+                                                }
+                                            }
+                                            foreach (var opt in c.Options)
+                                            {
+                                                string asterx = "";
+                                                string dvShow = "";
+                                                if (opt.Overnight == 1)
+                                                {
+                                                    asterx = "&nbsp;<font color='red'>*</font>";
+                                                }
+                                                if (opt.Ranking == visibleRanking)
+                                                {
+                                                    dvShow = "block";
+                                                    if (isCarSelected == true && c.No != cityWithCarOptionFirst.No)
+                                                    {
+                                                        dvShow = "none";
+                                                    }
+                                                    <input type="hidden" id=@String.Format("xrdselTransField{0}", c.No) name=@String.Format("xrdselTransField{0}", c.No) value=@String.Format("{0}", opt.ProductFreeField1) />
+                                                }
+                                                else
+                                                {
+                                                    dvShow = "none";
+                                                }
+                                                String dvShowdisplay = "margin:7px2px0px2px;padding:0px2px;float:left;display:" + dvShow;
+                                                @*<%--Trasport option selected label--%>*@
+                                                <div id=@String.Format("rank_{0}_{1}", c.No, opt.ProductTypeName.Replace(" ", "")) data=@String.Format("{0}", opt.ProductFreeField1) class="txt12_unselected" style=@Html.Raw(dvShowdisplay)>
+                                                    @if (opt.ProductTypeName == "Car" || c.No == "E")
+                                                    {
+                                                        <div style="float:left;"> <span style="float:left"><b>@opt.ProductTypeName</b></span> </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div style="float:left;"> <span style="float:left"><b>@opt.ProductTypeName @Html.Raw(@asterx)</b></span> <span class="Arial10_gray" style="float:left; padding-left:5px"> to @c.NextPlace.Name</span> </div>
+                                                    }
+                                                    <span style="padding-left:3px; float:left;" id=@String.Format("rankpic{0}", c.No)>
+                                                        &nbsp;
+                                                        <a href=@String.Format("javascript:changeOptX('{0}');", c.No)>
+                                                            <img src="https://pictures.tripmasters.com/siteassets/d/change.gif" align="absmiddle" border="0" alt="" />
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                                @*<%--END Trasport option selected label--%>*@
+                                            }
+                                            @if (c.Options.Count > 0)
+                                            {
+                                                string showOnyourOwn = "none";
+                                                if (c.Options.Count < visibleRanking)
+                                                {
+                                                    showOnyourOwn = "block";
+                                                }
+                                                <div id=@String.Format("rank_{0}_OnYourOwn", c.No) data="" class="txt12_unselected" style=@String.Format("margin:7px2px0px2px;padding:0px2px;float:left;display:{0};", showOnyourOwn)>
+                                                    <div style="float:left;"> <span style="float:left"><b>On your own</b></span> <span class="Arial10_gray" style="float:left; padding-left:5px"> to @c.NextPlace.Name</span> </div>
+                                                    <span style="padding-left:3px; float:left;" id=@String.Format("rankpic{0}", c.No)>&nbsp; <a href=@String.Format("javascript:changeOptX('{0}');", c.No)><img src="https://pictures.tripmasters.com/siteassets/d/change.gif" align="absmiddle" border="0" alt="" /></a> </span>
+                                                </div>
+                                            }
+                                            @*<%--Checkboxes for trasnsport options--%>*@
+                                            @if (c.Options.Count > 0)
+                                            {
+                                                <div class="txt12_unselected" style="display:none; margin:4px 2px 0px 2px; padding:0px 2px;" id=@String.Format("opts{0}", c.No)>
+                                                    @foreach (var opt1 in c.Options)
+                                                    {
+                                                        string icheck = "";
+                                                        if (opt1.Ranking == visibleRanking)
+                                                        {
+                                                            icheck = "checked";
+                                                        }
+                                                        else
+                                                        {
+                                                            icheck = "";
+                                                        }
+                                                        <input type="radio" onClick=@String.Format("rdonChangeX(this.value,'{0}','{1}','{2}','{3}')", c.No, c.NextPlace.Name, opt1.ProductTypeName.Replace(" ", ""), opt1.ProductFreeField1) id=@String.Format("xrdselTrans{0}", c.No) name=@String.Format("xrdselTrans{0}", c.No) value=@String.Format("{0}", opt1.ProductType) alt=@String.Format("{0}", opt1.ProductTypeName) @icheck />
+                                                        <span id=@String.Format("xrdselTrans{0}{1}", c.No, opt1.ProductType)>@opt1.ProductTypeName&nbsp;&nbsp;</span>
+                                                    }
+                                                    <input type="radio" onClick=@String.Format("rdonChangeX(this.value,'{0}','{1}','On your own')", c.No, c.NextPlace.Name) id=@String.Format("xrdselTrans{0}", c.No) name=@String.Format("xrdselTrans{0}", c.No) value="W" />
+                                                    <span>On your own</span>
+                                                </div>
+                                            }
+                                            @*<%--END Checkboxes for trasnsport options--%>*@
+                                            string dvShowC = "";
+                                            @foreach (var opt in c.Options)
+                                            {
+                                                if (opt.Ranking == visibleRanking)
+                                                {
+                                                    dvShowC = "block";
+                                                    if (opt.ProductType == "C" && opt.CarDropOff.Count == 0)
+                                                    {
+                                                        dvShowC = "none";
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    dvShowC = "none";
+                                                }
+                                                if (opt.ProductType == "C")
+                                                {
+                                                    <div style="clear:both;"></div>
+                                                    <div class="dvCarOpt" id=@String.Format("carOptions{0}", c.No) style=@String.Format("display:{0};", dvShowC)>
+                                                        <div class="dvCarUpOff" style=@String.Format("display:{0}", dvShowC) id=@String.Format("pickup{0}", c.No)>
+                                                            <span>Pick-up</span>
+                                                            <input type="text" id=@String.Format("xtxtpickupPlace{0}", c.No) value="Airport" />
+                                                            <input name=@String.Format("xpickupPlace{0}", c.No) type="hidden" id=@String.Format("xpickupPlace{0}", c.No) value="A" />
+                                                            <input type="text" id=@String.Format("xtxtpickupDay{0}", c.No) value="First Day" />
+                                                            <input name=@String.Format("xpickupDay{0}", c.No) type="hidden" id=@String.Format("xpickupDay{0}", c.No) value="F" />
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                        <div class="dvCarUpOff" id=@String.Format("trdropOff{0}", c.No) style=@String.Format("display:{0};", dvShowC)>
+                                                            <span>Drop-off</span>
+                                                            <input type="text" id=@String.Format("xtxtdropoffPlace{0}", c.No) value="Airport" />
+                                                            <input name=@String.Format("xdropoffPlace{0}", c.No) type="hidden" id=@String.Format("xdropoffPlace{0}", c.No) value="A" />
+                                                            <input type="text" id=@String.Format("xtxtdropoffDay{0}", c.No) value="First Day" />
+                                                            <input name=@String.Format("xdropoffDay{0}", c.No) type="hidden" id=@String.Format("xdropoffDay{0}", c.No) value="F" />
+                                                            @if (opt.CarDropOff.Count > 0)
+                                                            {
+                                                                System.Text.StringBuilder stringdata = new System.Text.StringBuilder();
+                                                                string characb = "";
+                                                                Int32 dcC = 1;
+                                                                foreach (var dca in opt.CarDropOff)
+                                                                {
+                                                                    if (dca.DOPlaceNo == "E")
+                                                                    {
+                                                                        characb = "&raquo;";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        characb = dca.DOPlaceNo + ".";
+                                                                    }
+                                                                    if (dcC == 1)
+                                                                    {
+                                                                        stringdata.Append(dca.DOPlaceNo + "|" + characb + " " + dca.DOPlaceName);
+                                                                        <input type="text" id=@String.Format("xtxtdropoffCity{0}", c.No) value=@String.Format("{0} {1}", characb, dca.DOPlaceName) />
+                                                                        <input name=@String.Format("xdropoffCity{0}", c.No) type="hidden" id=@String.Format("xdropoffCity{0}", c.No) value=@String.Format("{0}", dca.DOPlaceNo) />
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (dcC > 1)
+                                                                        {
+                                                                            stringdata.Append("@" + dca.DOPlaceNo + "|" + characb + " " + dca.DOPlaceName);
+                                                                        }
+                                                                    }
+                                                                    dcC += 1;
+                                                                }
+                                                                <input type="hidden" id=@String.Format("xdatadropoffCity{0}", c.No) value=@String.Format("{0}", stringdata.ToString()) />
+                                                            }
+                                                            <div style="clear:both"></div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (opt.Overnight == 1)
+                                                {
+                                                    <div style="clear:both;"></div>
+                                                    <div id=@String.Format("troverNts{0}{1}", c.No, opt.ProductTypeName) name=@String.Format("troverNts{0}", c.No) style=@String.Format("display:{0}; padding:0px 220px 2px 0px; text-align:right;", dvShowC) class="txt12_unselected">
+                                                        <font color="red">*</font> Overnight train to @c.NextPlace.Name
+                                                    </div>
+                                                }
+                                            }
+                                            @*<%--END Transport options--%>*@
+                                            <div style="clear:both;"></div>
+                                        }
+                                    </div>
+                                </div>
+                                i = i + 1;
+                            }
+
+                        }
+
+                    </div>
+                </div>
+                @*<%--END Cities list--%>*@
+            </div>
+            @*<%--END Cities list--%>*@
+            <!-- PAX Rooms parameters -->
+            <input type="hidden" name="xselRooms" id="xselRooms" value="" />
+            <input type="hidden" name="xiRoomsAndPax" id="xiRoomsAndPax" value="" />
+            <input type="hidden" name="xiAdults" id="xiAdults" value="" />
+            <input type="hidden" name="xiChildren" id="xiChildren" value="" />
+            <input type="hidden" name="xiChild1" id="xiChild1" value="" />
+            <input type="hidden" name="xiChild2" id="xiChild2" value="" />
+            <input type="hidden" name="xiChild3" id="xiChild3" value="" />
+            <input type="hidden" name="xiChild4" id="xiChild4" value="" />
+            <input type="hidden" name="xRoom2_iAdults" id="xRoom2_iAdults" value="" />
+            <input type="hidden" name="xRoom2_iChildren" id="xRoom2_iChildren" value="" />
+            <input type="hidden" name="xRoom2_iChild1" id="xRoom2_iChild1" value="" />
+            <input type="hidden" name="xRoom2_iChild2" id="xRoom2_iChild2" value="" />
+            <input type="hidden" name="xRoom2_iChild3" id="xRoom2_iChild3" value="" />
+            <input type="hidden" name="xRoom2_iChild4" id="xRoom2_iChild4" value="" />
+            <input type="hidden" name="xRoom3_iAdults" id="xRoom3_iAdults" value="" />
+            <input type="hidden" name="xRoom3_iChildren" id="xRoom3_iChildren" value="" />
+            <input type="hidden" name="xRoom3_iChild1" id="xRoom3_iChild1" value="" />
+            <input type="hidden" name="xRoom3_iChild2" id="xRoom3_iChild2" value="" />
+            <input type="hidden" name="xRoom3_iChild3" id="xRoom3_iChild3" value="" />
+            <input type="hidden" name="xRoom3_iChild4" id="xRoom3_iChild4" value="" />
+            <input name="xutm_campaign" type="hidden" id="xutm_campaign" value="@Model.sCampaignCode" />
+            <div id="goMultiroom" style="padding:3px 20px;">
+                <div class="txt12_titles" style="width:120px; padding: 3px 5px;">Guest:</div>
+                <div style="padding: 0 5px;">
+                    <input type="text" id="xxtxtiRoomsAndPax" value="1 room for 2 adults" />
+                    <input name="xxiRoomsAndPax" type="hidden" id="xxiRoomsAndPax" value="1|2" />
+                </div>
+                <div style="padding:8px 5px; display:none;" id="dvPaxLabel">
+                    <div class="dvpaxRoom"><span>&nbsp;</span></div>
+                    <div class="dvpaxRoom" align="center"><span>Adults:</span></div>
+                    <div class="dvpaxRoom" align="center"><span>Children:</span></div>
+                    <div class="dvpaxRoom" align="center"><span id="spChAg">Child Ages:</span></div>
+                    <div class="dvClear"></div>
+                </div>
+                <!-- Room 1 -->
+                <div id="dvRoom1" style="padding:5px 5px; display:none;">
+                    <div class="dvpaxRoom" style="padding-top:3px"><span>Room 1:</span></div>
+                    <div id="dvR1adults" class="dvpaxRoom">
+                        <input type="text" id="xxtxtiAdults" value="2" />
+                        <input name="xxiAdults" type="hidden" id="xxiAdults" value="2" />
+                    </div>
+                    <div id="dvR1children" class="dvpaxRoom">
+                        <input type="text" id="xxtxtiChildren" value="0" />
+                        <input name="xxiChildren" type="hidden" id="xxiChildren" value="0" />
+                    </div>
+                    <div id="dvR1child1" class="dvpaxRoomChAg">
+                        <input name="xxiChild1" type="text" id="xxiChild1" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR1child2" class="dvpaxRoomChAg">
+                        <input name="xxiChild2" type="text" id="xxiChild2" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR1child3" class="dvpaxRoomChAg">
+                        <input name="xxiChild3" type="text" id="xxiChild3" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR1child4" class="dvpaxRoomChAg">
+                        <input name="xxiChild4" type="text" id="xxiChild4" class="paxRoomChAg" value="" />
+                    </div>
+                    <div class="dvClear"></div>
+                </div>
+                <!-- Room 2 -->
+                <div id="dvRoom2" style="padding:5px 5px; display:none;">
+                    <div class="dvpaxRoom" style="padding-top:3px"><span>Room 2:</span></div>
+                    <div id="dvR2adults" class="dvpaxRoom">
+                        <input type="text" id="xxtxtRoom2_iAdults" value="2" />
+                        <input name="xxRoom2_iAdults" type="hidden" id="xxRoom2_iAdults" value="2" />
+                    </div>
+                    <div id="dvR2children" class="dvpaxRoom">
+                        <input type="text" id="xxtxtRoom2_iChildren" value="0" />
+                        <input name="xxRoom2_iChildren" type="hidden" id="xxRoom2_iChildren" value="0" />
+                    </div>
+                    <div id="dvR2child1" class="dvpaxRoomChAg">
+                        <input name="xxRoom2_iChild1" type="text" id="xxRoom2_iChild1" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR2child2" class="dvpaxRoomChAg">
+                        <input name="xxRoom2_iChild2" type="text" id="xxRoom2_iChild2" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR2child3" class="dvpaxRoomChAg">
+                        <input name="xxRoom2_iChild3" type="text" id="xxRoom2_iChild3" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR2child4" class="dvpaxRoomChAg">
+                        <input name="xxRoom2_iChild4" type="text" id="xxRoom2_iChild4" class="paxRoomChAg" value="" />
+                    </div>
+                    <div class="dvClear"></div>
+                </div>
+                <!-- Room 3-->
+                <div id="dvRoom3" style="padding:5px 5px; display:none;">
+                    <div class="dvpaxRoom" style="padding-top:3px"><span>Room 3:</span></div>
+                    <div id="dvR3adults" class="dvpaxRoom">
+                        <input type="text" id="xxtxtRoom3_iAdults" value="2" />
+                        <input name="xxRoom3_iAdults" type="hidden" id="xxRoom3_iAdults" value="2" />
+                    </div>
+                    <div id="dvR3children" class="dvpaxRoom">
+                        <input type="text" id="xxtxtRoom3_iChildren" value="0" />
+                        <input name="xxRoom3_iChildren" type="hidden" id="xxRoom3_iChildren" value="0" />
+                    </div>
+                    <div id="dvR3child1" class="dvpaxRoomChAg">
+                        <input name="xxRoom3_iChild1" type="text" id="xxRoom3_iChild1" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR3child2" class="dvpaxRoomChAg">
+                        <input name="xxRoom3_iChild2" type="text" id="xxRoom3_iChild2" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR3child3" class="dvpaxRoomChAg">
+                        <input name="xxRoom3_iChild3" type="text" id="xxRoom3_iChild3" class="paxRoomChAg" value="" />
+                    </div>
+                    <div id="dvR3child4" class="dvpaxRoomChAg">
+                        <input name="xxRoom3_iChild4" type="text" id="xxRoom3_iChild4" class="paxRoomChAg" value="" />
+                    </div>
+                    <div class="dvClear"></div>
+                </div>
+                <div class="dvWording">Please contact us for any special arrangements such as more than three rooms and partial stays.</div>
+            </div>
+            <div style="padding:0px 20px 6px 20px;" align="right" class="divPriceItCAL"> <img id="imgPriceIt" src="https://pictures.tripmasters.com/siteassets/d/btnContinue.gif" onClick="submitToBook()" style="cursor:pointer;" alt="" /> <img id="imgLoading" src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" style="display:none;" alt="" /> </div>
+            <input type="hidden" id="xgoingID" name="xgoingID" value="@Model.webSite" />
+        </form>
+    }
+    <!-- End Calendar Container Up -->
+</div>
+
+

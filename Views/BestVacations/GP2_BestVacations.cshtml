@@ -1,0 +1,664 @@
+﻿@model MVC_TMED.Models.ViewModels.GP_BestVacationsViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+
+@inject IOptionsMonitor<AppSettings> _appsettings
+@{
+    ViewData["Title"] = "GP2_BestVacations";
+}
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/bestVacations/dt.style.bestVacations.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/bestVacations/dt.style.bestVacations.css" asp-append-version="true" />
+    </environment>
+}
+
+@{
+    Int32 maxFeatPack = 0;
+    string pack3Ids = "";
+    if (Model.featPack.Count < 3)
+    {
+        maxFeatPack = Model.featPack.Count;
+    }
+    for (Int32 i = 0; i < maxFeatPack; i++)
+    {
+
+        switch (i)
+        {
+            case 0:
+                {
+                    pack3Ids = pack3Ids + Model.featPack[i].PDLID.ToString() + ", ";
+                    break;
+                }
+            case 1:
+                {
+                    pack3Ids = pack3Ids + Model.featPack[i].PDLID.ToString() + ", ";
+                    break;
+                }
+            case 2:
+                {
+                    pack3Ids = pack3Ids + Model.featPack[i].PDLID.ToString();
+                    break;
+                }
+            case 4:
+                {
+                    i = maxFeatPack;
+                    break;
+                }
+        }
+    }
+}
+
+
+@{
+    <script type="text/javascript">
+        var SiteName = '@_appsettings.CurrentValue.ApplicationSettings.SiteName';
+        dataLayer.push({'packagesIDs': '@pack3Ids'});
+    </script>
+}
+<div id="navDest" class="bg_navDestinos">
+    <div id="destVal"></div>
+    <div style="padding-right:10px;" align="right" class="Text_11"><a href="/europe/vacations" onclick="javascript:$('#navDest').slideUp(); return false;"> close [-] </a></div>
+</div>
+<div id="dvMask"></div>
+<div id="dvTransOptResp">
+    <div id="dvOptions"></div>
+</div>
+@{
+    string dvFea = "block";
+    string dvAll = "none";
+    string topTitle = "";
+    Int32 foN = 0;
+}
+<div id="CObgshow" style="display:none; position:absolute; top:0px; left:0px; filter:alpha(opacity=65); -moz-opacity:.65; opacity:.65; background-color:#CCCCCC; z-index:1010;"></div>
+<div class="dvmainContenedor">
+    <div class="dvBGpageTitle">
+        <div class="dvPageTitleWhite">@Model.bstNA</div>
+        <div id="dvlinkHeader">
+            <img src="https://pictures.tripmasters.com/siteassets/d/nav_barDivis.jpg" width="1" height="36" border="0" align="absmiddle" style="padding-top:5px;" alt="" /> <a href="https://www.tripmasters.com/europe/">Home</a>
+            <img src="https://pictures.tripmasters.com/siteassets/d/nav_barDivis.jpg" width="1" height="36" border="0" align="absmiddle" style="padding-top:5px;" alt="" /> <a href="https://www.tripmasters.com/destinations" onclick="countryDest(0); return false;">Europe<img src="https://pictures.tripmasters.com/siteassets/d/nav_Down.gif" border="0" style="margin-left:5px;" alt="" /></a>
+        </div>
+        <div style="clear: both">
+        </div>
+    </div>
+    <br />
+    <div id="dvLeft">
+        @await Component.InvokeAsync("GP2UCLeft", new { plcNA = Model.bstNA, plcIDs = Model.bstPLC, plcID = Model.bstID, plcTY = "", counID = 0, counNA = "", leftDisplay = Model.listCustDly.FindAll(n => n.SDP_DisplayProdKindID == 1877), boxContent = Model.boxContent, placesOnWeight = Model.placesOnWeight, pgtype = "WInt", strPlcsIDs = @Model.strPlcsIDs, countryCities = Model.placesOnWeight })
+    </div>
+    <div id="dvCenter">
+        @if (Model.allTopDisplay.Count > 0)
+        {
+            <div style="padding: 0px;font-size:12px">
+
+                @foreach (var top in Model.allTopDisplay)
+                {
+                    string imgSRC = top.STX_PictureURL.Replace("http:", "https:");
+                    if (top.SDP_DisplayTitle != "none")
+                    {
+                        topTitle = top.SDP_DisplayTitle;
+                    }
+                    else
+                    {
+                        topTitle = top.STX_Title;
+                    }
+                    <div class="dvOrangeTitle_20">
+                        @topTitle.ToUpper()
+                    </div>
+                    @if (top.STX_CMSID > 0)
+                    {
+                        @Html.Raw(top.CMS_Content.Replace("http:", "https:"));
+                    }
+                    else
+                    {
+                        <img src="@top.STX_PictureURL.ToLower()" width="@top.STX_PictureWidthpx" height="@top.STX_PictureHeightpx"
+                             align="left" style="margin: 0px 5px 5px 0px;" />
+                        <span class="Text_Arial12" style="font-size:12px">@top.STX_Description</span>
+                    }
+                    <div align="center">
+                        <img src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" />
+                    </div>
+                }
+            </div>
+            <div style="clear: both">
+            </div>
+            <div class="dvOrangeTitle_16">
+                Best Vacation Packages
+            </div>
+        }
+        else
+        {
+            <div style="clear: both">
+            </div>
+            <div class="dvOrangeTitle_20">
+                Best Vacation Packages
+            </div>
+            <div id="dvNoTop">
+                <input name="featItin" type="hidden" id="featItin" value="@Model.featPack[0].PDLID" />
+                <div id="dvfeatPics" style="margin-top: 10px; border-top: solid 1px #36F; padding-top: 3px;
+                        cursor: pointer;" onclick=@String.Format("window:location='{0}/package/{1}/{2}'", Model.featPack[0].CountryName, Model.featPack[0].PDLID, Model.featPack[0].PDL_Title)>
+                </div>
+                <div id="dvfeatInfo" class="dvBGfeatuItin">
+                    <div id="dvfeatPckTitle">
+                        <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[0].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[0].CountryName.Replace(" ", "_")) asp-route-name="@Model.featPack[0].PDL_Title.Replace(" ", "_")"></a>
+                    </div>
+                    @{
+                        foN = 1;
+                        string lnGuiNo = "none";
+                        if (Model.featPack[0].SPD_InternalComments.Contains("1784:."))
+                        {
+                            lnGuiNo = "Guided";
+                        }
+                        if (Model.featPack[0].SPD_InternalComments.Contains("1785:."))
+                        {
+                            lnGuiNo = "Partially Guided";
+                        }
+                        if (lnGuiNo != "none")
+                        {
+                            <div id=@String.Format("{0}|{1}|F", lnGuiNo, Model.featPack[0].PDLID) class="dvpkGuidedTxt" onMouseOver="showPopUp(this.id)" onMouseOut="hidePopUp(this.id)">
+                                @lnGuiNo
+                            </div>
+                        }
+                    }
+                    <div id="dvpackDescription">
+                        @Html.Raw(Model.featPack[0].SPD_Description)
+                    </div>
+                    <div class="BGpriceButtom" style="margin-top:5px; float:left; width:147px; height:110px; padding-top:20px;" align="center">
+                        @if (Model.featPack[0].STP_Save != 9999)
+                        {
+                            <div style="padding: 3px 0px">
+                                <span class="Text_Arial11_Light">@Model.featPack[0].PDL_Duration nights from</span>
+                                <span class="Orange-Arial12NB"><b>@String.Format("{0:C}", (Int32)@Model.featPack[0].STP_Save)*</b></span>
+                            </div>
+                        }
+                        <div style="padding: 3px 0px">
+                            <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[0].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[0].CountryName.Replace(" ", "_")) asp-route-name="@Model.featPack[0].PDL_Title.Replace(" ", "_")">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/BOT-Customize.gif" width="120" height="28" border="0" />
+                            </a>
+                        </div>
+                        @if (Model.featPack[0].NoOfFeed > 0)
+                        {
+                            <div class="Text_Arial12_Blue" style="padding: 3px 0px">
+                                <a href=@String.Format("{0}/{1}/{2}/feedback-{3}" ,_appsettings.CurrentValue.ApplicationSettings.SiteName, Model.featPack[0].CountryName.Replace(" ", "_").ToLower(), Model.featPack[0].PDL_Title.Replace(" ", "_").ToLower(), Model.featPack[0].PDLID )>
+                                    Customer feedback (@Model.featPack[0].NoOfFeed)
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div id=@String.Format("dvWait{0}", Model.featPack[0].PDLID) style="display: none; padding: 20px;" align="center">
+                </div>
+                <div id=@String.Format("pkInf{0}", Model.featPack[0].PDLID) style="padding:5px 10px 10px 10px; display:none;" align="left">
+                    <div><b>Included:</b></div>
+                    <div style="padding-left:15px;">
+                        @{
+                            string[] contFParts = Model.featPack[0].PDL_Content.Split("\r\n");
+                            foreach (var fpr in contFParts)
+                            {
+                                Html.Raw(String.Format("<li>{0}</li>", fpr));
+                            }
+                        }
+                    </div>
+                    <div style="clear:both"></div>
+                    <hr class="DotedLine" />
+                    <div class="Text_Arial11" id=@String.Format("dvRelF{0}", Model.featPack[0].PDLID) style="display:block; padding:5px 2px 5px 10px;">
+                        <center>
+                            <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" alt="" />
+                        </center>
+                    </div>
+                    <hr class="DotedLine" />
+                    <form name=@String.Format("frm{0}", Model.featPack[0].PDLID) id=@String.Format("frm{0}", Model.featPack[0].PDLID) style="margin:0px" method="post">
+                        <div class="Text_Arial11" id=@String.Format("dvComF{0}", Model.featPack[0].PDLID) style="display:block; padding:5px 5px;">
+                            <center>
+                                <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" alt="" />
+                            </center>
+                        </div>
+                        <div class="Text_Arial12_LightBold" style="padding:5px 3px 15px 3px;" align="center"><a style="cursor:pointer;" onclick=@String.Format("findPacks('frm{0}')", Model.featPack[0].PDLID)> >> Find similar package </a></div>
+                        <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                        <input type="hidden" name="allID" id="allID" value="" />
+                        <input type="hidden" name="allNA" id="allNA" value="" />
+                    </form>
+                    <hr class="DotedLine" />
+                </div>
+                <div align="left" class="dvMoreDetail">
+                    <span style="cursor:pointer" onclick=@String.Format("openDivInfFNw({0},0)", Model.featPack[0].PDLID)>
+                        <img src="https://pictures.tripmasters.com/siteassets/d/Plus.jpg" name=@String.Format("pic{0}", Model.featPack[0].PDLID) width="9" height="9" align="absmiddle" id=@String.Format("pic{0}", Model.featPack[0].PDLID) alt="" />&nbsp;&nbsp;
+                        <u id=@String.Format("moreTx{0}", Model.featPack[0].PDLID)>More details</u>
+                    </span>
+                </div>
+            </div>
+            <div align="center">
+                <img src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" />
+            </div>
+            <div class="Text_Arial16_OrangeBold" align="left" style="padding: 10px 5px 10px 5px;">
+                Other Vacation Packages
+            </div>
+        }
+        <div id="otherFeat">
+            @{
+                Int32 lastPack = Model.featPack.Count - 1;
+                Int32 othC = 1;
+                for (Int32 fo = foN; fo <= lastPack; fo++)
+                {
+                    string dvStyle = "";
+                    if (fo > foN)
+                    {
+                        dvStyle = "<div class='BGother'>&nbsp;</div>";
+                    }
+                    <div class="BGotherFeatu" align="left">
+                        @Html.Raw(dvStyle)
+                        <div style="height: 200px">
+                            <div style="padding-left: 12px;">
+                                <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[fo].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[fo].CountryName.Replace(" ","_").ToLower()) asp-route-name="@Model.featPack[fo].PDL_Title.Replace(" ","_").ToLower()">
+                                    <img src=@String.Format("https://pictures.tripmasters.com{0}", Model.featPack[fo].IMG_Path_URL.ToLower()) width="120" height="120" border="0" />
+                                </a>
+                            </div>
+                            <div align="left" class="Text_Arial12_LightBold" style="padding:0px 10px;">
+                                <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[fo].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[fo].CountryName.Replace(" ","_").ToLower()) asp-route-name="@Model.featPack[fo].PDL_Title.Replace(" ","_").ToLower()">
+                                    @Model.featPack[fo].PDL_Title
+                                </a>
+                            </div>
+                            @{
+                                string lnGuiNo = "none";
+                                if (Model.featPack[fo].SPD_InternalComments.Contains("1784:."))
+                                {
+                                    lnGuiNo = "Guided";
+                                }
+                                if (Model.featPack[fo].SPD_InternalComments.Contains("1785:."))
+                                {
+                                    lnGuiNo = "Partially Guided";
+                                }
+                                if (lnGuiNo != "none")
+                                {
+                                    <div align="left" id=@String.Format("{0}|{1}|F", lnGuiNo, Model.featPack[fo].PDLID) class="Text_12_Gray" style="cursor:pointer; width:100px; padding:0px 10px;" onMouseOver="showPopUp(this.id)" onMouseOut="hidePopUp(this.id)">
+                                        @lnGuiNo
+                                    </div>
+                                }
+                            }
+                            @if (Model.featPack[fo].STP_Save != 9999)
+                            {
+                                <div align="left" style="padding: 3px 10px;">
+                                    <span class="Text_Arial11_Light">@Model.featPack[fo].PDL_Duration nights from</span>
+                                    <span class="Orange-Arial12NB"><b>@Model.featPack[fo].STP_Save.ToString("C0")*</b></span>
+                                </div>
+                            }
+                            @if (Model.featPack[fo].NoOfFeed > 0)
+                            {
+                                <div class="Text_Arial11_Blue" align="left" style="padding: 3px 5px 3px 10px;">
+                                    <a href=@String.Format("{0}/{1}/{2}/feedback-{3}", _appsettings.CurrentValue.ApplicationSettings.SiteName,Model.featPack[fo].CountryName.Replace(" ", "_").ToLower(),Model.featPack[fo].PDL_Title.Replace(" ", "_").ToLower(),Model.featPack[fo].PDLID)>
+                                        Customer feedback (@Model.featPack[fo].NoOfFeed)
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                        <div id=@String.Format("dvMrTxt{0}", Model.featPack[fo].PDLID) align="left" class="dvMoreDetail">
+                            <span style="cursor: pointer" onclick=@String.Format("openDivInfF({0},1)", Model.featPack[fo].PDLID)>
+                                <img src="https://pictures.tripmasters.com/siteassets/d/Plus.jpg" name=@String.Format("pic{0}", Model.featPack[fo].PDLID) width="9" height="9"align="absmiddle" id=@String.Format("pic{0}", Model.featPack[fo].PDLID) />
+                                &nbsp;&nbsp;
+                                <u id=@String.Format("moreTx{0}", Model.featPack[fo].PDLID)>
+                                    More
+                                    details
+                                </u>
+                            </span>
+                        </div>
+                        <div id=@String.Format("dvMrPic{0}", Model.featPack[fo].PDLID) class="BGDown" style="display: none;">
+                            &nbsp;
+                        </div>
+
+                    </div>
+                    othC += 1;
+                    if (othC == 4)
+                    {
+                        fo = lastPack;
+                    }
+                }
+                <div class="dvClear"></div>
+            }
+        </div>
+        <div id="otherMr" style="display: none">
+            @{
+                othC = 1;
+            }
+            @for (Int32 fo = foN; fo <= lastPack; fo++)
+            {
+                <div id=@String.Format("pkInf{0}", Model.featPack[fo].PDLID) style="padding:10px 0px 5px 0px; display:none;" align="left">
+                    <div align="left" class="Text_Arial11" style="margin-top:5px; float:left; width:275px; padding:5px 0px 0px 5px;">
+                        @Html.Raw(Model.featPack[fo].SPD_Description)
+                        <div style="padding:5px 10px 10px 10px;" align="left">
+                            <div><b>Included:</b></div>
+                            <div style="padding-left:15px;">
+                                @{
+                                    string[] contFParts = Model.featPack[fo].PDL_Content.Split("\r\n");
+                                    foreach (var fpr in contFParts)
+                                    {
+                                        @Html.Raw(String.Format("<li>{0}</li>", fpr));
+                                    }
+                                }
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+                    </div>
+                    <div class="BGpriceButtom" style="float: left; width: 147px; height: 110px; padding-top: 20px;" align="center">
+                        @if (Model.featPack[fo].STP_Save != 9999)
+                        {
+                            <div style="padding: 3px 0px;">
+                                <span class="Text_Arial11_Light">@Model.featPack[fo].PDL_Duration nights from</span>
+                                <span class="Orange-Arial12NB"><b>@Model.featPack[fo].STP_Save.ToString("C0")*</b></span>
+                            </div>
+                        }
+                        <div style="padding: 3px 0px;">
+                            <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[fo].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[fo].CountryName) asp-route-name="@Model.featPack[fo].PDL_Title">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/BOT-Customize.gif" width="120" height="28" border="0" />
+                            </a>
+                        </div>
+                        @if (Model.featPack[fo].NoOfFeed > 0)
+                        {
+                            <div class="Text_Arial12_Blue" style="padding: 3px 0px;">
+                                    <a href=@String.Format("{0}/{1}/{2}/feedback-{3}", _appsettings.CurrentValue.ApplicationSettings.SiteName,Model.featPack[fo].CountryName.Replace(" ", "_").ToLower(),Model.featPack[fo].PDL_Title.Replace(" ", "_").ToLower(),Model.featPack[fo].PDLID)>
+                                    Customer feedback (@Model.featPack[fo].NoOfFeed)
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <div style="clear:both"></div>
+                    <div id=@String.Format("dvajx{0}", @Model.featPack[fo].PDLID) style="display:none;">
+                        <hr class="DotedLine" />
+                        <div class="Text_Arial11" id=@String.Format("dvRelF{0}", @Model.featPack[fo].PDLID) style="display: block; padding: 5px 2px 10px 10px;">
+                            <center>
+                                <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" />
+                            </center>
+                        </div>
+                        <hr class="DotedLine" />
+                        <form name=@String.Format("frm{0}", @Model.featPack[fo].PDLID) id=@String.Format("frm{0}", @Model.featPack[fo].PDLID) method="post">
+                            <div class="Text_Arial11" id=@String.Format("dvComF{0}", @Model.featPack[fo].PDLID) style="display:block; padding:5px 5px;">
+                                <center>
+                                    <img src="https://pictures.tripmasters.com/siteassets/d/ajax-indicator.gif" width="16" height="16" alt="" />
+                                </center>
+                            </div>
+                            <div class="Text_Arial12_LightBold" style="padding:5px 3px 15px 3px;" align="center">
+                                <a style="cursor:pointer;" onclick=@String.Format("findPacks('frm{0}')", @Model.featPack[fo].PDLID)> &gt;&gt; Find similar package </a>
+                            </div>
+                            <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                            <input type="hidden" name="allID" id="allID" value="" />
+                            <input type="hidden" name="allNA" id="allNA" value="" />
+                        </form>
+                        <hr class="DotedLine" />
+                    </div>
+                    <div align="left" class="dvMoreDetail">
+                        <span style="cursor:pointer" onclick=@String.Format("openDivInfF({0},2)", @Model.featPack[fo].PDLID)>
+                            <img src="https://pictures.tripmasters.com/siteassets/d/minus.jpg" width="9" height="9" align="absmiddle" alt="" />&nbsp;&nbsp;<u>Close more details</u>
+                        </span>
+                    </div>
+                </div>
+                {
+                    othC += 1;
+                    if (othC == 4)
+                    {
+                        foN = fo + 1;
+                        fo = lastPack;
+                    }
+                }
+            }
+        </div>
+        <div style="clear: both">
+        </div>
+        <div id="featuredItin" style="display: block">
+            @if (lastPack > 3)
+            {
+                <div align="center">
+                    <img src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" alt="" />
+                </div>
+                <div class="Text_Arial16_OrangeBold" align="left" style="padding: 10px 5px 2px 5px;">Suggested Vacation Packages</div>
+                {
+                    othC = 1;
+                    string margT = "";
+                    string bg = "";
+                    Int32 bnn = 0;
+                    if ((lastPack - foN) + 1 > 6)
+                    {
+                        bnn = 6;
+                    }
+                    else
+                    {
+                        bnn = lastPack;
+                    }
+                    for (Int32 fo = foN; fo <= lastPack; fo++)
+                    {
+                        if (othC == 1)
+                        {
+                            margT = "10px";
+                        }
+                        else
+                        {
+                            margT = "5px";
+                        }
+                        if (othC % 2 == 0)
+                        {
+                            bg = "#EAF2FF";
+                        }
+                        else
+                        {
+                            bg = "#white";
+                        }
+
+                        <div style="background-color:@bg; padding:5px" align="left">
+                            <div style="padding: 3px 5px 2px 0px; float: left;" align="center">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/Plus.jpg" name=@String.Format("picF{0}", Model.featPack[fo].PDLID) width="9" height="9" align="absmiddle" id=@String.Format("picF{0}", Model.featPack[fo].PDLID) style="cursor:pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", Model.featPack[fo].PDLID,@Model.bstNA.Replace(" ","_") ,Model.featPack[fo].PDL_Title.Replace(" ", "_")) />
+                            </div>
+                            <div class="Text_Arial12_Blue" style="width:272px; padding:2px 0px 2px 0px; float:left;">
+                                <span style="cursor:pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", Model.featPack[fo].PDLID,@Model.bstNA.Replace(" ","_"), Model.featPack[fo].PDL_Title.Replace(" ", "_"))>
+                                    @Model.featPack[fo].PDL_Title
+                                </span>
+                            </div>
+                            @if (@Model.featPack[fo].STP_Save != 9999)
+                            {
+                                <div class="Text_10_GrayBold" style="padding:2px 0px 2px 0px; float:right; width:125px;" align="right">
+                                    <span style="cursor:pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", Model.featPack[fo].PDLID, @Model.bstNA.Replace(" ","_"),Model.featPack[fo].PDL_Title.Replace(" ", "_"))>
+                                        @Model.featPack[fo].PDL_Duration nights from <b class="Orange-Arial12">@Model.featPack[fo].STP_Save.ToString("C0")</b>
+                                    </span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="Text_10_GrayBold" style="padding:2px 0px 2px 0px; float:right; width:125px;" align="right">
+                                    <span id=@String.Format("mrDtls{0}", Model.featPack[fo].PDLID) style="cursor:pointer" onclick=@String.Format("openDivInfo({0},'F','{1}','{2}')", Model.featPack[fo].PDLID,@Model.bstNA.Replace(" ","_") ,Model.featPack[fo].PDL_Title.Replace(" ", "_"))>
+                                        More details
+                                    </span>
+                                </div>
+                            }
+                            <div style="clear:both"></div>
+                            @{
+                                string lnGuiNo = "none";
+                                if (Model.featPack[fo].SPD_InternalComments.Contains("1784:."))
+                                {
+                                    lnGuiNo = "Guided";
+                                }
+                                if (Model.featPack[fo].SPD_InternalComments.Contains("1785:."))
+                                {
+                                    lnGuiNo = "Partially Guided";
+                                }
+                                if (lnGuiNo != "none")
+                                {
+                                    <div align="left" id=@String.Format("{0}|{1}|F", lnGuiNo, Model.featPack[fo].PDLID) class="Text_12_Gray" style="cursor:pointer; width:100px; padding:0px 15px;" onMouseOver="showPopUp(this.id)" onMouseOut="hidePopUp(this.id)">
+                                        @lnGuiNo
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div id=@String.Format("dvWaitF{0}", Model.featPack[fo].PDLID) style="padding:30px; display:none" align="center"></div>
+                        <div id=@String.Format("dvInfF{0}", Model.featPack[fo].PDLID) class="Text_Arial12" style="padding:5px 5px 5px 20px; display:none" align="left">
+                            <div id=@String.Format("dvTxtF{0}", Model.featPack[fo].PDLID) class="text_12" style="padding:3px 0px;">
+                                @Html.Raw(@Model.featPack[fo].SPD_Description)
+                            </div>
+                            <div>
+                                <div><b>Included:</b></div>
+                                <div style="padding-left:15px;">
+                                    @{
+                                        string[] contFParts = Model.featPack[fo].PDL_Content.Split("\r\n");
+                                        foreach (var fpr in contFParts)
+                                        {
+                                            @Html.Raw(String.Format("<li>{0}</li>", fpr));
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            @if (Model.featPack[fo].NoOfFeed > 0)
+                            {
+                                <div class="Text_Arial11" id=@String.Format("dvFeedF{0}", Model.featPack[fo].PDLID) style="display:block; padding:5px 5px;">
+                                    <a href=@String.Format("{0}/{1}/{2}/feedback-{3}", _appsettings.CurrentValue.ApplicationSettings.SiteName,Model.featPack[fo].CountryName.Replace(" ", "_").ToLower(),Model.featPack[fo].PDL_Title.Replace(" ", "_").ToLower(),Model.featPack[fo].PDLID)>
+                                        Customer feedback (@Model.featPack[fo].NoOfFeed)
+                                        <img src="https://pictures.tripmasters.com/siteassets/d/CustFeed_Mini.jpg" width="21" height="16" border="0" />
+                                    </a>
+                                </div>
+                            }
+                            <div id=@String.Format("butt{0}", Model.featPack[fo].PDLID) style="padding:15px 35px 5px 35px;" align="right">
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a asp-controller="Package" asp-action="Index" asp-route-id=@String.Format("{0}", Model.featPack[fo].PDLID) asp-route-Country=@String.Format("{0}", Model.featPack[fo].CountryName) asp-route-name="@Model.featPack[fo].PDL_Title">
+                                    <img src="https://pictures.tripmasters.com/siteassets/d/BOT-Customize.gif" border="0" />
+                                </a>
+                            </div>
+                            <hr class="DotedLine" />
+                            <div class="Text_Arial11" id=@String.Format("dvRelF{0}", Model.featPack[fo].PDLID) style="display:none; padding:5px 5px;"></div>
+                            <hr class="DotedLine" />
+                            <form name=@String.Format("frm{0}", Model.featPack[fo].PDLID) id=@String.Format("frm{0}", Model.featPack[fo].PDLID) style="margin:0px" method="post">
+                                <div class="Text_Arial11" id=@String.Format("dvComF{0}", Model.featPack[fo].PDLID) style="display:block; padding:5px 5px;"></div>
+                                <div class="Text_Arial12_LightBold" style="padding:5px 3px 15px 3px;" align="center">
+                                    <a style="cursor:pointer;" onclick=@String.Format("findPackst4('frm{0}'); return false", Model.featPack[fo].PDLID)> >> Find similar package </a>
+                                </div>
+                                <input type="hidden" name="allIDsdp" id="allIDsdp" value="" />
+                                <input type="hidden" name="allID" id="allID" value="" />
+                                <input type="hidden" name="allNA" id="allNA" value="" />
+                            </form>
+                            <div align="center" style="margin:0px 0px 0px 0px ;">
+                                <img src="https://pictures.tripmasters.com/siteassets/d/Line_Blue299.gif" width="400" height="1" alt="" />
+                            </div>
+                        </div>
+                        @if (othC == bnn)
+                        {
+                            if (Model.boxContent1624.Count > 0)
+                            {
+                                foreach (var box in Model.boxContent1624)
+                                {
+                                    if (box.STX_URL != "none")
+                                    {
+                                        if (box.STX_URL.StartsWith("/"))
+                                        {
+                                            box.STX_URL = box.STX_URL.Substring(1, box.STX_URL.Count() - 1);
+                                        }
+                                        <div style="PADDING:15px 0px 15px 0px; display:block;" align="center">
+                                            <a href=@String.Format("{0}/{1}",_appsettings.CurrentValue.ApplicationSettings.SiteName, box.STX_URL.ToLower())>
+                                                <img src=@String.Format("{0}", box.STX_PictureURL.ToLower().Replace("http","https")) border="0" style="padding: 2px 0px 2px 0px" title="@box.STX_Title" alt="" />
+                                            </a>
+                                        </div>
+
+                                    }
+                                }
+                            }
+                        }
+                        {
+                            othC += 1;
+                        }
+
+                    }
+                }
+            }
+        </div>
+        <!-- end div Feat Itin -->
+    </div>
+    <!-- end div center col -->
+    <!-- right div -->
+    <div id="dvRight" class="dvOtherRight">
+        <div style="padding-bottom: 5px;">
+            @await Component.InvokeAsync("UC_TM_SmallCalendar")
+        </div>
+        <div id="divQE_AJAXListContainer" style="DISPLAY:none" class="QE_AJAXListContainer_div"> Loading...Please wait </div>
+        <div id="divPopUpContainer" style="DISPLAY:none" class="QE_PopupContainer_div"> </div>
+        <div id="divCount" style="DISPLAY:none"></div>
+        @if (Model.placesOnWeightCity.Count() > 0)
+        {
+            <div class="dvRoundBoxesComb">
+                <div class="Ttl_Bx_White30" align="left">
+                    Find Vacation Packages
+                </div>
+                <div class="dvwitheRound">
+                    <div class="dvCityList">
+                        <form name="frmFindPack" id="frmFindPack" method="post">
+                            @{
+                                Int32 roundUp = 0;
+                                Double halfTotal = (double)Model.placesOnWeightCity.Count() / 2;
+                                Int32 ifDec = halfTotal.ToString().IndexOf(".");
+                                if (ifDec > 0)
+                                {
+                                    roundUp = (Int32)halfTotal + 1;
+                                }
+                                else
+                                {
+                                    roundUp = (Int32)halfTotal;
+                                }
+                                Int32 ctyC = 0;
+                                foreach (var cty in Model.placesOnWeightCity)
+                                {
+                                    if (ctyC == roundUp)
+                                    {
+                                        @Html.Raw("</div><div class='dvCityList'>");
+                                    }
+                                    <div style="padding:2px 2px 2px 2px;display:inline-block;width:130px;">
+                                        <a href=@String.Format("#dot{0}", cty.STR_PlaceID) class="falsecheck" id=@String.Format("falsedot{0}", cty.STR_PlaceID)>@cty.STR_PlaceTitle</a>
+                                        <input type="checkbox" name=@String.Format("dot{0}", cty.STR_PlaceID) id=@String.Format("dot{0}", cty.STR_PlaceID) style="display:none" value=@String.Format("{0}|{1}", cty.STR_PlaceID.ToString().Trim(), cty.STR_PlaceTitle.Trim().Replace(" ","_")) />
+                                    </div>
+
+                                    ctyC++;
+                                }
+
+                            }
+                            <input type="hidden" name="allID" id="allID" value="" />
+                            <input type="hidden" name="allNA" id="allNA" value="" />
+                        </form>
+                    </div>
+                    <div style="clear: both">
+                    </div>
+                    <div align="center" style="padding:10px 5px; "><img src="https://pictures.tripmasters.com/siteassets/d/Botton_FindPacks.jpg" width="181" height="25" border="0" align="absmiddle" onclick="findPacks('frmFindPack')" alt=""></div>
+                </div>
+            </div>
+        }
+        <!-- Suscribe -->
+        <!-- need booking assistnce -->
+        <div class="dvRoundBoxes">
+            <div style="padding: 3px 10px 3px 10px;">
+                <div class="BG_need">
+                    <div class="Blue-Arial14" align="right" style="padding:10px 20px 5px 3px;">Need booking assistance?</div>
+                    <div align="right" class="Text_12" style="padding:5px 15px 5px 3px;line-height:17px;">
+                        <b>We're glad to help:</b><br>
+                        Call Us <b>7</b>  days a week<br />
+                        from 8AM to Midnight ET<br />
+                        <span class="Text_Arial16_navy"><b>1-800-430-0484</b></span>
+                    </div>
+                    <div align="right" class="Text_12" style="padding:5px 15px 5px 3px;"></div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+
+    <!-- end -->
+
+</div>
+<div style="clear: both"></div>
+<a name="discla"></a>
+@section Scripts
+    {
+    <environment include="Development">
+        <script type="text/javascript" src="//static.criteo.net/js/ld/ld.js"></script>
+        <script src="~/js/gpgp2/dt.java.gp2page.js" asp-append-version="true"></script>
+        <script src="~/js/smallcalendar/dt.java.TM.Calendar.js" asp-append-version="true"></script>
+        <script src="~/js/smallcalendar/dt.java.TM.CommonFunctions.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script type="text/javascript" src="//static.criteo.net/js/ld/ld.js"></script>
+        <script src="~/js/gpgp2/dt.java.gp2page.min.js" asp-append-version="true"></script>
+        <script src="~/js/smallcalendar/smallcalendar.min.js" asp-append-version="true"></script>
+    </environment>
+}
