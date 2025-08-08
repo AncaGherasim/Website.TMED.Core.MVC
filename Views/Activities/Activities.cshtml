@@ -18,128 +18,97 @@
 <div class="main-content">
     <div class="main-container">
         <ul class="breadcrumbs">
-            <li><a href="/" >Home</a></li>
+            <li><a href="/">Home</a></li>
             <li class="breadcrumbs__arrow">›</li>
-            <li><a href=@String.Format("/europe/{0}/vacations", @Model.placeInfo.FirstOrDefault().CountryNA.Replace(" ", "_").ToLower())>@Model.placeInfo.FirstOrDefault().CountryNA</a></li>
+            <li><a href=@String.Format("/europe/{0}/vacations", @Model.allActivities.place_hierarchy[0].countryna.Replace(" ", "_").ToLower())>@Model.allActivities.place_hierarchy[0].countryna</a></li>
             <li class="breadcrumbs__arrow">›</li>
-            <li><a href=@String.Format("/europe/{0}/vacations", @Model.placeInfo.FirstOrDefault().STR_PlaceTitle.Replace(" ", "_").ToLower())>@Model.placeInfo.FirstOrDefault().STR_PlaceTitle</a></li>
+            <li><a href=@String.Format("/europe/{0}/vacations", @Model.allActivities.place_hierarchy[0].str_placetitle.Replace(" ", "_").ToLower())>@Model.allActivities.place_hierarchy[0].str_placetitle</a></li>
         </ul>
-        <h1 class="main-title">Sightseeing Tours in @Model.placeInfo.FirstOrDefault().STR_PlaceTitle</h1>
+        <h1 class="main-title">Sightseeing Tours in @Model.allActivities.place_hierarchy[0].str_placetitle</h1>
         <div class="mobile-nav">
             <div class="mobile-nav__buttons">
                 <button id="modalMap" type="button">locate on map<span>&#8250;</span></button>
                 <button id="modalFilter" type="button"><div><span></span><span></span><span></span></div>sort & filter</button>
             </div>
             <p class="mobile-nav__title">We found a total of:</p>
-            <p class="mobile-nav__num"><span class="spanTotalSS">0</span> activities in @Model.placeInfo.FirstOrDefault().STR_PlaceTitle</p>
+            <p class="mobile-nav__num"><span class="spanTotalSS">@Model.allActivities.totalActivities</span> activities in @Model.allActivities.place_hierarchy[0].str_placetitle</p>
         </div>
         <div class="main-content__wrapper">
             <!-- Left Column W -->
             <div class="main-content__left">
-                 <div class="filter__title">
-                     <p>What to do in</p>
-                     <p>@Model.placeInfo.FirstOrDefault().STR_PlaceTitle</p>
-                 </div>
-                 <div class="filter">
-                     <div class="filter__wrapper">
-                         <div class="filter__tour-name">
-                             <h3>Tour name contains:</h3>
-                             <div>
-                                 <input id="tourName" type="text" placeholder="TYPE WORD" />
-                                 <button type="button" id="submitInputName" aria-label="Submit">›</button>
-                             </div>
-                         </div>
-                         <div class="filter__favorite">
-                             <h3>Favorite:</h3>
-                             <div id="TypeFavorite">
-                                 <button class="falsecheck_1" id="falseshowFav">Show only <span>Favorites &#10003;</span></button>
-                                 <input type="checkbox" name="showFav" id="showFav" style="display:none" value="showFav" />
-                             </div>
-                         </div>
-                         <div class="filter__map">
-                             <h3>Map of @Model.placeInfo.FirstOrDefault().STR_PlaceTitle:</h3>
-                             <div class="filter__map-wrapper">
-                                 <div id="dvMapCanvas"></div>
-                                 <button type="button" id="dvPoiLink">Map of Point of interest</button>
-                             </div>
-                         </div>
+                <div class="filter__title">
+                    <p>What to do in</p>
+                    <p>@Model.allActivities.place_hierarchy[0].str_placetitle</p>
+                </div>
+                <div class="filter">
+                    <div class="filter__wrapper">
+                        <div class="filter__tour-name">
+                            <h3>Tour name contains:</h3>
+                            <div>
+                                <input id="tourName" type="text" placeholder="TYPE WORD" />
+                                <button type="button" id="submitInputName" aria-label="Submit">›</button>
+                            </div>
+                        </div>
+                        <div class="filter__favorite">
+                            <h3>Favorite:</h3>
+                            <div id="TypeFavorite">
+                                <button class="falsecheck_1" id="falseshowFav">Show only <span>Favorites &#10003;</span></button>
+                                <input type="checkbox" name="showFav" id="showFav" style="display:none" value="showFav" />
+                            </div>
+                        </div>
+                        <div class="filter__map">
+                            <h3>Map of @Model.allActivities.place_hierarchy[0].str_placetitle:</h3>
+                            <div class="filter__map-wrapper">
+                                <div id="dvMapCanvas"></div>
+                                <button type="button" id="dvPoiLink">Map of Point of interest</button>
+                            </div>
+                        </div>
                         @if (Model.activitiesType.Count > 0)
                         {
-                           <div class="filter__type">
-                             <p>filter activities by:</p>
-                             <h3>Type:</h3>
-                             <ul>
-                                @{
-                                    string typeFilter = "";
-                                }
-                                 @foreach (var t in @Model.activitiesType)
-                                 {
-                                     <li id=@String.Format("falsedotType{0}", @t.Id)>
-                                             <span>@t.Name </span>
-                                             <span></span>
-                                             <input type="checkbox" name=@String.Format("dotType{0}", @t.Id) id=@String.Format("dotType{0}", @t.Id) style="display: none;"  value="@t.Id" />
-                                    </li>
+                            <div class="filter__type">
+                                <p>filter activities by:</p>
+                                <h3>Type:</h3>
+                                <ul>
+                                    @{
+                                        string typeFilter = "";
+                                    }
+                                    @foreach (var t in @Model.activitiesType)
+                                    {
+                                        <li id=@String.Format("falsedotType{0}", @t.id)>
+                                            <span>@t.name </span>
+                                            <span></span>
+                                            <input type="checkbox" name=@String.Format("dotType{0}", @t.id) id=@String.Format("dotType{0}", @t.id) style="display: none;" value="@t.id" />
+                                        </li>
 
-                                    typeFilter += @t.Id + "T";
-                                }
-                             </ul>
-                             <input id="typeFilter" name="SSIdsPages" type="hidden" value="@typeFilter" />
-                         </div> 
+                                        typeFilter += @t.id + "T";
+                                    }
+                                </ul>
+                                <input id="typeFilter" name="SSIdsPages" type="hidden" value="@typeFilter" />
+                            </div>
                         }
-                     <div class="filter__reset">
-                         <button type="button" id="ResetFilter">Reset Filters</button>
-                         <button type="button" id="applyButton">apply</button>
-                     </div>
-                     </div>
-                 </div>
-                  @if (Model.cityCMS.Count > 0)
-                  {
-                      <div class="orientation">
-                          <h3>Orientation:</h3>
-                          <ul>
-                              @foreach (var c in Model.cityCMS)
-                              {
-                                  <li id="selA">
-                                      @{
-                                                  <a onclick=@String.Format("windowCMS({0},800,600)", @c.CMSW_RelatedCmsID)>@c.CMSW_Title</a>
-                                      }
-                                  </li>
-                              }
-                          </ul>
-                      </div>
-                  }
-                  @if (Model.featuredItineraries.Count > 0)
-                  {
-                      <div class="including">
-                          <h3>Packages including:</h3>
-                          <p>@Model.placeInfo.FirstOrDefault().STR_PlaceTitle</p>
-                          <ul>
-                              @foreach (var p in @Model.featuredItineraries.Take(8).ToList())
-                              {
-                                  <li>
-                                      <a asp-controller="Package" asp-action="Index" asp-route-id="@p.PDLID" asp-route-Country=@String.Format("{0}", @Model.placeInfo.FirstOrDefault().CountryNA.Replace(" ", "_")) asp-route-name="@p.PDL_Title.Replace(" ", "_")">
-                                          @p.PDL_Title
-                                      </a>
-                                      @if (p.STP_Save != 9999)
-                                      {
-                                          <span>@p.Duration nights from <span>@p.STP_Save.ToString("C0")*</span></span>
-                                          
-                                      }
-                                  </li>
-                              }
-                          </ul>
-                          <div>
-                              <a href=@String.Format("/europe/{0}/vacations", @Model.placeInfo.FirstOrDefault().STR_PlaceTitle.Replace(" ", "_").ToLower())>see all <span>›</span></a>
-                          </div>
-                      </div>
-                  }
+                        <div class="filter__reset">
+                            <button type="button" id="ResetFilter">Reset Filters</button>
+                            <button type="button" id="applyButton">apply</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="including">
+                    <h3>Packages including:</h3>
+                    <p>@Model.allActivities.place_hierarchy[0].str_placetitle</p>
+                    <ul class="activities__packages-list">
+                    </ul>
+                    <div>
+                        <a href=@String.Format("/europe/{0}/vacations", @Model.allActivities.place_hierarchy[0].str_placetitle.Replace(" ", "_").ToLower())>see all <span>›</span></a>
+                    </div>
+                </div>
             </div>
+
             <!-- Righ Column W -->
             <div class="main-content__right">
                 <div class="desk-nav">
                     <div class="desk-nav__total">
                         <p class="desk-nav__title">We found a total of:</p>
-                        <p class="desk-nav__num"><span class="spanTotalSS">0</span> activities in @Model.placeInfo.FirstOrDefault().STR_PlaceTitle</p>
+                        <p class="desk-nav__num"><span class="spanTotalSS">@Model.allActivities.totalActivities</span> activities in @Model.allActivities.place_hierarchy[0].str_placetitle</p>
                     </div>
                     <div class="desk-nav__sort">
                         <div class="desk-nav__sort-wrapper">
@@ -148,11 +117,11 @@
                                 <div>
                                     <input type="radio" id="orderAll" name="orderValue" value="1" checked="checked" />
                                     <label id="sortBy1" class="active" for="orderAll">
-                                    <span>A-Z</span>
-                                    Name
-                                </label>
+                                        <span>A-Z</span>
+                                        Name
+                                    </label>
                                 </div>
-                                @* <div>
+                                @*  <div>
                                     <input type="radio" id="orderFav" name="orderValue" value="2" />
                                     <label id="sortBy2" for="orderFav">
                                     <span>P</span>
@@ -160,11 +129,11 @@
                                 </label> 
                                 </div> *@
                                 <div>
-                                    <input type="radio" id="orderName" name="orderValue" value="3"/>
+                                    <input type="radio" id="orderName" name="orderValue" value="3" />
                                     <label id="sortBy3" for="orderName">
-                                    <span>D</span>
-                                    Duration
-                                </label>
+                                        <span>D</span>
+                                        Duration
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -180,97 +149,121 @@
                     </div>
 
                 </div>
-                <div class="activities__desk">
-                    <ul class="activities__list" id="dvResp"></ul>
-                </div>
-                <div class="activities__mob">
-                    <ul class="activities__list" id="dvRespMob"></ul>
-                </div>
-                <div id="dvWait" style="padding:30px; height:400px; margin-top:50px;" align="center"></div>
-                <div class="activities__show-more activities__desk">
-                    <button id="showMoreActivities" type="button">show more</button>
-                </div>
-                <div class="activities__show-more activities__mob">
-                    <button id="showMoreActivitiesMob" type="button">show more</button>
-                </div>
-            </div>
-        </div>
-        @if (Model.displayContents.Count > 0)
-        {
-                string rgxSeoSites = "\bbeach\b.|\blatin\b.|\beurope\b.|\basia\b.";
-
-            <div class="regions">
-                <h2>@Model.displayContents.FirstOrDefault().SDP_DisplayTitle</h2>
-                <ul>
-                    @foreach (var c in @Model.displayContents)
-                    {
-                        if (c.STX_URL != "none")
+                @{
+                    string div_deskmob = Model.isMobileDevice ? "mob" : "desk";
+                    string ul_deskmob = Model.isMobileDevice ? "Mob" : "";
+                }
+                <div class="activities__@div_deskmob">
+                    <ul class="activities__list" id="dvResp@(ul_deskmob)">
+                        @if (Model.allActivities.firstpage == null || Model.allActivities.firstpage.Count == 0)
                         {
-                            if (c.STX_URL.StartsWith("/"))
+                            <div class="activities__no-result">0 activities found. Please try other combination.</div>
+                        }
+                        else
+                        {
+                            @foreach (var activity in Model.allActivities.firstpage)
                             {
-                                c.STX_URL = Context.Request.Scheme + "://" + Context.Request.Host + "/europe" + c.STX_URL.Replace("%20", "_");
-                            }
-                            if (c.STX_URL.StartsWith("h"))
-                            {
-                                if (System.Text.RegularExpressions.Regex.Match(c.STX_URL, rgxSeoSites, System.Text.RegularExpressions.RegexOptions.IgnoreCase).Success)
-                                {
-                                    c.STX_URL = c.STX_URL.Replace(".aspx/", ".aspx");
-                                }
+                                <li>
+                                    <img class="lazyload"
+                                         src="https://pictures.tripmasters.com/siteassets/d/spacer.gif"
+                                         data-src="https://pictures.tripmasters.com@(activity.img_path_url?.ToLower())"
+                                         onerror="this.src='https://pictures.tripmasters.com/siteassets/d/no-image.jpg'"
+                                         alt="@activity.name" />
+                                    <div class="activities__wrapper">
+                                        <h3>@activity.name</h3>
+                                        <div>
+                                            <div class="activities__info">
+                                                <span class="activities__favorites">
+                                                    @(activity.pdl_sequenceno > 49 && activity.pdl_sequenceno < 60 ? @Html.Raw("Favorites &#10003;") : @Html.Raw("&nbsp;"))
+                                                </span>
+                                                <p>Type: @activity.scd_codetitle</p>
+                                                <p>Duration: @activity.pdl_duration @activity.rawdurationunit</p>
+                                            </div>
+                                            <div class="activities__button">
+                                                <button class="activities__details" onclick="openTourDetails(@activity.id)">tour details <span>›</span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="activities__modal-info is-hidden Info@(activity.id)">
+                                        <div>
+                                            <button class="activities__top-button" onclick="closeTourDetails(@activity.id)">
+                                                <span>✖</span><span>close</span>
+                                            </button>
+                                            <p>
+                                                @activity.name
+                                                <span class="activities__favorites">
+                                                    @(activity.pdl_sequenceno > 49 && activity.pdl_sequenceno < 60 ? @Html.Raw("Favorites &#10003;") : "")
+                                                </span>
+                                            </p>
+                                            <div class="activities__flex">
+                                                <img class="lazyload"
+                                                     src="https://pictures.tripmasters.com/siteassets/d/spacer.gif"
+                                                     data-src="https://pictures.tripmasters.com@(activity.img_path_url?.ToLower())"
+                                                     onerror="this.src='https://pictures.tripmasters.com/siteassets/d/no-image.jpg'"
+                                                     alt="@activity.name" />
+                                                <ul>
+                                                    <li><div>Type:</div><div>@activity.scd_codetitle</div></li>
+                                                    <li><div>Duration:</div><div>@activity.pdl_duration @activity.rawdurationunit</div></li>
+                                                </ul>
+                                            </div>
+                                            @Html.Raw(activity.pdl_description)
+                                            <button class="activities__bottom-button" onclick="closeTourDetails(@activity.id)"><span>✖</span>close</button>
+                                        </div>
+                                    </div>
+                                </li>
                             }
                         }
-                        <li>
-                            <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@String.Format("{0}", @c.STX_PictureURL.Replace("http:", "https:").ToLower())" alt="@c.STX_Title" onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'"/>
-                            <a href="@c.STX_URL.ToLower()">@c.STX_Title</a>
-                            @if (c.STX_Description != "none")
-                            {
-                                <p>@c.STX_Description</p>
-                            }
-                        </li>
+                    </ul>
+                </div>
+                <div id="dvWait" style="padding:30px; height:400px; margin-top:50px; @(Model.allActivities.firstpage == null || Model.allActivities.firstpage.Count > 0 ? "display:none" : "")" align="center"></div>
+                <div class="activities__show-more activities__@div_deskmob">
+                    @{
+                        string showMore = (Model.allActivities.totalActivities > (Model.isMobileDevice ? 12 : 24)) ? "inline-block" : "none";
                     }
-                </ul>
+                    <button id="showMoreActivities@(ul_deskmob)" style="display:@(showMore)" type="button">show more</button>
+                </div>
             </div>
-        }
-    </div>
-</div>
-@*Modal*@
-<div id="modal" class="backdrop is-hidden">
-    <div class="modal__wrapper">
-        <button class="modal__close" type="button"><span>‹</span>Back to Activities list</button>
-        <div class="modal__container">
         </div>
     </div>
-</div>
-<div id="divError" class="ketchup-error-container" style="left: 5px; top: 200px; display: none;">
-    <ol>
-        <li>This field is required.</li>
-        <li>Must be a valid username.</li>
-    </ol>
-</div>
-<div id="bigMap" class="backdrop is-hidden">
-    <div id="dvShowMap" class="big-map">
-        <button id="bigMapClose" aria-label="Close map">✖</button>
-        <p>@Model.placeInfo.FirstOrDefault().STR_PlaceTitle: Point of Interest Map</p>
-        <div id="dvGoogleMap" style="width:100%; height:95%; border-radius:7px; margin-bottom:10px;"></div>
-        <div id="dvHotelMap" style="position:relative; z-index:9100;"></div>
+@*Modal*@
+    <div id="modal" class="backdrop is-hidden">
+        <div class="modal__wrapper">
+            <button class="modal__close" type="button"><span>‹</span>Back to Activities list</button>
+            <div class="modal__container">
+            </div>
+        </div>
     </div>
-</div>
-<input id="cityId" name="cityId" type="hidden" value="@Model.placeInfo.FirstOrDefault().STR_PlaceID" />
-<input id="SSIds" name="SSIds" type="hidden" value="@Model.ssIds" />
-<input id="SSIdsPages" name="SSIdsPages" type="hidden" value="" />
+    <div id="divError" class="ketchup-error-container" style="left: 5px; top: 200px; display: none;">
+        <ol>
+            <li>This field is required.</li>
+            <li>Must be a valid username.</li>
+        </ol>
+    </div>
+    <div id="bigMap" class="backdrop is-hidden">
+        <div id="dvShowMap" class="big-map">
+            <button id="bigMapClose" aria-label="Close map">✖</button>
+            <p>@Model.allActivities.place_hierarchy[0].str_placetitle: Point of Interest Map</p>
+            <div id="dvGoogleMap" style="width:100%; height:95%; border-radius:7px; margin-bottom:10px;"></div>
+            <div id="dvHotelMap" style="position:relative; z-index:9100;"></div>
+        </div>
+    </div>
+    <input id="cityId" name="cityId" type="hidden" value="@Model.allActivities.place_hierarchy[0].str_placeid" />
+    <input id="SSIds" name="SSIds" type="hidden" value="@Model.ssIds" />
+    <input id="SSIdsPages" name="SSIdsPages" type="hidden" value="" />
 
 @section Scripts
-    {
-    <environment include="Development">
-        <script src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=myMap"></script>
-        <script src="~/lib/lazysizes.js" asp-append-version="true"></script>
-        <script src="~/js/activities/dm.java.activities.js" asp-append-version="true"></script>
-        <script src="~/js/activities/java.POI-MarkeLabel.min.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
-        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
-        <script src="~/js/activities/dm.java.activities.min.js" asp-append-version="true"></script>
-        <script src="~/js/activities/java.POI-MarkeLabel.min.js" asp-append-version="true"></script>
-    </environment>
+{
+        <environment include="Development">
+            <script src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=myMap"></script>
+            <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+            <script src="~/js/activities/dm.java.activities.js" asp-append-version="true"></script>
+            <script src="~/js/activities/java.POI-MarkeLabel.min.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd8S1lOSNhEy2FUzkGT34S1KCvadNLkz8"></script>
+            <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+            <script src="~/js/activities/dm.java.activities.min.js" asp-append-version="true"></script>
+            <script src="~/js/activities/java.POI-MarkeLabel.min.js" asp-append-version="true"></script>
+        </environment>
 
 }

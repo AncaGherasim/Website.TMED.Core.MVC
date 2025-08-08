@@ -188,5 +188,101 @@ namespace MVC_TMED.Infrastructure
                 ) AS result;";
             return squery;
         }
+
+        public static string PG_Func_Activitiesbyplaceid()
+        {
+            string squery = $@"WITH place_hierarchy as (
+                SELECT COALESCE(CO.STR_PlaceTitle, 'none') as CountryNA, COALESCE(CO.STR_PlaceID,0) as CountryID, CY.STRID, CY.STR_PlaceID, CY.STR_PlaceTypeID  
+                    , CY.STR_PlaceTitle
+                    FROM dbo.STR_Places_Hierarchy CY 
+                    LEFT Join dbo.STR_Places_Hierarchy CO ON (CO.STR_PlaceID = CY.STR_Place1ParentID OR CO.STR_PlaceID = CY.STR_Place2ParentID) 
+                        AND CO.STR_PlaceActive = TRUE AND CO.STR_NoWeb = FALSE AND CO.STR_PlaceTypeID = 5 AND CO.STR_ProdKindID = 0 
+                        AND CO.STR_UserID = @UserId WHERE CY.STR_UserID = @UserId AND CY.STR_PlaceActive = TRUE 
+    	                AND CY.STR_NoWeb = FALSE AND CY.STR_ProdKindID = 0 AND (CY.STR_PlaceTitle iLIKE @PlaceName) LIMIT 1
+                ), 
+                activities AS (
+                  SELECT
+                    syc.scdid         AS Id,
+                    syc.scd_codetitle AS Name,
+                    pri.pdlid         AS ssid
+                  FROM place_hierarchy phi
+				  JOIN dbo.prd_placexproductitem AS pxp ON phi.STR_PlaceID = pxp.cxz_childplaceid 
+                  JOIN dbo.prd_productitem      AS pri  ON pri.pdlid               = pxp.cxz_productitem
+                  JOIN dbo.prd_product          AS pro  ON pro.spdid               = pri.pdl_productid
+                  LEFT JOIN dbo.sys_codes       AS syc  ON syc.scdid               = pro.spd_productkindsyscode
+                  WHERE
+                        pxp.cxz_active             = TRUE
+                    AND pri.pdl_active             = TRUE
+                    AND pri.pdl_noweb              = FALSE
+                    AND pro.spd_active             = TRUE
+                    AND pro.spd_producttypesyscode = 152
+                    AND syc.scd_active             = TRUE
+                ),
+				firstpage_base AS (
+					SELECT
+					  pri.pdlid AS id,
+					  pri.pdl_title AS name,
+					  pri.pdl_sequenceno AS sequenceNo,
+					  COALESCE(NULLIF(stpr.stp_save::text, '')::money, 9999::money)::numeric AS STP_Save,
+					  syc.scd_codetitle AS SCD_CodeTitle,
+					  pri.pdl_duration AS PDL_Duration,
+					  syc1.scd_codetitle AS rawDurationUnit,
+					  syc.scdid,
+					  pro.spd_description AS SPD_Description,
+					  pri.pdl_description AS PDL_Description,
+                      pro.spdid
+					FROM dbo.prd_productitem pri
+					JOIN dbo.prd_product pro ON pro.spdid = pri.pdl_productid
+					LEFT JOIN dbo.sys_codes syc ON syc.scdid = pro.spd_productkindsyscode
+					LEFT JOIN dbo.sys_codes syc1 ON syc1.scdid = pri.pdl_durationunitsyscode
+					LEFT JOIN dbo.str_sitepromotion stpr ON stpr.stp_proditemid = pri.pdlid
+						AND stpr.stp_userid = @UserId AND stpr.stp_active = TRUE
+						AND stpr.stp_startdate <= CURRENT_DATE AND stpr.stp_enddate >= CURRENT_DATE
+					JOIN activities act ON act.ssid = pri.pdlid
+					ORDER BY pri.pdl_title
+					LIMIT @NoPageItems
+				),
+				firstpage_images AS (
+					SELECT DISTINCT ON (pxi.pxi_productid)
+						pxi.pxi_productid AS productid,
+						img.img_path_url
+					FROM dbo.prd_productximages pxi
+					JOIN dbo.app_images img ON img.imgid = pxi.pxi_imageid
+						AND img.img_path_url IS NOT NULL
+						AND img.img_active = TRUE
+					WHERE pxi.pxi_productid IN (SELECT spdid FROM firstpage_base)
+					  AND pxi.pxi_sequence = 0
+					  AND pxi.pxi_active = TRUE
+				),
+				firstpage AS (
+					SELECT
+						fb.*,
+						COALESCE(img.img_path_url, 'none') AS img_path_url
+					FROM firstpage_base fb
+					LEFT JOIN firstpage_images img ON img.productid = fb.spdid
+                    ORDER BY name
+				),               
+                meta AS (
+                  SELECT
+                    COUNT(*) AS total_activities,
+                    (
+                      SELECT json_agg(row_to_json(distinct_cat))
+                      FROM (
+                        SELECT DISTINCT id, name
+                        FROM activities
+                      ) AS distinct_cat
+                    ) AS categories
+                  FROM activities
+                )
+                SELECT
+                  json_build_object(
+                    'place_hierarchy', (SELECT json_agg(row_to_json(ph)) FROM place_hierarchy ph),
+                    'firstpage',       (SELECT json_agg(row_to_json(fp)) FROM firstpage fp),
+                    'categories',      meta.categories,
+                    'totalActivities', meta.total_activities
+                  ) AS dashboard
+                FROM meta;";
+            return squery;
+        }
     }
 }

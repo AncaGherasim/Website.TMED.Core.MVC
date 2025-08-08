@@ -13,6 +13,8 @@ namespace MVC_TMED.Models.ViewModels
         public List<PlaceDisplayContent> displayContents = new List<PlaceDisplayContent>();
         public List<ActivitiesType> activitiesType = new List<ActivitiesType>();
         public String ssIds = "";
+        public ActivitiesByPlaceID_PG allActivities = new ActivitiesByPlaceID_PG();
+        public bool isMobileDevice = false;
     }
 
     public class CityCMS
@@ -51,9 +53,9 @@ namespace MVC_TMED.Models.ViewModels
     }
     public class ActivitiesType
     {
-        public Int32 Id { get; set; }
-        public string Name { get; set; }
-        public Int32 SSId { get; set; }
+        public Int32 id { get; set; }
+        public string name { get; set; }
+        public Int32 ssid { get; set; }
     }
 
     public class GetTours
@@ -88,17 +90,49 @@ namespace MVC_TMED.Models.ViewModels
 
     public class Activity
     {
-        public Int32 Id { get; set; }
-        public string Name { get; set; }
-        public Int32 PDL_SequenceNo { get; set; }
-        public decimal STP_Save { get; set; }
-        public string SCD_CodeTitle { get; set; }
-        public string SSDuration { get; set; }
-        public Int32 SSDurationInMinutes { get; set; }
-        public decimal Rating { get; set; }
-        public Int32 Reviews { get; set; }
-        public string SPD_Description { get; set; }
-        public string PDL_Description { get; set; }
-        public string IMG_Path_URL { get; set; }
+        public Int32 id { get; set; }
+        public string name { get; set; }
+        public Int32 pdl_sequenceno { get; set; }
+        public decimal stp_save { get; set; }
+        public string scd_codetitle { get; set; }
+        public string ssduration { get; set; }
+        public Int32 ssdurationinminutes { get; set; }
+        public Int32 pdl_duration { get; set; }
+        public string spd_description { get; set; }
+        public string pdl_description { get; set; }
+        public string img_path_url { get; set; }
+        public string rawdurationunit { get; set; }
+        public Int32 TotalCount { get; set; }
+    }
+
+    public class ActivitiesByPlaceID_PG
+    {
+        public Int32 totalActivities { get; set; }
+        public List<Activity> firstpage { get; set; }
+        public List<ActivitiesType> categories { get; set; }
+        public List<PlaceInfo_PG> place_hierarchy { get; set; }
+    }
+
+    public class PlaceInfo_PG
+    {
+        public string countryna { get; set; }
+        public Int32 countryid { get; set; }
+        public Int32 strid { get; set; }
+        public Int32 str_placeid { get; set; }
+        public Int32 str_placetypeid { get; set; }
+        public string str_placetitle { get; set; }
+    }
+
+    public class GetActivitiesPageParams
+    {
+        public Int32 PlaceId { get; set; }
+        public Int32 PageNo { get; set; }
+        public string ActivityName { get; set; }
+        public bool isActivityName { get; set; }
+        public Int32 Sort { get; set; }
+        public bool isFavorite { get; set; }
+        public string TypeList { get; set; }
+        public bool isTypeList { get; set; }
+        public bool IsMobileDevice { get; set; }
     }
 }

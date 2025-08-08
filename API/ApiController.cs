@@ -2300,6 +2300,120 @@ namespace MVC_TMED.API
             var result = await _dapperWrap.pgSQLGetRecordsAsync<HotelsMapAddress>(sql, 4, parameters);
             return Ok(result);
         }
+
+        [HttpGet("Activities/ActivitiesOnPagePgs")]
+        public async Task<IActionResult> GetActivitiesOnPagePgs([FromQuery] GetActivitiesPageParams getActivitiesParams)
+        {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "0";
+
+            var parameters = new DynamicParameters();
+
+            getActivitiesParams.ActivityName ??= "";
+            string orderByClause = "ORDER BY name";
+            if (getActivitiesParams.Sort > 1)
+                orderByClause = "ORDER BY ssdurationinminutes";
+
+            string[] aTypeList;
+            if (string.IsNullOrEmpty(getActivitiesParams.TypeList))
+            {
+                aTypeList = Array.Empty<string>();
+            }
+            else
+            {
+                aTypeList = getActivitiesParams.TypeList.Split(',');
+            }
+            List<int> iTypeList = new List<int>();
+            foreach (string part in aTypeList)
+            {
+                Int32.TryParse(part, out Int32 nTypeList);
+                iTypeList.Add(nTypeList);
+            }
+
+            string sql = $@"
+                WITH base_activities AS (
+                  SELECT
+                    pri.pdlid AS id,
+                    pri.pdl_title AS name,
+                    pri.pdl_sequenceno AS sequenceNo,
+                    COALESCE(
+                      NULLIF(stpr.stp_save::text, '')::money,
+                      9999::money
+                    )::numeric AS STP_Save,
+                    syc.scd_codetitle AS SCD_CodeTitle,
+                    pri.pdl_duration AS PDL_Duration,
+                    syc1.scd_codetitle AS rawDurationUnit,
+                    syc.scdid,
+                    pro.spd_description AS SPD_Description,
+                    pri.pdl_description AS PDL_Description,
+                    CASE
+                      WHEN syc1.SCDID = 1627 THEN pri.PDL_Duration
+                      WHEN syc1.SCDID = 68   THEN pri.PDL_Duration * 60 * 24
+                      WHEN syc1.SCDID = 10   THEN pri.PDL_Duration * 60
+                    END AS ssdurationinminutes,
+                    pro.spdid
+                  FROM dbo.prd_placexproductitem pxp
+                  JOIN dbo.prd_productitem pri ON pri.pdlid = pxp.cxz_productitem
+                  JOIN dbo.prd_product pro ON pro.spdid = pri.pdl_productid
+                  LEFT JOIN dbo.sys_codes syc ON syc.scdid = pro.spd_productkindsyscode
+                  LEFT JOIN dbo.sys_codes syc1 ON syc1.scdid = pri.pdl_durationunitsyscode
+                  LEFT JOIN dbo.str_sitepromotion stpr ON stpr.stp_proditemid = pri.pdlid
+                    AND stpr.stp_userid = @UserId AND stpr.stp_active = TRUE
+                    AND stpr.stp_startdate <= CURRENT_DATE AND stpr.stp_enddate >= CURRENT_DATE
+                  WHERE
+                    pxp.cxz_childplaceid = @PlaceId
+                    AND pxp.cxz_active = TRUE
+                    AND pri.pdl_active = TRUE
+                    AND pri.pdl_noweb = FALSE
+                    AND pro.spd_active = TRUE
+                    AND pro.spd_producttypesyscode = 152
+                    AND syc.scd_active = TRUE
+                    AND (@IsFavorite IS FALSE OR (pdl_sequenceno BETWEEN 49 AND 60))
+                    AND (@IsTypeList IS FALSE OR syc.scdid = ANY(@TypeList))
+                    AND (@IsActivityName IS FALSE OR pdl_title ILIKE @ActivityName)
+                ),
+                paged_activities AS (
+                  SELECT *,
+                         COUNT(*) OVER() AS TotalCount
+                    FROM base_activities
+                    {orderByClause}
+                    OFFSET ((@PageNo - 1) * @NoPageItems)
+                    LIMIT @NoPageItems
+                ),
+                images AS (
+                  SELECT DISTINCT ON (pxi.pxi_productid)
+                    pxi.pxi_productid,
+                    img.img_path_url
+                  FROM dbo.prd_productximages pxi
+                  JOIN dbo.app_images img
+                    ON img.imgid = pxi.pxi_imageid
+                   AND img.img_path_url IS NOT NULL
+                   AND img.img_active = TRUE
+                  WHERE pxi.pxi_productid IN (SELECT spdid FROM paged_activities)
+                    AND pxi.pxi_sequence = 0
+                    AND pxi.pxi_active = TRUE
+                )
+                SELECT
+                  pa.*,
+                  COALESCE(img.img_path_url, 'none') AS IMG_Path_URL
+                FROM paged_activities pa
+                LEFT JOIN images img ON img.pxi_productid = pa.spdid
+                {orderByClause};";
+
+            parameters.Add("@PlaceId", getActivitiesParams.PlaceId);
+            parameters.Add("@IsFavorite", getActivitiesParams.isFavorite);
+            parameters.Add("@IsActivityName", getActivitiesParams.isActivityName);
+            parameters.Add("@TypeList", iTypeList);
+            parameters.Add("@IsTypeList", getActivitiesParams.isTypeList);
+            parameters.Add("@ActivityName", "%" + getActivitiesParams.ActivityName + "%");
+            parameters.Add("@PageNo", getActivitiesParams.PageNo);
+            parameters.Add("@UserId", 243);
+            parameters.Add("@NoPageItems", (getActivitiesParams.IsMobileDevice ? 12 : 24));
+
+            var result = await _dapperWrap.pgSQLGetRecordsAsync<Activity>(sql, 4, parameters);
+            return Ok(result);
+        }
     }
 }
 
