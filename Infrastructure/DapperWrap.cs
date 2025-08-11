@@ -13,6 +13,7 @@ using Amazon.SimpleSystemsManagement;
 using Amazon.SimpleSystemsManagement.Model;
 using System.Text.Json.Nodes;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace MVC_TMED.Infrastructure
 {
@@ -21,12 +22,14 @@ namespace MVC_TMED.Infrastructure
         private readonly AppSettings _appSettings;
         private readonly AWSParameterStoreService _awsParameterStoreService;
         private static IAmazonSimpleSystemsManagement _ssmClient;
+        private readonly ILogger<DapperWrap> _logger;
 
-        public DapperWrap(IOptions<AppSettings> appSettings, AWSParameterStoreService awsParameterStoreService, IAmazonSimpleSystemsManagement ssmClient)
+        public DapperWrap(IOptions<AppSettings> appSettings, AWSParameterStoreService awsParameterStoreService, IAmazonSimpleSystemsManagement ssmClient, ILogger<DapperWrap> logger)
         {
             _appSettings = appSettings.Value;
             _awsParameterStoreService = awsParameterStoreService;
             _ssmClient = ssmClient;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<T>> GetRecords<T>(string sql, object parameters = null)
@@ -109,10 +112,10 @@ namespace MVC_TMED.Infrastructure
                             }
                             else
                             {
-                                Console.WriteLine("TMED-Error-SqlLock-GetRecordsAsync01: " + typeof(T).Name + " SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
+                                _logger.LogError($"****** Site: TMED | Error-SqlLock-GetRecordsAsync01: " + typeof(T).Name + " SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
                                 if (sqlException.InnerException != null)
                                 {
-                                    Console.WriteLine(sqlException.InnerException.Message);
+                                    _logger.LogError(sqlException.InnerException.Message);
                                 }
                                 TryToFill = false;
                                 throw AddAdditionalInfoToException(sqlException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
@@ -120,10 +123,10 @@ namespace MVC_TMED.Infrastructure
                         }
                         else
                         {
-                            Console.WriteLine("TMED-Error-SqlLock-GetRecordsAsync02: " + typeof(T).Name + " Message: " + sqlException.Message);
+                            _logger.LogError($"****** Site: TMED | Error-SqlLock-GetRecordsAsync02: " + typeof(T).Name + " Message: " + sqlException.Message);
                             if (sqlException.InnerException != null)
                             {
-                                Console.WriteLine(sqlException.InnerException.Message);
+                                _logger.LogError(sqlException.InnerException.Message);
                             }
                             TryToFill = false;
                             throw AddAdditionalInfoToException(sqlException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
@@ -131,10 +134,10 @@ namespace MVC_TMED.Infrastructure
                     }
                     catch (Exception originalException)
                     {
-                        Console.WriteLine("TMED-Error-Sql-Dapper01: " + originalException.Message);
+                        _logger.LogError($"****** Site: TMED | Error-Sql-Dapper01: " + originalException.Message);
                         if (originalException.InnerException != null)
                         {
-                            Console.WriteLine(originalException.InnerException.Message);
+                            _logger.LogError(originalException.InnerException.Message);
                         }
                         TryToFill = false;
                         throw AddAdditionalInfoToException(originalException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
@@ -228,10 +231,10 @@ namespace MVC_TMED.Infrastructure
                             else
                             {
                                 TryToFill = false;
-                                Console.WriteLine("TMED-Error-MySqlLock-GetRecordsAsync01: " + typeof(T).Name + " MySqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
+                                _logger.LogError($"****** Site: TMED | Error-MySqlLock-GetRecordsAsync01: " + typeof(T).Name + " MySqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
                                 if (sqlException.InnerException != null)
                                 {
-                                    Console.WriteLine(sqlException.InnerException.Message);
+                                    _logger.LogError(sqlException.InnerException.Message);
                                 }
                                 throw AddAdditionalInfoToException(sqlException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
                             }
@@ -239,20 +242,20 @@ namespace MVC_TMED.Infrastructure
                         else
                         {
                             TryToFill = false;
-                            Console.WriteLine("TMED-Error-MySqlLock-GetRecordsAsync02: " + typeof(T).Name + " Message: " + sqlException.Message);
+                            _logger.LogError($"****** Site: TMED | Error-MySqlLock-GetRecordsAsync02: " + typeof(T).Name + " Message: " + sqlException.Message);
                             if (sqlException.InnerException != null)
                             {
-                                Console.WriteLine(sqlException.InnerException.Message);
+                                _logger.LogError(sqlException.InnerException.Message);
                             }
                             throw AddAdditionalInfoToException(sqlException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
                         }
                     }
                     catch (Exception originalException)
                     {
-                        Console.WriteLine("TMED-Error-MySql-Dapper01: " + originalException.Message);
+                        _logger.LogError($"****** Site: TMED | Error-MySql-Dapper01: " + originalException.Message);
                         if (originalException.InnerException != null)
                         {
-                            Console.WriteLine(originalException.InnerException.Message);
+                            _logger.LogError(originalException.InnerException.Message);
                         }
                         TryToFill = false;
                         throw AddAdditionalInfoToException(originalException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
@@ -343,10 +346,10 @@ namespace MVC_TMED.Infrastructure
                             else
                             {
                                 TryToFill = false;
-                                Console.WriteLine("TMED-Error-MySqlLock-GetRecordsSync01: " + typeof(T).Name + " MySqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
+                                _logger.LogError($"****** Site: TMED | Error-MySqlLock-GetRecordsSync01: " + typeof(T).Name + " MySqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
                                 if (sqlException.InnerException != null)
                                 {
-                                    Console.WriteLine(sqlException.InnerException.Message);
+                                    _logger.LogError(sqlException.InnerException.Message);
                                 }
                                 throw AddAdditionalInfoToException(sqlException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
                             }
@@ -354,20 +357,20 @@ namespace MVC_TMED.Infrastructure
                         else
                         {
                             TryToFill = false;
-                            Console.WriteLine("TMED-Error-MySqlLock-GetRecordsSync02: " + typeof(T).Name + " Message: " + sqlException.Message);
+                            _logger.LogError($"****** Site: TMED | Error-MySqlLock-GetRecordsSync02: " + typeof(T).Name + " Message: " + sqlException.Message);
                             if (sqlException.InnerException != null)
                             {
-                                Console.WriteLine(sqlException.InnerException.Message);
+                                _logger.LogError(sqlException.InnerException.Message);
                             }
                             throw AddAdditionalInfoToException(sqlException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
                         }
                     }
                     catch (Exception originalException)
                     {
-                        Console.WriteLine("TMED-Error-MySql-Dapper02: " + originalException.Message);
+                        _logger.LogError($"****** Site: TMED | Error-MySql-Dapper02: " + originalException.Message);
                         if (originalException.InnerException != null)
                         {
-                            Console.WriteLine(originalException.InnerException.Message);
+                            _logger.LogError(originalException.InnerException.Message);
                         }
                         TryToFill = false;
                         throw AddAdditionalInfoToException(originalException, "Error: GetRecords: " + typeof(T).Name, sql, parameters);
@@ -466,24 +469,24 @@ namespace MVC_TMED.Infrastructure
                     retryCount++;
                     if (retryCount == maxRetryCount)
                     {
-                        Console.WriteLine("TMED-Error-SqlLock-GetMultipleRecordsAsync: " + "SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
+                        _logger.LogError($"****** Site: TMED | Error-SqlLock-GetMultipleRecordsAsync: " + "SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
                         if (sqlException.InnerException != null)
                         {
-                            Console.WriteLine(sqlException.InnerException.Message);
+                            _logger.LogError(sqlException.InnerException.Message);
                         }
                     }
-                    System.Threading.Thread.Sleep(100); // Wait for a short delay before retrying
+                    await Task.Delay(100);
                 }
                 catch (SqlException sqlException) when (retryCount < maxRetryCount)
                 {
                     // Retry for other SQL connection errors
                     retryCount++;
-                    Console.WriteLine("TMED-Error-Sql-GetMultipleRecordsAsync: " + "Message: " + sqlException.Message);
+                    _logger.LogError($"****** Site: TMED | Error-Sql-GetMultipleRecordsAsync: " + "Message: " + sqlException.Message);
                     if (sqlException.InnerException != null)
                     {
-                        Console.WriteLine(sqlException.InnerException.Message);
+                        _logger.LogError(sqlException.InnerException.Message);
                     }
-                    System.Threading.Thread.Sleep(100); // Wait for a short delay before retrying
+                    await Task.Delay(100);
                 }
                 catch (Exception ex)
                 {
@@ -491,10 +494,10 @@ namespace MVC_TMED.Infrastructure
                     // Log or handle the exception appropriately
                     //throw; // Rethrow the exception
                     retryCount++;
-                    Console.WriteLine("TMED-Error-Sql-GetMultipleRecordsAsync: " + ex.Message);
+                    _logger.LogError($"****** Site: TMED | Error-Sql-GetMultipleRecordsAsync: " + ex.Message);
                     if (ex.InnerException != null)
                     {
-                        Console.WriteLine(ex.InnerException.Message);
+                        _logger.LogError(ex.InnerException.Message);
                     }
                 }
             }
@@ -541,34 +544,34 @@ namespace MVC_TMED.Infrastructure
                     retryCount++;
                     if (retryCount == maxRetryCount)
                     {
-                        Console.WriteLine("TMED-Error-PostgreSQLock-pgSQLGetRecordsAsync: " + "SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
+                        _logger.LogError($"****** Site: TMED | Error-PostgreSQLock-pgSQLGetRecordsAsync: " + "SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
                         if (sqlException.InnerException != null)
                         {
-                            Console.WriteLine(sqlException.InnerException.Message);
+                            _logger.LogError(sqlException.InnerException.Message);
                         }
                     }
-                    System.Threading.Thread.Sleep(100); // Wait for a short delay before retrying
+                    await Task.Delay(100);
                 }
                 catch (SqlException sqlException) when (retryCount < maxRetryCount)
                 {
                     // Retry for other SQL connection errors
                     retryCount++;
-                    Console.WriteLine("TMED-Error-PostgreSql-pgSQLGetRecordsAsync: " + "Message: " + sqlException.Message);
+                    _logger.LogError($"****** Site: TMED | Error-PostgreSql-pgSQLGetRecordsAsync: " + "Message: " + sqlException.Message);
                     if (sqlException.InnerException != null)
                     {
-                        Console.WriteLine(sqlException.InnerException.Message);
+                        _logger.LogError(sqlException.InnerException.Message);
                     }
-                    System.Threading.Thread.Sleep(100); // Wait for a short delay before retrying
+                    await Task.Delay(100);
                 }
                 catch (Exception ex)
                 {
                     // Handle other exceptions
                     // Log or handle the exception appropriately
                     retryCount++;
-                    Console.WriteLine("TMED-Error-pgSQLGetRecordsAsync: " + ex.Message);
+                    _logger.LogError($"****** Site: TMED | Error-pgSQLGetRecordsAsync: " + ex.Message);
                     if (ex.InnerException != null)
                     {
-                        Console.WriteLine(ex.InnerException.Message);
+                        _logger.LogError(ex.InnerException.Message);
                     }
                 }
             }
@@ -613,10 +616,10 @@ namespace MVC_TMED.Infrastructure
                     retryCount++;
                     if (retryCount == maxRetryCount)
                     {
-                        Console.WriteLine("TMED-Error-PostgreSQLock-pgSQLGetRecordsAsync: " + "SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
+                        _logger.LogError($"****** Site: TMED | Error-PostgreSQLock-pgSQLGetRecordsAsync: " + "SqlExceptionNo: " + sqlException.Number + " Message: " + sqlException.Message);
                         if (sqlException.InnerException != null)
                         {
-                            Console.WriteLine(sqlException.InnerException.Message);
+                            _logger.LogError(sqlException.InnerException.Message);
                         }
                     }
                     System.Threading.Thread.Sleep(100); // Wait for a short delay before retrying
@@ -625,10 +628,10 @@ namespace MVC_TMED.Infrastructure
                 {
                     // Retry for other SQL connection errors
                     retryCount++;
-                    Console.WriteLine("TMED-Error-PostgreSql-pgSQLGetRecordsAsync: " + "Message: " + sqlException.Message);
+                    _logger.LogError($"****** Site: TMED | Error-PostgreSql-pgSQLGetRecordsAsync: " + "Message: " + sqlException.Message);
                     if (sqlException.InnerException != null)
                     {
-                        Console.WriteLine(sqlException.InnerException.Message);
+                        _logger.LogError(sqlException.InnerException.Message);
                     }
                     System.Threading.Thread.Sleep(100); // Wait for a short delay before retrying
                 }
@@ -637,10 +640,10 @@ namespace MVC_TMED.Infrastructure
                     // Handle other exceptions
                     // Log or handle the exception appropriately
                     retryCount++;
-                    Console.WriteLine("TMED-Error-pgSQLGetRecordsAsync: " + ex.Message);
+                    _logger.LogError($"****** Site: TMED | Error-pgSQLGetRecordsAsync: " + ex.Message);
                     if (ex.InnerException != null)
                     {
-                        Console.WriteLine(ex.InnerException.Message);
+                        _logger.LogError(ex.InnerException.Message);
                     }
                 }
             }
@@ -656,7 +659,7 @@ namespace MVC_TMED.Infrastructure
         {
             int retryCount = 0;
             TimeSpan delay = TimeSpan.FromMilliseconds(200); // Wait for 200 milliseconds between retries
-            Console.WriteLine($"****** TMED - Invoke GetAWSParameterStoreValues for: {parameterName}");
+            Console.WriteLine($"****** Site: TMED | Invoke GetAWSParameterStoreValues for: {parameterName}");
 
             while (retryCount < maxRetries)
             {
@@ -670,7 +673,7 @@ namespace MVC_TMED.Infrastructure
                     };
 
                     var response = await _ssmClient.GetParameterAsync(request);
-                    Console.WriteLine($"****** TMED - Succeeded in retrieving the parameter {parameterName} after {retryCount + 1} attempts.");
+                    Console.WriteLine($"****** Site: TMED | Succeeded in retrieving the parameter {parameterName} after {retryCount + 1} attempts.");
                     return response.Parameter.Value;
                 }
                 catch (Exception ex)
@@ -680,7 +683,7 @@ namespace MVC_TMED.Infrastructure
                     if (retryCount == maxRetries)
                     {
                         // Log or handle the error if max retries are reached
-                        Console.WriteLine($"****** TMED - Failed to retrieve the parameter '{parameterName}' after {maxRetries} attempts.");
+                        Console.WriteLine($"****** Site: TMED | Failed to retrieve the parameter '{parameterName}' after {maxRetries} attempts.");
                         Console.WriteLine(ex.Message);
                         Console.WriteLine(ex.StackTrace);
                         throw new Exception($"Failed to retrieve the parameter '{parameterName}' after {maxRetries} attempts.", ex);

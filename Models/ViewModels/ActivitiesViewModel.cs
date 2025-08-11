@@ -97,7 +97,7 @@ namespace MVC_TMED.Models.ViewModels
         public string scd_codetitle { get; set; }
         public string ssduration { get; set; }
         public Int32 ssdurationinminutes { get; set; }
-        public Int32 pdl_duration { get; set; }
+        public Int32? pdl_duration { get; set; }
         public string spd_description { get; set; }
         public string pdl_description { get; set; }
         public string img_path_url { get; set; }

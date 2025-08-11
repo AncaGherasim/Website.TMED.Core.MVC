@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using System.Text.RegularExpressions;
 using static MVC_TMED.Models.ViewModels.ToursViewModel;
 using System.Globalization;
+using Microsoft.Extensions.Logging;
+using MVC_TMED.API;
 
 namespace MVC_TMED.Controllers
 {
@@ -23,13 +25,15 @@ namespace MVC_TMED.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly AWSParameterStoreService _awsParameterStoreService;
         private readonly CachedDataService _cachedDataService;
-        public ToursController(IOptions<AppSettings> appSettings, DapperWrap dapperWrap, IWebHostEnvironment webHostEnvironment, AWSParameterStoreService awsParameterStoreService, CachedDataService cachedDataService)
+        private readonly ILogger<PackagesController> _logger;
+        public ToursController(IOptions<AppSettings> appSettings, DapperWrap dapperWrap, IWebHostEnvironment webHostEnvironment, AWSParameterStoreService awsParameterStoreService, CachedDataService cachedDataService, ILogger<PackagesController> logger)
         {
             _appSettings = appSettings;
             _dapperWrap = dapperWrap;
             _webHostEnvironment = webHostEnvironment;
             _awsParameterStoreService = awsParameterStoreService;
             _cachedDataService = cachedDataService;
+            _logger = logger;
         }
 
         [HttpGet("{country}/tours", Name = "Tours")]
@@ -305,7 +309,7 @@ namespace MVC_TMED.Controllers
                 if (toursViewModel.cmsfaqID > 0)
                 {
                     toursViewModel.FaqList.Clear();
-                    MVC_TMED.API.PackagesController packagesController = new API.PackagesController(this._appSettings, this._dapperWrap, this._cachedDataService);
+                    MVC_TMED.API.PackagesController packagesController = new API.PackagesController(this._appSettings, this._dapperWrap, this._cachedDataService, this._logger);
 
 
                     toursViewModel.FaqList = packagesController.SqlFaqCms(toursViewModel.cmsfaqID).Result.ToList();

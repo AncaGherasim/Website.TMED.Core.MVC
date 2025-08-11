@@ -11,6 +11,7 @@ using System.Linq;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace MVC_TMED.Infrastructure
 {
@@ -24,12 +25,14 @@ namespace MVC_TMED.Infrastructure
         private readonly IServiceProvider _serviceProvider; 
         private readonly IMemoryCache _memoryCache;
         private readonly AppSettings _appSettings;
-        
-        public CachedDataService(IOptions<AppSettings> appSettings, IServiceProvider serviceProvider, IMemoryCache memoryCache)
+        private readonly ILogger<CachedDataService> _logger;
+
+        public CachedDataService(IOptions<AppSettings> appSettings, IServiceProvider serviceProvider, IMemoryCache memoryCache, ILogger<CachedDataService> logger)
         {
             _serviceProvider = serviceProvider;
             _appSettings = appSettings.Value;
             _memoryCache = memoryCache;
+            _logger = logger;
         }
 
         public async Task LoadFeedbacksIfNecessary()
@@ -88,13 +91,13 @@ namespace MVC_TMED.Infrastructure
                     var dapperWrap = scope.ServiceProvider.GetRequiredService<DapperWrap>();
                     var Result = await dapperWrap.pgSQLGetRecordsAsync<Feedbacks>(PostgresCalls.PG_MV_Feedbacks());
                     feedbacksCache = Result.ToList();
-                    Console.WriteLine("****** CachedDataService - TMED - Read feedbacksCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(Newtonsoft.Json.JsonConvert.SerializeObject(feedbacksCache)));
+                    _logger.LogInformation($"****** Site: TMED | CachedDataService - Read feedbacksCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(Newtonsoft.Json.JsonConvert.SerializeObject(feedbacksCache)));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("****** CachedDataService - TMED - Error reading feedbacksCache from DataBase");
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                _logger.LogError($"****** Site: TMED | CachedDataService - Error reading feedbacksCache from DataBase");
+                _logger.LogError(ex.Message + ex.StackTrace);
             }
         }
 
@@ -108,13 +111,13 @@ namespace MVC_TMED.Infrastructure
                     var Result = await dapperWrap.pgSQLGetRecordsAsync<footerDestinations>(PostgresCalls.PG_MV_FooterDestinations());
                     List<footerDestinations> dst = Result.ToList();
                     destinationsCache = Newtonsoft.Json.JsonConvert.SerializeObject(dst);
-                    Console.WriteLine("****** CachedDataService - TMED - Read destinationsCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(destinationsCache));
+                    _logger.LogInformation($"****** Site: TMED | CachedDataService - Read destinationsCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(destinationsCache));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("****** CachedDataService - TMED - Error reading destinationsCache from DataBase");
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                _logger.LogError($"****** Site: TMED | CachedDataService - Error reading destinationsCache from DataBase");
+                _logger.LogError(ex.Message + ex.StackTrace);
             }
         }
 
@@ -127,13 +130,13 @@ namespace MVC_TMED.Infrastructure
                     var dapperWrap = scope.ServiceProvider.GetRequiredService<DapperWrap>();
                     var Result = await dapperWrap.GetRecords<DepCity>("exec [dbo].[WEB_EDQEDepCities] @sTitle = '%%', @sCode = '%'");
                     depCitiesCache = Result.ToList().Where(x => !x.PLC_Title.StartsWith("zzz"));
-                    Console.WriteLine("****** CachedDataService - TMED - Read depCitiesCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(Newtonsoft.Json.JsonConvert.SerializeObject(depCitiesCache)));
+                    _logger.LogInformation($"****** Site: TMED | CachedDataService - Read depCitiesCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(Newtonsoft.Json.JsonConvert.SerializeObject(depCitiesCache)));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("****** CachedDataService - TMED - Error reading depCitiesCache from DataBase");
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                _logger.LogError($"****** Site: TMED | CachedDataService - Error reading depCitiesCache from DataBase");
+                _logger.LogError(ex.Message + ex.StackTrace);
             }
         }
 
@@ -190,13 +193,13 @@ namespace MVC_TMED.Infrastructure
                         }
                     }
                     priorCitiesCache = listCities;
-                    Console.WriteLine("****** CachedDataService - TMED - Read priorCitiesCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(Newtonsoft.Json.JsonConvert.SerializeObject(priorCitiesCache)));
+                    _logger.LogInformation($"****** Site: TMED | CachedDataService - Read priorCitiesCache from DataBase, memorysize is " + System.Text.Encoding.UTF8.GetByteCount(Newtonsoft.Json.JsonConvert.SerializeObject(priorCitiesCache)));
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("****** CachedDataService - TMED - Error reading priorCitiesCache from DataBase");
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                _logger.LogError($"****** Site: TMED | CachedDataService - Error reading priorCitiesCache from DataBase");
+                _logger.LogError(ex.Message + ex.StackTrace);
             }
         }
 
@@ -221,8 +224,8 @@ namespace MVC_TMED.Infrastructure
             }
             catch (Exception ex)
             {
-                Console.WriteLine("****** CachedDataService - TMED - Error reading webannouncement from DataBase");
-                Console.WriteLine(ex.Message + ex.StackTrace);
+                _logger.LogError($"****** Site: TMED | CachedDataService - Error reading webannouncement from DataBase");
+                _logger.LogError(ex.Message + ex.StackTrace);
                 return string.Empty;
             }
         }

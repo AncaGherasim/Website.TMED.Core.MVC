@@ -8,8 +8,8 @@ using MVC_TMED.Models;
 using MVC_TMED.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using MVC_TMED.Controllers.VacationTemplates;
-using System.Text.RegularExpressions;
-
+using Microsoft.Extensions.Logging;
+using MVC_TMED.API;
 
 namespace MVC_TMED.Controllers
 {
@@ -20,14 +20,16 @@ namespace MVC_TMED.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly AWSParameterStoreService _awsParameterStoreService;
         private readonly CachedDataService _cachedDataService;
+        private readonly ILogger<PackagesController> _logger;
         public IWebHostEnvironment Env { get; }
-        public VacationsController(IOptions<AppSettings> appsettings, DapperWrap dapperWrap, IWebHostEnvironment hostingEnvironment, AWSParameterStoreService awsParameterStoreService, CachedDataService cachedDataService)
+        public VacationsController(IOptions<AppSettings> appsettings, DapperWrap dapperWrap, IWebHostEnvironment hostingEnvironment, AWSParameterStoreService awsParameterStoreService, CachedDataService cachedDataService, ILogger<PackagesController> logger)
         {
             _appSettings = appsettings;
             _dapperWrap = dapperWrap;
             _hostingEnvironment = hostingEnvironment;
             _awsParameterStoreService = awsParameterStoreService;
             _cachedDataService = cachedDataService;
+            _logger = logger;
         }
         [TypeFilter(typeof(CheckCacheFilter))]
         [AcceptVerbs("GET", "HEAD", "POST")]
@@ -181,8 +183,8 @@ namespace MVC_TMED.Controllers
                                     }
                                 case "T4":
                                     {
-                                        var initClass = new CountryT4Class(_dapperWrap, _appSettings, _awsParameterStoreService, _cachedDataService);
-                                        var model = await initClass.Country_T4(placeName, currentPlacesHierarchy.STR_PlaceID, currentPlacesHierarchy.STRID);
+                                        var initClass = new CountryT4Class(_dapperWrap, _appSettings, _awsParameterStoreService, _cachedDataService, _logger);
+                                        var model = await initClass.Country_T4(placeName, currentPlacesHierarchy.STR_PlaceID, currentPlacesHierarchy.STRID, currentPlacesHierarchy.STR_PlaceSpa);
                                         ViewBag.PageTitle = model.pageTitle;
                                         ViewBag.pageMetaDesc = model.pageMetaDesc;
                                         ViewBag.pageMetaKey = model.pageMetaKey;
@@ -200,8 +202,8 @@ namespace MVC_TMED.Controllers
                                     }
                                 case "T5":
                                     {
-                                        var initClass = new CountryT5Class(_dapperWrap, _appSettings, _awsParameterStoreService, _cachedDataService);
-                                        var model = await initClass.Country_T5(placeName, currentPlacesHierarchy.STR_PlaceID, currentPlacesHierarchy.STRID, currentPlacesHierarchy.STR_PlaceExtra);
+                                        var initClass = new CountryT5Class(_dapperWrap, _appSettings, _awsParameterStoreService, _cachedDataService, _logger);
+                                        var model = await initClass.Country_T5(placeName, currentPlacesHierarchy.STR_PlaceID, currentPlacesHierarchy.STRID, currentPlacesHierarchy.STR_PlaceExtra, currentPlacesHierarchy.STR_PlaceSpa);
                                         ViewBag.PageTitle = model.pageTitle;
                                         ViewBag.pageMetaDesc = model.pageMetaDesc;
                                         ViewBag.pageMetaKey = model.pageMetaKey;

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace MVC_TMED.Infrastructure
 {
@@ -19,11 +20,13 @@ namespace MVC_TMED.Infrastructure
     {
         public readonly DapperWrap _dapperWrap;
         public readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<CheckCacheFilter> _logger;
 
-        public CheckCacheFilter(DapperWrap dapperWrap, IWebHostEnvironment webHostEnvironment)
+        public CheckCacheFilter(DapperWrap dapperWrap, IWebHostEnvironment webHostEnvironment, ILogger<CheckCacheFilter> logger)
         {
             _dapperWrap = dapperWrap;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -81,16 +84,16 @@ namespace MVC_TMED.Infrastructure
                 }
                 catch (System.IO.IOException e)
                 {
-                    Console.WriteLine("TMED-Error-Cache-MySql01: " + e.Message);
+                    _logger.LogError($"****** Site: TMED | Error-Cache-MySql01: " + e.Message);
                     sCachedPage = e;
                 }
                 catch(System.Exception ex)
                 {
 
-                    Console.WriteLine("TMED-Error-Cache-MySql02: " + ex.Message);
+                    _logger.LogError($"****** Site: TMED | Error-Cache-MySql02: " + ex.Message);
                     if (ex.InnerException != null)
                     {
-                        Console.WriteLine(ex.InnerException.Message);
+                        _logger.LogError(ex.InnerException.Message);
                     }
 
                 }
@@ -118,7 +121,7 @@ namespace MVC_TMED.Infrastructure
                         if (context.Controller is Controller controller)
                         {
                             controller.ViewData["MySQLCachedError"] = "Catched MySQL error";
-                            Console.WriteLine("TMED-Error-Cache-MySql03: Catched MySQL error");
+                            _logger.LogError($"****** Site: TMED | Error-Cache-MySql03: Catched MySQL error");
                         }
                         //ViewBag._HtmlCachedPage = "Unknown error";
                     }

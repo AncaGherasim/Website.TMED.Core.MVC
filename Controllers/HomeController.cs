@@ -33,8 +33,6 @@ namespace MVC_TMED.Controllers
         [HttpPost("/", Name = "Home_Route")]
         public async Task<IActionResult> Index()
         {
-            Console.WriteLine("****** Home Root Path: " + _webHostEnvironment.ContentRootPath + " | Home wwwroot Path: " + _webHostEnvironment.WebRootPath);
-
             if (HttpContext.Response.Headers.ContainsKey("_utPg"))
             {
                 ViewBag._utPg = "BYO";               

@@ -23,7 +23,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Dynamic;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,12 +36,14 @@ namespace MVC_TMED.API
         private readonly AppSettings _appSettings;
         private readonly DapperWrap _dapperWrap;
         private readonly CachedDataService _cachedDataService;
+        private readonly ILogger<PackagesController> _logger;
 
-        public PackagesController(IOptions<AppSettings> appSettings, DapperWrap dapperWrap, CachedDataService cachedDataService)
+        public PackagesController(IOptions<AppSettings> appSettings, DapperWrap dapperWrap, CachedDataService cachedDataService, ILogger<PackagesController> logger)
         {
             _appSettings = appSettings.Value;
             _dapperWrap = dapperWrap;
             _cachedDataService = cachedDataService;
+            _logger = logger;
         }
 
         [HttpGet("Packages/PricesHistory/{id}")]
@@ -1413,11 +1415,11 @@ namespace MVC_TMED.API
             catch (System.IO.IOException ex)
             {
                 suggs.Insert(0, "Error: " + ex.Message);
-                Console.WriteLine("TMED-Error-amzCloud_Suggestions IOException message: " + ex.Message + ", q.Id: " + q.Id);
+                _logger.LogError($"****** Site: TMED | Error-amzCloud_Suggestions IOException message: " + ex.Message + ", q.Id: " + q.Id);
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine("TMED-Error-amzCloud_Suggestions Exception message: " + ex.Message + ", q.Id: " + q.Id);
+                _logger.LogError($"****** Site: TMED | Error-amzCloud_Suggestions Exception message: " + ex.Message + ", q.Id: " + q.Id);
                 throw;   
             }
             return suggs;
@@ -1790,7 +1792,7 @@ namespace MVC_TMED.API
                     catch (Exception ex)
                     {
                         mrkMessage = ex.Message;
-                        Console.WriteLine("TM-Error-MarketingSubscriber catched error : " + ex.Message);
+                        _logger.LogError($"****** Site: TMED | Error-MarketingSubscriber catched error : " + ex.Message);
                         return mrkMessage;
                     }
                 }
@@ -1808,7 +1810,7 @@ namespace MVC_TMED.API
             catch (Exception ex)
             {
                 mrkResult = ex.Message;
-                Console.WriteLine("TM-Error-MarketingSubscriber catched error : " + ex.Message);
+                _logger.LogError($"****** Site: TMED | Error-MarketingSubscriber catched error : " + ex.Message);
                 return mrkResult;
             }
         }
@@ -1990,12 +1992,12 @@ namespace MVC_TMED.API
         {
             if (logErrorRequest == null)
             {
-                Console.WriteLine($"TMED-Error-BYO-Calendar logErrorRequest object is null");
+                _logger.LogError($"****** Site: TMED | Error-BYO-Calendar logErrorRequest object is null");
             }
             else
             {
-                Console.WriteLine($"TMED-Error-BYO-Calendar message: {logErrorRequest.Message}");
-                Console.WriteLine($"TMED-Error-BYO-Calendar cities: {logErrorRequest.Cities}");
+                _logger.LogError($"****** Site: TMED | Error-BYO-Calendar message: {logErrorRequest.Message}");
+                _logger.LogError($"****** Site: TMED | Error-BYO-Calendar cities: {logErrorRequest.Cities}");
             }
             return Ok();
         }

@@ -18,6 +18,7 @@ using Amazon.SimpleSystemsManagement.Model;
 using System.Text.Json.Nodes;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace MVC_TMED
 {
@@ -83,13 +84,8 @@ namespace MVC_TMED
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider, DapperWrap dapperWrap, CachedDataService cachedDataService)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider, DapperWrap dapperWrap, CachedDataService cachedDataService, ILogger<Startup> logger)
         {
-            //Console.WriteLine("****** TMED-EnvironmentName: " + env.EnvironmentName);
-            //Console.WriteLine("****** TMED-ContentRootPath: " + env.ContentRootPath);
-            //Console.WriteLine("****** TMED-AspNetCore_Environment: " + System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
-            //Check if we have existing sql connection string. Get connection string from AWS Parameter Store
-            //Console.WriteLine("Check if we have data from AWS parameter store");
             try
             {
                 if (string.IsNullOrWhiteSpace(AWSParameterStoreService.SqlConnectionString) || string.IsNullOrWhiteSpace(AWSParameterStoreService.MySqlConnectionString) || string.IsNullOrWhiteSpace(AWSParameterStoreService.PostgresConnectionString))
@@ -153,7 +149,7 @@ namespace MVC_TMED
                                     }
                                 }
                                 var logResponseInfo = $"****** Site: TMED | Secrets Read AWS Parameter Store | SQLParameterStore: {AWSParameterStoreService.SqlConnectionString} | MySQLParameterStore: {AWSParameterStoreService.MySqlConnectionString} | PostgresSQLParameterStore: {AWSParameterStoreService.PostgresConnectionString}";
-                                Console.WriteLine(logResponseInfo);
+                                logger.LogInformation(logResponseInfo);
 
                                 success = true;
                             }
@@ -172,8 +168,8 @@ namespace MVC_TMED
             }
             catch (Exception ex)
             {
-                var logError = $"Error reading AWS Parameter Store values. | {ex.Message}";
-                Console.WriteLine(logError);
+                var logError = $"****** Site: TMED | Error reading AWS Parameter Store values. | {ex.Message}";
+                logger.LogError(logError);
                 throw new Exception("Could not retrieve AWS Parameter Store values");
             }
 
@@ -192,8 +188,6 @@ namespace MVC_TMED
 
             app.Use(async (context, next) =>
             {
-                var logResponseInfo = $"****** Site: TMED | HttpStatusCode: {context.Response.StatusCode} | Request Full Path: {context.Request.Scheme}://{context.Request.Host}{context.Request.Path} | Request Referer: {context.Request.GetTypedHeaders().Referer} | Request QueryString: {context.Request.QueryString}";
-
                 Regex reg = new Regex(@"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$");
                 Boolean secureLH = context.Request.Host.Host.ToString().Contains("localhost");
                 Boolean secureIP = reg.IsMatch(context.Request.Host.Host.ToString());
@@ -217,7 +211,7 @@ namespace MVC_TMED
                 if (secureLH == false && secureIP == false) { secureURL = true; };
                 if (secureURL == true)
                 {
-                    if (Regex.IsMatch(fullUrl, "://tripmasters.com", RegexOptions.IgnoreCase) == true) // && Regex.IsMatch(context.Request.Host.ToString(), "www.", RegexOptions.IgnoreCase) == false)
+                    if (Regex.IsMatch(fullUrl, "://tripmasters.com", RegexOptions.IgnoreCase) == true) 
                     {
                         var www = "https://www." + context.Request.Host + urlRaw + queryString;
                         context.Response.Redirect(www, true);
@@ -235,7 +229,6 @@ namespace MVC_TMED
                             else
                             {
                                 await next();
-                                Console.WriteLine(logResponseInfo);
                             }
                         }
                         else
@@ -248,18 +241,10 @@ namespace MVC_TMED
                 else
                 {
                     await next();
-                    Console.WriteLine(logResponseInfo);
                 }
             });
 
             app.UseHttpsRedirection();
-
-            //Console.WriteLine
-            //System.Diagnostics.Debug.WriteLine
-
-            //Console.WriteLine("****** TMED-StartUp-GetEnviromentVariable-ContainerMode: " + Environment.GetEnvironmentVariable("ContainerMode"));
-            //Console.WriteLine("****** TMED-StartUp-WebRootPath: " + env.WebRootPath);
-            //Console.WriteLine("****** TMED-StartUp-GetCurrentDirectory: " + Directory.GetCurrentDirectory());
 
             if (Environment.GetEnvironmentVariable("ContainerMode") == "Fargate")
             {
