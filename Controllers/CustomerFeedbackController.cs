@@ -84,14 +84,7 @@ namespace MVC_TMED.Controllers
             ViewBag.tmcountry = "";
             ViewBag.tmdestination = "";
 
-            if (Utilities.CheckMobileDevice() == false)
-            {
-                return View("CustomerFeedback", viewModel);
-            }
-            else
-            {
-                return View("CustomerFeedback_Mob", viewModel);
-            }
+            return View("CustomerFeedback", viewModel);
         }
 
         [HttpPost("/CustomerFeedbacksByPage", Name = "CustomerFeedbacksByPage_Route")]

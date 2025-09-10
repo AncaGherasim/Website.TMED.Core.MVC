@@ -14,6 +14,7 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace MVC_TMED.Infrastructure
 {
@@ -133,18 +134,20 @@ namespace MVC_TMED.Infrastructure
             return shortComm;
         }
 
-        public static XmlDocument PackageComponentListData(Int32 packageId, string connString)
+        public static async Task<XmlDocument> PackageComponentListData(Int32 packageId, string connString)
         {
             XmlDocument xmlDoc = new XmlDocument();
             List<PackageComponent> dv = new List<PackageComponent>();
-            using (IDbConnection dbConn = new SqlConnection(connString))
-            {
-                dv = dbConn.QueryAsync<PackageComponent>(SqlCalls.SQL_PackageComponentList(packageId.ToString())).Result.ToList();
-            }
+            var result = await _dapperWrap.GetRecords<PackageComponent>(SqlCalls.SQL_PackageComponentList(packageId.ToString()));
+            dv = result.ToList();
 
             if (dv.Count == 0)
             {
-                xmlDoc.Load("https://www.tripmasters.com/shareweb/XML-Products/pc" + packageId + "_0.xml");
+                using (var httpClient = new HttpClient())
+                {
+                    var xmlString = await httpClient.GetStringAsync("https://www.tripmasters.com/shareweb/XML-Products/pc" + packageId + "_0.xml");
+                    xmlDoc.LoadXml(xmlString);
+                }
                 return xmlDoc;
             }
 

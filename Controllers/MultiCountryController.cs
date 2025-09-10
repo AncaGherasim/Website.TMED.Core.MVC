@@ -21,9 +21,8 @@ namespace MVC_TMED.Controllers
             _dapperWrap = dapperWrap;
         }
         [TypeFilter(typeof(CheckCacheFilter))]
-        [HttpGet("{placeName}/multicountry/vacations", Name = "MultiCountry_Vacation_Route")]
-        [HttpPost("{placeName}/multicountry/vacations", Name = "MultiCountry_Vacation_Route")]
-        [HttpHead("{placeName}/multicountry/vacations", Name = "MultiCountry_Vacation_Route")]
+        [AcceptVerbs("GET", "HEAD", "POST")]
+        [Route("{placeName}/multicountry/vacations", Name = "MultiCountry_Vacation_Route")]
         public async Task<IActionResult> Index(string placeName)
         {
             List<PlacesHierarchy> placesHierarchies = new List<PlacesHierarchy>();
@@ -70,7 +69,150 @@ namespace MVC_TMED.Controllers
 
             if (placesHierarchies.First().STR_PlacePriority == 1)
             {
-                if (placesHierarchies.First().STR_PageTemplate.IndexOf("GP3") > 0)
+                var template = placesHierarchies.First().STR_PageTemplate;
+
+                if (template.Contains("GP4"))
+                {
+                    List<GP4_PlacesHierarchy> gP4_PlacesHierarchies = plcHierarchy
+                    .Select(ph => new GP4_PlacesHierarchy
+                    {
+                        STRID = ph.STRID,
+                        STR_PlaceID = ph.STR_PlaceID,
+                        STR_PlaceTitle = ph.STR_PlaceTitle,
+                        STR_PlaceTypeID = ph.STR_PlaceTypeID,
+                        STR_PlaceShortInfo = ph.STR_PlaceShortInfo,
+                        STR_PlaceAIID = ph.STR_PlaceAIID,
+                        STR_PlaceInfo = ph.STR_PlaceInfo,
+                        STR_ProdKindID = ph.STR_ProdKindID,
+                        STR_PageTemplate = ph.STR_PageTemplate,
+                        STR_UserID = ph.STR_UserID,
+                        STR_PlacePriority = ph.STR_PlacePriority,
+                        STR_PlaceExtra = ph.STR_PlaceExtra,
+                        STR_PlaceMap = ph.STR_PlaceMap,
+                        STR_PlaceTitleDesc = ph.STR_PlaceTitleDesc,
+                        STR_PlacePractical = ph.STR_PlacePractical
+                    }).ToList();
+
+                    var firstPlace = gP4_PlacesHierarchies[0];
+
+                    GP4_ViewModel gp4_model = new GP4_ViewModel
+                    {
+                        plcSTRID = firstPlace.STRID,
+                        placeID = firstPlace.STR_PlaceID,
+                        placeNA = Utilities.UppercaseFirstLetter(firstPlace.STR_PlaceTitle),
+                        pagePicture = firstPlace.STR_PlaceMap,
+                        pageTopText = firstPlace.STR_PlaceShortInfo,
+                        bestSubTitle = string.IsNullOrWhiteSpace(firstPlace.STR_PlaceExtra) ? string.Empty : firstPlace.STR_PlaceExtra,
+                        suggSubTitle = string.IsNullOrWhiteSpace(firstPlace.STR_PlacePractical) ? string.Empty : firstPlace.STR_PlacePractical
+                    };
+
+                    // *** Declare lists                 
+                    List<GP4_DisplayPosition> gp4_displayposition = new List<GP4_DisplayPosition>();
+                    List<GP4_SEOPage> gp4_seopage = new List<GP4_SEOPage>();
+                    List<GP4_PackOnInterestPriority> gp4_packslist = new List<GP4_PackOnInterestPriority>();
+                    List<GP4_DisplayBox> gp4_boxdisplay = new List<GP4_DisplayBox>();
+                    List<GP4_NumberofCustomerFeedbacks> gp4_overAllReviews = new List<GP4_NumberofCustomerFeedbacks>();
+                    List<GP4_WeightPlace> gp4_weightplaces = new List<GP4_WeightPlace>();
+
+                    int placeSTRID = firstPlace.STRID;
+                    int placeID = firstPlace.STR_PlaceID;
+                    int userId = firstPlace.STR_UserID;
+
+                    // *** SEO Page <title> and <meta> tags ***
+                    var plcSEO = await _dapperWrap.GetRecords<GP4_SEOPage>(SqlClass1.SQL_PlacePageSEO(placeID));
+                    gp4_seopage = plcSEO.ToList();
+
+                    gp4_model.pageTitle = (gp4_seopage?.FirstOrDefault()?.SEO_PageTitle)
+                    ?? $"Book the Best {gp4_model.placeNA} Vacations | {gp4_model.placeNA} Flexible trips | {gp4_model.placeNA} Itineraries";
+
+                    gp4_model.pageMetaDesc = (gp4_seopage?.FirstOrDefault()?.SEO_MetaDescription)
+                    ?? $"Customize {gp4_model.placeNA} vacations online. Search,  Plan, and Customize vacation itineraries in seconds. Build your own trip online or call toll-free: 1-800-430-0484.";
+
+                    gp4_model.pageMetaKey = $"{gp4_model.placeNA} air and hotel stays, sightseeing tours, hotel packages, deals, rail, images, online booking, pricing, information, hotel travel, recommendations, resort, accommodations, Asia";
+
+                    // *** Get alll data to build the page view ***
+                    var gp4types = new[]
+                    {
+                        typeof(GP4_PackOnInterestPriority),
+                        typeof(GP4_DisplayPosition),
+                        typeof(GP4_DisplayBox),
+                        typeof(GP4_WeightPlace),
+                        typeof(GP4_NumberofCustomerFeedbacks)
+                    };
+
+                    string sqlQRYS = string.Join(";", new[]
+                    {
+                        SqlClass1.SQL_PlaceHierarchyPacksPriorityList(placeSTRID),
+                        SqlClass1.SQL_PlaceHierarchyDisplayPosition(placeID),
+                        SqlClass1.SQL_PlaceHierarchyPlaceDescription(placeSTRID),
+                        SqlClass1.SQL_PlaceHierarchyWeightPlaces(placeSTRID),
+                        SqlClass1.SQL_Get_NumberofCustomerFeedbacks_OverAllScore()
+                    });
+
+                    var resultSets = await _dapperWrap.GetMultipleRecords(sqlQRYS, 4, null, gp4types);
+                    var resultList = resultSets.ToList();
+
+                    if (resultList.Count >= 5)
+                    {
+                        gp4_packslist = ((List<object>)resultList[0]).Cast<GP4_PackOnInterestPriority>().ToList();
+                        gp4_displayposition = ((List<object>)resultList[1]).Cast<GP4_DisplayPosition>().ToList();
+                        gp4_boxdisplay = ((List<object>)resultList[2]).Cast<GP4_DisplayBox>().ToList();
+                        gp4_weightplaces = ((List<object>)resultList[3]).Cast<GP4_WeightPlace>().ToList();
+                        gp4_overAllReviews = ((List<object>)resultList[4]).Cast<GP4_NumberofCustomerFeedbacks>().ToList();
+                    }
+
+                    // *** View Model ***
+                    gp4_model.bestVacPacks = gp4_packslist
+                        .Where(p => p.SPPW_Weight >= 1 && p.SPPW_Weight <= 4)
+                        .ToList();
+
+                    gp4_model.suggestPacks = gp4_packslist
+                        .Where(p => p.SPPW_Weight >= 5 && p.SPPW_Weight <= 100)
+                        .ToList();
+
+                    gp4_model.twoCitiesPacks = gp4_packslist
+                        .Where(p => p.SPPW_Weight >= 201 && p.SPPW_Weight <= 299)
+                        .ToList();
+
+                    gp4_model.threeCitiesPacks = gp4_packslist
+                        .Where(p => p.SPPW_Weight >= 301 && p.SPPW_Weight <= 399)
+                        .ToList();
+
+                    gp4_model.fourCiyiesPacks = gp4_packslist
+                        .Where(p => p.SPPW_Weight >= 401 && p.SPPW_Weight <= 499)
+                        .ToList();
+
+                    gp4_model.fiveCitiesPacks = gp4_packslist
+                        .Where(p => p.SPPW_Weight >= 501 && p.SPPW_Weight <= 599)
+                        .ToList();
+
+                    gp4_model.listDisplayPosition = gp4_displayposition.ToList();
+                    gp4_model.listBoxDisplay = gp4_boxdisplay.ToList();
+                    gp4_model.listWeightPlace = gp4_weightplaces.ToList();
+
+                    // Customer Feedbacks by Country ID
+                    var countryIds = gp4_weightplaces
+                        .Where(x => x.STR_PlaceTypeID == 5)
+                        .Select(x => x.STR_PlaceID.ToString());
+
+                    string couIds = string.Join(",", countryIds);
+
+                    var Result6 = await _dapperWrap.GetRecords<GP4_CountryFeed>(SqlClass1.SQL_GP4_MultiCouFeedback(couIds));
+                    gp4_model.listCountryFeed = Result6.ToList();
+
+
+                    var review = gp4_overAllReviews.FirstOrDefault();
+                    if (review != null)
+                    {
+                        gp4_model.NumComments = review.NumComments;
+                        gp4_model.Score = review.Score;
+                        gp4_model.overAllAvg = Decimal.Round(review.Score, 1);
+                    }
+
+
+                    return View("~/Views/GP4/Multicountry.cshtml", gp4_model);
+                }
+                else if (template.Contains("GP3"))
                 {
                     GP3_MultiCountryViewModel gP3_MultiCountryViewModel = new GP3_MultiCountryViewModel();
                     //MultiCou = Utilities.UppercaseFirstLetter(MultiCou.Replace("_", " "));
@@ -252,7 +394,7 @@ namespace MVC_TMED.Controllers
                         return View("~/Views/GP3_MultiCountry/GP3_MultiCountry_Mob.cshtml", gP3_MultiCountryViewModel);
                     }
                 }
-                else if (placesHierarchies.First().STR_PageTemplate.IndexOf("GP2") > 0)
+                else if (template.Contains("GP2"))
                 {
                     Int32 placeId = placesHierarchies.First().STR_PlaceID;
                     if (Utilities.CheckMobileDevice() == false)

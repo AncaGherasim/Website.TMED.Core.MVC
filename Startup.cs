@@ -19,6 +19,7 @@ using System.Text.Json.Nodes;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace MVC_TMED
 {
@@ -255,6 +256,40 @@ namespace MVC_TMED
                 app.UseStaticFiles();
 
             Utilities.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>(), app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>(), app.ApplicationServices.GetRequiredService<AWSParameterStoreService>(), dapperWrap);
+
+            app.UseWhen(
+                ctx =>
+                {
+                    var path = ctx.Request.Path.Value;
+                    if (string.IsNullOrEmpty(path))
+                        return false;
+
+                    return path.AsSpan()
+                               .IndexOf("/Api/", StringComparison.OrdinalIgnoreCase) >= 0;
+                },
+                branch =>
+                {
+                    branch.Use(async (ctx2, next2) =>
+                    {
+                        ctx2.Request.EnableBuffering();
+
+                        string raw;
+                        using (var reader = new StreamReader(
+                                   ctx2.Request.Body,
+                                   encoding: Encoding.UTF8,
+                                   detectEncodingFromByteOrderMarks: false,
+                                   bufferSize: 1024,
+                                   leaveOpen: true))
+                        {
+                            raw = await reader.ReadToEndAsync();
+                            ctx2.Request.Body.Position = 0;
+                        }
+                        ctx2.Items["RawRequestBody"] = raw;
+
+                        await next2();
+                    });
+                }
+            );
 
             app.UseRouting();
 

@@ -3780,13 +3780,14 @@ namespace MVC_TMED.Infrastructure
 
         public static string SQL_Vacations_Places_Hierarchy_Priority(string PlaceTitle, bool IsInList = false)
         {
-            return @"SELECT STR_UserID,STRID,STR_PlaceID,STR_PlaceTitle,STR_PlaceTypeID,isNull(STR_PageTemplate,'T1') as STR_PageTemplate, STR_PlacePriority, STR_PlaceExtra
+            return @"SELECT STR_UserID,STRID,STR_PlaceID,STR_PlaceTitle,STR_PlaceTypeID,isNull(STR_PageTemplate,'T1') as STR_PageTemplate, STR_PlacePriority, STR_PlaceExtra, STR_PlaceMap, STR_PlaceShortInfo, STR_PlaceTitleDesc, STR_PlacePractical, STR_PlaceSpa
                 FROM STR_Places_Hierarchy
-                WHERE STR_PlaceActive = 1 AND 
-                STR_UserID in (243, 595, 182)
-                And STR_NoWeb = 0 AND 
-                STR_ProdKindID = 0
-                And STR_PlaceTitle " + (IsInList == false ? "LIKE '" : "IN (") + PlaceTitle + (IsInList == false ? "'" : ")");
+                WHERE STR_PlaceActive = 1
+				AND STR_PlacePriority = 1
+				AND STR_UserID in (243,595,182)
+                AND STR_NoWeb = 0
+				AND STR_ProdKindID = 0
+                AND STR_PlaceTitle " + (IsInList == false ? "LIKE '" : "IN (") + PlaceTitle + (IsInList == false ? "'" : ")");
         }
 
         public static string SQL_PackageInformationSEO(string PackageID)
