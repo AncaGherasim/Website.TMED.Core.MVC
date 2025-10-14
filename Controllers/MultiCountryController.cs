@@ -26,7 +26,7 @@ namespace MVC_TMED.Controllers
         public async Task<IActionResult> Index(string placeName)
         {
             List<PlacesHierarchy> placesHierarchies = new List<PlacesHierarchy>();
-            var plcHierarchy = await _dapperWrap.GetRecords<PlacesHierarchy>(SqlCalls.SQL_Vacations_Places_Hierarchy_Priority(placeName));
+            var plcHierarchy = await _dapperWrap.GetRecords<PlacesHierarchy>(SqlCalls.SQL_Vacations_Places_Hierarchy_Priority(placeName, includePriority: true));
             placesHierarchies = plcHierarchy.ToList();
 
             if (placesHierarchies.Count == 0)

@@ -56,7 +56,7 @@ namespace MVC_TMED.Models
 
     public class PacksByPlaceID_PG
     {
-        public Int32 TotalCount { get; set; }
+        public Int32? TotalCount { get; set; }
         public List<Packages_PG> packages { get; set; }
         public Aggregates_PG aggregates { get; set; }
         public List<Cities_PG> cities { get; set; }

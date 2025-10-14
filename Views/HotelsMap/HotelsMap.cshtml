@@ -47,21 +47,26 @@
                 <div class="hotels__filter-zone">
                     <h4 class="hotels__filter--subtitle">Neigborhood/City Zone:</h4>
                     <div>
-                        <select id="selZone">
-                            <option value="0">Show All</option>
-                                @foreach (var zo in @Model.listCityZones)
+                            <select id="selZone">
+                                <option value="-1">Show All</option>
+                                @foreach (ListCityZones obj in Model.allHotels.list_cityzones.OrderBy(z => z.cityzone).ToList())
                                 {
-                                    string _cityzone = "";
-                                    @if (zo.cityzone.Length >= 4)
+                                    string cityz = "";
+                                    if (@obj.cityzone == null)
                                     {
-                                        _cityzone = zo.cityzone.Substring(4, zo.cityzone.Length - 4);
+                                        cityz = "----";
                                     }
-                                    <option value="@zo.giph_tnzoneid">
-                                        @_cityzone
-                                    </option>
+                                    else
+                                    {
+                                        if (@obj.cityzone.Length >= 4)
+                                        {
+                                            cityz = @obj.cityzone.Substring(4);
+                                        }
+                                    }
+                                    <option value="@obj.giph_tnzoneid">@cityz</option>
                                 }
                             </select>
-                    </div>
+                        </div>
                 </div>
                 <div class="hotels__filter-rating">
                     <h4 class="hotels__filter--subtitle">Rating:</h4>

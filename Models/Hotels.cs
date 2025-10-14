@@ -32,7 +32,7 @@ namespace MVC_TMED.Models
         public Int32 PDL_SequenceNo { get; set; }
         public string GIPH_TNTournetRating { get; set; }
         public string SCD_CodeTitle { get; set; }
-        public Int32 GIPH_TNZoneID { get; set; }
+        public Int32? GIPH_TNZoneID { get; set; }
         public string CityZone { get; set; }
         public Int32 GHS_TrustYouScore { get; set; }
         public Int32 GHS_SolarToursScore { get; set; }
@@ -48,7 +48,7 @@ namespace MVC_TMED.Models
         public Int32 pdlid { get; set; }
         public string giph_giataid { get; set; }
         public string tnhighlights { get; set; }
-        public Int32 giph_tnzoneid { get; set; }
+        public Int32? giph_tnzoneid { get; set; }
         public string cityzone { get; set; }
         public Int32 giph_tnsequence { get; set; }
         public string giph_tntournetrating { get; set; }
@@ -79,7 +79,7 @@ namespace MVC_TMED.Models
         public string PDL_DistrictZone { get; set; }
         public string GIPH_TNTournetRating { get; set; }
         public Int32 PDL_CustomerRanking { get; set; }
-        public Int32 GIPH_TNZoneID { get; set; }
+        public Int32? GIPH_TNZoneID { get; set; }
         public Int32 CXZ_ProductItem { get; set; }
         public Int32 GLT_PDLID { get; set; }
         public string GIPC_HotelCode { get; set; }
@@ -155,7 +155,7 @@ namespace MVC_TMED.Models
         public string SCD_CodeTitle { get; set; }
         public decimal GIPH_Latitude { get; set; }
         public decimal GIPH_Longitude { get; set; }
-        public Int32 GIPH_TNZoneID { get; set; }
+        public Int32? GIPH_TNZoneID { get; set; }
         public string CityZone { get; set; }
         public string IMG_Path_URL { get; set; }
         public Int32 GIPHID { get; set; }

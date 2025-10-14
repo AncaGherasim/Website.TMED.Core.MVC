@@ -176,7 +176,7 @@ namespace MVC_TMED.Infrastructure
                 paged_hotels AS (
                   SELECT *
                   FROM filtered_hotels
-                  ORDER BY pdl_title COLLATE ""C""
+                  ORDER BY pdl_title ASC
                   {limitClause}
                 )
                 SELECT json_build_object(

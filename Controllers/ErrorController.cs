@@ -45,6 +45,7 @@ namespace MVC_TMED.Controllers
                     logger.LogInformation($"****** Site: TMED | ClientIP: {clientIp} | Request {exceptionFeature?.Error.Message} returned status code {HttpContext.Response.StatusCode} on {req.Method} {exceptionFeature?.Path} {origQuery ?? ""}. (no payload logged)");
                 }
                 ViewBag.ErrorType = "500 error";
+                ViewBag.ErrorTitle = "Sorry, something went wrong.";
                 ViewBag.ErrorMessage = exceptionFeature?.Error.Message;
             }
             else
@@ -63,6 +64,9 @@ namespace MVC_TMED.Controllers
                 }
 
                 ViewBag.ErrorType = $"{code} error";
+                ViewBag.ErrorTitle = code.ToString().StartsWith("404")
+                    ? "Page not found."
+                    : "Sorry, something went wrong.";
                 ViewBag.ErrorMessage = code == 404 ? "Page not found." : "";
             }
 

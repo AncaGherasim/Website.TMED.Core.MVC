@@ -25,7 +25,16 @@
     <li class="breadcrumbs__arrow">›</li>
     <li><a href=@String.Format("{0}/{1}/vacations",_appsettings.CurrentValue.ApplicationSettings.SiteName, @Model.placeNA.Replace(" ","_").ToLower())>@Model.placeNA vacations</a></li>
 </ul>
-<h1 class="main-title">@Model.placeNA Packages</h1>
+@{
+    if (Model.allPackages.cities.Count > 0)
+    {
+        <h1 class="main-title">@Model.placeNA Packages</h1>
+    }
+    else
+    {
+        <p class="no-cities-message">@ViewBag.NoCitiesMessage</p>
+    }
+}
 <div class="main first-container">
     <div class="filter__backdrop is-hidden" id="filterModal">
         <div class="filter__mob-modal">

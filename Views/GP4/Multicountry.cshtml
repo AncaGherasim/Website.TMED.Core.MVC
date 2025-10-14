@@ -1,0 +1,336 @@
+﻿@model MVC_TMED.Models.ViewModels.GP4_ViewModel
+@using MVC_TMED.Infrastructure;
+@using Microsoft.Extensions.Options
+@using System.Text.RegularExpressions;
+@inject IOptions<AppSettings> _appsettings
+
+
+
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/gp4/multicountry.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/gp4/multicountry.min.css" asp-append-version="true" />
+</environment>
+
+@{
+    string siteName = _appsettings.Value.ApplicationSettings.SiteName;
+    DateTime sixMonthsAgo = DateTime.Today.AddMonths(-6);
+}
+
+<h1 class="main-title first-container">@Model.placeNA Vacation Packages</h1>
+
+<section class="hero first-container">
+    <img class="hero__image lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"{Model.pagePicture}")" alt="View of @Model.placeNA" />
+    <p class="hero__text">@Html.Raw(Model.pageTopText)</p>
+</section>
+
+@if (Model.bestVacPacks.Count() > 0)
+{
+    <section class="best-packages">
+        <div class="first-container">
+            <h2 class="best-packages__title">Best Vacation Packages</h2>
+            <p class="best-packages__subtitle">@Model.bestSubTitle</p>
+            <ul class="best-packages__list">
+                @foreach (var pack in Model.bestVacPacks.Take(4))
+                {
+                    var packageUrl = $"{siteName}/{pack.CountryName.Replace(" ", "_").ToLower()}/{pack.PDL_Title.Replace(" ", "_").ToLower()}/package-{pack.PDLID}";
+
+                    <li class="best-packages__item">
+                        <div class="best-packages__image">
+                            <a href="@packageUrl">
+                                <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com{pack.IMG_500Path_URL?.ToLower()}")" alt="View of @pack.PDL_Title" onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'" />
+                            </a>
+                        </div>
+                        <div class="best-packages__info">
+                            <div>
+                                <div class="best-packages__wrapper">
+                                    <h3 class="best-packages__name">
+                                        <a href="@packageUrl">
+                                            @pack.PDL_Title
+                                            @if (!string.IsNullOrEmpty(pack.SPD_InternalComments))
+                                            {
+                                                @if (pack.SPD_InternalComments.Contains("1785:."))
+                                                {
+                                                    <span>
+                                                        <img id="imgGuidedPartially@(pack.PDLID)"
+                                                             src="https://pictures.tripmasters.com/siteassets/d/GuidedPartially.jpg"
+                                                             alt="" />
+                                                    </span>
+                                                }
+                                                else if (pack.SPD_InternalComments.Contains("1784:."))
+                                                {
+                                                    <span>
+                                                        <img id="imgGuided@(pack.PDLID)"
+                                                             src="https://pictures.tripmasters.com/siteassets/d/Guided.jpg"
+                                                             alt="" />
+                                                    </span>
+                                                }
+                                            }
+                                        </a>
+                                    </h3>
+                                    @if (pack.STP_Save != 9999)
+                                    {
+                                        <div class="best-packages__price">
+                                            <span>
+                                                @pack.PDL_Duration nights from
+                                            </span>
+                                            <span>@String.Format("{0:C0}", pack.STP_Save)</span>
+                                        </div>
+                                    }
+                                </div>
+
+                                @if (pack.NoOfFeed > 0)
+                                {
+                                    var feedbackUrl = $"{siteName}/{pack.CountryName.Replace(" ", "_").ToLower()}/{pack.PDL_Title.Replace(" ", "_").ToLower()}/feedback-{pack.PDLID}";
+
+                                    <div class="best-packages__rating-wrapper">
+                                        <div class="best-packages__stars" style="--rating: @Decimal.Round(4, 1)" aria-hidden="true"></div>
+                                        <div class="best-packages__score"><span class="best-packages__num">@Decimal.Round(4, 1) out of 5</span> <a class="best-packages__feedback" href="@feedbackUrl">(@pack.NoOfFeed @((pack.NoOfFeed == 1) ? "review" : "reviews"))</a></div>
+                                    </div>
+                                }
+                            </div>
+                            <p class="best-packages__description">
+                                @if (!string.IsNullOrEmpty(pack.PDL_Description) && !Utilities.RegexHelper.MyRegex.IsMatch(pack.PDL_Description))
+                                {
+                                    @Utilities.TruncateText(pack.PDL_Description, 150)
+                                }
+                                else
+                                {
+                                    @Utilities.TruncateHtmlText(pack.SPD_Description, 150)
+                                }
+                            </p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </section>
+}
+
+@if (Model.suggestPacks.Count() > 0)
+{
+    <section class="suggest first-container">
+        <h2 class="suggest__title">Suggested Itineraries</h2>
+        <p class="suggest__subtitle">@Model.suggSubTitle</p>
+        <ul id="suggestList" class="suggest__list">
+            @{
+                Int32 countSug = 0;
+
+                foreach (var pack in Model.suggestPacks)
+                {
+                    var packageUrl = $"{siteName}/{pack.CountryName.Replace(" ", "_").ToLower()}/{pack.PDL_Title.Replace(" ", "_").ToLower()}/package-{pack.PDLID}";
+
+                    countSug++;
+
+                    <li class="suggest__item @(countSug > 3 ? "suggest__item-hidden" : "")">
+                        <div class="suggest__image">
+                            <a href="@packageUrl">
+                                <img class="lazyload" src="https://pictures.tripmasters.com/siteassets/d/spacer.gif" data-src="@($"https://pictures.tripmasters.com{pack.IMG_500Path_URL?.ToLower()}")" alt="View of @pack.PDL_Title" onerror="this.src = 'https://pictures.tripmasters.com/siteassets/d/no-image.jpg'" />
+                            </a>
+                        </div>
+                        <div class="suggest__info">
+                            <div>
+                                <div class="suggest__wrapper">
+                                    <h3 class="suggest__name">
+                                        <a href="@packageUrl">
+                                            @pack.PDL_Title
+                                            @if (!string.IsNullOrEmpty(pack.SPD_InternalComments))
+                                            {
+                                                @if (pack.SPD_InternalComments.Contains("1785:."))
+                                                {
+                                                    <span>
+                                                        <img id="imgGuidedPartially@(pack.PDLID)"
+                                                             src="https://pictures.tripmasters.com/siteassets/d/GuidedPartially.jpg"
+                                                             alt="" />
+                                                    </span>
+                                                }
+                                                else if (pack.SPD_InternalComments.Contains("1784:."))
+                                                {
+                                                    <span>
+                                                        <img id="imgGuided@(pack.PDLID)"
+                                                             src="https://pictures.tripmasters.com/siteassets/d/Guided.jpg"
+                                                             alt="" />
+                                                    </span>
+                                                }
+                                            }
+                                        </a>
+                                    </h3>
+                                    @if (pack.STP_Save != 9999)
+                                    {
+                                        <div class="suggest__nights">
+                                            <span>
+                                                @pack.PDL_Duration nights from
+                                            </span>
+                                            <span>@String.Format("{0:C0}", pack.STP_Save)</span>
+                                        </div>
+                                    }
+                                </div>
+
+                                @if (pack.NoOfFeed > 0)
+                                {
+                                    var feedbackUrl = $"{siteName}/{pack.CountryName.Replace(" ", "_").ToLower()}/{pack.PDL_Title.Replace(" ", "_").ToLower()}/feedback-{pack.PDLID}";
+
+                                    <div class="suggest__rating-wrapper">
+                                        <div class="suggest__stars" style="--rating: @Decimal.Round(4, 1)" aria-hidden="true"></div>
+                                        <div class="suggest__score"><span class="suggest__num">@Decimal.Round(4, 1) out of 5</span> <a class="suggest__feedback" href="@feedbackUrl">(@pack.NoOfFeed @((pack.NoOfFeed == 1) ? "review" : "reviews"))</a></div>
+                                    </div>
+                                }
+                            </div>
+                            <p class="suggest__description">
+                                @if (!string.IsNullOrEmpty(pack.PDL_Description) && !Utilities.RegexHelper.MyRegex.IsMatch(pack.PDL_Description))
+                                {
+                                    @Utilities.TruncateText(pack.PDL_Description, 150)
+                                }
+                                else
+                                {
+                                    @Utilities.TruncateHtmlText(pack.SPD_Description, 150)
+                                }
+                            </p>
+
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+        @if (countSug > 3)
+        {
+            <button class="suggest__see-all" data-button-toggle="suggest" type="button" aria-expanded="false"><span>See All</span> Suggested Itineraries</button>
+        }
+    </section>
+}
+
+
+@{
+    var order = Model.listDisplayPosition.OrderBy(x => x.SDP_Order).ToList();
+    var counter = 0;
+
+    if (order.Count() > 0)
+    {
+        foreach (var ord in order)
+        {
+            if (counter == 1)
+            {
+                @if (Model.listCountryFeed.Count() > 0)
+                {
+                    @await Component.InvokeAsync("CustomerReview")
+                }
+            }
+
+            if (ord != null && !string.IsNullOrWhiteSpace(ord.SDP_DisplayTitle))
+            {
+                var comp = "Code" + ord.SDP_GroupProdKindID + "";
+                try
+                {
+                    @await Component.InvokeAsync(comp)
+                }
+                catch (InvalidOperationException)
+                {
+                }
+            }
+
+            counter++;
+        }
+    } else {
+        @if (Model.listCountryFeed.Count() > 0)
+        {
+            @await Component.InvokeAsync("CustomerReview")
+        }
+    }
+}
+
+
+
+@foreach (var (packages, index) in new[] { Model.twoCitiesPacks, Model.threeCitiesPacks, Model.fourCiyiesPacks, Model.fiveCitiesPacks }.Select((value, i) => (value, i)))
+{
+    string titleName = "";
+    Int32 count = 0;
+
+    switch (index)
+    {
+        case 0:
+            titleName = "Two Cities Packages";
+            break;
+        case 1:
+            titleName = "Three Cities Packages";
+            break;
+        case 2:
+            titleName = "Four Cities Packages";
+            break;
+        case 3:
+            titleName = "Five Cities Packages";
+            break;
+    }
+
+    if (packages.Count() > 0)
+    {
+        <section class="packages2 first-container">
+            <h2 class="packages2__title">@titleName</h2>
+            <ul id="@($"packages{index + 1}List")" class="packages2__list">
+                @foreach (var p in packages)
+                {
+                    count++;
+
+                    var packageUrl = $"{siteName}/{p.CountryName.Replace(" ", "_").ToLower()}/{p.PDL_Title.Replace(" ", "_").ToLower()}/package-{p.PDLID}";
+                    string hideClass = count > 3 ? "packages2__item-hidden" : "";
+                    string comment = !string.IsNullOrEmpty(p.Comment)
+                    ? (p.Comment.Length > 270 ? p.Comment.Substring(0, 270) + "..." : p.Comment)
+                    : "";
+
+                    <li class="@($"packages2__item {hideClass}")">
+                        <a href="@packageUrl">
+
+                                <div>
+                                    <div>
+                                        <h3 class="packages2__name">@p.PDL_Title</h3>
+                                        <p class="packages2__description">
+                                            @if (!string.IsNullOrEmpty(p.PDL_Description) && !Utilities.RegexHelper.MyRegex.IsMatch(p.PDL_Description))
+                                            {
+                                                @Utilities.TruncateText(p.PDL_Description, 140)
+                                            }
+                                            else
+                                            {
+                                                @Utilities.TruncateHtmlText(p.SPD_Description, 140)
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    @if (p.NoOfFeed > 0)
+                                    {
+                                    <div class="packages2__stars" style="--rating: @Decimal.Round(p.OverAllScore, 1)" aria-hidden="true"></div>
+                                        <div class="packages2__score">
+                                            <span>@Decimal.Round(p.OverAllScore, 1) out of 5</span>
+                                        </div>
+                                    }
+                                    @if (p.STP_Save != 9999)
+                                    {
+                                        <span class="packages2__nights">@p.PDL_Duration nights from <span>@($"{p.STP_Save:C0}*")</span></span>
+
+                                    }
+                                </div>
+                        
+                            
+                        </a>
+                    </li>
+                }
+            </ul>
+            @if (count > 3)
+            {
+                <button class="packages2__button" data-button-toggle="@($"packages{index + 1}")" type="button" aria-expanded="false"><span>See All</span></button>
+            }
+        </section>
+    }
+}
+
+@section Scripts
+ {
+    <environment include="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/gp4/multicountry.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/lazysizes.min.js" asp-append-version="true"></script>
+        <script src="~/js/gp4/multicountry.min.js" asp-append-version="true"></script>
+    </environment>
+}

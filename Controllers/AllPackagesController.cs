@@ -90,15 +90,25 @@ namespace MVC_TMED.Controllers
             var result2 = await _dapperWrap.GetRecords<Hierarchy>(SqlCalls.SQL_Hierarchy(plcID));
             model.listHierarchy = result2.ToList();
 
+            model.placeNA = Utilities.UppercaseFirstLetter(place.Replace("_", " "));
+            model.placeID = plcID;
+            model.placeSTR = StrID;
+            model.couNA = Utilities.UppercaseFirstLetter(couAllPackName.Replace("_", " "));
+
             var jsonResult = await _dapperWrap.pgJsonGetRecordsAsync<PacksByPlaceID_PG>(PostgresCalls.PG_Func_Packagesbyplaceid(), 4, new { UserId = 243, PlaceId = plcID });
             if (string.IsNullOrWhiteSpace(jsonResult))
             {
                 return NotFound();
             }
-            PacksByPlaceID_PG resultObject = JsonConvert.DeserializeObject<PacksByPlaceID_PG>(jsonResult);
+            PacksByPlaceID_PG resultObject = JsonConvert.DeserializeObject<PacksByPlaceID_PG>(jsonResult) ?? new PacksByPlaceID_PG();
+            resultObject.packages ??= new List<Packages_PG>();
+            resultObject.cities ??= new List<Cities_PG>();
+            resultObject.aggregates ??= new Aggregates_PG();
             model.allPackages = resultObject;
 
-            model.Countries = model.allPackages.cities
+            if (resultObject.cities.Count > 0)
+            {
+                model.Countries = model.allPackages.cities
                 .GroupBy(c => new { c.counid, c.counname })
                 .Select(g => new CountryWithCitiesPG
                 {
@@ -114,14 +124,16 @@ namespace MVC_TMED.Controllers
                 .ToList();
             model.thisCountry = model.Countries.Where(x => x.counname.Replace(" ", "_").ToLower() == couAllPackName.Replace(" ", "_").ToLower()).Select(x => new CountryWithCitiesPG { counid = x.counid, counname = x.counname }).ToList().FirstOrDefault();
             model.thisCountry.cities = model.allPackages.cities.Where(x => x.counname.Replace(" ", "_").ToLower() == couAllPackName.Replace(" ", "_").ToLower()).OrderBy(x => x.plcrk).Select(x => new CityPG { str_placeid = x.str_placeid, str_placetitle = x.str_placetitle }).Distinct(new CityObjectComparer()).ToList();
+            }
+            else
+            {
+                model.Countries = new List<CountryWithCitiesPG>();
+                model.thisCountry = new CountryWithCitiesPG();
+                ViewBag.NoCitiesMessage = $"No packages found for {model.placeNA}.";
+            }
 
             List<Place_Info> placeInfo = new List<Place_Info>();
             List<Hierarchy> placeHierarchy = new List<Hierarchy>();
-
-            model.placeNA = Utilities.UppercaseFirstLetter(place.Replace("_", " "));
-            model.placeID = plcID;
-            model.placeSTR = StrID;
-            model.couNA = Utilities.UppercaseFirstLetter(couAllPackName.Replace("_", " "));
 
             string pageTitle = model.placeNA + " Vacations | Independent Travel to " + model.placeNA + " | Flexible Multi-City Trips to " + model.placeNA;
             string pageMetaDesc = model.placeNA + " Customize Multi-City Asia Vacations: " + model.placeNA + " Vacations, Flexible " + model.placeNA + " Travel Packages, Customizable Tours to " + model.placeNA + ", all in seconds! Read glowing reviews from our travelers and see what other travelers have done on their " + model.placeNA + " vacation package. Book and customize vacation packages online or call toll-free: 1-800-430-0484";

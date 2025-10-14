@@ -130,13 +130,13 @@ namespace MVC_TMED.Infrastructure
                 ORDER BY STR_PlaceAIID ASC";
         }
 
-        public static string SQL_T5_Highlights(string placeID)
+        public static string SQL_T5_Highlights(string strID)
         {
             return @"SELECT*
                   FROM STR_PlaceDescription
                   WHERE STX_UserID = 243
                   AND(STX_Active = 1)
-                  AND(STX_PlaceID = " + placeID + @")
+                  AND(STX_STRID = " + strID + @")
                     AND STX_MasterContentID = 0
                     AND STX_Title is not null
                     AND STX_URL is not null";

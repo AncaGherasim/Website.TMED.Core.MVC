@@ -39,7 +39,7 @@ $(document).ready(function () {
         resizable: 1,
         scrollbars: 1
     });
-    $('#dvMapCanvas').popupWindow({
+    $('.hotels__map-link-window').popupWindow({
         windowURL: SiteName + '/' + NAcou.replace(/\s/g, '_').toLowerCase() + '/' + NAplc.replace(/\s/g, '_').toLowerCase() + '/HotelsMap',
         windowName: 'mapPop',
         centerBrowser: 1,

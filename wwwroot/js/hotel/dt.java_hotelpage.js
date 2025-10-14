@@ -318,7 +318,7 @@ function findPackst4(formID) {
     }
     var idForm = formID
     var idString = $('#' + idForm + '').serialize();;
-    idString = idString.substring(0, idString.indexOf("&__RequestVerificationToken"))
+    idString = idString.substring(0, idString.indexOf("&allNA"))
     var idStrParts
     var idxOf
     var idValP

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Amazon;
+using Amazon.Lambda;
+using Amazon.Lambda.Model;
 using Microsoft.AspNetCore.Mvc;
-using MVC_TMED.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using MVC_TMED.Infrastructure;
 using MVC_TMED.Models;
 using MVC_TMED.Models.ViewModels;
-using System.Data;
-using System.Xml;
-using System.Xml.Linq;
-
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MVC_TMED.Controllers
 {
@@ -33,60 +33,43 @@ namespace MVC_TMED.Controllers
         {
             HttpContext.Response.Headers.Add("_utPg", "HOT");
 
-            MVC_TMED.Models.ViewModels.HotelViewModel hotelvm = new HotelViewModel();
-            List<HotelInfo> dvthisHot = new List<HotelInfo>();
-            List<HotelFacilities> dvthisFac = new List<HotelFacilities>();
-            List<HotelRoomCategories> dvthisRoom = new List<HotelRoomCategories>();
+            var viewModel = new HotelViewModel
+            {
+                CountrySlug = country,
+                CitySlug = city,
+                TitleSlug = title,
+                CountryName = FormatRouteValue(country),
+                CityName = FormatRouteValue(city),
+                TitleName = FormatRouteValue(title)
+            };
+
             ViewBag.hotID = id;
-            ViewBag.cityNA = city;
+            ViewBag.cityNA = viewModel.CityName;
 
-            //Get Place Info
-            var result0 = await _dapperWrap.GetRecords<PlaceInfo_By_PlaceName>(SqlCalls.SQL_PlaceInfo_By_PlaceName(city));
-            if (result0.ToList().Count == 0)
+            var lookupResult = await _dapperWrap.GetRecords<HotelLambdaLookup>(SqlCalls.SQL_HotelLambdaLookup(), new { PDLID = id });
+            var lookup = lookupResult.FirstOrDefault();
+            if (lookup is null)
             {
                 return NotFound();
             }
-            hotelvm.couName = result0.ToList()[0].CountryNA;
-            hotelvm.SPD_StatePlaceID = result0.ToList()[0].STRID.ToString();
-            hotelvm.STR_PlaceID = result0.ToList()[0].STR_PlaceID.ToString();
 
-            var result1 = await _dapperWrap.GetRecords<HotelInfo>(SqlCalls.SQL_HotelInfoFromController(), new { hotelID = id });
-            dvthisHot = result1.ToList();
-            if (dvthisHot.Count == 0)
+            var lambdaResponse = await GetHotelFromLambdaAsync(lookup.GIPHID);
+            if (lambdaResponse?.StatusCode != 200 || lambdaResponse.Body == null)
             {
                 return NotFound();
             }
-            hotelvm.hotNa = dvthisHot[0].Name;
-            hotelvm.plcNA = dvthisHot[0].PLC_Title;
-            hotelvm.STR_PlaceTitle = dvthisHot[0].STR_PlaceTitle;
 
-
-            var types = new Type[] { typeof(HotelFacilities), typeof(HotelRoomCategories), typeof(HotelInfo) };
-            var results = await _dapperWrap.GetMultipleRecords(SqlCalls.SQL_HotelFacilities() + @";" + SqlCalls.SQL_HotelRoomCategories() + @";" + SqlCalls.SQL_HotelOneImages() + @";", 4, new { hotelID = id }, types);
-            var count = 1;
-            foreach (var resultSet in results)
+            viewModel.Hotel = lambdaResponse.Body;
+            if (string.IsNullOrWhiteSpace(viewModel.Hotel.City))
             {
-                switch (count)
-                {
-                    case 1:
-                        dvthisFac = ((List<object>)resultSet).Cast<HotelFacilities>().ToList();
-                        break;
-                    case 2:
-                        dvthisRoom = ((List<object>)resultSet).Cast<HotelRoomCategories>().ToList();
-                        break;
-                    case 3:
-                        hotelvm.imageHotel = ((List<object>)resultSet).Cast<HotelInfo>().FirstOrDefault().IMG_Path_URL;
-                        break;
-                    default:
-                        break;
-                }
-                count++;
+                viewModel.Hotel.City = viewModel.CityName;
             }
 
-            string pgTitle = hotelvm.hotNa + " in " + dvthisHot[0].STR_PlaceTitle + ", " + hotelvm.couName + " | Tripmasters Hotels";
-            string pageMetaDesc = "Book the "+ hotelvm.hotNa + " in "+ dvthisHot[0].STR_PlaceTitle + ", "+ hotelvm.couName + " and get great deals.";
-            string pageMetaKey = "Europe vacations, European tours, Europe tour packages, vacation packages, to Europe, hotel deals, online booking, pricing, information, hotel travel, hotel, resort, accommodations, Europe, France, Paris, England, London, Netherlands, Italy, Spain";
-            ViewBag.PageTitle = pgTitle;
+            var pageTitle = $"{viewModel.Hotel.Name} in {viewModel.Hotel.City}, {viewModel.CountryName} | Tripmasters Hotels";
+            var pageMetaDesc = $"Book the {viewModel.Hotel.Name} in {viewModel.Hotel.City}, {viewModel.CountryName} and get great deals.";
+            var pageMetaKey = "Europe vacations, European tours, Europe tour packages, vacation packages, to Europe, hotel deals, online booking, pricing, information, hotel travel, hotel, resort, accommodations, Europe, France, Paris, England, London, Netherlands, Italy, Spain";
+
+            ViewBag.PageTitle = pageTitle;
             ViewBag.pageMetaDesc = pageMetaDesc;
             ViewBag.pageMetaKey = pageMetaKey;
             ViewBag.viewUsedName = "Hotel";
@@ -98,72 +81,68 @@ namespace MVC_TMED.Controllers
             ViewBag.tmcountry = country;
             ViewBag.tmdestination = city;
 
-            hotelvm.hotelInfo = dvthisHot.First<HotelInfo>();
-            switch (hotelvm.hotelInfo.GHS_FinalScore)
-            {
-                case decimal n when (n >= 4.5m && n <= 5):
-                    hotelvm.clsNA = "EX";
-                    hotelvm.solNA = "Excellent";
-                    break;
-                case decimal n when (n >= 4 && n <= 4.49m):
-                    hotelvm.clsNA = "VG";
-                    hotelvm.solNA = "Very Good";
-                    break;
-                case decimal n when (n >= 3.5m && n <= 3.99m):
-                    hotelvm.clsNA = "GD";
-                    hotelvm.solNA = "Good";
-                    break;
-                case decimal n when (n >= 3 && n <= 3.49m):
-                    hotelvm.clsNA = "FR";
-                    hotelvm.solNA = "Fair";
-                    break;
-                case decimal n when (n >= 0 && n <= 2.99m):
-                    hotelvm.clsNA = "PO";
-                    hotelvm.solNA = "Poor";
-                    break;
-            }
-            hotelvm.facilitiesTypes = dvthisFac.Select(x => new NameObject { Id = x.FacilityType, Name = x.FacilityStrType }).Distinct(new NamedObjectComparer()).OrderBy(h => h.Name).ToList();
-            hotelvm.facilities = dvthisFac.Select(x => new NameObject { Id = x.FacilityType, Name = x.FacilityName }).ToList();
+            ViewBag.Mobile = Utilities.CheckMobileDevice() ? 1 : 0;
+            return View("Hotel", viewModel);
+        }
 
-            hotelvm.dvCat = dvthisRoom;
-
-            if ((hotelvm.hotelInfo.GIPH_TNContentSource.EndsWith("tournet content") || hotelvm.hotelInfo.GIPH_TNUseTournetContent) 
-                && (hotelvm.hotelInfo.GIPH_AddressLine1 ?? "").Trim() == "" && (hotelvm.hotelInfo.GIPH_AddressLine2 ?? "").Trim() == "" && (hotelvm.hotelInfo.GIPH_AddressLine3 ?? "").Trim() == "")
+        private static string FormatRouteValue(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
             {
-                hotelvm.hotelInfo.HotelAddress = hotelvm.hotelInfo.PTY_Address ?? "";
-            }
-            else
-            {
-                hotelvm.hotelInfo.HotelAddress = (hotelvm.hotelInfo.GIPH_AddressLine1 ?? "").Trim() + ((hotelvm.hotelInfo.GIPH_AddressLine2 is null) ? "" : ", " + hotelvm.hotelInfo.GIPH_AddressLine2.Trim()) + ((hotelvm.hotelInfo.GIPH_AddressLine3 is null) ? "" : ", " + hotelvm.hotelInfo.GIPH_AddressLine3.Trim()) + ((hotelvm.hotelInfo.GIPH_AddressLine4 is null) ? "" : ", " + hotelvm.hotelInfo.GIPH_AddressLine4.Trim()) + ((hotelvm.hotelInfo.GIPH_AddressLine5 is null) ? "" : ", " + hotelvm.hotelInfo.GIPH_AddressLine5.Trim()) + ((hotelvm.hotelInfo.GIPH_AddressLine6 is null) ? "" : ", " + hotelvm.hotelInfo.GIPH_AddressLine6.Trim());
+                return string.Empty;
             }
 
-            hotelvm.hotelInfo.HotelDescription = "";
-            hotelvm.hotelInfo.RoomDescr = "";
-            if (hotelvm.hotelInfo.GIPH_TNContentSource == "giata/giata content" && !hotelvm.hotelInfo.GIPH_TNUseTournetContent)
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            return textInfo.ToTitleCase(value.Replace("_", " "));
+        }
+
+        private async Task<HotelLambdaResponse> GetHotelFromLambdaAsync(int giphId)
+        {
+            var credentials = await _dapperWrap.GetRecords<AwsCredentials>(_appSettings.AWSConnection.AwsCredentialsQuery);
+            var awsCredential = credentials.FirstOrDefault();
+            if (awsCredential is null)
             {
-                hotelvm.hotelInfo.HotelDescription = (hotelvm.hotelInfo.GHGT_Text100 ?? "") + "</br></br>" + (hotelvm.hotelInfo.GHGT_Text101 ?? "");
-                hotelvm.hotelInfo.RoomDescr = hotelvm.hotelInfo.GHGT_Text102 ?? "";
+                return null;
             }
-            else
+
+            using AmazonLambdaClient client = new AmazonLambdaClient(awsCredential.AWSK_AccessKey, awsCredential.AWSK_SecretKey, RegionEndpoint.USEast1);
+            var payloadObject = new Dictionary<string, object>
             {
-                XDocument xmlDoc = XDocument.Parse(hotelvm.hotelInfo.GIPH_TNTournetContent);
-                XElement node1Element = xmlDoc.Descendants("Property").FirstOrDefault();
-                if (node1Element is not null)
+                { "giphid", giphId }
+            };
+
+            var functionName = string.IsNullOrWhiteSpace(_appSettings.ApplicationSettings.HotelLambdaFunctionName)
+                ? "HotelLambda"
+                : _appSettings.ApplicationSettings.HotelLambdaFunctionName;
+
+            var invokeRequest = new InvokeRequest
+            {
+                FunctionName = $"arn:aws:lambda:{_appSettings.AWSConnection.AwsRegionId}:function:{functionName}",
+                InvocationType = InvocationType.RequestResponse,
+                Payload = JsonConvert.SerializeObject(payloadObject)
+            };
+
+            try
+            {
+                var response = await client.InvokeAsync(invokeRequest);
+                if (!string.IsNullOrEmpty(response.FunctionError))
                 {
-                    if (node1Element.Element("Description") is not null) { hotelvm.hotelInfo.HotelDescription = node1Element.Element("Description").Value; }
-                    if (node1Element.Element("RoomDesc") is not null) { hotelvm.hotelInfo.RoomDescr = node1Element.Element("RoomDesc").Value; }
+                    return null;
                 }
-            }
 
-            if (Utilities.CheckMobileDevice() == false)
-            {
-                ViewBag.Mobile = 0;
+                using var streamReader = new StreamReader(response.Payload);
+                var content = await streamReader.ReadToEndAsync();
+                if (string.IsNullOrWhiteSpace(content))
+                {
+                    return null;
+                }
+
+                return JsonConvert.DeserializeObject<HotelLambdaResponse>(content);
             }
-            else
+            catch
             {
-                ViewBag.Mobile = 1;
+                return null;
             }
-            return View("Hotel", hotelvm);
         }
     }
 }

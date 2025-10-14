@@ -58,6 +58,7 @@
                             <h3 class="hotels__map--title">Locate on map</h3>
                             <div class="hotels__map-wrapper">
                                 <div id="dvMapCanvas"></div>
+                                <div class="hotels__map-link-window"></div>
                                 <button id="dvMapLegend">All hotels in this city</button>
                             </div>
                         </div>
@@ -300,7 +301,7 @@
                                 _ => ""
                             };
 
-                            string imG_Url = hotel.img_500path_url ?? hotel.img_path_url;
+                            string imG_Url = hotel.img_500path_url ?? hotel.img_path_url ?? "/default.png";
                             string cityZone = hotel.cityzone ?? "----";
                             <li class="hotels__item">
                                 <div class="hotels__mobile-title">

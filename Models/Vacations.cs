@@ -19,6 +19,10 @@ namespace MVC_TMED.Models
         public Int32 STR_UserID { get; set; }
         public Int32 STR_PlacePriority { get; set; }
         public string STR_PlaceExtra { get; set;}
+        public string STR_PlaceSpa { get; set; }
+        public string STR_PlaceMap { get; set; }
+        public string STR_PlaceTitleDesc { get; set; }
+        public string STR_PlacePractical { get; set; }
     }
     public class CMScity
     {
